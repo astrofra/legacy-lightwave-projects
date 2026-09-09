@@ -1,0 +1,401 @@
+{
+  "schema_version": 1,
+  "dataset_root": "content",
+  "file_count": 1118,
+  "total_bytes": 202830004,
+  "projects": {
+    "1st-year-student-amiga-project": {
+      "files": 213,
+      "bytes": 2338590,
+      "kinds": {
+        "unclassified": 4,
+        "FORM LWOB": 209
+      },
+      "references": {
+        "no-local-candidate": 174
+      }
+    },
+    "eddy-the-anchoralien": {
+      "files": 25,
+      "bytes": 6582406,
+      "kinds": {
+        "FORM LWOB": 7,
+        "FORM ILBM": 12,
+        "JPEG": 1,
+        "LWSC 1": 2,
+        "FORM TVPP": 2,
+        "PSD": 1
+      },
+      "references": {
+        "unique-suffix-candidate": 4,
+        "unique-basename-candidate": 2,
+        "no-local-candidate": 2
+      }
+    },
+    "gate-array-robot-head": {
+      "files": 32,
+      "bytes": 2720459,
+      "kinds": {
+        "FORM ILBM": 22,
+        "LWSC 1": 1,
+        "PSD": 3,
+        "FORM LWOB": 6
+      },
+      "references": {
+        "unique-basename-candidate": 1
+      }
+    },
+    "just-another-amiga-story": {
+      "files": 35,
+      "bytes": 1551507,
+      "kinds": {
+        "unclassified": 4,
+        "FORM TDDD": 5,
+        "FORM LWOB": 24,
+        "LWSC 1": 2
+      },
+      "references": {
+        "unique-basename-candidate": 2,
+        "no-local-candidate": 10
+      }
+    },
+    "lake-scenery": {
+      "files": 32,
+      "bytes": 520497,
+      "kinds": {
+        "FORM LWOB": 20,
+        "FORM ILBM": 5,
+        "unclassified": 5,
+        "LWSC 1": 2
+      },
+      "references": {
+        "unique-basename-candidate": 63
+      }
+    },
+    "mandarine-000-lw5": {
+      "files": 93,
+      "bytes": 16427349,
+      "kinds": {
+        "LWSC 1": 2,
+        "FORM LWOB": 24,
+        "JPEG": 17,
+        "TGA (validated uncompressed layout)": 2,
+        "FORM ILBM": 4,
+        "FORM TVPP": 1,
+        "PSD": 2,
+        "GIF": 12,
+        "PNG": 1,
+        "FORM LWO2": 27,
+        "LWSC 3": 1
+      },
+      "references": {
+        "unique-suffix-candidate": 46
+      }
+    },
+    "my-village": {
+      "files": 17,
+      "bytes": 3011941,
+      "kinds": {
+        "FORM LWOB": 2,
+        "unclassified": 3,
+        "FORM LWO2": 7,
+        "FORM ILBM": 3,
+        "JPEG": 1,
+        "LWSC 3": 1
+      },
+      "references": {
+        "unique-suffix-candidate": 1
+      }
+    },
+    "nxng-experiments": {
+      "files": 517,
+      "bytes": 79067906,
+      "kinds": {
+        "FORM LWOB": 153,
+        "unclassified": 57,
+        "JPEG": 132,
+        "LWSC 1": 56,
+        "FORM LWO2": 50,
+        "LWSC 3": 2,
+        "LWMO": 2,
+        "RIFF AVI ": 3,
+        "PSD": 45,
+        "PostScript": 2,
+        "FORM ILBM": 2,
+        "TGA (validated uncompressed layout)": 5,
+        "PNG": 1,
+        "BMP": 1,
+        "LWEN": 2,
+        "ZIP": 2,
+        "PE/DOS executable": 2
+      },
+      "references": {
+        "unique-basename-candidate": 263,
+        "ambiguous-local": 33,
+        "unique-suffix-candidate": 499,
+        "no-local-candidate": 2
+      }
+    },
+    "orange-juice-signage": {
+      "files": 34,
+      "bytes": 61842714,
+      "kinds": {
+        "unclassified": 1,
+        "FORM LWO2": 2,
+        "FORM ILBM": 9,
+        "JPEG": 8,
+        "PSD": 3,
+        "LWSC 1": 1,
+        "FORM LWOB": 4,
+        "TIFF": 5,
+        "PostScript": 1
+      },
+      "references": {
+        "unique-basename-candidate": 1,
+        "no-local-candidate": 1,
+        "unique-suffix-candidate": 9
+      }
+    },
+    "self-portrait-b-and-w": {
+      "files": 23,
+      "bytes": 456197,
+      "kinds": {
+        "LWSC 1": 4,
+        "FORM LWOB": 12,
+        "FORM ILBM": 6,
+        "unclassified": 1
+      },
+      "references": {
+        "unique-basename-candidate": 11
+      }
+    },
+    "space-suit-000": {
+      "files": 37,
+      "bytes": 895384,
+      "kinds": {
+        "GIF": 3,
+        "FORM LWOB": 22,
+        "FORM LWO2": 3,
+        "LWSC 3": 3,
+        "LWSC 1": 6
+      },
+      "references": {
+        "unique-basename-candidate": 5,
+        "unique-suffix-candidate": 54
+      }
+    },
+    "the-tempest": {
+      "files": 40,
+      "bytes": 24238195,
+      "kinds": {
+        "unclassified": 1,
+        "FORM LWO2": 9,
+        "FORM LWOB": 6,
+        "LWSC 1": 1,
+        "FORM TVPP": 1,
+        "FORM ILBM": 9,
+        "PSD": 3,
+        "JPEG": 4,
+        "TGA (validated uncompressed layout)": 4,
+        "LWSC 3": 2
+      },
+      "references": {
+        "unique-suffix-candidate": 18,
+        "unique-basename-candidate": 23,
+        "ambiguous-local": 2
+      }
+    },
+    "toxic-waste-container": {
+      "files": 14,
+      "bytes": 3072704,
+      "kinds": {
+        "GIF": 2,
+        "FORM ILBM": 2,
+        "PSD": 1,
+        "FORM LWOB": 3,
+        "FORM LWO2": 2,
+        "LWSC 3": 1,
+        "JPEG": 1,
+        "TGA (validated uncompressed layout)": 1,
+        "LWSC 1": 1
+      },
+      "references": {
+        "unique-basename-candidate": 10
+      }
+    },
+    "unidentified_000": {
+      "files": 6,
+      "bytes": 104155,
+      "kinds": {
+        "FORM LWOB": 4,
+        "LWSC 1": 1,
+        "FORM ILBM": 1
+      },
+      "references": {
+        "unique-basename-candidate": 4
+      }
+    }
+  },
+  "kinds": {
+    "unclassified": 76,
+    "FORM LWOB": 496,
+    "FORM ILBM": 75,
+    "JPEG": 164,
+    "LWSC 1": 79,
+    "FORM TVPP": 4,
+    "PSD": 58,
+    "FORM TDDD": 5,
+    "TGA (validated uncompressed layout)": 12,
+    "GIF": 17,
+    "PNG": 2,
+    "FORM LWO2": 100,
+    "LWSC 3": 10,
+    "LWMO": 2,
+    "RIFF AVI ": 3,
+    "PostScript": 3,
+    "BMP": 1,
+    "LWEN": 2,
+    "ZIP": 2,
+    "PE/DOS executable": 2,
+    "TIFF": 5
+  },
+  "reference_statuses": {
+    "no-local-candidate": 189,
+    "unique-suffix-candidate": 631,
+    "unique-basename-candidate": 385,
+    "ambiguous-local": 35
+  },
+  "files_with_warnings": [
+    "content/eddy-the-anchoralien/bruts/edi.001.iff",
+    "content/eddy-the-anchoralien/maps/blancs.iff",
+    "content/eddy-the-anchoralien/maps/map_face.IFF",
+    "content/eddy-the-anchoralien/maps/noirs.iff",
+    "content/my-village/kid/face.iff",
+    "content/orange-juice-signage/maps/env4.iff",
+    "content/orange-juice-signage/maps/maptransp.IFF",
+    "content/the-tempest/maps/base_wall.iff",
+    "content/the-tempest/maps/sideberkjaune.iff",
+    "content/the-tempest/maps/wall.crasse.alpha.iff",
+    "content/toxic-waste-container/BARCODE.IFF"
+  ],
+  "duplicate_groups": [
+    [
+      "content/1st-year-student-amiga-project/Articles/Boule",
+      "content/1st-year-student-amiga-project/Articles/Boule verte"
+    ],
+    [
+      "content/1st-year-student-amiga-project/Earth/Boule + Embouts - Empreinte",
+      "content/1st-year-student-amiga-project/Earth/Boule + Embouts - Porte"
+    ],
+    [
+      "content/1st-year-student-amiga-project/Earth/Boule + Embouts a2",
+      "content/1st-year-student-amiga-project/Earth/Boule + Embouts.BAK"
+    ],
+    [
+      "content/1st-year-student-amiga-project/Earth/Roue Metaformée",
+      "content/1st-year-student-amiga-project/Earth/Roue Metaformée a2"
+    ],
+    [
+      "content/eddy-the-anchoralien/edi.lwo",
+      "content/my-village/edi.lwo"
+    ],
+    [
+      "content/eddy-the-anchoralien/edi_oreille.lwo",
+      "content/nxng-experiments/edi_oreille.lwo"
+    ],
+    [
+      "content/mandarine-000-lw5/maps/EnvMap.jpg",
+      "content/orange-juice-signage/maps/EnvMap.jpg"
+    ],
+    [
+      "content/nxng-experiments/[SPARK].lwo",
+      "content/nxng-experiments/caillou1.lwo"
+    ],
+    [
+      "content/nxng-experiments/[SPARK_150].lwo",
+      "content/nxng-experiments/[SPARK_1].lwo"
+    ],
+    [
+      "content/nxng-experiments/__puebloSwarm.nxl",
+      "content/nxng-experiments/puebloSwarmriltime.nxl"
+    ],
+    [
+      "content/nxng-experiments/bus.lws",
+      "content/nxng-experiments/send/bus.lws"
+    ],
+    [
+      "content/nxng-experiments/bus_front.jpg",
+      "content/nxng-experiments/send/bus_front.jpg"
+    ],
+    [
+      "content/nxng-experiments/bus_rear.jpg",
+      "content/nxng-experiments/send/bus_rear.jpg"
+    ],
+    [
+      "content/nxng-experiments/bus_winglet.jpg",
+      "content/nxng-experiments/send/bus_winglet.jpg"
+    ],
+    [
+      "content/nxng-experiments/cosmo.lwo",
+      "content/nxng-experiments/send/cosmo.lwo"
+    ],
+    [
+      "content/nxng-experiments/gus_lo/l_main.lwo",
+      "content/nxng-experiments/lady_lo/l_main.lwo"
+    ],
+    [
+      "content/nxng-experiments/gus_lo/r_main.lwo",
+      "content/nxng-experiments/lady_lo/r_main.lwo"
+    ],
+    [
+      "content/nxng-experiments/maps_psd/real_sky_back/sky_down.jpg",
+      "content/nxng-experiments/maps_psd/sky/back.sky/sky._down.jpg",
+      "content/nxng-experiments/maps_psd/sky/back.sky/sky._up.jpg"
+    ],
+    [
+      "content/nxng-experiments/maps_psd/real_sky_back/sky_front.jpg",
+      "content/nxng-experiments/maps_psd/sky/back.sky/sky._front.jpg"
+    ],
+    [
+      "content/nxng-experiments/maps_psd/sky/sky._down.psd",
+      "content/nxng-experiments/maps_psd/sky/sky._up.psd"
+    ],
+    [
+      "content/nxng-experiments/maps_psd/sky._back.jpg",
+      "content/nxng-experiments/sky_back.jpg"
+    ],
+    [
+      "content/nxng-experiments/maps_psd/sky._down.jpg",
+      "content/nxng-experiments/sky_down.jpg"
+    ],
+    [
+      "content/nxng-experiments/maps_psd/sky._front.jpg",
+      "content/nxng-experiments/sky_front.jpg"
+    ],
+    [
+      "content/nxng-experiments/otta/render2.moa",
+      "content/nxng-experiments/otta/renderfm.moa"
+    ],
+    [
+      "content/nxng-experiments/puebloSwarm.nxl",
+      "content/nxng-experiments/test/test.nxl"
+    ],
+    [
+      "content/nxng-experiments/red_bus.jpg",
+      "content/nxng-experiments/send/red_bus.jpg"
+    ],
+    [
+      "content/nxng-experiments/thomson/Copie (2) de headsea.jpg",
+      "content/nxng-experiments/thomson/headsea.jpg"
+    ],
+    [
+      "content/nxng-experiments/thomson/Copie (2) de heperSky.jpg",
+      "content/nxng-experiments/thomson/heperSky.jpg"
+    ],
+    [
+      "content/nxng-experiments/thomson/Copie (2) de stargaze2.jpg",
+      "content/nxng-experiments/thomson/stargaze2.jpg"
+    ]
+  ],
+  "scope": "Regular files including hidden files; ZIP member names only; no extraction. LightWave chunk/geometry audit and selected dependency fields, not full semantic validation. Latin-1 display of non-UTF8 strings is a hypothesis; matches are candidates only."
+}
