@@ -1,0 +1,664 @@
+LWSC
+3
+
+FirstFrame 131
+LastFrame 200
+FrameStep 1
+PreviewFirstFrame 0
+PreviewLastFrame 200
+PreviewFrameStep 1
+CurrentFrame 0
+FramesPerSecond 25
+
+LoadObjectLayer 1 I:fra/3D/planetes/sol.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1.3599998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1.3599998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1.3599998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+ExcludeLight 20000002
+ExcludeLight 20000001
+ExcludeLight 20000003
+
+LoadObjectLayer 1 I:fra/3D/planetes/cosmo.11.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -6.2829666 0
+  Key -6.283185 8 0 0 0 0 -6.2829666 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+SubdivisionOrder 5
+SubPatchLevel 1 3
+Plugin DisplacementHandler 1 LW_MorphMixer
+2
+1
+{ Group
+  2
+  "Miscellaneous"
+}
+{ MorfForm
+  "posed"
+  1
+  { Envelope
+    1
+    Key 1 0 0 0 0 0 0 0 0
+    Behaviors 1 1
+  }
+}
+{ MorfForm
+  "uvprep"
+  0
+  { Envelope
+    1
+    Key 0 0 0 0 0 0 0 0 0
+    Behaviors 1 1
+  }
+}
+EndPlugin
+ShadowOptions 7
+
+LoadObjectLayer 2 I:fra/3D/planetes/cosmo.11.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ParentItem 10000001
+SubPatchLevel 0 3
+ShadowOptions 0
+
+AmbientColor 1 1 1
+AmbientIntensity 0
+NoiseReduction 1
+EnableRadiosity 1
+RadiosityType 0
+RadiosityIntensity 1
+RadiosityRays 12
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -2.3632333 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 3.470001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -1.1130205 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 1.1172471 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.76901144 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.079332687 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 1 1 1
+LightIntensity 1
+AffectCaustics 1
+LightType 2
+LightConeAngle 30
+LightEdgeAngle 14
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 2048
+UseConeAngle 0
+ShadowMapAngle 19
+ShadowFuzziness 15
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 1.0231692 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.0099995 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 1.8278273 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -2.6047189 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.22956589 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 32
+LightColor 0.180392 0.180392 0.180392
+LightIntensity 1
+AffectCaustics 1
+LightType 2
+LightConeAngle 24
+LightEdgeAngle 24
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 2048
+UseConeAngle 1
+ShadowFuzziness 15
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 1.200000 -0.800000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 1.0231686 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.0700002 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 1.8278277 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -2.6047192 0 0 0 0 0 0 -2.3839098e-007 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.22956589 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 1.6816776e-008 0 0 0 0 0 0 1.2367899e-008 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 32
+LightColor 0.180392 0.180392 0.180392
+LightIntensity 1
+AffectCaustics 1
+LightType 2
+LightConeAngle 3.5
+LightEdgeAngle 3.5
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 2048
+UseConeAngle 1
+ShadowFuzziness 15
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 6.5649734 0 0 0 0 0 0 0 0
+  Key 6.5649734 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  2
+  Key 0.60000122 0 0 0 0 0 0 0 0
+  Key 0.60000122 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  2
+  Key -2.869381 0 0 0 0 0 0 0 0
+  Key -2.869381 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  2
+  Key -1.1472626 0 0 0 0 0 0 0 0
+  Key -1.1472626 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  2
+  Key -0.033044603 0 0 0 0 0 0 0 0
+  Key -0.033044603 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 1 1 1
+LightIntensity 1
+AffectCaustics 1
+LightType 2
+LightConeAngle 30
+LightEdgeAngle 14
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 7.499998
+ShadowFuzziness 4
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key -1.3990743 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 1.7019163 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 2.7127001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 2.6808259 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.26703531 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 3.2
+ResolutionMultiplier 1.0
+FrameSize 640 480
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 1
+BackdropColor 0.34902 0.435294 0.47451
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+Plugin ImageFilterHandler 1 LW_Virtual_Darkroom2.0
+2
+Basic 2 1 2 1 1 0 24 32 1 0.00050000002
+BWFilmPtX -4 -3.75 -3.5 -3.25 -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0
+BWFilmPtY 0.083300002 0.20829999 0.25 0.375 0.54170001 0.70829999 0.91670001 1.1667 1.375 1.5833 1.7917 1.9583 2.1666999 2.375 2.5416999 2.7083001 2.8333001 0 0 0 0
+BWPaperPtX -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 0 0 0 0 0 0 0 0 0 0 0 0 0
+BWPaperPtY 0.074074 0.111111 0.175926 0.5 1.111111 1.675926 2.07407 2.1481481 0 0 0 0 0 0 0 0 0 0 0 0 0
+ColorFilmRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmRedPtY 0.31 0.31 0.31 0.33500001 0.40000001 0.505 0.63999999 0.77499998 0.91500002 1.05 1.1900001 1.33 1.465 1.605 1.773 1.84 1.9349999 0 0 0 0
+ColorPaperRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperRedPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.17647 2 2.5588 2.7058799 2.7058799 2.7058799 0 0 0 0 0 0 0 0
+ColorFilmGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmGreenPtY 0.73000002 0.73000002 0.73000002 0.755 0.82499999 0.935 1.0700001 1.215 1.36 1.505 1.635 1.8049999 1.955 2.0999999 2.223 2.3499999 2.4449999 0 0 0 0
+ColorPaperGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperGreenPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.5294499 2.6029 2.6322999 0 0 0 0 0 0 0 0
+ColorFilmBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmBluePtY 0.98000002 0.98000002 0.98000002 1.006 1.082 1.21 1.358 1.516 1.682 1.844 2.0039999 2.168 2.332 2.4920001 2.635 2.77 2.9000001 0 0 0 0
+ColorPaperBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperBluePtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.4852901 2.5441 2.57353 0 0 0 0 0 0 0 0
+Percent_RGB 0 0 0
+Negative_RGB 1 0 0 0 0.15000001 0 0 0 0.039999999
+Printing_RGB 0.94999999 0.029999999 0.02 0.029999999 0.94 0.029999999 0.02 0.029999999 0.94999999
+BWMTFPtX 1 60.900002 120.8 180.7 240.60001 300.5 360.39999 420.5 480.20001 540.09998 600 0 0 0 0 0 0 0 0 0 0
+BWMTFPtY 1 0.91759998 0.55379999 0.32730001 0.2316 0.1961 0.16060001 0.1252 0.089699998 0.054299999 0.02 0 0 0 0 0 0 0 0 0 0
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 7
+RayRecursionLimit 4
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGB 1
+SaveRGBImagesPrefix I:\fra\3D\planetes\rawz\cosmo3\a
+RGBImageSaver LW_TIFF24(.tif)
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0 0 0
+ViewZoomFactor 4
+
+GridNumber 100
+GridSize 1
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 0
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor 3
+
+CurrentObject 2
+CurrentLight 0
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}
