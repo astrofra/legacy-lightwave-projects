@@ -1,0 +1,1 @@
+subst s: F:\fra\nX
