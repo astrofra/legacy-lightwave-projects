@@ -1,0 +1,530 @@
+LWSC
+3
+
+RenderRangeType 0
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+RenderRangeArbitrary 1-60
+PreviewFirstFrame 0
+PreviewLastFrame 60
+PreviewFrameStep 1
+CurrentFrame 0
+FramesPerSecond 25
+Plugin MasterHandler 1 Fprime
+BEGIN WORLEY_LABS_PLUGIN FPrime
+# 251940369 x86 FPrime Version 1.0-MX Mar 30 2004
+# Saved Fri Dec 24 02:18:47 2004
+
+VERSION 1
+ BEGIN RADIO RADTYPE
+  SELECTION 1
+ END
+ BEGIN NUM RADSTRENGTH
+ VALUE 1
+ END
+ BEGIN NUM RADBOUNCE
+ VALUE 1
+ END
+ BEGIN NUM DOF25D
+ VALUE 1
+ END
+ BEGIN NUM MB25D
+ VALUE 1
+ END
+END WORLEY_LABS_PLUGIN FPrime 
+EndPlugin
+Plugin MasterHandler 2 .SceneEditorStandardBanks
+EndPlugin
+Plugin MasterHandler 3 SceneEditor
+VERS 2
+{ CurrentWorkspace
+  Name "<default>"
+  WindowDimensions 10 10 1f4 12c
+  Divider1 0.30000001
+  LayoutItemFilterEnabled 0
+  LayoutItemChannelFilterEnabled 0
+  SurfaceFilterEnabled 0
+  SurfaceChannelFilterEnabled 0
+  ChannelFilterEnabled 0
+  { Bank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { SurfaceListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { ChannelListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  BackgroundColorOdd 78 78 78 ff
+  BackgroundColorEven 6f 6f 6f ff
+  HierarchyIndent c
+  HighlightColor b5 b0 a5 ff
+  DefaultObjectColor 60 e0 f0 ff
+  DefaultBoneColor 0 30 80 ff
+  DefaultLightColor f0 60 f0 ff
+  DefaultCameraColor 20 e0 20 ff
+  AutoApplyToViewPorts 1
+  MultiselectSimilarTypes 1
+  LimitColorRange 1
+  ColorsAsHSV 0
+  ShowSelectionOrder 1
+  EnvelopeButtonOpensGraphEditor 1
+  ShowRenderExtents 1
+  BlockPeriod 0.039999999
+  BlockWidthMin 3
+  BlockWidthMax c8
+  ShowKeyTicks 1
+  OverrideBlockColors 0
+  BlockKeyColor 99 ae cf ff
+  BlockGroupColor 64 85 b6 ff
+  DSAllowChannelGroupSelection 1
+}
+EndPlugin
+Plugin MasterHandler 4 .SpreadsheetStandardBanks
+EndPlugin
+Plugin MasterHandler 5 .SpreadsheetStandardBanks
+EndPlugin
+Plugin MasterHandler 6 .SpreadsheetStandardBanks
+EndPlugin
+Plugin MasterHandler 7 SpreadsheetSceneManager
+{ IMP
+  1
+  { Workspace
+    "Default"
+    ShowLockedItems 1
+    SupplementalRows 1 0
+    MultiselectSimilarTypes 1
+    UseLayoutLocking 0
+    UseLayoutTimelineLocking 0
+    ItemLimitMode 1
+    ItemSortMode 0
+    UseItemFilter 0
+    ItemFilter "" 0 5
+    ShowFilterControls 1
+    ShowBanks 1
+    ShowTimeline 0
+    BankDivider 0.40000001
+    { Bank2
+      Class 1
+      PresetID 5f4c5042
+      Column 5f4c5042 0 70
+      Column 5f4c5042 1 150
+      Column 5f4c5042 2 90
+      Column 5f4c5042 3 120
+      Column 5f4c5042 4 90
+    }
+    TimelineDivider 150
+    TimelineZoom 2
+    TimelineRange 0 2.4000001
+  }
+  CurrentWorkspace 0
+}
+EndPlugin
+
+LoadObjectLayer 1 smila/sol.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 3.3899999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 3.3899999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 3.3899999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 smila/tank.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  2
+  Key 0.72500002 0 0 0 0 0 0 0 0
+  Key 0.72500002 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 6.2824578 0
+  Key 6.283185 2.4000001 0 0 0 0 6.2824578 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  2
+  Key 0.60800028 0 0 0 0 0 0 0 0
+  Key 0.60800028 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  2
+  Key 0.60800028 0 0 0 0 0 0 0 0
+  Key 0.60800028 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  2
+  Key 0.60800028 0 0 0 0 0 0 0 0
+  Key 0.60800028 2.4000001 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AmbientColor 1 1 1
+AmbientIntensity 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -3.5604701 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.61086524 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 48
+LightColor 0.952941 0.470588 0.180392
+LightIntensity 1
+AffectCaustics 1
+LightType 0
+ShadowType 1
+ShadowColor 0 0 0
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key -8.4037266 0 0 0 0 0 0 4.6978474 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.7979527 0 0 0 0 0 0 1.0748781 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -4.0464673 0 0 0 0 0 0 -3.5409677 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 1.1239913 0 0 0 0 0 0 -0.5427348 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.14137167 0 0 0 0 0 0 0.09598197 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 32
+ZoomFactor 3.2
+ResolutionMultiplier 1.0
+FrameSize 768 480
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 1
+EnhancedAA 1
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 1
+BackdropColor 0.423529 0.541176 0.576471
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+Plugin EnvironmentHandler 1 LW_ImageWorld
+1
+0
+0
+0
+0.25
+0.00044531067
+{ Clip
+  { Still
+    "common/building_probe.hdr"
+  }
+  { ImageFilterHandler
+    "LW_Virtual_Darkroom2.0"
+    33
+    2
+    Basic 2 1 0.64999998 1 1 0 24 32 1 0.00039999999
+    BWFilmPtX -4 -3.75 -3.5 -3.25 -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0
+    BWFilmPtY 0.083300002 0.20829999 0.25 0.375 0.54170001 0.70829999 0.91670001 1.1667 1.375 1.5833 1.7917 1.9583 2.1666999 2.375 2.5416999 2.7083001 2.8333001 0 0 0 0
+    BWPaperPtX -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 0 0 0 0 0 0 0 0 0 0 0 0 0
+    BWPaperPtY 0.074074 0.111111 0.175926 0.5 1.111111 1.675926 2.07407 2.1481481 0 0 0 0 0 0 0 0 0 0 0 0 0
+    ColorFilmRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+    ColorFilmRedPtY 0.322 0.32800001 0.34400001 0.39399999 0.47600001 0.59799999 0.74800003 0.90600002 1.064 1.228 1.388 1.54 1.684 1.826 1.96 2.082 2.1960001 0 0 0 0
+    ColorPaperRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+    ColorPaperRedPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.17647 2 2.5588 2.7058799 2.7058799 2.7058799 0 0 0 0 0 0 0 0
+    ColorFilmGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+    ColorFilmGreenPtY 0.68400002 0.68599999 0.69 0.73000002 0.81599998 0.94599998 1.102 1.266 1.4299999 1.5880001 1.744 1.902 2.0480001 2.184 2.3099999 2.428 2.5339999 0 0 0 0
+    ColorPaperGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+    ColorPaperGreenPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.5294499 2.6029 2.6322999 0 0 0 0 0 0 0 0
+    ColorFilmBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+    ColorFilmBluePtY 0.935 0.95499998 1.1015 1.11 1.23 1.375 1.545 1.715 1.89 2.0550001 2.2249999 2.3900001 2.5550001 2.7149999 2.865 3 3.125 0 0 0 0
+    ColorPaperBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+    ColorPaperBluePtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.4852901 2.5441 2.57353 0 0 0 0 0 0 0 0
+    Percent_RGB 0 0 0
+    Negative_RGB 1 0 0 0 0.25 0 0 0 0.050000001
+    Printing_RGB 0.94999999 0.029999999 0.02 0.029999999 0.94 0.029999999 0.02 0.029999999 0.94999999
+    BWMTFPtX 1 60.900002 120.8 180.7 240.60001 300.5 360.39999 420.5 480.20001 540.09998 600 0 0 0 0 0 0 0 0 0 0
+    BWMTFPtY 1 0.91759998 0.55379999 0.32730001 0.2316 0.1961 0.16060001 0.1252 0.089699998 0.054299999 0.02 0 0 0 0 0 0 0 0 0 0
+  }
+  { ImageFilterHandler
+    "LW_FPBlur"
+    0
+    1
+    16
+    16
+    1
+    0
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        1
+        0
+      }
+    }
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        1
+        0
+      }
+    }
+  }
+}
+EndPlugin
+PluginEnabled 0
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+Plugin PixelFilterHandler 1 G2
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 15
+RayRecursionLimit 3
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 1
+SaveRGB 1
+SaveRGBImagesPrefix I:\fra\3D\demobobine\raws\smila\tank\tabk_
+RGBImageSaver LW_TIFF32(.tif)
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0 0 0
+ViewZoomFactor 4
+
+GridNumber 0
+GridSize 5
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 0
+ShowFogEffect 1
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor_fv 0 0 0
+
+CurrentObject 1
+CurrentLight 0
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+  Expression "Spine2_H" "(pilot_ACS_3:Mesh.SpineCtrl.rot(Time - slid_SpineLag.pos(Time).x/Scene.fps).h * slid_SpineFactor.pos(Time).x  * (1-slid_AutoWalk.pos(Time).x)) + ((-pilot_ACS_3:Mesh.Root.rot(Time - (slid_WalkLag.pos(Time).x * 2)/Scene.fps).b * (1/6 * (slid_WalkFactor.pos(Time).x +1))) * slid_AutoWalk.pos(Time).x)" 0
+  Expression "Spine2_P" "(pilot_ACS_3:Mesh.SpineCtrl.rot(Time - slid_SpineLag.pos(Time).x/Scene.fps).p * (slid_SpineFactor.pos(Time).x))" 0
+  Expression "Spine2_B" "((pilot_ACS_3:Mesh.SpineCtrl.rot(Time - slid_SpineLag.pos(Time).x/Scene.fps).b * (slid_SpineFactor.pos(Time).x)) * (1-slid_AutoWalk.pos(Time).x)) + ((-pilot_ACS_3:Mesh.Root.rot(Time - (slid_WalkLag.pos(Time).x * 2)/Scene.fps).h * (1/6 * (slid_WalkFactor.pos(Time).x +1))) * slid_AutoWalk.pos(Time).x)" 0
+  Expression "Spine1_H" "(pilot_ACS_3:Mesh.SpineCtrl.rot(Time).h * (1-slid_AutoWalk.pos(Time).x)) + ((- pilot_ACS_3:Mesh.Root.rot(Time - slid_WalkLag.pos(Time).x/Scene.fps).b * (1/6 * (slid_WalkFactor.pos(Time).x +1))) * slid_AutoWalk.pos(Time).x)" 0
+  Expression "Spine1_P" "pilot_ACS_3:Mesh.SpineCtrl.rot(Time).p * (slid_SpineFactor.pos(Time).x)" 0
+  Expression "Spine1_B" "pilot_ACS_3:Mesh.SpineCtrl.rot(Time).b * (1- slid_AutoWalk.pos(Time).x) + ((-pilot_ACS_3:Mesh.Root.rot(Time - slid_WalkLag.pos(Time).x/Scene.fps).h * (1/6 * (slid_WalkFactor.pos(Time).x + 1))) * slid_AutoWalk.pos(Time).x)" 0
+  Expression "Spine3_H" "(pilot_ACS_3:Mesh.SpineCtrl.rot(Time - (slid_SpineLag.pos(Time).x * 2)/Scene.fps).h * slid_SpineFactor.pos(Time).x  * (1-slid_AutoWalk.pos(Time).x)) + ((-pilot_ACS_3:Mesh.Root.rot(Time - (slid_WalkLag.pos(Time).x * 3)/Scene.fps).b * (1/6 * (slid_WalkFactor.pos(Time).x +1))) * slid_AutoWalk.pos(Time).x)" 0
+  Expression "Spine3_P" "(pilot_ACS_3:Mesh.SpineCtrl.rot(Time - (slid_SpineLag.pos(Time).x * 2)/Scene.fps).p * (slid_SpineFactor.pos(Time).x))" 0
+  Expression "Spine3_B" "((pilot_ACS_3:Mesh.SpineCtrl.rot(Time - (slid_SpineLag.pos(Time).x * 2)/Scene.fps).b * (slid_SpineFactor.pos(Time).x)) * (1-slid_AutoWalk.pos(Time).x)) + ((-pilot_ACS_3:Mesh.Root.rot(Time - (slid_WalkLag.pos(Time).x * 3)/Scene.fps).h * (1/6 * (slid_WalkFactor.pos(Time).x +1))) * slid_AutoWalk.pos(Time).x)" 0
+}
