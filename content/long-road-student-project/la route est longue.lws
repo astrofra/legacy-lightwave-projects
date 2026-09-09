@@ -1,0 +1,329 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 50
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\classic.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -4.634508 0 19.83871 0 0 0 1 1 1
+  0 0 0 0 0
+  11.9295 0 13.7 0 0 0 1 1 1
+  1 0 0 0 0
+EndBehavior 1
+LockedChannels 2
+UnaffectedByFog 1
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\envers.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  21.78511 7.024998 -15.4668 88.39999 0 0 1.804 1.804 1.804
+  0 0 0 0 0
+  -6.031192 7.024998 -27.44408 0 0 0 1.804 1.804 1.804
+  1 0 0 0 0
+EndBehavior 1
+LockedChannels 2610
+PivotPoint 0 4.325 0
+UnaffectedByFog 1
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\plot.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -2.231331 0 13.425 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+UnaffectedByFog 1
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\sol.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 17.85 0 0 0 50 1 50
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\classic.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  5.454511 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+UnaffectedByFog 1
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\classic.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -4.720489 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+UnaffectedByFog 1
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\classic.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  14.95451 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+UnaffectedByFog 1
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\moderne.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -15.54638 0 0 19.2 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 54
+UnaffectedByFog 1
+ShadowOptions 7
+
+LoadObject E:\Perso\a propos d'être un Ange, ma ville\lampadaires\plot.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -9.506299 0 -17.8 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+UnaffectedByFog 1
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  9.075001 2 -0.95 -99.60004 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 0
+ShadowType 1
+
+AddLight
+LightName spot
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  0 9.125 0 0 90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ParentObject 1
+LightColor 255 255 128
+LgtIntensity 3.000000
+NoSpecular 1
+LightType 2
+ConeAngle 50.000000
+EdgeAngle 40.000000
+ShadowType 0
+
+AddLight
+LightName spot
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  0 9.125 0 0 90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ParentObject 6
+LightColor 255 255 128
+LgtIntensity 3.000000
+NoSpecular 1
+LightType 2
+ConeAngle 50.000000
+EdgeAngle 40.000000
+ShadowType 0
+
+AddLight
+LightName spot
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  0 9.125 0 0 90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ParentObject 7
+LightColor 255 255 128
+LgtIntensity 3.000000
+NoSpecular 1
+LightType 2
+ConeAngle 50.000000
+EdgeAngle 40.000000
+ShadowType 0
+
+AddLight
+LightName spot
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  0 9.125 0 0 90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ParentObject 5
+LightColor 255 255 128
+LgtIntensity 3.000000
+NoSpecular 1
+LightType 2
+ConeAngle 50.000000
+EdgeAngle 40.000000
+ShadowType 0
+
+AddLight
+LightName spot
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  0 3.400001 0 0 90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ParentObject 2
+LightColor 255 255 128
+LgtIntensity 3.000000
+LightType 2
+ConeAngle 26.170004
+EdgeAngle 26.170004
+ShadowType 0
+
+AddLight
+LightName spot
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  0 3.400001 0 0 90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ParentObject 8
+LightColor 255 255 128
+LgtIntensity 3.000000
+LightType 2
+ConeAngle 66.330009
+EdgeAngle 60.000000
+ShadowType 0
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  2
+  28.94873 2.375 -31.73001 -43.09999 -2.700001 0 1 1 1
+  0 0 0 0 0
+  -0.3262677 2.375 -44.38 0 -2.700001 0 1 1 1
+  1 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ZoomFactor 3.200000
+Resolution 1
+PixelAspectRatio 2
+LimitedRegion 1
+RegionLimits 0.000000 1.000000 0.101000 0.757000
+SegmentMemory 8050000
+Antialiasing 1
+AdaptiveSampling 0
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 57
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 1
+FogMinDist 0.000000
+FogMaxDist 90.000000
+FogMinAmount 0.000000
+FogMaxAmount 1.000000
+FogColor 0 0 57
+BackdropFog 1
+DitherIntensity 1
+AnimatedDither 0
+GlowEffect 1
+GlowIntensity 0.400000
+GlowRadius 32.000000
+
+RenderMode 2
+RayTraceEffects 2
+RayRecursionLimit 16
+DataOverlayLabel  
+OutputFilenameFormat 1
+SaveRGBImagesPrefix E:\Perso\a propos d'être un Ange, ma ville\la route est l.
+RGBImageFormat 2
+
+ViewMode 5
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 1.185185
+GridNumber 0
+GridSize 5.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 1
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
