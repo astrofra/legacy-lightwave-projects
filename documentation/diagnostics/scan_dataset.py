@@ -74,7 +74,7 @@ def chunks(b, start=0, short=False):
             raise ValueError(f"{tag}: missing odd-size padding")
 
 
-def classify(b, suffix):
+def classify(b):
     if len(b) >= 12 and b[:4] == b"FORM":
         return "FORM " + label(b[8:12])
     m = re.match(br"LWSC[\r\n\s]+(\d+)", b)
@@ -96,6 +96,16 @@ def classify(b, suffix):
         end = 18 + b[0] + w * h * (b[16] // 8)
         if w and h and (end == len(b) or (end <= len(b)-26 and b.endswith(b"TRUEVISION-XFILE.\0"))):
             return "TGA (validated uncompressed layout)"
+    if len(b) >= 18 and b[1] == 0 and b[2] == 10 and b[16] in (24, 32):
+        w, h = struct.unpack_from("<HH", b, 12)
+        p, pixels, pixel_bytes = 18+b[0], 0, b[16] // 8
+        while w and h and p < len(b) and pixels < w*h:
+            packet = b[p]
+            n = (packet & 127) + 1
+            p += 1 + (pixel_bytes if packet & 128 else n*pixel_bytes)
+            pixels += n
+        if w and h and pixels == w*h and (p == len(b) or (p <= len(b)-26 and b.endswith(b"TRUEVISION-XFILE.\0"))):
+            return "TGA (validated RLE layout)"
     if b.startswith(b"RIFF") and len(b) >= 12:
         return "RIFF " + label(b[8:12])
     return "unclassified"  # extension remains separately recorded
@@ -280,7 +290,7 @@ def resolve(ref, records):
     for rec in records:
         if ref["kind"] == "object" and rec["kind"] not in ("FORM LWOB", "FORM LWO2"):
             continue
-        if ref["kind"] == "image" and rec["kind"] not in ("JPEG", "PNG", "GIF", "TIFF", "PSD", "BMP", "FORM ILBM", "FORM PBM ", "RIFF AVI ", "TGA (validated uncompressed layout)"):
+        if ref["kind"] == "image" and rec["kind"] not in ("JPEG", "PNG", "GIF", "TIFF", "PSD", "BMP", "FORM ILBM", "FORM PBM ", "RIFF AVI ", "TGA (validated uncompressed layout)", "TGA (validated RLE layout)"):
             continue
         target = norm(rec["path"]).split("/")
         n = 0
@@ -306,6 +316,8 @@ def main():
     ap.add_argument("--output", type=Path, default=Path("documentation/diagnostics"))
     args = ap.parse_args()
     root, output = args.root.resolve(), args.output.resolve()
+    if not root.is_dir():
+        ap.error("dataset root must be an existing directory")
     if output == root or root in output.parents:
         ap.error("output must be outside the read-only dataset root")
     records, refs = [], []
@@ -315,7 +327,7 @@ def main():
         rec = dict(path=root.name+"/"+rel.as_posix(), project=rel.parts[0],
                    bytes=len(b), sha256=hashlib.sha256(b).hexdigest(), extension=path.suffix.lower(),
                    header_hex=b[:16].hex(),
-                   kind=classify(b, path.suffix), non_ascii_path=not rel.as_posix().isascii(), warnings=[])
+                   kind=classify(b), non_ascii_path=not rel.as_posix().isascii(), warnings=[])
         if rec["kind"] in ("FORM LWOB", "FORM LWO2"):
             inspect_object(b, rec, refs)
         elif rec["kind"].startswith("LWSC "):
@@ -349,7 +361,9 @@ def main():
     hashes = defaultdict(list)
     for r in records:
         hashes[r["sha256"]].append(r["path"])
-    summary = dict(schema_version=1, dataset_root=root.name, file_count=len(records),
+    summary = dict(schema_version=1, dataset_root=root.name,
+                   scanner_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                   file_count=len(records),
                    total_bytes=sum(r["bytes"] for r in records), projects=projects,
                    kinds=dict(Counter(r["kind"] for r in records)),
                    reference_statuses=dict(Counter(r["resolution"]["status"] for r in refs)),
@@ -360,7 +374,7 @@ def main():
                          "Latin-1 display of non-UTF8 strings is a hypothesis; matches are candidates only.")
     output.mkdir(parents=True, exist_ok=True)
     for name, value in [("inventory.json", records), ("references.json", refs), ("summary.json", summary)]:
-        (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+        (output / name).write_text(json.dumps(value, ensure_ascii=False, indent=2)+"\n", encoding="utf-8", newline="\n")
     print(json.dumps({k: v for k, v in summary.items() if k not in ("projects", "duplicate_groups")}, indent=2))
 
 

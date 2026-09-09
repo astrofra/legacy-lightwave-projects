@@ -4871,6 +4871,147 @@
     }
   },
   {
+    "source": "content/metropolis-robots/01.lws",
+    "project": "metropolis-robots",
+    "field": "LoadObjectLayer",
+    "raw_hex": "493a6672612f232333442f726f626f74732f6d6574726f706f6c69735f6d6f64656c5f55565f746573745f747269706c652e6c776f",
+    "display": "I:fra/##3D/robots/metropolis_model_UV_test_triple.lwo",
+    "kind": "object",
+    "location": 153,
+    "encoding_evidence": "ascii",
+    "scene_layer": "1",
+    "resolution": {
+      "status": "unique-basename-candidate",
+      "matching_suffix_components": 1,
+      "candidates": [
+        "content/metropolis-robots/metropolis_model_UV_test_triple.lwo"
+      ]
+    }
+  },
+  {
+    "source": "content/metropolis-robots/01.lws",
+    "project": "metropolis-robots",
+    "field": "LoadObjectLayer",
+    "raw_hex": "493a6672612f232333442f726f626f74732f6d6574726f706f6c69735f72656e6465725f30312e6c776f",
+    "display": "I:fra/##3D/robots/metropolis_render_01.lwo",
+    "kind": "object",
+    "location": 1229,
+    "encoding_evidence": "ascii",
+    "scene_layer": "2",
+    "resolution": {
+      "status": "unique-basename-candidate",
+      "matching_suffix_components": 1,
+      "candidates": [
+        "content/metropolis-robots/metropolis_render_01.lwo"
+      ]
+    }
+  },
+  {
+    "source": "content/metropolis-robots/02.lws",
+    "project": "metropolis-robots",
+    "field": "LoadObjectLayer",
+    "raw_hex": "493a6672612f232333442f726f626f74732f6d6574726f706f6c69735f72656e6465725f30322e6c776f",
+    "display": "I:fra/##3D/robots/metropolis_render_02.lwo",
+    "kind": "object",
+    "location": 154,
+    "encoding_evidence": "ascii",
+    "scene_layer": "1",
+    "resolution": {
+      "status": "unique-basename-candidate",
+      "matching_suffix_components": 1,
+      "candidates": [
+        "content/metropolis-robots/metropolis_render_02.lwo"
+      ]
+    }
+  },
+  {
+    "source": "content/metropolis-robots/03.lws",
+    "project": "metropolis-robots",
+    "field": "LoadObjectLayer",
+    "raw_hex": "4a3a6672612f232333442f726f626f74732f6d6574726f706f6c69735f6d6f64656c5f55565f746573745f747269706c652e6c776f",
+    "display": "J:fra/##3D/robots/metropolis_model_UV_test_triple.lwo",
+    "kind": "object",
+    "location": 157,
+    "encoding_evidence": "ascii",
+    "scene_layer": "1",
+    "resolution": {
+      "status": "unique-basename-candidate",
+      "matching_suffix_components": 1,
+      "candidates": [
+        "content/metropolis-robots/metropolis_model_UV_test_triple.lwo"
+      ]
+    }
+  },
+  {
+    "source": "content/metropolis-robots/03.lws",
+    "project": "metropolis-robots",
+    "field": "LoadObjectLayer",
+    "raw_hex": "4a3a6672612f232333442f726f626f74732f6d6574726f706f6c69735f72656e6465725f30312e6c776f",
+    "display": "J:fra/##3D/robots/metropolis_render_01.lwo",
+    "kind": "object",
+    "location": 1023,
+    "encoding_evidence": "ascii",
+    "scene_layer": "2",
+    "resolution": {
+      "status": "unique-basename-candidate",
+      "matching_suffix_components": 1,
+      "candidates": [
+        "content/metropolis-robots/metropolis_render_01.lwo"
+      ]
+    }
+  },
+  {
+    "source": "content/metropolis-robots/metropolis_model_UV.lwo",
+    "project": "metropolis-robots",
+    "field": "CLIP/STIL",
+    "raw_hex": "493a6672612f232333442f726f626f74732f6d6170732f30312e746761",
+    "display": "I:fra/##3D/robots/maps/01.tga",
+    "kind": "image",
+    "location": 20640,
+    "encoding_evidence": "ascii",
+    "resolution": {
+      "status": "unique-suffix-candidate",
+      "matching_suffix_components": 2,
+      "candidates": [
+        "content/metropolis-robots/maps/01.tga"
+      ]
+    }
+  },
+  {
+    "source": "content/metropolis-robots/metropolis_model_UV_test.lwo",
+    "project": "metropolis-robots",
+    "field": "CLIP/STIL",
+    "raw_hex": "493a6672612f232333442f726f626f74732f6d6170732f30312e746761",
+    "display": "I:fra/##3D/robots/maps/01.tga",
+    "kind": "image",
+    "location": 40110,
+    "encoding_evidence": "ascii",
+    "resolution": {
+      "status": "unique-suffix-candidate",
+      "matching_suffix_components": 2,
+      "candidates": [
+        "content/metropolis-robots/maps/01.tga"
+      ]
+    }
+  },
+  {
+    "source": "content/metropolis-robots/metropolis_model_UV_test_triple.lwo",
+    "project": "metropolis-robots",
+    "field": "CLIP/STIL",
+    "raw_hex": "493a6672612f232333442f726f626f74732f6d6170732f30312e746761",
+    "display": "I:fra/##3D/robots/maps/01.tga",
+    "kind": "image",
+    "location": 54864,
+    "encoding_evidence": "ascii",
+    "resolution": {
+      "status": "unique-suffix-candidate",
+      "matching_suffix_components": 2,
+      "candidates": [
+        "content/metropolis-robots/maps/01.tga"
+      ]
+    }
+  },
+  {
     "source": "content/my-village/kid/test.lws",
     "project": "my-village",
     "field": "LoadObjectLayer",

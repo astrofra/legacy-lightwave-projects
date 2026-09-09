@@ -1,8 +1,9 @@
 {
   "schema_version": 1,
   "dataset_root": "content",
-  "file_count": 1118,
-  "total_bytes": 202830004,
+  "scanner_sha256": "a3ebfdeefc367bf9927be6d3fee61c2f80133f43ff8bb7a4e28c4a512275fd1e",
+  "file_count": 1384,
+  "total_bytes": 315669080,
   "projects": {
     "1st-year-student-amiga-project": {
       "files": 213,
@@ -90,6 +91,25 @@
       },
       "references": {
         "unique-suffix-candidate": 46
+      }
+    },
+    "metropolis-robots": {
+      "files": 266,
+      "bytes": 112839076,
+      "kinds": {
+        "unclassified": 8,
+        "LWSC 3": 3,
+        "JPEG": 195,
+        "PSD": 4,
+        "TGA (validated uncompressed layout)": 6,
+        "TIFF": 3,
+        "TGA (validated RLE layout)": 37,
+        "FORM LWO2": 6,
+        "RIFF AVI ": 4
+      },
+      "references": {
+        "unique-basename-candidate": 5,
+        "unique-suffix-candidate": 3
       }
     },
     "my-village": {
@@ -237,32 +257,33 @@
     }
   },
   "kinds": {
-    "unclassified": 76,
+    "unclassified": 84,
     "FORM LWOB": 496,
     "FORM ILBM": 75,
-    "JPEG": 164,
+    "JPEG": 359,
     "LWSC 1": 79,
     "FORM TVPP": 4,
-    "PSD": 58,
+    "PSD": 62,
     "FORM TDDD": 5,
-    "TGA (validated uncompressed layout)": 12,
+    "TGA (validated uncompressed layout)": 18,
     "GIF": 17,
     "PNG": 2,
-    "FORM LWO2": 100,
-    "LWSC 3": 10,
+    "FORM LWO2": 106,
+    "LWSC 3": 13,
+    "TIFF": 8,
+    "TGA (validated RLE layout)": 37,
+    "RIFF AVI ": 7,
     "LWMO": 2,
-    "RIFF AVI ": 3,
     "PostScript": 3,
     "BMP": 1,
     "LWEN": 2,
     "ZIP": 2,
-    "PE/DOS executable": 2,
-    "TIFF": 5
+    "PE/DOS executable": 2
   },
   "reference_statuses": {
     "no-local-candidate": 189,
-    "unique-suffix-candidate": 631,
-    "unique-basename-candidate": 385,
+    "unique-suffix-candidate": 634,
+    "unique-basename-candidate": 390,
     "ambiguous-local": 35
   },
   "files_with_warnings": [
@@ -306,6 +327,43 @@
     [
       "content/mandarine-000-lw5/maps/EnvMap.jpg",
       "content/orange-juice-signage/maps/EnvMap.jpg"
+    ],
+    [
+      "content/metropolis-robots/maps/robot_occ0000.tga",
+      "content/metropolis-robots/maps/robot_occ0003.tga",
+      "content/metropolis-robots/maps/robot_occ0006.tga",
+      "content/metropolis-robots/maps/robot_occ0009.tga",
+      "content/metropolis-robots/maps/robot_occ0012.tga",
+      "content/metropolis-robots/maps/robot_occ0015.tga",
+      "content/metropolis-robots/maps/robot_occ0018.tga",
+      "content/metropolis-robots/maps/robot_occ0021.tga",
+      "content/metropolis-robots/maps/robot_occ0024.tga",
+      "content/metropolis-robots/maps/robot_occ0027.tga",
+      "content/metropolis-robots/maps/robot_occ0030.tga"
+    ],
+    [
+      "content/metropolis-robots/maps/robot_occ0001.tga",
+      "content/metropolis-robots/maps/robot_occ0004.tga",
+      "content/metropolis-robots/maps/robot_occ0007.tga",
+      "content/metropolis-robots/maps/robot_occ0010.tga",
+      "content/metropolis-robots/maps/robot_occ0013.tga",
+      "content/metropolis-robots/maps/robot_occ0016.tga",
+      "content/metropolis-robots/maps/robot_occ0019.tga",
+      "content/metropolis-robots/maps/robot_occ0022.tga",
+      "content/metropolis-robots/maps/robot_occ0025.tga",
+      "content/metropolis-robots/maps/robot_occ0028.tga"
+    ],
+    [
+      "content/metropolis-robots/maps/robot_occ0002.tga",
+      "content/metropolis-robots/maps/robot_occ0005.tga",
+      "content/metropolis-robots/maps/robot_occ0008.tga",
+      "content/metropolis-robots/maps/robot_occ0011.tga",
+      "content/metropolis-robots/maps/robot_occ0014.tga",
+      "content/metropolis-robots/maps/robot_occ0017.tga",
+      "content/metropolis-robots/maps/robot_occ0020.tga",
+      "content/metropolis-robots/maps/robot_occ0023.tga",
+      "content/metropolis-robots/maps/robot_occ0026.tga",
+      "content/metropolis-robots/maps/robot_occ0029.tga"
     ],
     [
       "content/nxng-experiments/[SPARK].lwo",

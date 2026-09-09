@@ -1,7 +1,9 @@
 # Feasibility study: preserving the legacy LightWave projects in Blender
 
-**Date:** 9 September 2026  
-**Dataset:** `content/`, repository revision `b882a30a7220a888acaf428a6c5bbb5d53336da1`  
+**Date:** 9 September 2026
+
+**Dataset:** working-tree snapshot of `content/`, based on revision `b882a30a7220a888acaf428a6c5bbb5d53336da1`, including the added `metropolis-robots` project; individual source hashes are recorded in the inventory.
+
 **Deliverable:** a dataset audit and an implementation proposal. The production C extractor and Blender importer have not been implemented or run.
 
 ## 1. Recommendation
@@ -12,10 +14,10 @@ Do not promise identical rendering or a lossless translation of every LightWave 
 
 The most consequential findings are:
 
-- There are **596 LightWave objects: 496 `LWOB` and 100 `LWO2`**, plus **89 scenes: 79 `LWSC 1` and 10 `LWSC 3`**.
-- **No explicit UV maps were found in the LWO2 objects either.** Their 35 `VMAP` chunks contain subdivision or bone weights; there are no `TXUV` maps and no `VMAD` chunks. Projection reconstruction is therefore a requirement for both object families.
+- There are **602 LightWave objects: 496 `LWOB` and 106 `LWO2`**, plus **92 scenes: 79 `LWSC 1` and 13 `LWSC 3`**, across 15 projects.
+- **Implicit projections remain essential in both object families.** Explicit UVs occur in three Metropolis objects, including two with discontinuous `VMAD` data. These provide valuable real seam fixtures alongside the older projection-based materials.
 - The Amiga project contains **209 LWOB objects but no detected scenes or images**. Its 174 image-reference occurrences represent 41 distinct paths after slash and case normalization, all without a local candidate.
-- Points, segments, large n-gons, curves and patches are real requirements. The audit found **856 one-point records**, **5,650 two-point records**, **4,327 records with more than four vertices**, and **486 polygon/patch records containing repeated point indices**.
+- Points, segments, large n-gons, curves and patches are real requirements. The audit found **856 one-point records**, **5,658 two-point records**, **4,335 records with more than four vertices**, and **486 polygon/patch records containing repeated point indices**.
 - Historic content paths can largely be reconstructed as project-specific aliases. One supplied batch file explicitly maps `S:` to `I:\fra\demos\jyfe`; this must not be confused with the current workspace drive.
 - Six scenes contain non-ASCII bytes invalid in UTF-8. Their observed bytes cannot distinguish Windows-1252 from ISO-8859-1.
 
@@ -37,13 +39,13 @@ The generated evidence is available in:
 | --- | --- |
 | [summary.json](diagnostics/summary.json) | File counts, project totals, dependency candidate totals, duplicate groups and structural warnings |
 | [inventory.json](diagnostics/inventory.json) | One record per file: hash, header, detected type, geometry/chunk counts, material features and scene keywords |
-| [references.json](diagnostics/references.json) | 1,240 dependency occurrences, original path bytes in hexadecimal, source byte locations, and ranked local candidates |
+| [references.json](diagnostics/references.json) | 1,248 dependency occurrences, original path bytes in hexadecimal, source byte locations, and ranked local candidates |
 
 This is a **first-pass audit**, not a complete semantic validator. In particular, it does not evaluate shaders or animation, validate every tag association, decode image pixels, parse `CRVS` records, interpret all plugin payloads, or process archived objects. `PCHS` records were counted using the legacy polygon layout: all 25 chunks pass that structural interpretation, which also agrees with the existing [Blender LWO importer's PCHS reader](https://raw.githubusercontent.com/nangtani/blender-import-lwo/master/io_scene_lwo/lwoObject.py).
 
 Dependency results are **candidates, not verified bindings**. This scanner ranks same-project suffix matches after slash, NFC and case normalization, using Latin-1 as a reversible display hypothesis for invalid UTF-8. It does not apply the content-root profiles proposed below, search inside ZIPs, or resolve every ancillary-file dependency. Thus its ambiguous count can decrease after root reconstruction; its dependency count can increase after deeper parsing.
 
-The working-tree scan covers **1,118 files, 202,830,004 bytes (193.43 MiB)**. Six are ignored `.DS_Store` files; the other 1,112 are the tracked content files. Counts below include duplicate copies and historical versions as separate files. No claim about the application's exact save version is inferred from a filename or folder label.
+The working-tree scan covers **1,384 files, 315,669,080 bytes (301.05 MiB)**, including seven `.DS_Store` metadata files. Counts below include duplicate copies and historical versions as separate files. No claim about the application's exact save version is inferred from a filename or folder label. Explicit UV maps occur only in Metropolis; the other 14 projects contain none.
 
 ## 3. What is actually in the repository
 
@@ -57,6 +59,7 @@ The working-tree scan covers **1,118 files, 202,830,004 bytes (193.43 MiB)**. Si
 | `just-another-amiga-story` | 35 | 24 | 0 | 2 | 0 |
 | `lake-scenery` | 32 | 20 | 0 | 2 | 0 |
 | `mandarine-000-lw5` | 93 | 24 | 27 | 2 | 1 |
+| `metropolis-robots` | 266 | 0 | 6 | 0 | 3 |
 | `my-village` | 17 | 2 | 7 | 0 | 1 |
 | `nxng-experiments` | 517 | 153 | 50 | 56 | 2 |
 | `orange-juice-signage` | 34 | 4 | 2 | 1 | 0 |
@@ -65,27 +68,27 @@ The working-tree scan covers **1,118 files, 202,830,004 bytes (193.43 MiB)**. Si
 | `the-tempest` | 40 | 6 | 9 | 1 | 2 |
 | `toxic-waste-container` | 14 | 3 | 2 | 1 | 1 |
 | `unidentified_000` | 6 | 4 | 0 | 1 | 0 |
-| **Total** | **1,118** | **496** | **100** | **79** | **10** |
+| **Total** | **1,384** | **496** | **106** | **79** | **13** |
 
 `LWOB` identifies the older object family, including files compatible with pre-6 LightWave. `LWO2` was introduced with LightWave 6.0. A signature alone does not distinguish LightWave 3 from 4 or 5, or LightWave 6 from later applications capable of saving LWO2. The scene version is a separate discriminator. The SDK identifies `LWSC 3` with the 6.0-and-later scene family. [Original LWOB description by Hastings and Ferguson, hosted by Paul Bourke](https://www.paulbourke.org/dataformats/lightwave/), [NewTek LWO2 specification, archived copy](https://documentation.help/LightWave/lwo2.html), [NewTek scene specification, archived copy](https://documentation.help/LightWave/lwsc.html).
 
-No `LWO3`, `LWLO`, or `LWSC 2` signature was detected. No standalone surface-only LWOB/LWO2 file was found. **There are 1,362 embedded `SURF` chunks**, so material extraction is still substantial. The absence of a standalone surface fixture is a test-coverage gap, not a reason to omit the format from the design.
+No `LWO3`, `LWLO`, or `LWSC 2` signature was detected. No standalone surface-only LWOB/LWO2 file was found. **There are 1,394 embedded `SURF` chunks**, so material extraction is still substantial. The absence of a standalone surface fixture is a test-coverage gap, not a reason to omit the format from the design.
 
-Of the 596 objects, only **385 have a `.lwo` extension**. Another **178 have no suffix**, including 176 in the Amiga project and two in `mandarine-000-lw5`; **33 have other suffixes**, such as `.l`, `.2`, `.bak`, `.wo`, or a dotted French name. Examples include `Air/Cl 1`, `Articles/WG.Rad.Mur Fenêtres` and `armure/Coquille/Courbe ceinture`. All 89 detected scenes have `.lws` extensions, but the proposed discovery stage must also recognize extensionless scenes.
+Of the 602 objects, only **391 have a `.lwo` extension**. Another **178 have no suffix**, including 176 in the Amiga project and two in `mandarine-000-lw5`; **33 have other suffixes**, such as `.l`, `.2`, `.bak`, `.wo`, or a dotted French name. Examples include `Air/Cl 1`, `Articles/WG.Rad.Mur Fenêtres` and `armure/Coquille/Courbe ceinture`. All 92 detected scenes have `.lws` extensions, but the proposed discovery stage must also recognize extensionless scenes.
 
 ### 3.2 Geometry and modeling data
 
-The objects contain **326,183 stored points** and **398,078 parsed polygon/patch records**:
+The objects contain **340,833 stored points** and **415,251 parsed polygon/patch records**:
 
 | Record family | Count | Interpretation for planning |
 | --- | ---: | --- |
 | LWOB `POLS` | 287,295 | Legacy polygons, including point/line records and two detail polygons |
 | LWOB `PCHS` | 8,178 | Legacy patch cages in 25 files; retain their patch identity |
-| LWO2 `FACE` | 96,246 | Ordinary polygon records |
+| LWO2 `FACE` | 113,419 | Ordinary polygon records |
 | LWO2 `PTCH` | 6,337 | Subdivision cages |
 | LWO2 `BONE` | 22 | Skeleton segments in `space-suit-000/BONESAGE.LWO` |
 
-The arity totals are 856 one-point records, 5,650 two-point records, 225,719 triangles, 161,526 quads and 4,327 larger records. The two-point count includes the 22 `BONE` records; it must not be interpreted as 5,650 ordinary mesh edges. The largest polygon has 212 vertices, in `just-another-amiga-story/core/A500.LWO`.
+The arity totals are 856 one-point records, 5,658 two-point records, 232,073 triangles, 172,329 quads and 4,335 larger records. The two-point count includes the 22 `BONE` records; it must not be interpreted as 5,658 ordinary mesh edges. The largest polygon has 212 vertices, in `just-another-amiga-story/core/A500.LWO`.
 
 Additional findings:
 
@@ -93,9 +96,11 @@ Additional findings:
 - `Earth/Cabine/Mec Assis` contains 919 points and neither polygons, patches nor curves. It must survive as point-only geometry.
 - `just-another-amiga-story/core/AMIGA.LWO` contains two legacy detail polygons. Preserve their parent relationship rather than silently treating them as unrelated ordinary faces.
 - 486 polygon/patch records repeat a point index within the same record. This is evidence requiring topology inspection, **not proof that all 486 are damaged**. Bridged holes, degenerate faces and other constructions may require different handling.
-- The scanner reports 9,404 points unused by `POLS` or `PCHS`. Some belong to `CRVS`; this number is not a count of confirmed loose points.
-- LWO2 objects contain 350 layers in total; 66 objects have multiple layers, with a maximum of ten. Layer order is not necessarily numeric order.
-- The 35 vertex maps are 23 `MNVW` maps and 12 `WGHT` maps. No `TXUV`, `VMAD`, `MORF`, or `SPOT` map was found. Animation morphing nevertheless exists in scenes.
+- The scanner reports 9,410 points unused by `POLS` or `PCHS`. Some belong to `CRVS`; this number is not a count of confirmed loose points.
+- LWO2 objects contain 365 layers in total; 69 objects have multiple layers, with a maximum of ten. Layer order is not necessarily numeric order.
+- The 38 `VMAP` chunks contain 23 `MNVW`, 12 `WGHT` and three `TXUV` maps. Two additional `VMAD` chunks contain `TXUV`. No `MORF` or `SPOT` map was found; animation morphing nevertheless exists in scenes.
+
+Metropolis's `metropolis_model_UV.lwo`, `metropolis_model_UV_test.lwo` and `metropolis_model_UV_test_triple.lwo` contain UV map `st`, with 573, 762 and 884 point entries respectively. The latter two add 598 and 838 corner overrides. These maps are sparse relative to their objects' point counts: preserve missing values and evaluate whether the associated faces actually use the map, rather than silently substituting zero UVs.
 
 The object scan found no FORM-size mismatch, parsed-chunk overrun or out-of-range point index in the geometry it examined. This supports parser feasibility; it does not establish that all polygons are directly representable or render identically in Blender.
 
@@ -117,36 +122,37 @@ The LWOB surface scan found the following texture declarations:
 
 There are 334 `TFLG`/`TSIZ` pairs, 200 `TCTR` chunks and four `TVEL` chunks. Eighteen `TFLG` values have the legacy world-coordinate bit set. Fields such as `TWRP`, `TOPC`, `TREF`, `TALP`, `IMSQ`, `TFP*` and `TIP*` are present and need semantics beyond a texture filename.
 
-In LWO2, the scan found 28 image-map blocks: 27 explicitly select planar projection and one spherical projection. It also found 15 gradient blocks and 52 shader blocks. Across object families, identified shader names include **51 `LW_SuperCelShader` occurrences, two `Gaffer` occurrences and one `BRDF` occurrence**. Material conversion therefore needs a layered representation and an unsupported-shader policy.
+In LWO2, the scan found 58 image-map blocks: 27 explicitly select planar projection, one spherical projection and 30 UV mapping. It also found 15 gradient blocks and 52 shader blocks. Across object families, identified shader names include **51 `LW_SuperCelShader` occurrences, two `Gaffer` occurrences and one `BRDF` occurrence**. Material conversion therefore needs a layered representation and an unsupported-shader policy.
 
 The old material chunks also contain both integer-era fields and floating variants: for example `DIFF` and `VDIF`, `SPEC` and `VSPC`. A reader must distinguish their storage, defaults and precedence, preserving both raw values when both are present. Copying the same parsing rule between LWOB and LWO2 would be incorrect.
 
 ### 3.4 Scenes and auxiliary files
 
-The 89 scenes contain 802 object-load statements, 619 `LoadObject` and 183 `LoadObjectLayer`. They also contain:
+The 92 scenes contain 807 object-load statements, 619 `LoadObject` and 188 `LoadObjectLayer`. They also contain:
 
 - 99 `AddBone` statements across five scenes;
 - six scenes with `MorphTarget`/`Metamorph`;
 - three scenes containing `FullTimeIK`;
 - eight image-displacement declarations across three scenes;
-- 21 plugin declarations across ten scenes.
+- 32 plugin declarations across 13 scenes.
 
-Observed plugins include `Metaform_Shaper`, `Metaform_Target`, their faster variants, `HyperVoxelsParticles`, `.HyperVoxels`, `.BRDF`, `MD_Plug`, `MD_Scan`, `Bloom` and `H/A`. Their settings must remain available even where Blender reconstruction is partial.
+Observed plugins include `Metaform_Shaper`, `Metaform_Target`, their faster variants, `HyperVoxelsParticles`, `.HyperVoxels`, `.BRDF`, `MD_Plug`, `MD_Scan`, `Bloom` and `H/A`. Metropolis adds `.PF_DOFBlur`, `LW_Bloom`, `LW_DOFBlur` and `LW_Virtual_Darkroom2.0`, making post-processing another explicit fidelity issue. Their settings must remain available even where Blender reconstruction is partial.
 
 The wider dataset includes:
 
 | Data | Evidence and proposed treatment |
 | --- | --- |
-| Images | 75 `FORM ILBM`, 164 JPEG, 58 PSD, 17 GIF, 12 structurally identified TGA, five TIFF, two PNG, one BMP. Preserve originals; decode derivatives as required. |
+| Images | 75 `FORM ILBM`, 359 JPEG, 62 PSD, 17 GIF, 55 structurally identified TGA (18 uncompressed, 37 RLE), eight TIFF, two PNG, one BMP. Preserve originals; decode derivatives as required. |
 | Paint projects | Four `FORM TVPP` files with `.aur` extensions. Archive them as authoring sources; do not assume their layered content is an ordinary texture. |
 | Other 3D formats | Five `FORM TDDD` `.IOB` files, four `.dxf` files and one `.3ds`. Separate adapters or archival-only status; none is a LightWave object just because it is 3D data. |
 | Standalone motion/envelopes | `bot.mot`, `l.mot` begin with `LWMO`; `s1.env`, `s2.env` with `LWEN`. Plan shared motion/envelope parsing and archive any channels without an assigned target. |
 | MorphGizmo | `edi.giz` starts with `MORPHGIZMO`, names an anchor and target objects. A dedicated adapter can recover additional morph intent. |
 | Motion Designer | `md/` contains `.mdd`, `.mds` and `.mdp`; `mdc05.lws` references `S:\md\x.mdd`. Preserve the cache and settings as a linked group. |
 | Custom demo data | 31 `.moa` files with `MOA3`/`MOA4` headers; `.nxl`/`.LOnxl` files commonly begin with `FXLK`; sequence lists include `nXSQPLH`. These are not covered by the LightWave parser. |
-| Archives and executables | Two ZIPs, three AVI files and two executable-signature files. Inventory and preserve them. The converter does not need to execute the old binaries. |
+| Image lists and reference videos | Metropolis includes `maps/robot_occ0000.ifl`, numbered TGA images, JPEG render sequences, five `.m1v` and one `.mpg` file. Preserve frame order and distinguish source animation from reference renders. |
+| Archives and executables | Two ZIPs, seven AVI files and two executable-signature files. Inventory and preserve them. The converter does not need to execute the old binaries. |
 
-`send/cosmo.zip` lists two objects and a scene as well as images; `send/bus.zip` lists an AVI. These members are **outside the 596-object/89-scene expanded-file totals**. A later archive stage should enumerate, hash and compare them with loose files before deciding whether they add new content.
+`send/cosmo.zip` lists two objects and a scene as well as images; `send/bus.zip` lists an AVI. These members are **outside the 602-object/92-scene expanded-file totals**. A later archive stage should enumerate, hash and compare them with loose files before deciding whether they add new content.
 
 A manual size probe of `md/x.mdd` reads header values 41 and 81. The usual layout hypothesis of 41 time values plus 41 arrays of 81 XYZ points predicts 40,024 bytes, while the file contains 40,996. The difference is exactly one 81-point sample (972 bytes). Determine whether this is a rest sample, a writer convention or trailing data; **do not truncate it automatically**.
 
@@ -166,6 +172,7 @@ The following are **proposed aliases inferred from actual references**. Destinat
 | Amiga story | `E:\perso\démos\jaas\` | `just-another-amiga-story/`; image roots such as `L:IMAGES/` are separate and unresolved. |
 | Lake | `E:\Perso\lac\`; `Objects/lacustre/`; `Images/lacustre/` | All three route to `lake-scenery/`, restricted by asset role. The corpus contains both flattened image and object paths. |
 | Mandarine | `E:\fra\mandarine\3d\`; `E:fra/mandarine/3d/`; `mandarine/3d/` | `mandarine-000-lw5/`, retaining `lw5/`, `template/` and `maps/`. Strong shared-suffix evidence. |
+| Metropolis | `I:fra/##3D/robots/`; `J:fra/##3D/robots/` | `metropolis-robots/`, retaining `maps/`. Both drive tokens occur in the three scenes; do not treat `#` inside a path as a comment. |
 | Village | `E:fra/perso/my_village/` | `my-village/`, retaining `kid/`. `kid/face.cfg` independently references the same image subtree. |
 | NXNG | `S:\` and `S:`; batch file says `subst s: I:\fra\demos\jyfe` | `nxng-experiments/`. Strongest explicit historic drive evidence, but copied scenes in `send/` or `maps_psd/` need scoped overrides where their intended assets differ. |
 | Orange Juice | `E:\fra\ojuice\` | `orange-juice-signage/`, retaining `maps/`; `maps/white.iff` is absent. |
@@ -181,16 +188,16 @@ Do not run `sub.bat` to recreate its drive mapping. Its text is evidence. A virt
 
 ### 4.2 Measured reference recovery
 
-The audit extracts **802 object, 437 image and one plugin-data reference occurrence**. It excludes empty/`(none)` texture references and render-output filenames.
+The audit extracts **807 object, 440 image and one plugin-data reference occurrence**. It excludes empty/`(none)` texture references and render-output filenames.
 
 | Candidate status | Objects | Images | Plugin data | Total |
 | --- | ---: | ---: | ---: | ---: |
-| Unique same-project suffix, at least two components | 584 | 46 | 1 | 631 |
-| Unique same-project basename only | 204 | 181 | 0 | 385 |
+| Unique same-project suffix, at least two components | 584 | 49 | 1 | 634 |
+| Unique same-project basename only | 209 | 181 | 0 | 390 |
 | Ambiguous local candidates | 12 | 23 | 0 | 35 |
 | No local candidate | 2 | 187 | 0 | 189 |
 
-The **1,016 unique candidates out of 1,240 occurrences are not an 81.9% conversion-success rate**. Repeated scene instances count repeatedly, basename matches remain hypotheses, and finding an image does not validate its pixels or its material interpretation.
+The **1,024 unique candidates out of 1,248 occurrences are not an 82.1% conversion-success rate**. Repeated scene instances count repeatedly, basename matches remain hypotheses, and finding an image does not validate its pixels or its material interpretation.
 
 The 189 occurrences without a candidate comprise 174 Amiga image references, ten image references in `just-another-amiga-story`, two Eddy background references, one Orange Juice background reference, and two NXNG object references. The NXNG scenes `gus.lws` and `run_gus.lws` request `E:\fra\roto_box\box.lwo`. A `BOX.LWO` exists in the space-suit project, but a shared basename is insufficient evidence to substitute it.
 
@@ -217,7 +224,7 @@ The report should distinguish `resolved_by_rule`, `candidate_only`, `ambiguous`,
 
 ## 5. Encoding and filenames
 
-All 89 scene files begin with an ASCII `LWSC` header. Of their complete byte streams, **83 are ASCII-only and six are invalid UTF-8 with non-ASCII bytes**. Eighty-eight use CRLF and one uses LF.
+All 92 scene files begin with an ASCII `LWSC` header. Of their complete byte streams, **86 are ASCII-only and six are invalid UTF-8 with non-ASCII bytes**. Ninety-one use CRLF and one uses LF.
 
 The six non-ASCII scenes are Eddy's `editestmap.lws` and `mapdroit.lws`, Amiga story's `500.lws` and `ttt.lws`, and Lake's `Lacustre.lws` and `Lacustre.2.lws`. For example, `Lacustre.2.lws` references `E:\Perso\lac\Maison_Perchée_Triplée.lwo`; its accented characters match the supplied Unicode filename when interpreted as Latin-1 or Windows-1252.
 
@@ -287,7 +294,7 @@ Static planar projection is the best initial case. Cylindrical and spherical map
 
 World-space projection must continue to use world position as the object moves. Freezing it into UVs would change that behavior. The same concern applies to animated texture velocity, reference-object coordinates and deformation. Front projection should remain a capability/test target even though it was not detected in the audited object image blocks.
 
-For future LWO2 UV input, apply `VMAD` corner values over matching `VMAP` values, including discontinuous-only maps. The SDK explicitly distinguishes these mappings. This repository does not supply a fixture for that path, so add synthetic seam tests before claiming support. [NewTek LWO2 mapping specification](https://documentation.help/LightWave/lwo2.html).
+For LWO2 UV input, apply `VMAD` corner values over matching `VMAP` values, including discontinuous-only maps. The SDK explicitly distinguishes these mappings. Use the two Metropolis objects with `VMAD` for real seam tests, complemented by synthetic discontinuous-only and unmapped-corner cases. [NewTek LWO2 mapping specification](https://documentation.help/LightWave/lwo2.html).
 
 Projection groups and UV-layer counts should be bounded by the pinned Blender version's tested capabilities. Avoid generating one UV map per surface indiscriminately; reuse compatible coordinate sets, or retain node-based generators when many independent projections are needed.
 
@@ -311,7 +318,7 @@ Implement separate parsers for the two scene grammars, feeding one scene model. 
 
 ### 7.1 Layer and item identity
 
-The corpus reveals a concrete indexing trap. `mandarine-000-lw5/template/perso_ak.lwo` stores layer IDs in the order **3, 0, 1, 2**, while `team.lws` requests layers **1, 2, 3, 4**. Among 124 uniquely matched loads targeting LWO2, every requested layer exists as `scene_number - 1`; 83 fail if interpreted as the raw LAYR number. Another 57 uniquely matched `LoadObjectLayer` statements target LWOB objects and request their implicit first layer.
+The corpus reveals a concrete indexing trap. `mandarine-000-lw5/template/perso_ak.lwo` stores layer IDs in the order **3, 0, 1, 2**, while `team.lws` requests layers **1, 2, 3, 4**. Among 129 uniquely matched loads targeting LWO2, every requested layer exists as `scene_number - 1`; 87 fail if interpreted as the raw LAYR number. Another 57 uniquely matched `LoadObjectLayer` statements target LWOB objects and request their implicit first layer.
 
 Use those fixtures to establish a version-specific rule, preserving the scene token and object layer ID separately. Do not use physical chunk order as layer identity, and do not globally subtract one from unrelated item, polygon, surface or tag indices.
 
@@ -493,7 +500,9 @@ The dataset's size suggests correctness and semantic compatibility will dominate
 | `the-tempest/scene2.lws` | Are root/lw5 object variants selected correctly and disguised TGA clips found? |
 | `nxng-experiments/md/mdc05.lws` and `md/x.mdd` | Is cache interpretation justified, including the extra point sample? |
 | `nxng-experiments/play_room_3.lws` | Are morph targets, repeated assets and ambiguous copies preserved? |
-| Synthetic surface-only LWOB/LWO2, UV seam, high VX index and projection fixtures | Cover requirements absent or insufficiently exercised in the repository. |
+| `metropolis-robots/metropolis_model_UV_test.lwo` and `metropolis_model_UV_test_triple.lwo` | Are sparse UVs and discontinuous corner overrides transferred without losing seams? |
+| `metropolis-robots/01.lws` and `03.lws` | Do both historic drives resolve, and are DOF, bloom and darkroom post-processing reported? |
+| Synthetic surface-only LWOB/LWO2, discontinuous-only UV, high VX index and projection fixtures | Cover requirements absent or insufficiently exercised in the repository. |
 
 For synthetic texture tests, use an asymmetric labeled grid: positive/negative axes, all supported projections, transformed objects, world-space mapping, seams, poles, wrapping and texture motion. Test multiple differently mapped channels on one surface. Use matching reference frames when available; do not judge mapping correctness from a symmetric checkerboard alone.
 
@@ -510,13 +519,15 @@ For visual tests, record renderer/version, frame, resolution, camera, lights, te
 The production conversion is acceptable when:
 
 1. Every scanned input, including non-LightWave and archived content, has an explicit disposition: converted, preserved as source, unresolved, unsupported or malformed.
-2. All 596 loose objects and 89 loose scenes either have output with feature-level status or a specific actionable failure; ZIP members have been separately accounted for.
+2. All 602 loose objects and 92 loose scenes either have output with feature-level status or a specific actionable failure; ZIP members have been separately accounted for.
 3. Original topology and bytes remain recoverable regardless of whether Blender uses a display derivative.
 4. No ambiguous basename or decoder tie is silently resolved, and missing assets remain visible in the report.
 5. Generated Blender files reopen, retain the required editable data, and pass their declared structural/numerical checks.
 6. Visual fidelity is claimed only for tested features and documented reference conditions.
 
-For the present study, the completed work is the signature/chunk audit, path and encoding investigation, reproducible evidence files, and this design. Blender was not found on `PATH`; no broader installation search or rendering experiment was performed. The proposed importer API, curve/material behavior and fidelity tolerances still require the qualification spike.
+For the present study, the completed work is the signature/chunk audit, path and encoding investigation, reproducible evidence files, and this design. Diagnostic checks passed for index-width boundaries, string/chunk padding, truncated chunks, a constructed detail-polygon/point/line/patch fixture, TGA packet bounds, and ambiguous/project-local path matching. The final 1,384 source hashes and file set were verified against the inventory. These checks validate the audit's implemented operations, not a future converter.
+
+Blender was not found on `PATH`; no broader installation search or rendering experiment was performed. The proposed importer API, curve/material behavior and fidelity tolerances still require the qualification spike.
 
 ## 12. Decision
 
