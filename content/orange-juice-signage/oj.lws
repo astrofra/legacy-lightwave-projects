@@ -1,0 +1,166 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 50
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject E:\fra\ojuice\oj_tv_mesh_t.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+AddNullObject Ref Obj
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.001154371 0 -0.002217527 0 0 22.6 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 24
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0.9156886 2.975001 -2.213953 -25.4001 50.2 0 2.252 2.252 2.252
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 32
+LightColor 255 255 255
+LgtIntensity 1.100000
+LightType 4
+ShadowType 1
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 -201.4003 -49.30006 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 32
+LightColor 16 98 112
+LgtIntensity 1.000000
+NoSpecular 1
+LightType 0
+ShadowType 0
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 -216.8003 -75.60007 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+LightColor 255 255 128
+LgtIntensity 1.000000
+NoSpecular 1
+LightType 0
+ShadowType 0
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 -263.2003 -21.30006 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+LightColor 255 255 179
+LgtIntensity 1.000000
+NoSpecular 1
+LightType 0
+ShadowType 0
+
+AddLight
+LightName reflet
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0.602118 0.08000001 -1.372685 -1.200009 8.999997 0 0.858 -4.286002 0.858
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 360
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 1
+ShadowType 0
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  2.275395 1.135851 1.248723 -117.5 22.10001 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ZoomFactor 3.200000
+Resolution 3
+PixelAspectRatio 2
+LimitedRegion 1
+RegionLimits 0.224000 0.703000 0.087000 0.842000
+SegmentMemory 40000000
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+BGImage E:\fra\ojuice\maps\white.iff
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 3
+RayRecursionLimit 16
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGBImagesPrefix E:\fra\ojuice\raws\oj.2.vhi.
+RGBImageFormat 5
+
+ViewMode 5
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 1.777777
+GridNumber 0
+GridSize 0.500000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
