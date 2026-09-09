@@ -1,0 +1,782 @@
+LWSC
+3
+
+FirstFrame 1
+LastFrame 200
+FrameStep 1
+PreviewFirstFrame 0
+PreviewLastFrame 200
+PreviewFrameStep 1
+CurrentFrame 200
+FramesPerSecond 30
+
+LoadObjectLayer 1 Y:meshes/ours_freezed.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 0.0099048978 0 0 0 0 0 0 0 0
+  Key 0.0099048978 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  2
+  Key -0.0051858462 0 0 0 0 0 0 0 0
+  Key -0.0051858462 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -6.2829232 0
+  Key -6.283185 6.6666665 0 0 0 0 -6.2829232 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 6.6666665 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+Plugin DisplacementHandler 1 Sasquatch
+BEGIN WORLEY_LABS_PLUGIN Sasquatch
+# 22148-7550   x86 Sasquatch Version 1.0-DG Nov  5 2000
+# Saved Wed Mar 28 02:19:51 2001
+
+VERSION 1
+ BEGIN NUM IMCOLSTR
+ VALUE 0
+ END
+ BEGIN IMNAME IMCOL
+ END
+ BEGIN RADIO IMPROJ
+  SELECTION 0
+ END RADIO IMPROJ
+ BEGIN RADIO IMAXIS
+  SELECTION 2
+ END RADIO IMAXIS
+ BEGIN RADIO IMTYPE
+  SELECTION 0
+ END RADIO IMTYPE
+ BEGIN ITEM IMCOLDEF
+ END ITEM IMCOLDEF
+ BEGIN COLOR SALTDIFFUSEBCOLOR
+  RED 27
+  GREEN 68
+  BLUE 101
+ END
+ BEGIN COLOR SALTDIFFUSETCOLOR
+  RED 69
+  GREEN 114
+  BLUE 135
+ END
+ BEGIN COLOR PEPPERDIFFUSEBCOLOR
+  RED 39
+  GREEN 54
+  BLUE 71
+ END
+ BEGIN COLOR PEPPERDIFFUSETCOLOR
+  RED 109
+  GREEN 139
+  BLUE 171
+ END
+ BEGIN SURFVARY SPBIAS
+ VALUE 0.65
+ END
+ BEGIN SURFVARY SPGAIN
+ VALUE 0.1
+ END
+ BEGIN SURFVARY COLORSKEW
+ VALUE 0.5
+ END
+ BEGIN SURFVARY SKEWVARY
+ VALUE 0.1
+ END
+ BEGIN SURFVARY COLORSHARP
+ VALUE 0.5
+ END
+ BEGIN SURFVARY BRIGHTVARY
+ VALUE 0.25
+ END
+ BEGIN SURFVARY HUEVARY
+ VALUE 0.15
+ END
+ BEGIN SURFVARY CLUMPINHERIT
+ VALUE 0.7
+ END
+ BEGIN RADIO ACTION
+  SELECTION 1
+ END RADIO ACTION
+ BEGIN STRING SURFACE
+  STRING2 4 @tete
+ END
+ BEGIN NUM SURFCREEP
+ VALUE 0
+ END
+ BEGIN NUM SURFSOFT
+ VALUE 0
+ END
+ BEGIN SURFVARY DIFFUSE
+ VALUE 0.7
+ END
+ BEGIN SURFVARY SPECULAR
+ VALUE 0.6
+ END
+ BEGIN SURFVARY GLOSS
+ VALUE 0.4
+ END
+ BEGIN SURFVARY SPECTINT
+ VALUE 0.25
+ END
+ BEGIN SURFVARY SCATTER
+ VALUE 0.9
+ END
+ BEGIN SURFVARY DIRECT
+ VALUE 0.9
+ END
+ BEGIN SURFVARY AMBIENT
+ VALUE 0.5
+ END
+ BEGIN SURFVARY SELF_SHADOW
+ VALUE 0.7
+ END
+ BEGIN SURFVARY DENSITY
+ VALUE 2
+ HIGHVALUE 3
+ IMAGENAME 15 @sasmap_tete.tif
+ IMAGEFILE 23 @Y:\maps\sasmap_tete.tif
+ IMAGEITEM
+ IMAGESHARP 0.5
+ IMAGEBIAS 0.5
+ IMAGETYPE 0
+ IMAGEAXIS 0
+ IMAGEPROJ 0
+ IMAGEREVERSE
+ END
+ BEGIN NUM DENSITYANIM
+ VALUE 1
+ END
+ BEGIN SURFVARY LENGTH2
+ VALUE 0.05
+ HIGHVALUE 0.2
+ IMAGENAME 15 @sasmap_tete.tif
+ IMAGEFILE 23 @Y:\maps\sasmap_tete.tif
+ IMAGEITEM
+ IMAGESHARP 0.5
+ IMAGEBIAS 0.5
+ IMAGETYPE 0
+ IMAGEAXIS 0
+ IMAGEPROJ 0
+ IMAGEREVERSE
+ END
+ BEGIN NUM LENGTHANIM
+ VALUE 1
+ END
+ BEGIN SURFVARY LENGTHVARY
+ VALUE 0.5
+ END
+ BEGIN SURFVARY COARSENESS
+ VALUE 0.4
+ END
+ BEGIN SURFVARY COARSEVARY
+ VALUE 0.1
+ END
+ BEGIN SURFVARY NARROWING
+ VALUE 0.75
+ END
+ BEGIN NUM SEGQUAL
+ VALUE 0
+ END
+ BEGIN SURFVARY HAIRWIDTH
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRTHICK
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRMERGE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRHELIX
+ VALUE 0
+ END
+ BEGIN NUM HAIRCLUMPS
+ VALUE 8
+ END
+ BEGIN NUM HAIRFIBERS
+ VALUE 4
+ END
+ BEGIN NUM HAIRSMOOTHING
+ VALUE 0.5
+ END
+ BEGIN NUM HAIRSIZEIND
+ VALUE 0.75
+ END
+ BEGIN NUM MANUALSIZE
+ VALUE 1
+ END
+ BEGIN BUTTON AUTOSIZE
+  CHECKED NO
+  HIGHLIGHTED YES
+ END
+ BEGIN SURFVARY COMBSTRENGTH
+ VALUE 0
+ END
+ BEGIN STRING COMBSURFACE
+  STRING2 0 @
+ END
+ BEGIN SURFVARY COMBBIAS
+ VALUE 0.1
+ END
+ BEGIN ITEM COMBITEM
+ END ITEM COMBITEM
+ BEGIN SURFVARY MAXSLEEK
+ VALUE 1
+ END
+ BEGIN SURFVARY TANGLE
+ VALUE 0.3
+ END
+ BEGIN SURFVARY BASEDROOP
+ VALUE 0.1
+ END
+ BEGIN SURFVARY TIPDROOP
+ VALUE 0.1
+ END
+ BEGIN SURFVARY CURL
+ VALUE 0
+ END
+ BEGIN SURFVARY CURLVARY
+ VALUE 0
+ END
+ BEGIN SURFVARY TIPCURL
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CURLDIRECTION
+ VALUE 0
+ END
+ BEGIN SURFVARY FRIZZ
+ VALUE 0.05
+ END
+ BEGIN SURFVARY KINK
+ VALUE 0.05
+ END
+ BEGIN SURFVARY KINKFREQ
+ VALUE 0.5
+ END
+ BEGIN SURFVARY WINDROOT
+ VALUE 0.5
+ END
+ BEGIN SURFVARY WINDTIP
+ VALUE 0.75
+ END
+ BEGIN SURFVARY FLOPROOT
+ VALUE 0
+ END
+ BEGIN SURFVARY FLOPTIP
+ VALUE 0
+ END
+ BEGIN NUM RESTORE
+ VALUE 0.5
+ END
+ BEGIN NUM DAMPING
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPCOUNT
+ VALUE 0.15
+ END
+ BEGIN SURFVARY CLUMPSCALE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPSCALEVARY
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPMATT
+ VALUE 0.98
+ END
+ BEGIN SURFVARY CLUMPBIAS
+ VALUE 0.75
+ END
+ BEGIN SURFVARY CLUMPWIGGLE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPLENGTHVARY
+ VALUE 0.5
+ END
+ BEGIN NUM SUBDIVIDE
+ VALUE 0.05
+ END
+END WORLEY_LABS_PLUGIN Sasquatch
+EndPlugin
+ShadowOptions 7
+
+AmbientColor 0.215686 0.447059 0.533333
+AmbientIntensity 0.5
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -1.2625986 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 3.4950006 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2.1489093 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.5201081 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.57595849 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.0017453292 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 1 1 1
+LightIntensity 1.2
+AffectCaustics 1
+LightType 2
+LightConeAngle 30
+LightEdgeAngle 30
+ShadowType 2
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 6.5
+ShadowFuzziness 1
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 3.1642818 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.10821036 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 48
+LightColor 0.752941 0.752941 0.752941
+LightIntensity 0.5
+AffectSpecular 0
+AffectCaustics 1
+LightType 0
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 1.200000 -0.800000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 3.7891078 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -1.6510812 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 32
+LightColor 0.752941 0.752941 0.752941
+LightIntensity 0.25
+AffectSpecular 0
+AffectCaustics 1
+LightType 0
+ShadowType 1
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key 0.88402843 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 1.8733847 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -1.1251932 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.62482822 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.036651846 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 3.2
+ResolutionMultiplier 1.0
+FrameSize 640 480
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 0
+BackdropColor 0.6941177 0.5764706 0.4117647
+ZenithColor 0.72549 0.862745 1
+SkyColor 0.156863 0.235294 0.341176
+GroundColor 0.156863 0.235294 0.341176
+NadirColor 0 0 0
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+Plugin PixelFilterHandler 1 Sasquatch
+BEGIN WORLEY_LABS_PLUGIN Sasquatch
+# 22148-7550   x86 Sasquatch Version 1.0-DG Nov  5 2000
+# Saved Wed Mar 28 02:19:51 2001
+
+VERSION 1
+ BEGIN NUM AALev
+ VALUE 3
+ END
+ BEGIN RADIO ALPHA
+  SELECTION 2
+ END RADIO ALPHA
+ BEGIN BUTTON PREVIEW
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON FREEZE
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON ONEPASS
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN NUM TRANSP
+ VALUE 0
+ END
+ BEGIN NUM REAR
+ VALUE 0.15
+ END
+ BEGIN NUM OFFSCREEN
+ VALUE 0.9
+ END
+ BEGIN NUM ZBUFSIZE
+ VALUE 100
+ END
+ BEGIN NUM SNZBUFSIZE
+ VALUE 43
+ END
+ BEGIN NUM WINDSPEED
+ VALUE 0
+ END
+ BEGIN ITEM WINDITEM
+ END ITEM WINDITEM
+ BEGIN NUM WINDGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWSPEED
+ VALUE 0
+ END
+ BEGIN ITEM BLOWITEM
+ END ITEM BLOWITEM
+ BEGIN NUM BLOWGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWDIST
+ VALUE 0.1
+ END
+ BEGIN NUM GUSTSIZE
+ VALUE 0.5
+ END
+ BEGIN NUM GUSTTIME
+ VALUE 1
+ END
+ BEGIN NUM GUSTTURB
+ VALUE 0.8
+ END
+ BEGIN BUTTON LWSHADOW
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN BUTTON SELFSHAD
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON CASTSHAD
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN RADIO WHATSHAD
+  SELECTION 2
+ END RADIO WHATSHAD
+ BEGIN ITEM SHADOWLIGHTS
+ LIGHT 1 3 5 @Light
+ END ITEM SHADOWLIGHTS
+ BEGIN NUM SHADRES
+ VALUE 1000
+ END
+ BEGIN NUM SHAD_SOFT
+ VALUE 0.1
+ END
+ BEGIN NUM SHAD_QUAL
+ VALUE 0.3
+ END
+ BEGIN ITEM BOOSTITEM
+ END ITEM BOOSTITEM
+ BEGIN NUM BOOST1
+ VALUE 1
+ END
+ BEGIN NUM BOOST2
+ VALUE 1
+ END
+ BEGIN BUTTON RADIOSITY
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON LWBUG
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN BUTTON CPPOOL
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON DISABLE
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+END WORLEY_LABS_PLUGIN Sasquatch 
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 0
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGB 1
+SaveRGBImagesPrefix Y:\rendus\sastest\a
+RGBImageSaver LW_TIFF24(.tif)
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0 1.92 0.1800001
+ViewZoomFactor 16
+
+GridNumber 80
+GridSize 1
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 0
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+
+CurrentObject 0
+CurrentLight 1
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}

@@ -1,0 +1,1068 @@
+LWSC
+3
+
+FirstFrame 1
+LastFrame 200
+FrameStep 1
+PreviewFirstFrame 0
+PreviewLastFrame 200
+PreviewFrameStep 1
+CurrentFrame 0
+FramesPerSecond 25
+
+LoadObjectLayer 1 Y:meshes/sol.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.75399989 0 0 0 0 0 0 -0.24597511 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.75399989 0 0 0 0 0 0 -0.24597511 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.75399989 0 0 0 0 0 0 -0.24597511 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0.0090740118 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.73750001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -0.27866077 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 Y:meshes/lector2.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+SubPatchLevel 3 3
+ShadowOptions 7
+
+LoadObjectLayer 2 Y:meshes/lector2.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 3 Y:meshes/lector2.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+SubPatchLevel 3 3
+ShadowOptions 7
+
+LoadObjectLayer 4 Y:meshes/lector2.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+SubPatchLevel 3 3
+ShadowOptions 7
+
+AmbientColor 1 1 1
+AmbientIntensity 0.25
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 2.8929424 0 0 0 0 0 0 0 0
+  Key 2.8929424 2.7333333 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  2
+  Key 2 0 0 0 0 0 0 0 0
+  Key 2 2.7333333 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  2
+  Key 1.6882659 0 0 0 0 0 0 0 0
+  Key 1.6882659 2.7333333 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -2.0891583 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.42062414 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 32
+LightColor 0.501961 0 0.011765
+LightIntensity 1
+AffectCaustics 1
+LightType 2
+LightConeAngle 30
+LightEdgeAngle 5
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 1024
+UseConeAngle 0
+ShadowMapAngle 9.5
+ShadowFuzziness 1
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -1.7436212 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -1.7894615 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.77667153 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.54454267 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 32
+LightColor 1 1 1
+LightIntensity 1.2
+AffectCaustics 1
+LightType 2
+LightConeAngle 30
+LightEdgeAngle 5
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 1024
+UseConeAngle 0
+ShadowMapAngle 11.5
+ShadowFuzziness 1
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key 1.161708 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.40467143 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -1.7461548 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.6038838 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -0.036652066 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 2.74
+ResolutionMultiplier 1.0
+FrameSize 640 480
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 1
+BackdropColor 0.4352941 0 0
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+Plugin PixelFilterHandler 1 Sasquatch
+BEGIN WORLEY_LABS_PLUGIN Sasquatch
+# 16245 2685   x86 Sasquatch Version 1.0-EN Nov 11 2001
+# Saved Sun Jun 02 23:23:50 2002
+
+VERSION 1.5
+ BEGIN NUM AALev
+ VALUE 2
+ END
+ BEGIN BUTTON PREVIEW
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON FREEZE
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON ONEPASS
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN NUM TRANSP
+ VALUE 0
+ END
+ BEGIN NUM REAR
+ VALUE 0.15
+ END
+ BEGIN NUM OFFSCREEN
+ VALUE 0.9
+ END
+ BEGIN NUM SHADINGQUAL
+ VALUE 0.5
+ END
+ BEGIN NUM ZBUFSIZE2
+ VALUE 96
+ END
+ BEGIN NUM SNZBUFSIZE2
+ VALUE 96
+ END
+ BEGIN NUM WINDSPEED
+ VALUE 0
+ END
+ BEGIN ITEM WINDITEM
+ END
+ BEGIN NUM WINDGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWSPEED
+ VALUE 0
+ END
+ BEGIN ITEM BLOWITEM
+ END
+ BEGIN NUM BLOWGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWDIST
+ VALUE 0.1
+ END
+ BEGIN NUM GUSTSIZE
+ VALUE 0.5
+ END
+ BEGIN NUM GUSTTIME
+ VALUE 1
+ END
+ BEGIN NUM GUSTTURB
+ VALUE 0.8
+ END
+ BEGIN BUTTON LWSHADOW
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN BUTTON SELFSHAD
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN BUTTON CASTSHAD
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN RADIO WHATSHAD
+  SELECTION 0
+ END
+ BEGIN ITEM SHADOWLIGHTS
+ END
+ BEGIN NUM SHADRES
+ VALUE 2000
+ END
+ BEGIN BUTTON SPOT_CONES
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN NUM SHAD_SOFT
+ VALUE 0.05
+ END
+ BEGIN ITEM BOOSTITEM
+ END
+ BEGIN NUM BOOST1
+ VALUE 1
+ END
+ BEGIN NUM BOOST2
+ VALUE 1
+ END
+ BEGIN RADIO ALPHA
+  SELECTION 2
+ END
+ BEGIN RADIO Z
+  SELECTION 2
+ END
+ BEGIN BUTTON THREAD_RENDER
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON LWBUG
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON RADIOSITY
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON OTHERPOS
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON USEDISTCLIP
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN NUM DISTCLIP
+ VALUE 100
+ END
+ BEGIN NUM LOW_FRAME
+ VALUE -32767
+ END
+ BEGIN NUM HIGH_FRAME
+ VALUE 32767
+ END
+END WORLEY_LABS_PLUGIN Sasquatch
+EndPlugin
+PluginEnabled 0
+Plugin PixelFilterHandler 2 Dof_Data
+5
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    3.6145997
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0.2
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0.050000001
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+0
+0
+1
+4
+0
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+0
+0
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+EndPlugin
+Plugin PixelFilterHandler 3 Dof_Render
+EndPlugin
+Plugin ImageFilterHandler 1 LW_Bloom
+{ Options
+  3
+  { Settings
+    0
+    0
+    1
+    0
+    0
+    1
+    ""
+  }
+  { AlternatesTwo
+    0
+    0
+    0
+    0
+    ""
+  }
+  { Variants
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        0.64999998
+        0
+      }
+    }
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        0.050000001
+        0
+      }
+    }
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        45
+        0
+      }
+    }
+  }
+  { ColorTexture
+    0
+  }
+}
+EndPlugin
+Plugin ImageFilterHandler 2 LW_Bloom
+{ Options
+  3
+  { Settings
+    0
+    0
+    1
+    0
+    0
+    1
+    ""
+  }
+  { AlternatesTwo
+    0
+    0
+    0
+    0
+    ""
+  }
+  { Variants
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        0.80000001
+        0
+      }
+    }
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        0.050000001
+        0
+      }
+    }
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        25
+        0
+      }
+    }
+  }
+  { ColorTexture
+    0
+  }
+}
+EndPlugin
+Plugin ImageFilterHandler 3 LW_Bloom
+{ Options
+  3
+  { Settings
+    0
+    0
+    1
+    0
+    0
+    1
+    ""
+  }
+  { AlternatesTwo
+    0
+    0
+    0
+    0
+    ""
+  }
+  { Variants
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        0.89999998
+        0
+      }
+    }
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        0.050000001
+        0
+      }
+    }
+    { VariantParameter
+      3
+      0
+      { ParameterValue
+        15
+        0
+      }
+    }
+  }
+  { ColorTexture
+    0
+  }
+}
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 3
+RayRecursionLimit 3
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGB 1
+SaveRGBImagesPrefix Y:\rendus\lector\a
+RGBImageSaver LW_TIFF24(.tif)
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0 0 0
+ViewZoomFactor 4
+
+GridNumber 10
+GridSize 0.5
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 0
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor 1
+
+CurrentObject 1
+CurrentLight 1
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}

@@ -1,0 +1,1 @@
+Convertir ces maps en TIF (.tif) pour les charger dans LW.
