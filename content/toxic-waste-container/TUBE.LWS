@@ -1,0 +1,246 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 36
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 36
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject roudoudou\3d\container\liquid.5.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+LoadObject roudoudou\3d\container\handles.5.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+LoadObject roudoudou\3d\container\tube.5.lwo
+ShowObject 4 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 0 0 -180 1 1 1
+  36 0 0 0 0
+EndBehavior 1
+LockedChannels 24
+ShadowOptions 0
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -7.898995 14.45 4.822937 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 255
+LgtIntensity 1.500000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 2
+ShadowMapSize 1024
+UseConeAngle 0
+ShadowMapAngle 18.500000
+ShadowFuzziness 1.000000
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  9.078222 -11.18 -2.506015 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+TargetObject 1
+LightColor 207 255 106
+LgtIntensity 1.500000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 2
+ShadowMapSize 1024
+UseConeAngle 0
+ShadowMapAngle 19.000000
+ShadowFuzziness 5.000000
+
+AddLight
+LightName yello bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -6.363933 -5.860001 7.323155 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 128
+LgtIntensity 3.000000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 2
+ShadowMapSize 1024
+UseConeAngle 0
+ShadowMapAngle 20.500000
+ShadowFuzziness 10.000000
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0 3.85 -13.63 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+TargetObject 1
+ZoomFactor 3.200000
+Resolution 0
+PixelAspectRatio 2
+LimitedRegion 1
+RegionLimits 0.077000 0.919000 0.000000 1.000000
+SegmentMemory 8850000
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+BGImage roudoudou\3d\container\back.iff
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+GlowEffect 1
+GlowIntensity 0.200000
+GlowRadius 8.000000
+Plugin ImageFilterHandler 1 Bloom
+BEGIN WORLEY_LABS_PLUGIN Bloom
+VERSION 1.000000
+  BEGIN BUTTON PREVBUTTON
+   CHECKED NO
+   HIGHLIGHTED YES
+  END BUTTON PREVBUTTON
+  BEGIN BUTTON CLIPBUTTON
+   CHECKED NO
+   HIGHLIGHTED YES
+  END BUTTON CLIPBUTTON
+  BEGIN NUM RADIUS
+   ANIMATE FIXED
+  VALUE 1.000000
+  END NUM RADIUS
+  BEGIN NUM SHAPE
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM SHAPE
+  BEGIN NUM SHARP
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM SHARP
+  BEGIN NUM REDCUTOFF
+   ANIMATE FIXED
+  VALUE 0.800000
+  END NUM REDCUTOFF
+  BEGIN NUM GREENCUTOFF
+   ANIMATE FIXED
+  VALUE 0.900000
+  END NUM GREENCUTOFF
+  BEGIN NUM BLUECUTOFF
+   ANIMATE FIXED
+  VALUE 0.900000
+  END NUM BLUECUTOFF
+  BEGIN NUM BOOST
+   ANIMATE FIXED
+  VALUE 1.000000
+  END NUM BOOST
+  BEGIN NUM GAMMA
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM GAMMA
+  BEGIN NUM TINT
+   ANIMATE FIXED
+  VALUE 0.000000
+  END NUM TINT
+  BEGIN NUM TINTGAMMA
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM TINTGAMMA
+  BEGIN COLOR COLOR
+   RED 60
+   GREEN 50
+   BLUE 150
+  END COLOR COLOR
+  BEGIN BUTTON SPECIAL
+   CHECKED NO
+   HIGHLIGHTED NO
+  END BUTTON SPECIAL
+  BEGIN BUTTON BG
+   CHECKED NO
+   HIGHLIGHTED NO
+  END BUTTON BG
+  BEGIN NUM BRIGHTNESS
+   ANIMATE FIXED
+  VALUE 1.000000
+  END NUM BRIGHTNESS
+  BEGIN STRING COMMENT
+   STRING @@
+  END STRING COMMENT
+  BEGIN BUTTON DISABLE
+   CHECKED NO
+   HIGHLIGHTED NO
+  END BUTTON DISABLE
+END WORLEY_LABS_PLUGIN Bloom
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 4
+RayRecursionLimit 6
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGBImagesPrefix roudoudou\3d\container\raws\ct.
+RGBImageFormat 2
+
+ViewMode 5
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 4.000000
+GridNumber 10
+GridSize 2.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
