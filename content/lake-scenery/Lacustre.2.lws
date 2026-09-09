@@ -1,0 +1,394 @@
+LWSC
+1
+
+FirstFrame 0
+LastFrame 100
+FrameStep 1
+PreviewFirstFrame 0
+PreviewLastFrame 50
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject E:\Perso\lac\Maison_Perchée_Triplée.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  7.450581e-009 0 0.3 0 0 0 0.9150001 0.9150001 0.9150001
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2755
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Petit_Bout.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.1 0 0.05 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2
+ParentObject 1
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\eau.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -1.6 0 -1.86 12.4 0 0 3.67 3.67 3.67
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1587
+PivotPoint 0.18 0.54 -1.66
+ParentObject 5
+DisplacementMap Planar Image Map
+TextureImage E:\Perso\lac\ripples.iff
+TextureWrapModes 2 2
+TextureFlags 4
+TextureAxis 1
+TextureSize 3.5189 1 2
+TextureCenter 0.1678 0.5311 0
+TextureFalloff 0 0 0.25
+TextureVelocity 0 0 0.0125
+TextureAmplitude 0.050000
+DisplacementMap Planar Image Map
+TextureImage E:\Perso\lac\noise.iff
+TextureWrapModes 2 2
+TextureFlags 12
+TextureAxis 1
+TextureSize 1 1 1
+TextureCenter 0.1678 0.5311 0
+TextureFalloff 0 0 0.25
+TextureVelocity 0 0 -0.013
+TextureAmplitude 0.035000
+DisplacementMap Planar Image Map
+TextureImage E:\Perso\lac\noise.iff
+TextureWrapModes 2 2
+TextureFlags 12
+TextureAxis 2
+TextureSize 1 1 1
+TextureAmplitude 0.035000
+ShadowOptions 4
+
+LoadObject E:\Perso\lac\Dune_Av++.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  1.3 -0.16 14.34 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2563
+PivotPoint 0 0.3 0
+ParentObject 5
+ShadowOptions 7
+
+AddNullObject Null Plan d'eau
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Dune_Ar.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.65 0 17.85 0 0 0 1 0.7900001 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 326
+ParentObject 4
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Dune_Ar.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -5.3 0 3.7 0 0 0 1 0.8400001 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 326
+ParentObject 4
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Dune_Ar.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  7.3 0 0.4000005 0 0 0 1 1.06 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 323
+ParentObject 4
+ShadowOptions 7
+
+AddNullObject Null Bois
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Coupé_1.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.4 -0.5500001 0 66.2 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2613
+PivotPoint 0 -1.1 0
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Coupé_3.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.8 -0.8500001 0.8000001 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2562
+PivotPoint 0 -0.9500002 0
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Tordu_1.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.4 -0.5 0.5999998 -127.8 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 53
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Tordu_2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.6000001 -0.5500001 -0.5499999 16.20002 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 53
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Tordu_2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.250001 -0.5500001 5.05 159.6 0 6.8 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 26
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Tordu_1.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.7 -1.1 5.5 -91.60001 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 49
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Coupé_3.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.45 -1.35 7.450001 21.2 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2613
+PivotPoint 0 -0.9500002 0
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Coupé_1.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.899999 -0.7000001 3.15 112.8 4.800001 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2605
+PivotPoint 0 -1.1 0
+ParentObject 9
+ShadowOptions 7
+
+LoadObject E:\Perso\lac\Bois_Coupé_1.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  2.299999 -1.05 9.650001 233.8 4.800001 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2608
+PivotPoint 0 -1.1 0
+ParentObject 9
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.125000
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  41.0192 10.45 55.87335 225.8 11.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2
+LightColor 255 255 255
+LgtIntensity 2.000000
+LightType 2
+ConeAngle 40.829990
+EdgeAngle 0.000000
+ShadowType 2
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 15.000000
+ShadowFuzziness 6.000000
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  -23.67353 10.45 -8.098832 60 30 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 255
+LgtIntensity 0.300000
+LightType 0
+ShadowType 0
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  -17.19268 3.925 -20.46066 60 30 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 255
+LgtIntensity 0.150000
+NoSpecular 1
+LightType 0
+ShadowType 0
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  58.69458 10.45 26.40889 258.5 11.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 50
+LightColor 255 220 172
+LgtIntensity 1.000000
+LightType 2
+ConeAngle 40.829990
+EdgeAngle 0.000000
+ShadowType 2
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 15.000000
+ShadowFuzziness 6.000000
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  1.077783 3.645699 -9.210034 0 4.8 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 46
+ZoomFactor 2.580000
+Resolution 1
+PixelAspectRatio 2
+LimitedRegion 1
+RegionLimits 0.300000 0.700000 0.000000 1.000000
+SegmentMemory 8500000
+Antialiasing 2
+EnhancedAA 1
+AdaptiveSampling 0
+FilmSize 2
+FieldRendering 0
+MotionBlur 2
+BlurLength 0.500000
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 225 225 225
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 1
+FogMinDist 25.000000
+FogMaxDist 65.000000
+FogMinAmount 0.000000
+FogMaxAmount 1.000000
+FogColor 225 225 225
+BackdropFog 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 2
+RayRecursionLimit 6
+DataOverlayLabel  
+SaveAnimationName E:\Perso\tmp\lacustre2.avi
+AnimationType 1
+EndPlugin
+OutputFilenameFormat 0
+SaveRGBImagesPrefix C:\WINDOWS\BUREAU\l
+RGBImageFormat 0
+
+ViewMode 5
+ViewAimpoint 2.299999 1.000000 0.000000
+ViewDirection 0.000000 -0.174533 0.000000
+ViewZoomFactor 3.200000
+GridNumber 10
+GridSize 5.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 1
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
