@@ -1,0 +1,127 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 60
+PreviewFrameStep 4
+FramesPerSecond 30.000000
+
+LoadObject book pixel\brouillon\courbe anim\c+.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0.09400001 0 0 0 1.697999 0.4020001 1.788
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 387
+DisplacementMap Planar Image Map
+TextureImage book pixel\brouillon\courbe anim\laaaaa.IFF
+TextureWrapModes 2 2
+TextureFlags 4
+TextureAxis 1
+TextureReferenceObj Ref Obj
+TextureSize 1 1 1
+TextureAmplitude 0.300000
+Particle/LineSize 3
+ShadowOptions 7
+
+AddNullObject Ref Obj
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -0.555 -0.01800001 -0.004 0 0 0 1 1 1
+  0 0 0 0 0
+  -0.5300001 -0.01800001 -0.004 0 0 0 1 1 1
+  60 0 0 0 0
+EndBehavior 1
+LockedChannels 390
+ShadowOptions 7
+
+LoadObject book pixel\brouillon\courbe anim\c+.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0.02000002 0.09400001 0 0 0 1.698 0.3760002 1.788
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 389
+DisplacementMap Planar Image Map
+TextureImage book pixel\brouillon\courbe anim\laaaaa.IFF
+TextureWrapModes 2 2
+TextureFlags 4
+TextureAxis 1
+TextureReferenceObj Ref Obj
+TextureSize 1 1 1
+TextureAmplitude -0.300000
+Particle/LineSize 3
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0.005 0.06900002 -5000 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 29
+ZoomFactor 12000.000000
+Resolution 0
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 1.185185
+GridNumber 0
+GridSize 0.200000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

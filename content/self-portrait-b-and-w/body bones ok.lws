@@ -1,0 +1,537 @@
+LWSC
+1
+
+FirstFrame 0
+LastFrame 5
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 60
+PreviewFrameStep 1
+FramesPerSecond 30.000000
+
+LoadObject fra\book\intro\fra\body fra.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+BoneFalloffType 5
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.003857 -2.148293 0.125000
+BoneRestDirection 0.000000 -89.999990 0.000000
+BoneRestLength 1.430417
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0.003857497 -2.148293 0.125 0 -89.99999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.430417
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.522747
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 1.430417 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ParentObject 1
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.520201
+BoneRestDirection -89.999996 0.000000 0.000000
+BoneRestLength 0.567113
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.5202011 -90 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+ParentObject 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.567114
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 1.261228
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.5671135 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 3
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 -0.075000 1.261200
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 1.200099
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 -0.075 1.2612 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ParentObject 4
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.200099
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.431761
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 1.200099 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 5
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.522747
+BoneRestDirection 89.999996 0.000000 0.000000
+BoneRestLength 0.450952
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.5227469 90 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 2
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.450952
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 1.384616
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.450952 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 320
+ParentObject 7
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.384616
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 1.153664
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 1.384616 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 325
+ParentObject 8
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.153664
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.384828
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 1.153664 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 9
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.005470
+BoneRestDirection 0.000000 -179.999993 0.000000
+BoneRestLength 0.494417
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.005469523 0 -180 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+ParentObject 1
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 -0.125000 0.494417
+BoneRestDirection -63.995096 0.000000 0.000000
+BoneRestLength 0.315508
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 -0.1249999 0.494417 -63.99509 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 53
+ParentObject 11
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.315508
+BoneRestDirection 55.446496 0.000000 0.000000
+BoneRestLength 1.405979
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.3155078 55.4465 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 12
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.405979
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 2.055802
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 1.405979 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 13
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 -0.125000 0.494417
+BoneRestDirection 64.000000 0.000000 0.000000
+BoneRestLength 0.308948
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 -0.125 0.494417 64 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ParentObject 11
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.308948
+BoneRestDirection -54.339199 0.000000 0.000000
+BoneRestLength 1.671493
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.3089485 -54.3392 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ParentObject 15
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.671493
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 1.828000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 1.671493 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 16
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 2.055802
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.239802
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 2.055802 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 14
+AddBone
+BoneName Bone
+ShowBone 1 7
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 1.828000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.078000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 1.828 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 17
+Particle/LineSize 1
+ObjPolygonEdges 2
+ObjEdgeColor 255 255 255
+PolygonEdgesZScale 0.998000
+ShadowOptions 7
+
+LoadObject fra\book\intro\fra\tete fra 2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.003857497 -0.1951292 0.1250004 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1536
+PivotPoint 0 -0.2250001 0.1
+ParentObject 1
+Particle/LineSize 1
+ObjPolygonEdges 2
+ObjEdgeColor 0 0 0
+PolygonEdgesZScale 0.998000
+ShadowOptions 7
+
+LoadObject fra\book\intro\fra\tiffes fra.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 2
+Particle/LineSize 1
+ObjPolygonEdges 2
+ObjEdgeColor 255 255 255
+PolygonEdgesZScale 0.998000
+ShadowOptions 7
+
+AddNullObject genoux 2
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.5750001 -4.525 -0.275 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AddNullObject pied 2
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.8500001 -6.25 -0.275 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+ShadowOptions 7
+
+AddNullObject pied 1
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.8749998 -6.25 -0.275 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+ShadowOptions 7
+
+AddNullObject genoux 1
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.5749999 -4.549999 -0.275 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+ShadowOptions 7
+
+AddNullObject bassin
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -2.15 0.475 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+ShadowOptions 7
+
+AddNullObject coude 1
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -1.95 -0.225 0.2 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+ShadowOptions 7
+
+AddNullObject main 2
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  3.25 -0.225 0.175 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+ShadowOptions 7
+
+AddNullObject main 1
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -3.3 -0.225 0.2 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+ShadowOptions 7
+
+AddNullObject coude 2
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  1.975 -0.225 0.2 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 6
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 0
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0 -1.125 -4.324999 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ZoomFactor 0.710000
+Resolution 1
+CustomSize 400 300
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 1
+AdaptiveSampling 0
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGBImagesPrefix book pixel\brouillon\intro\fra\bruts\pose.
+RGBImageFormat 0
+FullSceneParamEval 0
+
+ViewMode 5
+ViewAimpoint -0.193461 -2.497673 0.250000
+ViewDirection 0.265290 -0.036652 0.000000
+ViewZoomFactor 13.500000
+GridNumber 0
+GridSize 5.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

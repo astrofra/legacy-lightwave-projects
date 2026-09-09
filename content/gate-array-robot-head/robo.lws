@@ -1,0 +1,106 @@
+LWSC
+1
+
+FirstFrame 0
+LastFrame 100
+FrameStep 10
+PreviewFirstFrame 1
+PreviewLastFrame 100
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject perso\book\3d\robo6.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  4
+  0 0 0 30.5 22.5 0 1 1 1
+  0 0 0.98 0 0
+  0 0 0 0 1.499997 0 1 1 1
+  25 0 0 0 0
+  0 0 0 -30.5 22.5 0 1 1 1
+  50 0 1 0 0
+  0 0 0 -22.09999 38.79998 -12.40001 1 1 1
+  100 0 0 0 0
+EndBehavior 1
+LockedChannels 24
+Particle/LineSize 1
+ObjPolygonEdges 2
+ObjEdgeColor 0 0 0
+PolygonEdgesZScale 0.998000
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  3
+  -25.29309 124.5001 -82.7852 13.59997 50.20003 0 1 1 1
+  0 0 0 0 0
+  -17.15158 124.5001 -68.74614 13.39997 54.90003 0 1 1 1
+  50 0 0 0 0
+  -25.29309 124.5001 -82.7852 13.59997 50.20003 0 1 1 1
+  100 0 0 0 0
+EndBehavior 1
+ParentObject 1
+LightColor 255 255 255
+LgtIntensity 50.000000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0 64.75711 -110.0004 0 22.1 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ZoomFactor 3.200000
+Resolution 0
+PixelAspectRatio 2
+SegmentMemory 8850000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 128 128 128
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 1
+RayRecursionLimit 2
+DataOverlayLabel  
+OutputFilenameFormat 1
+SaveRGBImagesPrefix perso\book\3d\brutsro\ro.2.
+RGBImageFormat 0
+
+ViewMode 5
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 4.000000
+GridNumber 10
+GridSize 20.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
