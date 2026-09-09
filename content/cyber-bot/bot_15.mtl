@@ -1,0 +1,40 @@
+newmtl eye
+Ns 186
+d 1
+illum 2
+Kd 0.160784 0.160784 0.160784
+Ka 0 0 0
+Ks 1 1 1
+
+newmtl ground
+Ns 186
+d 1
+illum 2
+Kd 0.784314 0.784314 0.784314
+Ka 0 0 0
+Ks 1 1 1
+
+newmtl metal
+Ns 186
+d 1
+illum 2
+Kd 0.996078 0.737255 0.254902
+Ka 0 0 0
+Ks 1 1 1
+
+newmtl teeth
+Ns 186
+d 1
+illum 2
+Kd 0.847059 0.847059 0.847059
+Ka 0 0 0
+Ks 1 1 1
+
+newmtl tube
+Ns 186
+d 1
+illum 2
+Kd 0.188235 0.188235 0.188235
+Ka 0 0 0
+Ks 1 1 1
+
