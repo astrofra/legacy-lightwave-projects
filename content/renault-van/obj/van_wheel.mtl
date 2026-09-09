@@ -1,0 +1,15 @@
+# MTL written from K:\perso\Dropbox\m4nkind\Gfx\fra\Projets_LW_abandonnés\renault_van\obj\van_wheel.obj
+newmtl 07
+Kd 0.317647 0.317647 0.317647
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0 0 0
+newmtl 08
+Kd 0.682353 0.682353 0.682353
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.5 0.5 0.5

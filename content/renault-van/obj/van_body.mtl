@@ -1,0 +1,43 @@
+# MTL written from K:\perso\Dropbox\m4nkind\Gfx\fra\Projets_LW_abandonnés\renault_van\obj\van_body.obj
+newmtl 01
+Kd 0.454902 0.454902 0.454902
+Ns 9.84915
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.43 0.43 0.43
+newmtl 02
+Kd 0.882353 0.682353 0
+Ns 14.9285
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.585 0.585 0.585
+newmtl 03
+Kd 0.592157 0.686275 0.717647
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.865 0.865 0.865
+newmtl 04
+Kd 0.592157 0.686275 0.717647
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.865 0.865 0.865
+newmtl 05
+Kd 0.996078 0.423529 0.00392157
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.865 0.865 0.865
+newmtl 06
+Kd 0.858824 0.858824 0.858824
+Ns 256
+d 1
+illum 1
+Ka 0 0 0
+Ks 0.865 0.865 0.865
