@@ -1,0 +1,812 @@
+LWSC
+3
+
+RenderRangeType 0
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+RenderRangeArbitrary 1-60
+PreviewFirstFrame 0
+PreviewLastFrame 60
+PreviewFrameStep 1
+CurrentFrame 60
+FramesPerSecond 25
+Plugin MasterHandler 1 Fprime
+BEGIN WORLEY_LABS_PLUGIN FPrime
+# 1463179080 x86 FPrime Version 1.0-RE Apr  2 2005
+# Saved Sun Oct 30 15:24:27 2005
+
+VERSION 1
+ BEGIN RADIO RADTYPE
+  SELECTION 0
+ END
+ BEGIN NUM RADSTRENGTH
+ VALUE 1
+ END
+ BEGIN NUM RADBOUNCE
+ VALUE 1
+ END
+ BEGIN NUM DOF25D
+ VALUE 1
+ END
+ BEGIN NUM MB25D
+ VALUE 1
+ END
+ BEGIN NUM ARQUALITY
+ VALUE 0.5
+ END
+END WORLEY_LABS_PLUGIN FPrime 
+EndPlugin
+
+LoadObjectLayer 1 F:fra/3D/gelato_project/gelato_stone_sss.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 142.5 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+PivotPosition 0 134.0294 0
+SubPatchLevel 3 6
+ShadowOptions 7
+ExcludeLight 20000003
+ExcludeLight 20000002
+
+LoadObjectLayer 2 F:fra/3D/gelato_project/gelato_stone_sss.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+SubPatchLevel 3 3
+ShadowOptions 7
+ExcludeLight 20000001
+
+AddNullObject SSS_caster
+ShowObject 7 -1 0.376471 0.878431 0.941177
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  4
+  Key -454.43976 0 0 0 0 0 0 492.38852 0
+  Key 38.184006 0.58138889 0 0 0 0 416.66507 443.34122 0
+  Key 405.56653 1.2 0 0 0 0 233.45055 452.85422 0
+  Key 724.48877 2.4000001 0 0 0 0 318.84842 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  4
+  Key 438.5975 0 0 0 0 0 0 156.0786 0
+  Key 594.75067 0.58138889 0 0 0 0 119.74895 127.41563 0
+  Key 685.76208 1.2 0 0 0 0 -163.41809 -317.0032 0
+  Key 114.32937 2.4000001 0 0 0 0 -571.30048 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  4
+  Key 525.18494 0 0 0 0 0 0 7.5313749 0
+  Key 532.71991 0.58138889 0 0 0 0 -9.2034016 -9.7926311 0
+  Key 506.1889 1.2 0 0 0 0 -137.39917 -266.53094 0
+  Key 128.78979 2.4000001 0 0 0 0 -377.31177 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AddNullObject Focus
+ShowObject 7 -1 0.376471 0.878431 0.941177
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 115.88414 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -121.94656 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AmbientColor 1 1 1
+AmbientIntensity 0
+
+AddLight
+LightName Light
+ShowLight 1 -1 0.941177 0.376471 0.941177
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 1016.6582 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 -252.47078 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 -284.29883 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -1.5707964 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+HController 1
+PController 1
+ParentItem 10000002
+TargetItem 10000000
+LightColor 1 1 1
+LightIntensity 2
+AffectCaustics 1
+LightType 2
+LightConeAngle 20.5
+LightEdgeAngle 20.5
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 17.5
+ShadowFuzziness 2
+
+AddLight
+LightName Light
+ShowLight 1 -1 0.941177 0.376471 0.941177
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 152.25336 0 0 0 0 0 0 1016.6582 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 -252.47078 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 129.57315 0 0 0 0 0 0 -284.29883 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 2.7225101 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.39030719 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+HController 1
+PController 1
+ParentItem 10000002
+TargetItem 10000000
+LightColor 1 1 1
+LightIntensity 0.26
+AffectSpecular 0
+LightType 2
+LightConeAngle 20.5
+LightEdgeAngle 20.5
+ShadowType 2
+ShadowColor 0 0 0
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 14
+ShadowFuzziness 4
+
+AddLight
+LightName Light
+ShowLight 1 -1 0.941177 0.376471 0.941177
+SchematicPosition 1.200000 -0.800000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -38.063332 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 251.52432 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 45.736343 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 2.4298024 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.6264984 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+HController 1
+PController 1
+ParentItem 10000002
+TargetItem 10000000
+LightColor 0.733333 0.513726 0.266667
+LightIntensity 1
+AffectSpecular 0
+LightType 2
+LightConeAngle 5
+LightEdgeAngle 5
+ShadowType 0
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key -6.7948456 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 57.052887 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -708.29211 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 1.9557774e-008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -0.089011788 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.0052359849 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 3.2
+ResolutionMultiplier 1.0
+FrameSize 640 480
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 1
+AntiAliasingLevel 4
+ReconstructionFilter 9
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+Plugin EnvironmentHandler 1 LW_ImageWorld
+1
+0
+0
+0
+1
+0.00044713338
+EndPlugin
+FogType 0
+DitherIntensity 3
+AnimatedDither 0
+Plugin PixelFilterHandler 1 Dof_Data
+5
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    589.25403
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0.0099999998
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    10
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    4
+    0
+  }
+}
+0
+0
+1
+4
+1
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1 1 1
+    0
+  }
+}
+0
+0
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+EndPlugin
+PluginEnabled 0
+Plugin PixelFilterHandler 2 Dof_Render
+EndPlugin
+PluginEnabled 0
+Plugin ImageFilterHandler 1 LW_Virtual_Darkroom2.0
+2
+Basic 2 1 0.64999998 1 1 0 24 32 1 0.00039999999
+BWFilmPtX -4 -3.75 -3.5 -3.25 -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0
+BWFilmPtY 0.083300002 0.20829999 0.25 0.375 0.54170001 0.70829999 0.91670001 1.1667 1.375 1.5833 1.7917 1.9583 2.1666999 2.375 2.5416999 2.7083001 2.8333001 0 0 0 0
+BWPaperPtX -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 0 0 0 0 0 0 0 0 0 0 0 0 0
+BWPaperPtY 0.074074 0.111111 0.175926 0.5 1.111111 1.675926 2.07407 2.1481481 0 0 0 0 0 0 0 0 0 0 0 0 0
+ColorFilmRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmRedPtY 0.322 0.32800001 0.34400001 0.39399999 0.47600001 0.59799999 0.74800003 0.90600002 1.064 1.228 1.388 1.54 1.684 1.826 1.96 2.082 2.1960001 0 0 0 0
+ColorPaperRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperRedPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.17647 2 2.5588 2.7058799 2.7058799 2.7058799 0 0 0 0 0 0 0 0
+ColorFilmGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmGreenPtY 0.68400002 0.68599999 0.69 0.73000002 0.81599998 0.94599998 1.102 1.266 1.4299999 1.5880001 1.744 1.902 2.0480001 2.184 2.3099999 2.428 2.5339999 0 0 0 0
+ColorPaperGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperGreenPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.5294499 2.6029 2.6322999 0 0 0 0 0 0 0 0
+ColorFilmBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmBluePtY 0.935 0.95499998 1.1015 1.11 1.23 1.375 1.545 1.715 1.89 2.0550001 2.2249999 2.3900001 2.5550001 2.7149999 2.865 3 3.125 0 0 0 0
+ColorPaperBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperBluePtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.4852901 2.5441 2.57353 0 0 0 0 0 0 0 0
+Percent_RGB 0 0 0
+Negative_RGB 1 0 0 0 0.25 0 0 0 0.050000001
+Printing_RGB 0.94999999 0.029999999 0.02 0.029999999 0.94 0.029999999 0.02 0.029999999 0.94999999
+BWMTFPtX 1 60.900002 120.8 180.7 240.60001 300.5 360.39999 420.5 480.20001 540.09998 600 0 0 0 0 0 0 0 0 0 0
+BWMTFPtY 1 0.91759998 0.55379999 0.32730001 0.2316 0.1961 0.16060001 0.1252 0.089699998 0.054299999 0.02 0 0 0 0 0 0 0 0 0 0
+EndPlugin
+PluginEnabled 0
+
+RenderMode 2
+RayTraceEffects 15
+DepthBufferAA 0
+RayRecursionLimit 4
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 1
+SaveRGB 1
+SaveRGBImagesPrefix F:\fra\3D\gelato_project\raws\sss\sss_stone_
+RGBImageSaver LW_TIFF24(.tif)
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0 0 0
+ViewZoomFactor 8
+
+GridNumber 10
+GridSize 500
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 1
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor_fv 0 0 0
+
+CurrentObject 2
+CurrentLight 2
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}
+ImageEditorData
+NumberOfClips 0
