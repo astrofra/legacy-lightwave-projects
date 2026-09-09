@@ -1,0 +1,191 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 50
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject E:\fra\mandarine\3d\template\kenet_furn_5.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+UnseenByCamera 1
+ShadowOptions 7
+
+LoadObject E:\fra\mandarine\3d\template\w1.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject E:\fra\mandarine\3d\template\w2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+UnseenByCamera 1
+ShadowOptions 7
+
+LoadObject E:\fra\mandarine\3d\template\w3.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ShadowOptions 7
+
+LoadObject E:\fra\mandarine\3d\template\w4.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject E:\fra\mandarine\3d\template\w5.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject E:\fra\mandarine\3d\template\w6.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName ampoule
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -0.6299998 2.014999 0.185 0 90.20003 0 0.9860002 0.9860002 0.9860002
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 4
+LightFalloff 1
+LightRange 3.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -0.3490207 3.989998 -6.040773 0.1999969 15.2 0 3.590001 3.590001 3.590001
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+LightColor 255 255 255
+LgtIntensity 0.600000
+LightType 4
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -0.3490207 3.989998 -6.040773 0.1999969 15.2 0 6.374002 6.374002 6.374002
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 4
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  -0.5899999 500 0.5 0 90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2
+ZoomFactor 200.000000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 1850000
+Antialiasing 1
+AdaptiveSampling 0
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 1
+RayRecursionLimit 16
+DataOverlayLabel  
+
+ViewMode 4
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 1.777778
+GridNumber 0
+GridSize 1.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
