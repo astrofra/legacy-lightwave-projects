@@ -1,0 +1,352 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 200
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject S:\solbig_opti.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\lunette_resto.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.142 0.172 -0.062 0 0 16.5 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1560
+PivotPoint -0.142 0.172 -0.062
+ParentObject 4
+ShadowOptions 7
+
+LoadObject S:\ensigne_resto.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.132608 0.1255 -0.0615 0 -10.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 46
+PivotPoint -0.1365 0.1285 -0.0615
+ParentObject 4
+ObjDissolve (envelope)
+  1
+  14
+  0.25
+  0 0 0 0 0
+  0.02
+  1 0 0 0 0
+  0.286
+  2 0 1 0 0
+  0.26
+  10 0 1 0 0
+  0
+  11 0 0 0 0
+  0.21
+  12 0 0 0 0
+  0.009999992
+  13 0 1 0 0
+  0.009999998
+  18 0 0.98 0 0
+  0.16
+  19 0 0 0 0
+  0.02
+  20 0 1 0 0
+  0.009999981
+  24 0 1 0 0
+  0.19
+  25 0 0 0 0
+  0
+  26 0 1 0 0
+  0.26
+  27 0 0 0 0
+EndBehavior 2
+ShadowOptions 7
+
+LoadObject S:\resto.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -0.004 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.1585 0.09599999 -0.07350001 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\ballon_resto.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+Metamorph (envelope)
+  1
+  17
+  0
+  0 0 1 0 0
+  1
+  24 0 0 0 0
+  0
+  50 0 1 0 0
+  0.91
+  74 0 0 0 0
+  0
+  100 0 1 0 0
+  0.8600001
+  124 0 0 0 0
+  0
+  150 0 1 0 0
+  0.9339998
+  174 0 0 0 0
+  0
+  200 0 1 0 0
+  1
+  224 0 0 0 0
+  0
+  250 0 1 0 0
+  0.9300001
+  274 0 0 0 0
+  0
+  300 0 1 0 0
+  0.9100001
+  324 0 0 0 0
+  0
+  350 0 1 0 0
+  0.95
+  374 0 0 0 0
+  0
+  400 0 1 0 0
+EndBehavior 2
+MorphTarget 7
+MorphSurfaces 1
+ShadowOptions 7
+
+LoadObject S:\ballon_resto_morf2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ObjDissolve 1.000000
+ShadowOptions 7
+
+LoadObject S:\sign_2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0.1195 -0.06150001 0 0 0 1 1 0.8559998
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 192
+PivotPoint 0 0.1195 -0.06150001
+ObjDissolve (envelope)
+  1
+  9
+  1
+  0 0 1 0 0
+  0
+  25 0 1 0 0
+  1
+  50 0 0.99 0 0
+  0
+  75 0 0 0 0
+  1
+  100 0 0 0 0
+  0
+  125 0 0 0 0
+  1
+  150 0 0 0 0
+  0
+  175 0 0 0 0
+  1
+  200 0 1 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\sign_1.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0.119 -0.06150002 0 0 0 1 1 0.8540001
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 192
+PivotPoint 0 0.119 -0.06150002
+ObjDissolve (envelope)
+  1
+  9
+  0
+  0 0 0 0 0
+  1
+  25 0 0 0 0
+  0
+  50 0 0 0 0
+  1
+  75 0 0 0 0
+  0
+  100 0 0 0 0
+  1
+  125 0 0 0 0
+  0
+  150 0 0 0 0
+  1
+  175 0 0 0 0
+  0
+  200 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\star.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -0.135 0.132 -0.04599998 0 0 0 1.5 1.5 1.5
+  0 0 0 0 0
+  -0.135 0.132 -0.046 0 -360 0 1.5 1.5 1.5
+  100 0 0 0 0
+EndBehavior 2
+LockedChannels 3078
+PivotPoint -0.13 0.129 -0.06199998
+ShadowOptions 7
+
+LoadObject S:\tour_2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.02228167 -0.0115 0.01581307 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\neons.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -0.212 0 -0.13525 0 0 0 1 1 1
+  0 0 0 0 0
+  -0.212 0 -0.13525 -360 0 0 1 1 1
+  50 0 0 0 0
+EndBehavior 2
+PivotPoint -0.212 0 -0.13525
+ParentObject 11
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  2
+  -2 2 -2 45 35 0 1 1 1
+  0 0 0 0 0
+  -2 2 -2 45 35 0 1 1 1
+  301 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0 0.2435 0 -114 -15.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+LightColor 100 74 28
+LgtIntensity 2.000000
+LightType 0
+ShadowType 1
+
+ShowCamera 0 7
+CameraMotion (unnamed)
+  9
+  4
+  0.1152256 0.279 -0.5123702 -26.69999 8.099988 0 1 1 1
+  0 0 0 0 0
+  0.169829 0.08050006 -0.2485003 -61.79998 -20.9 0 1 1 1
+  50 0 0 0 0
+  0.08281941 0.3095001 0.2356089 -147 25.89999 0 1 1 1
+  100 0 0 0 0
+  -0.5755845 0.04150004 0.4694892 -223.9 -9.4 0 1 1 1
+  200 0 0 0 0
+EndBehavior 1
+ZoomFactor 3.200000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 1850000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 250 230 120
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 1
+ViewAimpoint -0.183500 0.129500 -0.128000
+ViewDirection -4.323180 0.012218 0.000000
+ViewZoomFactor 58.092979
+GridNumber 0
+GridSize 0.050000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 1
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

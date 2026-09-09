@@ -1,0 +1,110 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 12
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 100
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject S:\cab.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 -0.4264686 0 0 0 1 1 1
+  100 0 0 0 0
+EndBehavior 0
+LockedChannels 3
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -0.2283441 0.1804999 -0.2484962 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0.1021897 -0.04375 0.130535 -139.2 -30.8 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 128 128 128
+LgtIntensity 2.000000
+LightType 0
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  4
+  -0.02344975 0.02824992 -0.2714068 -333.6001 10.19999 0 1 1 1
+  0 0 0 0 0
+  -0.02434224 0.02824992 -0.2720802 -331.0001 15.69999 0 1 1 1
+  50 0 0 0 0
+  -0.02434224 0.02824992 -0.2720802 -210.6002 24.99999 0 1 1 1
+  69 0 0 0 0
+  -0.02434224 0.02824992 -0.2720802 -200.5002 15.19998 0 1 1 1
+  100 0 0 0 0
+EndBehavior 1
+ZoomFactor 2.000000
+Resolution 1
+CustomSize 400 300
+PixelAspectRatio 2
+SegmentMemory 8050000
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 128 128 128
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+GlowEffect 1
+GlowIntensity 0.150000
+GlowRadius 8.000000
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint 0.056250 0.000000 -0.438500
+ViewDirection -0.260054 -1.282817 0.000000
+ViewZoomFactor 1.777778
+GridNumber 10
+GridSize 0.050000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

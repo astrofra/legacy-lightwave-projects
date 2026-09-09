@@ -1,0 +1,152 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 150
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject S:\ufo.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  14
+  0 0 57.75746 0 0 0 0.6580001 0.6580001 0.6580001
+  0 0 0 0 0
+  0 0 1.543287 0 0 0 1 1 1
+  60 0 0 0 0
+  0 0 0.532724 0 0 0 1 1 1
+  70 0 0 0 0
+  0 0 -0.7367482 0 0 0 1 1 1
+  75 0 0 0 0
+  1.703758 3.4 -2.497525 -15.8 0 1.2 1 1 1
+  77 0 0 0 0
+  1.800167 3.650001 -2.470969 -15.8 0 1.2 1 1 1
+  80 0 0 0 0
+  1.800167 3.650001 -2.470969 -15.8 0 1.2 1 1 1
+  82 0 0 0 0
+  1.800167 3.650001 -2.470969 -15.8 0 1.2 1 1 1
+  92 0 0 0 0
+  1.342222 3.650001 -2.597109 -20.1 2.6 18.2 1 1 1
+  96 0 0 0 0
+  1.342222 3.650001 -2.597109 -20.1 2.6 18.2 1 1 1
+  105 0 0 0 0
+  1.342222 3.650001 -2.597109 -20.1 2.6 18.2 1 1 1
+  115 0 0 0 0
+  1.342222 3.650001 -2.597109 -20.1 2.6 18.2 1 1 1
+  117 0 0 0 0
+  1.342222 6.968086 -19.91855 -4.074738 12.49325 4.120905 1 1 1
+  125 0 0 0 0
+  1.342222 12.3 -31.3108 0 18.99999 0 1 1 1
+  130 0 0 0 0
+EndBehavior 1
+LockedChannels 27
+ShadowOptions 7
+
+LoadObject S:\skybox.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 5 5 5
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 24
+ShadowOptions 7
+
+AmbientColor 0 128 192
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 93.39999 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 0 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 -100.6 -36.3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+LightColor 0 64 128
+LgtIntensity 2.000000
+LightType 0
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  8
+  3.002839 4 -7.337228 -15.4 25.1 13.3 1 1 1
+  0 0 0 0 0
+  3.002839 4 -7.337228 -15.4 25.1 13.3 1 1 1
+  117 0 1 0 0
+  3.002839 -9.450002 -7.337228 -15.4 25.1 13.3 1 1 1
+  120 0 -1 0 0
+  3.002839 10.45 -7.337228 -15.4 25.1 13.3 1 1 1
+  122 0 -0.2299999 0 0
+  3.002839 0.2749988 -7.337228 -15.4 25.1 13.3 1 1 1
+  128 0 -1 0 0
+  3.002839 4.275001 -7.337228 -15.4 25.1 13.3 1 1 1
+  131 0 -1 0 0
+  3.002839 3.6 -7.337228 -15.4 25.1 13.3 1 1 1
+  138 0 0 0 0
+  3.002839 4 -7.337228 -15.4 25.1 13.3 1 1 1
+  146 0 -1 0 0
+EndBehavior 1
+LockedChannels 5
+ZoomFactor 1.202000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 1850000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint 0.000000 5.000000 -15.224999
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 2.613570
+GridNumber 0
+GridSize 5.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

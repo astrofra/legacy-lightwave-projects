@@ -1,0 +1,396 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 250
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject S:\blue_planet.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 6.218 6.218 6.218
+  0 0 0 0 0
+  0 0 0 -12.6 0 0 6.218 6.218 6.218
+  250 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ParentObject 3
+ShadowOptions 7
+
+LoadObject S:\skybox.lwo
+ShowObject 1 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 5 5 5
+  0 0 0 0 0
+  0 0 0 -3.9 0 0 5 5 5
+  250 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ParentObject 3
+ShadowOptions 7
+
+AddNullObject world_sizer
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\lady_lo\body.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -1.925 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2589
+PivotPoint 0 -0.82 0
+ParentObject 19
+ShadowOptions 7
+
+LoadObject S:\lady_lo\head.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 1.84 -0.095 0 19.5 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+PivotPoint 0 1.84 0.03
+ParentObject 4
+ShadowOptions 7
+
+LoadObject S:\lady_lo\helmet.lwo
+ShowObject 4 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 1.84 -5.587935e-009 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+PivotPoint 0 1.84 -5.587935e-009
+ParentObject 4
+ShadowOptions 7
+
+LoadObject S:\lady_lo\l_bras.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.7499999 1.56 0.04 0 48.49999 74.1 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1048
+PivotPoint 0.7499999 1.56 0.04
+ParentObject 4
+ShadowOptions 7
+
+LoadObject S:\lady_lo\l_poignet.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.7499999 1.07 0.09000003 0 43.99999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint 0.7499999 1.07 0.09000003
+ParentObject 7
+ShadowOptions 7
+
+LoadObject S:\lady_lo\l_main.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.7299999 0.7899999 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1024
+PivotPoint 0.7299999 0.7899999 0
+ParentObject 8
+ShadowOptions 7
+
+LoadObject S:\lady_lo\r_bras.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.75 1.55 0.04000001 -10.1 0 -82.89996 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1072
+PivotPoint -0.75 1.55 0.04000001
+ParentObject 4
+ShadowOptions 7
+
+LoadObject S:\lady_lo\r_poignet.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.74 1.07 0.06999998 0 47.1 -31.5 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint -0.74 1.07 0.06999998
+ParentObject 10
+ShadowOptions 7
+
+LoadObject S:\lady_lo\r_main.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.7199999 0.7899999 -3.72529e-009 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint -0.7199999 0.7899999 -3.72529e-009
+ParentObject 11
+ShadowOptions 7
+
+LoadObject S:\lady_lo\l_cuisse.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.37 0.27 0 0 -27.7 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint 0.37 0.27 0
+ParentObject 4
+ShadowOptions 7
+
+LoadObject S:\lady_lo\l_cheville.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.36 -0.11 -0.14 0 -31 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint 0.36 -0.11 -0.14
+ParentObject 13
+ShadowOptions 7
+
+LoadObject S:\lady_lo\l_foot.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.37 -0.5599999 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1024
+PivotPoint 0.37 -0.5599999 0
+ParentObject 14
+ShadowOptions 7
+
+LoadObject S:\lady_lo\r_cuisse.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.36 0.27 0 0 -43.5 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint -0.36 0.27 0
+ParentObject 4
+ShadowOptions 7
+
+LoadObject S:\lady_lo\r_cheville.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.36 -0.1 -0.14 0 -23.40001 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint -0.36 -0.1 -0.14
+ParentObject 16
+ShadowOptions 7
+
+LoadObject S:\lady_lo\r_foot.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.36 -0.5499999 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1024
+PivotPoint -0.36 -0.5499999 0
+ParentObject 17
+ShadowOptions 7
+
+AddNullObject Null_gal
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -18.03005 16.65 120.4329 -22.50002 -31.4 -5.4 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+LoadObject S:\hallo2d.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 0.4520001 0.4520001 0.4520001
+  0 0 0 0 0
+EndBehavior 2
+LockedChannels 24
+ParentObject 1
+ShadowOptions 7
+
+LoadObject S:\lady_lo\body_cable.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.65 0.7 0.125 0 50.10003 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1576
+PivotPoint 0.65 0.7 0.125
+ParentObject 4
+ShadowOptions 7
+
+AmbientColor 128 0 0
+AmbIntensity 1.000000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  86.70004 100.3 -3.925009 279.4999 25.6 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 54
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 1
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  100.275 100.3 3.44999 279.4999 25.6 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 54
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 1
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  114.25 100.3 10.07499 279.4999 25.6 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 54
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 1
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  127.9001 100.3 17.39999 279.4999 25.6 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 54
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 1
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  4
+  -11.76235 18.5487 118.4006 287.7001 13.1 -7.600001 1 1 1
+  0 0 0 0 0
+  -13.0818 17.87104 124.6204 231.8419 8.807722 -4.549766 1 1 1
+  45 0 0 0 0
+  -16.8335 17.4487 128.5979 179.5 5.699999 0 1 1 1
+  100 0 0 0 0
+  -19.38297 19.89869 128.5256 178.1 16.2 19.7 1 1 1
+  250 0 0 0 0
+EndBehavior 1
+LockedChannels 2
+ParentObject 3
+ZoomFactor 3.200000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 1850000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 1
+RayRecursionLimit 16
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint -17.600824 16.318760 120.988052
+ViewDirection -10.538284 -0.216421 0.000000
+ViewZoomFactor 45.562538
+GridNumber 0
+GridSize 5.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

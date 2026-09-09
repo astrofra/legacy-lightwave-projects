@@ -1,0 +1,114 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 50
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject S:\test\sphere.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.0241343 0.04799999 -0.04068688 0 0 0 0.5260002 0.5260002 0.5260002
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\test\sol.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.05043989 -0.03900001 0.05533822 0 0 0 1.118 1.118 1.118
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\test\solsol.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.03520352 0.004499989 0.02256605 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\test\sphere.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -0.2934994 0.1660001 -0.2884996 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 1
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0.1243514 0.181 -0.2499617 -36.60001 24.10001 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ZoomFactor 3.200000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 1850000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 1
+RayRecursionLimit 16
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 1.777778
+GridNumber 0
+GridSize 0.100000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

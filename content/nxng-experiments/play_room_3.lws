@@ -1,0 +1,476 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 400
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject S:\room_sol.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\room_wallz_source.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+Metamorph 1.000000
+MorphTarget 8
+MorphSurfaces 1
+ShadowOptions 7
+
+LoadObject S:\room_piedestal.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\room_pipe_int.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\room_pipe_ext.lwo
+ShowObject 4 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\room_dessous_bague.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\room_reflet_2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject S:\room_wallz_target.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ObjDissolve 1.000000
+ShadowOptions 7
+
+LoadObject S:\gus_lo\body.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -2 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 2561
+PivotPoint 0 -2.809999 0
+ParentObject 24
+ShadowOptions 7
+
+LoadObject S:\gus_lo\head.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  8
+  0 1.84 0.03 0 0 0 1 1 1
+  0 0 0 0 0
+  0 1.84 0.03 0 0 0 1 1 1
+  100 1 1 0 0
+  0 1.84 0.03 0 -6.100007 0 1 1 1
+  105 0 -1 0 0
+  0 1.84 0.03 0 5.9 0 1 1 1
+  110 0 0 0 0
+  0 1.84 0.03 0 -5.100008 0 1 1 1
+  115 0 0 0 0
+  0 1.84 0.03 0 10.5 0 1 1 1
+  120 0 0 0 0
+  0 1.84 0.03 0 -2.700006 0 1 1 1
+  125 0 0 0 0
+  0 1.84 0.03 0 0 0 1 1 1
+  130 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+PivotPoint 0 1.84 0.03
+ParentObject 9
+ShadowOptions 7
+
+LoadObject S:\gus_lo\helmet.lwo
+ShowObject 4 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 1.84 -5.587935e-009 0 0.1 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+PivotPoint 0 1.84 -5.587935e-009
+ParentObject 9
+ShadowOptions 7
+
+LoadObject S:\gus_lo\l_bras.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.7499999 1.56 0.04 0 73.89999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint 0.7499999 1.56 0.04
+ParentObject 9
+ShadowOptions 7
+
+LoadObject S:\gus_lo\l_poignet.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.7499999 1.07 0.09000003 0 0 -43.59999 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1048
+PivotPoint 0.7499999 1.07 0.09000003
+ParentObject 12
+ShadowOptions 7
+
+LoadObject S:\gus_lo\l_main.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.7299999 0.7899999 0 -48.09999 17.8 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1072
+PivotPoint 0.7299999 0.7899999 0
+ParentObject 13
+ShadowOptions 7
+
+LoadObject S:\gus_lo\r_bras.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.75 1.55 0.04000001 0 67.09999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint -0.75 1.55 0.04000001
+ParentObject 9
+ShadowOptions 7
+
+LoadObject S:\gus_lo\r_poignet.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.74 1.07 0.06999998 0 0 55.50001 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1048
+PivotPoint -0.74 1.07 0.06999998
+ParentObject 15
+ShadowOptions 7
+
+LoadObject S:\gus_lo\r_main.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.7199999 0.7899999 -3.72529e-009 -47.10002 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1072
+PivotPoint -0.7199999 0.7899999 -3.72529e-009
+ParentObject 16
+ShadowOptions 7
+
+LoadObject S:\gus_lo\l_cuisse.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.37 0.27 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint 0.37 0.27 0
+ParentObject 9
+ShadowOptions 7
+
+LoadObject S:\gus_lo\l_cheville.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.36 -0.11 -0.14 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint 0.36 -0.11 -0.14
+ParentObject 18
+ShadowOptions 7
+
+LoadObject S:\gus_lo\l_foot.lwo
+ShowObject 8 2
+ObjectMotion (unnamed)
+  9
+  1
+  0.37 -0.5599999 0 -30.09999 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1032
+PivotPoint 0.37 -0.5599999 0
+ParentObject 19
+ShadowOptions 7
+
+LoadObject S:\gus_lo\r_cuisse.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.36 0.27 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1064
+PivotPoint -0.36 0.27 0
+ParentObject 9
+ShadowOptions 7
+
+LoadObject S:\gus_lo\r_cheville.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.36 -0.1 -0.14 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1024
+PivotPoint -0.36 -0.1 -0.14
+ParentObject 21
+ShadowOptions 7
+
+LoadObject S:\gus_lo\r_foot.lwo
+ShowObject 8 6
+ObjectMotion (unnamed)
+  9
+  1
+  -0.36 -0.5499999 0 11.8 -3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1032
+PivotPoint -0.36 -0.5499999 0
+ParentObject 22
+ShadowOptions 7
+
+AddNullObject Nullguz
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  10
+  0.3203335 0.0149991 4.324868 0 0 0 2.088001 2.088001 2.088001
+  0 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 0 0 2.088001 2.088001 2.088001
+  100 1 0 0 0
+  0.3203335 0.0149991 4.324868 0 -0.6 0 2.088001 2.088001 2.088001
+  105 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 -0.6999999 0 2.088001 2.088001 2.088001
+  110 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 1.1 0 2.088001 2.088001 2.088001
+  114 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 -1.7 0 2.088001 2.088001 2.088001
+  117 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 -0.09999995 0 2.088001 2.088001 2.088001
+  122 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 -1.4 0 2.088001 2.088001 2.088001
+  126 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 -0.4999997 0 2.088001 2.088001 2.088001
+  135 0 0 0 0
+  0.3203335 0.0149991 4.324868 0 -1.1 0 2.088001 2.088001 2.088001
+  140 0 0 0 0
+EndBehavior 1
+LockedChannels 45
+ShadowOptions 7
+
+LoadObject S:\cable_room.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -6.50222 0 -2.236721 23.99998 14.8 0 0.4740001 0.6580001 0.4740001
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 360
+ShadowOptions 7
+
+LoadObject S:\cable_room.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -1.518413 0 -3.817696 0 -10.2 0 1 1 1
+  0 0 0 0 0
+  -0.6301066 0.9000002 -2.735193 0 -10.2 0 0.5979999 0.5979999 0.5979999
+  400 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ShadowOptions 7
+
+LoadObject S:\room_crates.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  7.197069 1.97 -9.896053 0 0 0 1 1 1
+  0 0 0 0 0
+  7.197069 1.97 -9.896053 0 0 0 1 1 1
+  150 0 1 0 0
+  1.792769 1.97 -1.057076 0 0 0 1 1 1
+  300 0 1 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AmbientColor 231 77 24
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0.2120233 5.049992 -0.02531878 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity (envelope)
+  1
+  11
+  2
+  0 0 0 0 0
+  2.16
+  1 0 0 0 0
+  1.84
+  2 0 0 0 0
+  1.84
+  5 0 0 0 0
+  2.2
+  6 0 0 0 0
+  1.72
+  7 0 0 0 0
+  1.9
+  8 0 0 0 0
+  2
+  9 0 0 0 0
+  2
+  15 0 0 0 0
+  1.93
+  16 0 0 0 0
+  2
+  17 0 0 0 0
+EndBehavior 2
+LightType 1
+LightFalloff 1
+LightRange 10.000000
+ShadowType 0
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  2.072026 6.779993 9.79469 -159.3 -26.90002 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+LightColor 255 198 0
+LgtIntensity 1.500000
+LightType 0
+ShadowType 0
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  2
+  -4.366995 12.17999 -1.525802 50.5 52.19987 16.3 1 1 1
+  0 0 1 0 0
+  7.335171 5.749981 -1.395732 -49.40001 -1.20008 7.200002 1 1 1
+  400 0 1 0 0
+EndBehavior 1
+ZoomFactor 0.800000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 1850000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint 8.442137 3.330000 0.142164
+ViewDirection -0.532325 -0.230383 0.000000
+ViewZoomFactor 4.000003
+GridNumber 0
+GridSize 2.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
