@@ -4,7 +4,7 @@
 
 **Dataset:** current `content/` working tree based on revision `e82c079b667a927a744ea24610fee97534708c43`, including staged `quatuor/` and untracked `collosus-concept-design/`. The inventory hashes, not the revision alone, identify the audited snapshot.
 
-**Deliverable:** refreshed audit and implementation proposal, plus a successful synthetic background-Blender experiment. No production LightWave converter, OBJ writer or glTF writer has been implemented or qualified.
+**Deliverable:** refreshed audit and implementation proposal, a successful synthetic background-Blender experiment, and a first C17 extraction/OBJ implementation. Current implementation scope and limits are recorded in the [converter guide](converter.md); production fidelity and the glTF/Blender backends remain unqualified or unimplemented.
 
 ## 1. Revised recommendation
 
@@ -513,7 +513,7 @@ Have Blender write its own format. A direct C `.blend` writer would add coupling
 
 Use a small standalone writer over the IR. Offer **per-object exports in declared local coordinates** and **a static scene snapshot at an explicit frame**, with instance transforms baked into the exported positions. Write object/group names and a manifest linking them to original asset, layer and instance IDs. Declare units and axis conventions in the manifest because OBJ has no reliable scene-unit convention.
 
-Preserve compatible polygon records, normals, corner UVs and material assignment; emit point and line records where the consuming application supports them. Mark curve sampling, patch tessellation and exceptional polygon repairs as derivatives. Keep a conservative polygon profile and an optional triangulated compatibility profile. A sequence of numbered OBJ files can represent sampled geometry but does not carry a reusable rig or animation graph. [Blender's OBJ format overview](https://docs.blender.org/UATEST/manual/en/4.5/files/import_export/obj.html).
+Preserve source polygon records and corner attributes in LWIR, and emit point and line records where the consuming application supports them. Mark curve sampling, patch tessellation and exceptional polygon repairs as derivatives. The current OBJ implementation uses a triangulated FACE profile by default so concave cutouts and bridged holes do not depend on the viewer's tessellation. Normal export remains future work. A sequence of numbered OBJ files can represent sampled geometry but does not carry a reusable rig or animation graph. [Blender's OBJ format overview](https://docs.blender.org/UATEST/manual/en/4.5/files/import_export/obj.html).
 
 Use portable MTL properties and relative image paths by default. Define a clear approximation for color, specular response, transparency and bump; optional PBR extensions must be an explicit compatibility profile. Material and point/line interpretation varies between readers, so independent reload checks are necessary.
 

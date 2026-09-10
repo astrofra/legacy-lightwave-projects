@@ -78,11 +78,24 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
     for(i=0;i<o->primitives.n;i++) {
         const LWPrimitive *p=&o->primitives.v[i]; const LWPolygonBlock *block=&o->polygon_blocks.v[p->block];
         int repeated=0,has_uv=uv!=NULL,is_curve=p->type==LW_TAG('C','U','R','V'); size_t first_uv=*uv_base+1;
+        int triangulated=p->type==LW_TAG('F','A','C','E')&&p->count>=3;
+        LWTriangulation triangles={0};
         if(!selected(o,block->layer,request)) continue;
         for(j=0;j<p->count;j++) for(k=0;k<j;k++) if(o->indices.v[p->first+j]==o->indices.v[p->first+k]) repeated=1;
-        if(!p->count||p->detail_parent!=LW_NONE||p->legacy_surface<0||repeated||
+        if(!p->count||p->detail_parent!=LW_NONE||p->legacy_surface<0||(repeated&&!triangulated)||
            (p->type!=LW_TAG('F','A','C','E')&&p->type!=LW_TAG('P','C','H','S')&&p->type!=LW_TAG('P','T','C','H')&&!is_curve)) {
             fprintf(f,"# omitted primitive %zu; preserved in geometry.bin\n",i); stats->skipped++; continue;
+        }
+        if(triangulated) {
+            int status=lw_triangulate(o,p,&triangles,e);
+            if(status<0) { lw_free_triangulation(&triangles); goto done; }
+            if(!status) {
+                fprintf(f,"# omitted primitive %zu: %s; preserved in geometry.bin\n",i,triangles.issue);
+                stats->skipped++; stats->triangulation_failures++; lw_free_triangulation(&triangles); continue;
+            }
+            stats->triangulated_faces+=p->count>3; stats->triangles+=triangles.corners.n/3;
+            stats->bridged_faces+=triangles.bridges!=0; stats->nonplanar_faces+=triangles.nonplanar!=0;
+            stats->removed_corners+=triangles.removed_corners;
         }
         if(p->type==LW_TAG('P','C','H','S')||p->type==LW_TAG('P','T','C','H')) stats->cages++;
         if(is_curve) stats->control_curves++;
@@ -91,14 +104,29 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
         if(has_uv) for(j=0;j<p->count;j++) { fprintf(f,"vt %.9g %.9g\n",uv[p->first+j].u,uv[p->first+j].v); ++*uv_base; }
         fprintf(f,"g instance_%zu_layer_%u\n",instance,o->layers.v[block->layer].id);
         if(p->material!=LW_NONE) fprintf(f,"usemtl a%zu_m%u\n",asset,p->material); else fprintf(f,"usemtl a%zu_default\n",asset);
-        fputc(p->count==1?'p':p->count==2||is_curve?'l':'f',f);
-        for(j=0;j<p->count;j++) {
-            /* Reflection C=diag(1,1,-1) changes the determinant sign. */
-            size_t corner=p->count>=3&&!is_curve&&determinant>0?p->count-1-j:j;
-            uint32_t point=o->indices.v[p->first+corner];
-            fprintf(f," %zu",vertices[point]); if(has_uv) fprintf(f,"/%zu",first_uv+corner); used[point]=1;
+        fprintf(f,"# source_primitive %zu\n",i);
+        if(triangulated) {
+            for(k=0;k<triangles.corners.n;k+=3) {
+                fputc('f',f);
+                for(j=0;j<3;j++) {
+                    size_t corner=triangles.corners.v[k+(determinant>0?2-j:j)];
+                    uint32_t point=o->indices.v[p->first+corner];
+                    fprintf(f," %zu",vertices[point]); if(has_uv) fprintf(f,"/%zu",first_uv+corner); used[point]=1;
+                }
+                fputc('\n',f);
+            }
+        } else {
+            if(p->count==3&&!is_curve) stats->triangles++;
+            fputc(p->count==1?'p':p->count==2||is_curve?'l':'f',f);
+            for(j=0;j<p->count;j++) {
+                /* Reflection C=diag(1,1,-1) changes the determinant sign. */
+                size_t corner=p->count>=3&&!is_curve&&determinant>0?p->count-1-j:j;
+                uint32_t point=o->indices.v[p->first+corner];
+                fprintf(f," %zu",vertices[point]); if(has_uv) fprintf(f,"/%zu",first_uv+corner); used[point]=1;
+            }
+            fputc('\n',f);
         }
-        fputc('\n',f);
+        lw_free_triangulation(&triangles);
     }
     for(i=0;i<count;i++) if(vertices[i]&&!used[i]) fprintf(f,"p %zu\n",vertices[i]);
     for(i=0;i<o->chunks.n;i++) if(o->chunks.v[i].tag==LW_TAG('C','R','V','S')) { fputs("# CRVS preserved in source.bin; not interpreted\n",f); stats->skipped++; }
@@ -117,7 +145,7 @@ int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExpo
         materials(mtl,&p->objects.v[i],i);
         { int closed=lw_close(mtl,"materials.mtl",e); mtl=NULL; if(!closed) goto done; }
         f=create_file(asset_dir,"mesh.obj",e); if(!f) goto done;
-        fputs("# lwconvert: base geometry; patches are control cages\nmtllib materials.mtl\n",f); v=vt=0;
+        fputs("# lwconvert: FACE polygons triangulated; patches are control cages\nmtllib materials.mtl\n",f); v=vt=0;
         if(!mesh(f,&p->objects.v[i],i,0,LW_NONE,identity,opts->uv_map,&v,&vt,stats,e)) goto done;
         { int closed=lw_close(f,"mesh.obj",e); f=NULL; if(!closed) goto done; }
         free(asset_dir); asset_dir=NULL;

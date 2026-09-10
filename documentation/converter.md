@@ -1,4 +1,4 @@
-# LWS/LWO converter in C — v0.1.0
+# LWS/LWO converter in C — v0.1.1
 
 Status as of 10 September 2026. This first milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
@@ -149,16 +149,36 @@ and opaque modifiers remain in the JSON channels.
 
 ## OBJ and initial evaluation
 
-Individual OBJ files preserve n-gons, reflecting Z to use the chosen right-handed
-Y-up coordinate system. Corner order is reversed according to the sign of the
+OBJ exports now triangulate ordinary FACE polygons in C, including concave
+boundaries and holes connected by paired reverse edges. LWIR keeps the original
+n-gons and source corners. This avoids relying on a viewer's triangle-fan
+interpretation, which can fill concave cutouts. Z is reflected to use the chosen
+right-handed Y-up coordinate system, and corner order follows the sign of the
 total determinant. Simple points and lines are exported; points unused by any
 exported primitive receive a `p` record.
 
 PTCH/PCHS are exported as control cages and CURV as control polylines, with
-approximation counters. Bones, unknown primitive types, detail polygons and
-faces with repeated indices are omitted from OBJ and preserved in LWIR.
-Legacy CRVS remain opaque. LightWave normals, smoothing and subdivision are
-not yet evaluated.
+approximation counters. Bones, unknown primitive types and detail polygons are
+omitted from OBJ and preserved in LWIR. Repeated FACE indices are interpreted
+by the triangulator instead of being rejected outright. Legacy CRVS remain
+opaque. LightWave normals, smoothing and subdivision are not yet evaluated.
+
+The triangulator normalizes and projects each boundary onto its dominant plane,
+clips valid ears, and checks the resulting signed area. It returns source corner
+indices so UV seams and material bindings follow the derivative triangles.
+`# source_primitive` comments identify the original polygon in each OBJ.
+Nonplanar faces use a projected interpretation and are reported as approximations.
+Zero-area, intersecting, unsupported or over-limit contours are reported and
+omitted from OBJ; they remain intact in LWIR. The current limit is 4,096 corners
+per FACE polygon. Adjacent copies of the same source point may be removed from
+the derivative, with an explicit counter; distinct point IDs are not welded.
+
+The manifest records `obj_triangulated_faces` (source faces with more than three
+corners), `obj_triangles`, `obj_bridged_hole_faces`, `obj_triangulation_failures`,
+`obj_nonplanar_faces` and `obj_removed_duplicate_corners`. As with other OBJ
+counters, these cover all individual and scene exports in the package.
+See the [van triangulation diagnosis](van-triangulation.md) for the motivating
+case and its validation results.
 
 With `--uv-map`, VMAD takes precedence over VMAP. A face with corners lacking
 valid values is exported without UV indices; no zeros are invented to complete
@@ -187,10 +207,11 @@ individual objects and the scene.
 
 ## Validation performed
 
-- 19 regression tests using synthetic files: buffers, SHA-256, source bytes,
+- 25 regression tests using synthetic files: buffers, SHA-256, source bytes,
   encodings, padding, 24-bit VX, details, layers, VMAD seams, infinite weights,
   path resolution, hierarchy and motion, truncated inputs, plugin blocks and
-  overwrite prevention.
+  overwrite prevention, concave polygons, bridged holes, winding, UV transfer,
+  coordinate scale, degenerate contours and nonplanar geometry.
 - Comparison of the C reader with the independent Python inventory:
   **1,143/1,143** files, comprising 915 objects, 226 scenes and two presets.
   Counts and SHA-256 hashes match, including **1,162,552 points**,
@@ -198,11 +219,16 @@ individual objects and the scene.
 - AddressSanitizer: no memory access diagnostics on the tests or corpus.
   Reading and SHA-256 hashes were also checked for Freestyle's 64 LWOB and
   11 LWS 1 files.
-- Independent reimport in background Blender 4.2: Metropolis UV (633 vertices,
+- Historical v0.1.0 reimport in background Blender 4.2: Metropolis UV (633 vertices,
   458 faces, comparison of 1,752 UV corners, including unbound corners filled
   with default values by Blender) and the Freestyle logo (4 vertices, 1 face).
 - Export of `circus/Mr_Lector_2.lws`: the two instances requesting unavailable
   layers are reported, and exported cages are counted.
+- v0.1.1 validation: all 26 n-gons in `mandarine-000-lw5/template/van.lwo` pass
+  orientation, projected-area and interior-sample checks. Three bridged-hole
+  faces are recovered. The source and native geometry buffers are unchanged.
+  The triangulator was also exercised under AddressSanitizer on all 915 objects
+  and two presets; see the [triangulation report](diagnostics/van-triangulation-check.json).
 
 The [validation report](diagnostics/converter-validation.json) records the
 configurations and results. These checks establish structural recovery and

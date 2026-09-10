@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.1.0 LANGUAGES C)
+project(lightwave_preservation VERSION 0.1.1 LANGUAGES C)
 
 add_library(lwconvert_core STATIC
-    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/obj.c)
+    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/obj.c src/triangulate.c)
 target_include_directories(lwconvert_core PUBLIC include PRIVATE src)
 target_compile_features(lwconvert_core PUBLIC c_std_17)
 set_target_properties(lwconvert_core PROPERTIES C_EXTENSIONS OFF)
@@ -33,6 +33,9 @@ endif()
 include(CTest)
 if(BUILD_TESTING)
     find_package(Python3 COMPONENTS Interpreter REQUIRED)
+    add_executable(triangulation_probe tests/triangulation_probe.c)
+    target_link_libraries(triangulation_probe PRIVATE lwconvert_core)
+    target_include_directories(triangulation_probe PRIVATE src)
     add_test(NAME converter_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_converter.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME batch_regression COMMAND "${Python3_EXECUTABLE}" -X utf8

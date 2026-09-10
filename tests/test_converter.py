@@ -255,6 +255,90 @@ class Converter(unittest.TestCase):
         out, _ = self.convert(scene, "--frame", "15")
         self.assertIn("v 0 0 -1", (out / "scene.obj").read_text())
 
+    def polygon_fixture(self, points, indices, maps=b""):
+        return form("LWO2", chunk("PNTS", F32(*(v for point in points for v in point))), chunk("POLS", b"FACE"+U16(len(indices))+b"".join(vx(i) for i in indices)), maps)
+
+    def check_polygon_triangles(self, out, manifest, points, boundary, axes=(0,1)):
+        directory, obj = self.object_data(out, manifest)
+        # The native boundary is independent of the triangulated derivative.
+        self.assertEqual(obj["primitives"]["count"], 1)
+        self.assertEqual(obj["indices"]["count"], len(boundary))
+        polygons = [line.split()[1:] for line in (directory/"mesh.obj").read_text().splitlines() if line.startswith("f ")]
+        projected = [(p[axes[0]], p[axes[1]]) for p in points]
+        area = lambda a,b,c: (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
+        expected = sum(projected[a][0]*projected[b][1]-projected[b][0]*projected[a][1] for a,b in zip(boundary,boundary[1:]+boundary[:1]))
+        total = 0
+        for polygon in polygons:
+            self.assertEqual(len(polygon), 3)
+            a,b,c = [projected[int(corner.split('/')[0])-1] for corner in polygon]
+            signed = area(a,b,c)
+            # OBJ reverses the source order after reflecting Z.
+            self.assertLess(signed*expected, 0)
+            total += abs(signed)
+            for weights in ((1/3,1/3,1/3),(.6,.2,.2),(.2,.6,.2),(.2,.2,.6)):
+                sample = tuple(sum(weights[j]*p[k] for j,p in enumerate((a,b,c))) for k in range(2))
+                winding = 0
+                for i,j in zip(boundary,boundary[1:]+boundary[:1]):
+                    start,end = projected[i],projected[j]
+                    cross = area(start,end,sample)
+                    if start[1] <= sample[1] < end[1] and cross > 0: winding += 1
+                    if end[1] <= sample[1] < start[1] and cross < 0: winding -= 1
+                self.assertNotEqual(winding, 0, "triangle samples must stay outside holes and concave cutouts")
+        self.assertAlmostEqual(total/abs(expected), 1, places=6)
+        return polygons
+
+    def test_concave_ngon_and_quad(self):
+        for points in ([(0,0,0),(4,0,0),(4,4,0),(3,4,0),(3,1,0),(1,1,0),(1,4,0),(0,4,0)], [(0,0,0),(4,0,0),(1,1,0),(0,4,0)]):
+            boundary = list(range(len(points)))
+            for order in (boundary, boundary[::-1]):
+                out, manifest = self.convert(self.write("concave", self.polygon_fixture(points,order)))
+                triangles = self.check_polygon_triangles(out,manifest,points,order)
+                self.assertEqual(len(triangles), len(points)-2)
+
+    def test_bridged_hole_preserves_opening_and_uv_corners(self):
+        points = [(0,0,0),(4,0,0),(4,4,0),(0,4,0),(1,1,0),(1,3,0),(3,3,0),(3,1,0)]
+        boundary = [0,4,5,6,7,4,0,1,2,3]
+        maps = chunk("VMAP", b"TXUV"+U16(2)+s0("uv")+b"".join(vx(i)+F32(i,2*i) for i in range(8)))
+        maps += chunk("VMAD", b"TXUV"+U16(2)+s0("uv")+vx(4)+vx(0)+F32(40,80))
+        out, manifest = self.convert(self.write("hole",self.polygon_fixture(points,boundary,maps)),"--uv-map","uv")
+        polygons = self.check_polygon_triangles(out,manifest,points,boundary)
+        self.assertEqual(len(polygons), 8)
+        self.assertEqual(manifest["obj_bridged_hole_faces"], 1)
+        directory,_ = self.object_data(out,manifest)
+        uv = [tuple(map(float,line.split()[1:])) for line in (directory/"mesh.obj").read_text().splitlines() if line.startswith("vt ")]
+        for polygon in polygons:
+            for corner in polygon:
+                vertex,texture = map(int,corner.split('/'))
+                value = 40 if vertex == 5 else vertex-1
+                self.assertEqual(uv[texture-1], (value,2*value))
+
+    def test_multiple_bridged_holes(self):
+        points = [(0,0,0),(10,0,0),(10,10,0),(0,10,0),(1,1,0),(1,3,0),(3,3,0),(3,1,0),(7,7,0),(7,9,0),(9,9,0),(9,7,0)]
+        boundary = [0,4,5,6,7,4,0,1,2,10,11,8,9,10,2,3]
+        out, manifest = self.convert(self.write("two-holes",self.polygon_fixture(points,boundary)))
+        self.assertEqual(len(self.check_polygon_triangles(out,manifest,points,boundary)), 14)
+
+    def test_projection_scale_and_explicit_closing_corner(self):
+        for scale,offset in ((1e-8,0),(16,1e6)):
+            points = [(7*scale,offset+x*scale,offset+y*scale) for x,y in ((0,0),(4,0),(4,4),(1,1),(0,4))]
+            boundary = [0,1,2,3,4,0]
+            out, manifest = self.convert(self.write("closed",self.polygon_fixture(points,boundary)),code=2)
+            self.assertEqual(manifest["obj_removed_duplicate_corners"], 1)
+            self.assertEqual(len(self.check_polygon_triangles(out,manifest,points,boundary,axes=(1,2))), 3)
+
+    def test_invalid_contours_are_reported_without_partial_triangles(self):
+        for points in ([(0,0,0),(3,3,0),(0,3,0),(3,0,0),(4,1,0)],[(0,0,0),(0,0,0),(0,1,0),(0,1,0)]):
+            out, manifest = self.convert(self.write("invalid-contour",self.polygon_fixture(points,list(range(len(points))))),code=2)
+            self.assertEqual(manifest["obj_triangulation_failures"], 1)
+            directory,_ = self.object_data(out,manifest)
+            self.assertFalse(any(line.startswith('f ') for line in (directory/'mesh.obj').read_text().splitlines()))
+
+    def test_nonplanar_face_is_an_explicit_approximation(self):
+        points = [(0,0,0),(1,0,0),(1,1,.2),(0,1,0)]
+        out, manifest = self.convert(self.write("nonplanar",self.polygon_fixture(points,[0,1,2,3])),code=2)
+        self.assertEqual(manifest["obj_nonplanar_faces"], 1)
+        self.assertEqual(manifest["obj_triangles"], 2)
+
 
 if __name__ == "__main__":
     unittest.main()

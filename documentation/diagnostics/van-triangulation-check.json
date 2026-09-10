@@ -1,0 +1,237 @@
+{
+  "version": "0.1.1",
+  "source": "content/mandarine-000-lw5/template/van.lwo",
+  "source_sha256": "a34536c16f89bda4b95a90a1e6e8dcfca7740433b16d3a31f836d617e8d4d368",
+  "native_source_and_geometry_unchanged": true,
+  "points": 1236,
+  "source_primitives": 798,
+  "obj_triangles": 1592,
+  "ngons_checked": [
+    {
+      "primitive": 0,
+      "corners": 9,
+      "triangles": 7,
+      "material": "chrome",
+      "projected_area": 0.13522774088746892
+    },
+    {
+      "primitive": 1,
+      "corners": 9,
+      "triangles": 7,
+      "material": "chrome",
+      "projected_area": 0.13522774311282992
+    },
+    {
+      "primitive": 2,
+      "corners": 9,
+      "triangles": 7,
+      "material": "chrome",
+      "projected_area": 0.13522774088746892
+    },
+    {
+      "primitive": 3,
+      "corners": 9,
+      "triangles": 7,
+      "material": "chrome",
+      "projected_area": 0.13522774311282992
+    },
+    {
+      "primitive": 112,
+      "corners": 5,
+      "triangles": 3,
+      "material": "carsteel",
+      "projected_area": 0.07627418104962302
+    },
+    {
+      "primitive": 113,
+      "corners": 5,
+      "triangles": 3,
+      "material": "carsteel",
+      "projected_area": 0.03530163165819644
+    },
+    {
+      "primitive": 114,
+      "corners": 5,
+      "triangles": 3,
+      "material": "carsteel",
+      "projected_area": 0.47044486756373927
+    },
+    {
+      "primitive": 115,
+      "corners": 5,
+      "triangles": 3,
+      "material": "carsteel",
+      "projected_area": 0.07627418104962302
+    },
+    {
+      "primitive": 116,
+      "corners": 5,
+      "triangles": 3,
+      "material": "carsteel",
+      "projected_area": 0.03530163165819644
+    },
+    {
+      "primitive": 117,
+      "corners": 5,
+      "triangles": 3,
+      "material": "carsteel",
+      "projected_area": 0.47044486756373927
+    },
+    {
+      "primitive": 450,
+      "corners": 12,
+      "triangles": 10,
+      "material": "hotel",
+      "projected_area": 0.23181061127377234
+    },
+    {
+      "primitive": 451,
+      "corners": 18,
+      "triangles": 16,
+      "material": "hotel",
+      "projected_area": 0.20612281182013703
+    },
+    {
+      "primitive": 452,
+      "corners": 8,
+      "triangles": 6,
+      "material": "hotel",
+      "projected_area": 0.12699770158769752
+    },
+    {
+      "primitive": 453,
+      "corners": 12,
+      "triangles": 10,
+      "material": "hotel",
+      "projected_area": 0.17648349527564733
+    },
+    {
+      "primitive": 454,
+      "corners": 6,
+      "triangles": 4,
+      "material": "hotel",
+      "projected_area": 0.10737244433391879
+    },
+    {
+      "primitive": 554,
+      "corners": 15,
+      "triangles": 13,
+      "material": "wallz",
+      "projected_area": 2.696953126552259
+    },
+    {
+      "primitive": 555,
+      "corners": 5,
+      "triangles": 3,
+      "material": "wallz",
+      "projected_area": 2.803850905378815
+    },
+    {
+      "primitive": 556,
+      "corners": 5,
+      "triangles": 3,
+      "material": "wallz",
+      "projected_area": 2.6907474056018073
+    },
+    {
+      "primitive": 557,
+      "corners": 11,
+      "triangles": 9,
+      "material": "door",
+      "projected_area": 4.739770724907533
+    },
+    {
+      "primitive": 573,
+      "corners": 7,
+      "triangles": 5,
+      "material": "floorz",
+      "projected_area": 0.29469211780018867
+    },
+    {
+      "primitive": 574,
+      "corners": 5,
+      "triangles": 3,
+      "material": "floorz",
+      "projected_area": 1.6719999857544847
+    },
+    {
+      "primitive": 581,
+      "corners": 7,
+      "triangles": 5,
+      "material": "floorz",
+      "projected_area": 0.29469211780018867
+    },
+    {
+      "primitive": 582,
+      "corners": 5,
+      "triangles": 3,
+      "material": "floorz",
+      "projected_area": 1.6719999857544847
+    },
+    {
+      "primitive": 737,
+      "corners": 10,
+      "triangles": 8,
+      "material": "steel",
+      "projected_area": 2.303998805046035
+    },
+    {
+      "primitive": 738,
+      "corners": 10,
+      "triangles": 8,
+      "material": "steel",
+      "projected_area": 2.3039983758927747
+    },
+    {
+      "primitive": 765,
+      "corners": 8,
+      "triangles": 6,
+      "material": "steel",
+      "projected_area": 0.4237966504408526
+    }
+  ],
+  "recovered_hole_primitives": [
+    451,
+    737,
+    738
+  ],
+  "omitted_zero_area_primitives": [
+    739,
+    741,
+    743,
+    745,
+    747,
+    749,
+    751,
+    753
+  ],
+  "checks": [
+    "triangle winding follows the reflected source winding",
+    "projected triangle areas sum to the source contour area",
+    "four interior samples per triangle stay inside the source winding region",
+    "all 26 ngons produce n-2 triangles"
+  ],
+  "corpus_asan": {
+    "objects": 917,
+    "totals": {
+      "faces": 1304905,
+      "triangles": 1909548,
+      "repeated_faces": 1031,
+      "recovered_repeated_faces": 294,
+      "omitted": 7385,
+      "nonplanar": 406172
+    },
+    "issues": {
+      "self-intersecting, overlapping or touching boundary edges": 4301,
+      "zero projected area or cancelling boundary": 2423,
+      "no valid ear; contour is degenerate or outside the supported boundary profile": 17,
+      "degenerate final triangle": 644
+    },
+    "errors": []
+  },
+  "limitations": [
+    "nonplanar faces use a projected interpretation",
+    "unsupported or degenerate contours remain in LWIR and are reported in OBJ/manifest",
+    "rendering comparison reproduces triangle fans; it is not a reference LightWave render"
+  ]
+}

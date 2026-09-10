@@ -8,6 +8,10 @@ It produces an LWIR package that preserves the sources, alongside OBJ/MTL export
 glTF 2.0 and Blender outputs are planned for later milestones.
 The converter runs without Blender, addons or a graphical interface.
 
+Since v0.1.1, OBJ exports triangulate ordinary face polygons in C, including
+concave outlines and bridged holes. Native polygons remain in LWIR. See the
+[van triangulation diagnosis](documentation/van-triangulation.md) for an example.
+
 Build on Windows with CMake and Visual Studio 2022:
 
 ```powershell

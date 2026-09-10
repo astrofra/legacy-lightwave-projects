@@ -60,7 +60,19 @@ int lw_convert(const LWOptions *, LWError *);
 void lw_free_package(LWPackage *);
 int lw_write_object(const char *, const LWObject *, LWError *);
 int lw_write_scene(const char *, const LWScene *, LWError *);
-typedef struct { size_t skipped, cages, control_curves, uv_missing; int scene_written; char scene_issue[256]; } LWExportStats;
+typedef struct {
+    size_t skipped, cages, control_curves, uv_missing;
+    size_t triangulated_faces, triangles, bridged_faces, triangulation_failures, nonplanar_faces, removed_corners;
+    int scene_written; char scene_issue[256];
+} LWExportStats;
+typedef struct {
+    LW_ARRAY(uint32_t) corners;
+    size_t bridges, removed_corners;
+    int nonplanar;
+    char issue[192];
+} LWTriangulation;
+int lw_triangulate(const LWObject *,const LWPrimitive *,LWTriangulation *,LWError *);
+void lw_free_triangulation(LWTriangulation *);
 int lw_write_obj(const char *, const LWPackage *, const LWOptions *, LWExportStats *, LWError *);
 int lw_write_bytes(const char *, const void *, size_t, LWError *);
 int lw_close(FILE *, const char *, LWError *);
