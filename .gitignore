@@ -1,2 +1,6 @@
 /_tmp
 .DS_Store
+/build/
+/build-*/
+/output/
+__pycache__/

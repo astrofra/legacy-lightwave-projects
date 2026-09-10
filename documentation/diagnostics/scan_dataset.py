@@ -84,14 +84,17 @@ def classify(b):
                   (b"GIF8", "GIF"), (b"\x89PNG\r\n\x1a\n", "PNG"),
                   (b"II\x2a\0", "TIFF"), (b"MM\0\x2a", "TIFF"),
                   (b"PK\x03\x04", "ZIP"), (b"LWMO", "LWMO"),
+                  (b"Rar!\x1a\x07\x00", "RAR4"), (b"Rar!\x1a\x07\x01\x00", "RAR5"),
+                  (b"#?RADIANCE\n", "Radiance HDR"), (b"#?RGBE\n", "Radiance HDR"),
                   (b"LWEN", "LWEN"), (b"BM", "BMP"),
                   (b"MZ", "PE/DOS executable"), (b"%!PS", "PostScript")]
     for magic, name in signatures:
         if b.startswith(magic):
             return name
     # TGA has no mandatory leading magic. Require a consistent, uncompressed
-    # true-color header AND exact pixel payload, optionally its standard footer.
-    if len(b) >= 18 and b[1] == 0 and b[2] == 2 and b[16] in (24, 32):
+    # true-color/grayscale header AND exact payload, optionally its standard footer.
+    if len(b) >= 18 and b[1] == 0 and ((b[2] == 2 and b[16] in (24, 32)) or
+                                      (b[2] == 3 and b[16] in (8, 16))):
         w, h = struct.unpack_from("<HH", b, 12)
         end = 18 + b[0] + w * h * (b[16] // 8)
         if w and h and (end == len(b) or (end <= len(b)-26 and b.endswith(b"TRUEVISION-XFILE.\0"))):
@@ -277,6 +280,31 @@ def inspect_scene(b, rec, refs):
     rec.update(keywords=dict(keys), plugins=plugins, object_paths=paths)
 
 
+def inspect_preset(b, rec, refs):
+    """Audit surface forms wrapped in PST_/PDAT without counting them as objects."""
+    rec["preset_payloads"] = []
+    try:
+        declared = u32(b, 4) + 8
+        if declared != len(b):
+            rec["warnings"].append(f"FORM declares {declared} bytes; actual {len(b)}")
+        for tag, data, pos in chunks(b[:min(declared, len(b))], 12):
+            if tag != "PDAT":
+                continue
+            embedded = dict(path=rec["path"], project=rec["project"],
+                            kind=classify(data), offset=pos+8, bytes=len(data), warnings=[])
+            if embedded["kind"] in ("FORM LWOB", "FORM LWO2"):
+                first_ref = len(refs)
+                inspect_object(data, embedded, refs)
+                for ref in refs[first_ref:]:
+                    ref["field"] = "PST_/PDAT/" + ref["field"]
+                    if ref["location"] is not None:
+                        ref["location"] += pos+8
+                rec["warnings"].extend(f"PDAT at {pos+8}: {w}" for w in embedded["warnings"])
+            rec["preset_payloads"].append(embedded)
+    except (ValueError, IndexError, struct.error) as exc:
+        rec["warnings"].append(str(exc))
+
+
 def norm(s):
     return unicodedata.normalize("NFC", s.replace("\\", "/")).casefold()
 
@@ -290,7 +318,7 @@ def resolve(ref, records):
     for rec in records:
         if ref["kind"] == "object" and rec["kind"] not in ("FORM LWOB", "FORM LWO2"):
             continue
-        if ref["kind"] == "image" and rec["kind"] not in ("JPEG", "PNG", "GIF", "TIFF", "PSD", "BMP", "FORM ILBM", "FORM PBM ", "RIFF AVI ", "TGA (validated uncompressed layout)", "TGA (validated RLE layout)"):
+        if ref["kind"] == "image" and rec["kind"] not in ("JPEG", "PNG", "GIF", "TIFF", "PSD", "BMP", "Radiance HDR", "FORM ILBM", "FORM PBM ", "RIFF AVI ", "TGA (validated uncompressed layout)", "TGA (validated RLE layout)"):
             continue
         target = norm(rec["path"]).split("/")
         n = 0
@@ -324,12 +352,14 @@ def main():
     for path in sorted(p for p in root.rglob("*") if p.is_file()):
         b = path.read_bytes()
         rel = path.relative_to(root)
-        rec = dict(path=root.name+"/"+rel.as_posix(), project=rel.parts[0],
+        rec = dict(path=root.name+"/"+rel.as_posix(), project=rel.parts[0] if len(rel.parts) > 1 else "<root>",
                    bytes=len(b), sha256=hashlib.sha256(b).hexdigest(), extension=path.suffix.lower(),
                    header_hex=b[:16].hex(),
                    kind=classify(b), non_ascii_path=not rel.as_posix().isascii(), warnings=[])
         if rec["kind"] in ("FORM LWOB", "FORM LWO2"):
             inspect_object(b, rec, refs)
+        elif rec["kind"] == "FORM PST_":
+            inspect_preset(b, rec, refs)
         elif rec["kind"].startswith("LWSC "):
             inspect_scene(b, rec, refs)
         elif rec["kind"] == "FORM ILBM":
@@ -369,8 +399,10 @@ def main():
                    reference_statuses=dict(Counter(r["resolution"]["status"] for r in refs)),
                    files_with_warnings=[r["path"] for r in records if r["warnings"]],
                    duplicate_groups=[v for v in hashes.values() if len(v) > 1],
-                   scope="Regular files including hidden files; ZIP member names only; no extraction. "
-                         "LightWave chunk/geometry audit and selected dependency fields, not full semantic validation. "
+                   scope="Regular files including hidden files; root-level files grouped under <root>; "
+                         "ZIP member names only; RAR signatures only; no extraction. "
+                         "LightWave chunk/geometry audit including PST_/PDAT surface forms and selected dependency fields, "
+                         "not full semantic validation. "
                          "Latin-1 display of non-UTF8 strings is a hypothesis; matches are candidates only.")
     output.mkdir(parents=True, exist_ok=True)
     for name, value in [("inventory.json", records), ("references.json", refs), ("summary.json", summary)]:

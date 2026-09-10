@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "background": true,
+  "blender_version": "4.2.0",
+  "blender_build_hash": "a51f293548ad",
+  "embedded_python": "3.11.7",
+  "checks": [
+    "fresh-process reopen",
+    "6 vertices including a loose point",
+    "4 edges including a loose edge",
+    "1 face",
+    "UV layer",
+    "node material",
+    "source ID",
+    "animation at frames 1 and 10"
+  ],
+  "scope": "Synthetic .blend save/reopen only; no LightWave conversion, rendering or OBJ/glTF export.",
+  "external_python": "3.12.5",
+  "exit_codes": {
+    "create": 0,
+    "reopen": 0
+  },
+  "executable_sha256": "8bad70bb705e7aa64f4d217d233dd8f895b46db3ee48a68ff5a4217fc4288147"
+}

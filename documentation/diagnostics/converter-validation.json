@@ -1,0 +1,125 @@
+{
+  "date": "2026-09-10",
+  "version": "0.1.0",
+  "compiler": "MSVC 19.41.34120 x64 (Visual Studio 2022)",
+  "c_standard": "C17",
+  "warning_policy": "/W4 /WX",
+  "python": "3.12.5",
+  "regression_tests": {
+    "count": 19,
+    "passed_configurations": [
+      "Debug",
+      "Release",
+      "RelWithDebInfo + AddressSanitizer"
+    ],
+    "scope": "end-to-end synthetic fixtures; ASan memory access checks, no UBSan on MSVC"
+  },
+  "source_integrity": {
+    "files": 2723,
+    "membership_unchanged": true,
+    "sha256_unchanged": true
+  },
+  "corpus": {
+    "generator_version": "0.1.0",
+    "checked": 1143,
+    "passed": 1143,
+    "totals": {
+      "FORM LWOB": 589,
+      "points": 1162552,
+      "primitives": 1450682,
+      "maps": 1137,
+      "object_loads": 1974,
+      "bones": 2741,
+      "keys": 150447,
+      "invalid_map_references": 0,
+      "LWSC 3": 128,
+      "FORM LWO2": 326,
+      "LWSC 1": 98,
+      "FORM PST_": 2
+    },
+    "failures": [],
+    "scope": "Reader counts and source SHA-256 compared with independent inventory; not a visual fidelity test."
+  },
+  "reference_repo": {
+    "path": "C:\\works\\projects\\preservation-freestyle-by-syndrome-condense\\demo-assets\\cds-freestyle\\D\\FreeStyle",
+    "formats": {
+      "LWSC 1": 11,
+      "LWOB": 64
+    },
+    "failures": [],
+    "scope": "reader success and independent SHA-256 comparison; source renderer semantics not imported"
+  },
+  "obj_reimport": {
+    "blender_version": "4.2.0",
+    "background": true,
+    "passed": [
+      {
+        "obj": "S:\\works\\legacy-lightwave-projects\\output\\metropolis-uv-st-v0.1\\assets\\dd1063888b7244627ddd1eb4551efac6e07b6fb020a852f3d6aca9dcb9cba4a4\\mesh.obj",
+        "vertices": 633,
+        "faces": 458,
+        "uv_corners_checked": 1752
+      },
+      {
+        "obj": "S:\\works\\legacy-lightwave-projects\\output\\freestyle-v0.1\\scene.obj",
+        "vertices": 4,
+        "faces": 1,
+        "uv_corners_checked": 0
+      }
+    ],
+    "scope": "OBJ reimport counts, polygon arities and per-corner UV multisets; not LightWave render fidelity or full scene reconstruction."
+  },
+  "real_conversions": [
+    {
+      "package": "metropolis-uv-st-v0.1",
+      "status": "partial",
+      "scene_obj": null,
+      "scene_obj_issue": "",
+      "unresolved_object_instances": 0,
+      "skipped_obj_primitives": 0,
+      "exported_patch_cages": 0,
+      "unmapped_uv_corners": 174
+    },
+    {
+      "package": "freestyle-v0.1",
+      "status": "converted-supported-subset",
+      "scene_obj": "scene.obj",
+      "scene_obj_issue": "",
+      "unresolved_object_instances": 0,
+      "skipped_obj_primitives": 0,
+      "exported_patch_cages": 0,
+      "unmapped_uv_corners": 0
+    },
+    {
+      "package": "lector-v0.1",
+      "status": "partial",
+      "scene_obj": "scene.obj",
+      "scene_obj_issue": "",
+      "unresolved_object_instances": 2,
+      "skipped_obj_primitives": 0,
+      "exported_patch_cages": 480,
+      "unmapped_uv_corners": 0
+    }
+  ],
+  "limitations": [
+    "glTF and .blend writers not implemented",
+    "OBJ base geometry and scalar material approximation only",
+    "No LightWave render fidelity qualification",
+    "Linux/macOS not tested",
+    "Only supported motion spans sampled; no rig or deformation evaluation"
+  ],
+  "source_revision_sha256": {
+    "src/core.c": "4c69fd3935a3ab08c8e1143119c5a4d0bf063d808fef77355f375e7af8b912b2",
+    "src/internal.h": "0816976af32a249680a4ce16229e8c4ae35b327f9a3a59048c029282c1dc2db7",
+    "src/lwo.c": "6b3bd2ca259312955d01cf56497e1ea6bdde9c49c6a79c50413b4094b87c18f4",
+    "src/lws.c": "7c3cf2a94b7b9184899e584595b001813b9cd99309ae5b7f4bab7785a4600410",
+    "src/main.c": "abcf1f172ac30d4a7b6f0e7fd47ed3a9afd0034526b8f77ca2233b2b8b183c1d",
+    "src/obj.c": "5160d0b0633ed9ba5a2367ff0625a2958b8d85b39f061f3f660bfb5a547127c3",
+    "src/package.c": "a3ad8e007b5a328173be0318ea4923a8cfa4a39d114fb2f5926a4715b3df9804",
+    "src/platform.c": "14500af8385b739881e21b3974e99cbfbd5610221e87b6d6afa9d6111e5a81d3",
+    "src/serialize.c": "4b403594b6f374aa1c4a267859441081e8640b2bc96e5dcff8cfd891c228eaf7",
+    "include/lwconvert.h": "2eac3faf3206404ce8954ef319594e8440a8421279baeb2146eeb2a1e985815a",
+    "tests/check_corpus.py": "270b811b3fbc69024ad9beb66624f2f37ebdb48bf068a8d22c1275209a11aa4f",
+    "tests/check_obj_blender.py": "d3dc1e1de5a319549eebb6db17682064ba459d97ad2361a583569c897f2230c5",
+    "tests/test_converter.py": "6850accd795cb798a2cdab48c7072d4f80252c7878d0b18b03d067ccd1f39f8b"
+  }
+}

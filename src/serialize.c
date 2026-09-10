@@ -1,0 +1,137 @@
+#include "internal.h"
+
+static void u32le(FILE *f,uint32_t v) {
+    unsigned char p[4]={(unsigned char)v,(unsigned char)(v>>8),(unsigned char)(v>>16),(unsigned char)(v>>24)};
+    fwrite(p,1,4,f);
+}
+static void f32le(FILE *f,float v) { uint32_t bits; memcpy(&bits,&v,4); u32le(f,bits); }
+static void f64le(FILE *f,double v) {
+    uint64_t bits; unsigned i; memcpy(&bits,&v,8);
+    for(i=0;i<8;i++) fputc((int)((bits>>(8*i))&255),f);
+}
+static void index_json(FILE *f,uint32_t n) { if(n==LW_NONE) fputs("null",f); else fprintf(f,"%u",n); }
+static void source_json(FILE *f,const LWSource *s) {
+    fputs("{\"path\":",f); lw_json_string(f,s->path);
+    fprintf(f,",\"sha256\":\"%s\",\"bytes\":%zu,\"uri\":\"source.bin\"}",s->sha256,s->size);
+}
+static void view(FILE *f,size_t offset,size_t count,size_t stride,const char *type,unsigned components) {
+    fprintf(f,"{\"offset\":%zu,\"count\":%zu,\"stride\":%zu,\"component_type\":\"%s\",\"components\":%u}",offset,count,stride,type,components);
+}
+int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
+    char *path=lw_join(dir,"geometry.bin"); FILE *f; size_t i,j,offset,primitive_offset; char format[5];
+    if(!path) return lw_error(e,0,"allocation","out of memory");
+    f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create geometry buffer"); }
+    for(i=0;i<o->positions.n;i++) f32le(f,o->positions.v[i]);
+    for(i=0;i<o->indices.n;i++) u32le(f,o->indices.v[i]);
+    primitive_offset=4*(o->positions.n+o->indices.n);
+    for(i=0;i<o->primitives.n;i++) {
+        const LWPrimitive *p=&o->primitives.v[i];
+        uint32_t fields[9]={p->first,p->count,p->type,p->flags,p->block,p->material,p->tag_index,p->detail_parent,(uint32_t)p->legacy_surface};
+        for(j=0;j<9;j++) u32le(f,fields[j]);
+    }
+    for(i=0;i<o->maps.n;i++) {
+        const LWMap *m=&o->maps.v[i];
+        for(j=0;j<m->entries.n;j++) { u32le(f,m->entries.v[j].point); u32le(f,m->entries.v[j].polygon); }
+        for(j=0;j<m->values.n;j++) f32le(f,m->values.v[j]);
+    }
+    if(!lw_close(f,path,e)) { free(path); return 0; } free(path);
+    path=lw_join(dir,"source.bin"); if(!path) return lw_error(e,0,"allocation","out of memory");
+    if(!lw_write_bytes(path,o->source.data,o->source.size,e)) { free(path); return 0; } free(path);
+    path=lw_join(dir,"object.json"); if(!path) return lw_error(e,0,"allocation","out of memory");
+    f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create object manifest"); }
+    lw_tag_text(o->format,format);
+    fprintf(f,"{\n\"schema_version\":\"0.1\",\"kind\":\"object\",\"format\":\"%s\",\"form_offset\":%zu,\n\"source\":",format,o->form_offset); source_json(f,&o->source);
+    fputs(",\n\"coordinates\":\"lightwave-left-handed-y-up\",\"units\":\"meters-by-convention\",\n\"buffer\":{\"uri\":\"geometry.bin\",\"byte_order\":\"little\"},\n\"positions\":",f);
+    view(f,0,o->positions.n/3,12,"float32",3);
+    fputs(",\n\"indices\":",f); view(f,o->positions.n*4,o->indices.n,4,"uint32",1);
+    fputs(",\n\"primitives\":",f); view(f,primitive_offset,o->primitives.n,36,"uint32",9);
+    fputs(",\n\"primitive_fields\":[\"first_index\",\"index_count\",\"fourcc_type\",\"flags\",\"polygon_block\",\"material\",\"tag_index\",\"detail_parent\",\"legacy_signed_surface_bits\"],\n\"null_index\":4294967295,\n\"layers\":[",f);
+    for(i=0;i<o->layers.n;i++) {
+        const LWLayer *l=&o->layers.v[i]; if(i) fputc(',',f);
+        fprintf(f,"{\"id\":%u,\"flags\":%u,\"parent\":",l->id,l->flags); index_json(f,l->parent);
+        fprintf(f,",\"pivot\":[%.9g,%.9g,%.9g],\"name\":",l->pivot[0],l->pivot[1],l->pivot[2]); lw_json_name(f,l->name); fputc('}',f);
+    }
+    fputs("],\n\"point_blocks\":[",f);
+    for(i=0;i<o->point_blocks.n;i++) { LWPointBlock b=o->point_blocks.v[i]; if(i) fputc(',',f); fprintf(f,"{\"layer\":%u,\"first\":%u,\"count\":%u}",b.layer,b.first,b.count); }
+    fputs("],\n\"polygon_blocks\":[",f);
+    for(i=0;i<o->polygon_blocks.n;i++) {
+        LWPolygonBlock b=o->polygon_blocks.v[i]; char type[5]; lw_tag_text(b.type,type); if(i) fputc(',',f);
+        fprintf(f,"{\"layer\":%u,\"point_block\":%u,\"first\":%u,\"count\":%u,\"type\":",b.layer,b.point_block,b.first,b.count); lw_json_string(f,type); fputc('}',f);
+    }
+    fputs("],\n\"tags\":[",f);
+    for(i=0;i<o->tags.n;i++) { if(i) fputc(',',f); lw_json_name(f,o->tags.v[i]); }
+    fputs("],\n\"tag_assignments\":[",f);
+    for(i=0;i<o->assignments.n;i++) {
+        LWTagAssignment a=o->assignments.v[i]; if(i) fputc(',',f);
+        fprintf(f,"{\"type\":%u,\"polygon_block\":%u,\"polygon\":%u,\"tag\":%u}",a.type,a.block,a.polygon,a.tag);
+    }
+    fputs("],\n\"materials\":[",f);
+    for(i=0;i<o->materials.n;i++) {
+        const LWMaterial *m=&o->materials.v[i]; if(i) fputc(',',f);
+        fputs("{\"name\":",f); lw_json_name(f,m->name); fputs(",\"source_name\":",f); lw_json_name(f,m->source);
+        fprintf(f,",\"color\":[%.9g,%.9g,%.9g],\"diffuse\":%.9g,\"specular\":%.9g,\"luminosity\":%.9g,\"transparency\":%.9g,\"smoothing_angle\":%.9g,\"flags\":%u,\"side\":%u,\"present_fields\":%u,\"float_fields\":%u}",m->color[0],m->color[1],m->color[2],m->diffuse,m->specular,m->luminosity,m->transparency,m->smoothing,m->flags,m->side,m->present,m->float_fields);
+    }
+    offset=primitive_offset+36*o->primitives.n; fputs("],\n\"maps\":[",f);
+    for(i=0;i<o->maps.n;i++) {
+        const LWMap *m=&o->maps.v[i]; char type[5]; lw_tag_text(m->type,type); if(i) fputc(',',f);
+        fputs("{\"type\":",f); lw_json_string(f,type); fputs(",\"name\":",f); lw_json_name(f,m->name);
+        fprintf(f,",\"dimension\":%u,\"discontinuous\":%s,\"point_block\":%u,\"polygon_block\":",m->dimension,m->discontinuous?"true":"false",m->point_block); index_json(f,m->polygon_block);
+        fputs(",\"entries\":",f); view(f,offset,m->entries.n,8,"uint32",2); offset+=8*m->entries.n;
+        fputs(",\"values\":",f); view(f,offset,m->entries.n,4*m->dimension,"float32",m->dimension); offset+=4*m->values.n; fputc('}',f);
+    }
+    fputs("],\n\"image_references\":[",f);
+    for(i=0;i<o->images.n;i++) {
+        LWImageReference ref=o->images.v[i]; if(i) fputc(',',f); fputs("{\"path\":",f); lw_json_name(f,ref.path);
+        fprintf(f,",\"source_offset\":%zu,\"clip\":",ref.offset); index_json(f,ref.clip); fputs(",\"status\":\"not-evaluated\"}",f);
+    }
+    fputs("],\n\"chunks\":[",f);
+    for(i=0;i<o->chunks.n;i++) {
+        LWChunk c=o->chunks.v[i]; char tag[5]; lw_tag_text(c.tag,tag); if(i) fputc(',',f);
+        fputs("{\"tag\":",f); lw_json_string(f,tag); fprintf(f,",\"offset\":%zu,\"payload_bytes\":%zu,\"status\":\"%s\"}",c.offset,c.size,c.status);
+    }
+    fprintf(f,"],\n\"buffer_bytes\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"non_finite_map_values\":%zu,\"material_scope\":\"scalar subset; complete source SURF/CLIP bytes retained\"\n}\n",offset,o->invalid_map_references,o->missing_materials,o->non_finite_map_values);
+    { int ok=lw_close(f,path,e); free(path); return ok; }
+}
+int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
+    char *path=lw_join(dir,"animation.bin"); FILE *f; size_t i,j,k,offset=0;
+    if(!path) return lw_error(e,0,"allocation","out of memory");
+    f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create animation buffer"); }
+    for(i=0;i<s->nodes.n;i++) for(j=0;j<s->nodes.v[i].channels.n;j++) {
+        const LWChannel *c=&s->nodes.v[i].channels.v[j];
+        for(k=0;k<c->keys.n;k++) {
+            unsigned x; const LWKey *key=&c->keys.v[k];
+            f64le(f,key->time); f64le(f,key->value); for(x=0;x<6;x++) f64le(f,key->parameters[x]); u32le(f,key->shape); u32le(f,0);
+        }
+    }
+    if(!lw_close(f,path,e)) { free(path); return 0; } free(path);
+    path=lw_join(dir,"source.bin"); if(!path) return lw_error(e,0,"allocation","out of memory");
+    if(!lw_write_bytes(path,s->source.data,s->source.size,e)) { free(path); return 0; } free(path);
+    path=lw_join(dir,"scene.json"); if(!path) return lw_error(e,0,"allocation","out of memory");
+    f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create scene manifest"); }
+    fprintf(f,"{\n\"schema_version\":\"0.1\",\"version\":%u,\"source\":",s->version); source_json(f,&s->source);
+    fprintf(f,",\n\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"time_domain\":\"%s\",\"angle_units\":\"%s\",\n\"animation_buffer\":{\"uri\":\"animation.bin\",\"byte_order\":\"little\",\"key_stride\":72,\"key_fields\":\"float64 time,value,parameters[6]; uint32 shape,reserved\"},\n\"nodes\":[",s->first_frame,s->last_frame,s->fps,s->version==1?"frame":"second",s->version==1?"degrees":"radians");
+    for(i=0;i<s->nodes.n;i++) {
+        const LWNode *n=&s->nodes.v[i]; if(i) fputc(',',f);
+        fprintf(f,"{\"id\":%u,\"parent\":",n->id); index_json(f,n->parent); fputs(",\"layer_request\":",f); index_json(f,n->layer);
+        fputs(",\"name\":",f); lw_json_name(f,n->name); fputs(",\"object_path\":",f); lw_json_name(f,n->object_path);
+        fprintf(f,",\"source_offset\":%zu,\"pivot\":[%.17g,%.17g,%.17g],\"pivot_rotation\":[%.17g,%.17g,%.17g],\"unsupported_transform\":%s,\"asset_index\":",n->source_offset,n->pivot[0],n->pivot[1],n->pivot[2],n->pivot_rotation[0],n->pivot_rotation[1],n->pivot_rotation[2],n->unsupported_transform?"true":"false");
+        if(n->asset==SIZE_MAX) fputs("null",f); else fprintf(f,"%zu",n->asset);
+        fputs(",\"resolved_path\":",f); if(n->resolved_path) lw_json_string(f,n->resolved_path); else fputs("null",f);
+        fputs(",\"resolution\":",f); lw_json_string(f,n->resolution); fputs(",\"issue\":",f); lw_json_string(f,n->issue);
+        fputs(",\"candidates\":[",f); for(j=0;j<n->candidates.n;j++) { if(j) fputc(',',f); lw_json_string(f,n->candidates.v[j]); }
+        fputs("],\"channels\":[",f);
+        for(j=0;j<n->channels.n;j++) {
+            const LWChannel *c=&n->channels.v[j]; if(j) fputc(',',f);
+            fprintf(f,"{\"index\":%u,\"pre\":%u,\"post\":%u,\"declared_keys\":%u,\"opaque_modifiers\":%zu,\"time_offset\":%.17g,\"keys\":",c->index,c->pre,c->post,c->declared_keys,c->opaque_modifiers,c->offset);
+            view(f,offset,c->keys.n,72,"mixed",1); offset+=72*c->keys.n; fputc('}',f);
+        }
+        fputs("]}",f);
+    }
+    fputs("],\n\"plugins\":[",f);
+    for(i=0;i<s->plugins.n;i++) {
+        const LWPlugin *plugin=&s->plugins.v[i]; if(i) fputc(',',f); fputs("{\"name\":",f); lw_json_name(f,plugin->name);
+        fprintf(f,",\"offset\":%zu,\"bytes\":%zu,\"status\":\"preserved-opaque\"}",plugin->offset,plugin->size);
+    }
+    fprintf(f,"],\n\"animation_bytes\":%zu,\"opaque_blocks\":%zu,\"unsupported_features\":%zu,\"unparsed_fields\":\"retained verbatim in source.bin, including optics, lights, scalar envelopes and deformation settings\"\n}\n",offset,s->opaque_blocks,s->unsupported_features);
+    { int ok=lw_close(f,path,e); free(path); return ok; }
+}

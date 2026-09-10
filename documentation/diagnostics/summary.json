@@ -1,19 +1,137 @@
 {
   "schema_version": 1,
   "dataset_root": "content",
-  "scanner_sha256": "a3ebfdeefc367bf9927be6d3fee61c2f80133f43ff8bb7a4e28c4a512275fd1e",
-  "file_count": 1384,
-  "total_bytes": 315669080,
+  "scanner_sha256": "fe12b2441a41b8bef7b3195cec06b0b26bf1526583253460ee4a3ab9c5d39cb9",
+  "file_count": 2723,
+  "total_bytes": 1440000954,
   "projects": {
     "1st-year-student-amiga-project": {
-      "files": 213,
-      "bytes": 2338590,
+      "files": 209,
+      "bytes": 2309902,
       "kinds": {
-        "unclassified": 4,
         "FORM LWOB": 209
       },
       "references": {
         "no-local-candidate": 174
+      }
+    },
+    "<root>": {
+      "files": 1,
+      "bytes": 14340,
+      "kinds": {
+        "unclassified": 1
+      },
+      "references": {}
+    },
+    "aliens@newtek": {
+      "files": 6,
+      "bytes": 187818,
+      "kinds": {
+        "LWSC 3": 2,
+        "FORM LWO2": 1,
+        "JPEG": 3
+      },
+      "references": {
+        "unique-suffix-candidate": 10
+      }
+    },
+    "berlin-250": {
+      "files": 13,
+      "bytes": 1362150,
+      "kinds": {
+        "JPEG": 3,
+        "FORM LWOB": 2,
+        "FORM LWO2": 3,
+        "unclassified": 2,
+        "LWSC 1": 2,
+        "PSD": 1
+      },
+      "references": {
+        "unique-basename-candidate": 2,
+        "ambiguous-local": 1
+      }
+    },
+    "butterfly-tank": {
+      "files": 15,
+      "bytes": 2106964,
+      "kinds": {
+        "FORM LWO2": 3,
+        "LWSC 3": 7,
+        "JPEG": 1,
+        "GIF": 1,
+        "PSD": 2,
+        "TIFF": 1
+      },
+      "references": {
+        "no-local-candidate": 2,
+        "unique-basename-candidate": 48
+      }
+    },
+    "carrot_driven_robot": {
+      "files": 19,
+      "bytes": 386272,
+      "kinds": {
+        "FORM LWO2": 17,
+        "LWSC 3": 2
+      },
+      "references": {
+        "no-local-candidate": 6,
+        "unique-suffix-candidate": 38
+      }
+    },
+    "circus": {
+      "files": 87,
+      "bytes": 7826728,
+      "kinds": {
+        "LWSC 3": 18,
+        "unclassified": 2,
+        "JPEG": 39,
+        "FORM LWOB": 1,
+        "FORM LWO2": 27
+      },
+      "references": {
+        "unique-suffix-candidate": 79,
+        "no-local-candidate": 34
+      }
+    },
+    "collosus-concept-design": {
+      "files": 64,
+      "bytes": 9570256,
+      "kinds": {
+        "FORM LWO2": 18,
+        "LWSC 3": 11,
+        "JPEG": 31,
+        "unclassified": 4
+      },
+      "references": {
+        "no-local-candidate": 20,
+        "unique-suffix-candidate": 5,
+        "unique-basename-candidate": 206
+      }
+    },
+    "cyber-bot": {
+      "files": 3,
+      "bytes": 235772,
+      "kinds": {
+        "FORM LWO2": 1,
+        "unclassified": 2
+      },
+      "references": {}
+    },
+    "dora-maar": {
+      "files": 38,
+      "bytes": 25384854,
+      "kinds": {
+        "JPEG": 18,
+        "FORM LWOB": 6,
+        "unclassified": 1,
+        "GIF": 2,
+        "LWSC 1": 1,
+        "PSD": 8,
+        "TGA (validated uncompressed layout)": 2
+      },
+      "references": {
+        "unique-basename-candidate": 12
       }
     },
     "eddy-the-anchoralien": {
@@ -33,9 +151,32 @@
         "no-local-candidate": 2
       }
     },
+    "film-kafka-3d-student-works": {
+      "files": 147,
+      "bytes": 98162331,
+      "kinds": {
+        "unclassified": 5,
+        "PNG": 1,
+        "FORM LWOB": 61,
+        "TGA (validated uncompressed layout)": 20,
+        "JPEG": 25,
+        "PSD": 13,
+        "FORM TVPP": 2,
+        "LWSC 1": 12,
+        "RIFF WAVE": 1,
+        "GIF": 3,
+        "BMP": 1,
+        "RIFF AVI ": 2,
+        "FORM ILBM": 1
+      },
+      "references": {
+        "unique-basename-candidate": 155,
+        "no-local-candidate": 111
+      }
+    },
     "gate-array-robot-head": {
       "files": 32,
-      "bytes": 2720459,
+      "bytes": 2741377,
       "kinds": {
         "FORM ILBM": 22,
         "LWSC 1": 1,
@@ -44,6 +185,18 @@
       },
       "references": {
         "unique-basename-candidate": 1
+      }
+    },
+    "giant-head": {
+      "files": 12,
+      "bytes": 498637,
+      "kinds": {
+        "LWSC 3": 3,
+        "FORM LWO2": 3,
+        "JPEG": 6
+      },
+      "references": {
+        "unique-basename-candidate": 6
       }
     },
     "just-another-amiga-story": {
@@ -73,6 +226,19 @@
         "unique-basename-candidate": 63
       }
     },
+    "long-road-student-project": {
+      "files": 10,
+      "bytes": 1447149,
+      "kinds": {
+        "LWSC 1": 1,
+        "FORM LWOB": 5,
+        "TGA (validated uncompressed layout)": 2,
+        "PNG": 2
+      },
+      "references": {
+        "unique-suffix-candidate": 9
+      }
+    },
     "mandarine-000-lw5": {
       "files": 93,
       "bytes": 16427349,
@@ -94,16 +260,16 @@
       }
     },
     "metropolis-robots": {
-      "files": 266,
-      "bytes": 112839076,
+      "files": 265,
+      "bytes": 112832928,
       "kinds": {
-        "unclassified": 8,
         "LWSC 3": 3,
         "JPEG": 195,
         "PSD": 4,
         "TGA (validated uncompressed layout)": 6,
         "TIFF": 3,
         "TGA (validated RLE layout)": 37,
+        "unclassified": 7,
         "FORM LWO2": 6,
         "RIFF AVI ": 4
       },
@@ -111,6 +277,16 @@
         "unique-basename-candidate": 5,
         "unique-suffix-candidate": 3
       }
+    },
+    "miyazaki-inspired": {
+      "files": 8,
+      "bytes": 1205675,
+      "kinds": {
+        "FORM LWO2": 2,
+        "JPEG": 5,
+        "unclassified": 1
+      },
+      "references": {}
     },
     "my-village": {
       "files": 17,
@@ -157,10 +333,9 @@
       }
     },
     "orange-juice-signage": {
-      "files": 34,
-      "bytes": 61842714,
+      "files": 33,
+      "bytes": 61836566,
       "kinds": {
-        "unclassified": 1,
         "FORM LWO2": 2,
         "FORM ILBM": 9,
         "JPEG": 8,
@@ -176,6 +351,79 @@
         "unique-suffix-candidate": 9
       }
     },
+    "planetes": {
+      "files": 497,
+      "bytes": 238962462,
+      "kinds": {
+        "RIFF AVI ": 4,
+        "FORM LWO2": 42,
+        "LWSC 3": 13,
+        "JPEG": 361,
+        "PSD": 28,
+        "TIFF": 21,
+        "unclassified": 12,
+        "TGA (validated uncompressed layout)": 11,
+        "FORM LWOB": 1,
+        "FORM PST_": 1,
+        "ZIP": 2,
+        "FORM TVPP": 1
+      },
+      "references": {
+        "unique-suffix-candidate": 66,
+        "unique-basename-candidate": 19,
+        "no-local-candidate": 7
+      }
+    },
+    "quatuor": {
+      "files": 151,
+      "bytes": 527133279,
+      "kinds": {
+        "LWSC 3": 28,
+        "FORM LWO2": 33,
+        "PSD": 21,
+        "TGA (validated uncompressed layout)": 12,
+        "JPEG": 6,
+        "TIFF": 14,
+        "RAR4": 1,
+        "unclassified": 3,
+        "TGA (validated RLE layout)": 27,
+        "FORM PST_": 1,
+        "FORM LWOB": 1,
+        "Radiance HDR": 4
+      },
+      "references": {
+        "unique-suffix-candidate": 140,
+        "no-local-candidate": 11,
+        "unique-basename-candidate": 5
+      }
+    },
+    "realistic-face": {
+      "files": 17,
+      "bytes": 44073205,
+      "kinds": {
+        "FORM LWO2": 5,
+        "LWSC 3": 4,
+        "PSD": 3,
+        "JPEG": 1,
+        "TGA (validated uncompressed layout)": 2,
+        "TIFF": 2
+      },
+      "references": {
+        "unique-suffix-candidate": 9,
+        "no-local-candidate": 3,
+        "unique-basename-candidate": 7
+      }
+    },
+    "renault-van": {
+      "files": 8,
+      "bytes": 4787681,
+      "kinds": {
+        "unclassified": 4,
+        "JPEG": 3,
+        "FORM LWO2": 1
+      },
+      "references": {}
+    },
     "self-portrait-b-and-w": {
       "files": 23,
       "bytes": 456197,
@@ -187,6 +435,61 @@
       },
       "references": {
         "unique-basename-candidate": 11
+      }
+    },
+    "sky-warps": {
+      "files": 91,
+      "bytes": 47524788,
+      "kinds": {
+        "FORM LWO2": 5,
+        "unclassified": 4,
+        "TGA (validated RLE layout)": 10,
+        "TGA (validated uncompressed layout)": 15,
+        "JPEG": 26,
+        "RIFF AVI ": 1,
+        "LWSC 3": 2,
+        "PSD": 10,
+        "FORM ILBM": 17,
+        "ZIP": 1
+      },
+      "references": {
+        "ambiguous-local": 6,
+        "unique-suffix-candidate": 2
+      }
+    },
+    "smila-by-moebius": {
+      "files": 46,
+      "bytes": 71969078,
+      "kinds": {
+        "FORM LWO2": 20,
+        "LWSC 3": 13,
+        "PSD": 7,
+        "TGA (validated RLE layout)": 3,
+        "TIFF": 1,
+        "TGA (validated uncompressed layout)": 2
+      },
+      "references": {
+        "unique-suffix-candidate": 23,
+        "unique-basename-candidate": 23,
+        "no-local-candidate": 1
+      }
+    },
+    "snow-tanks": {
+      "files": 84,
+      "bytes": 3617126,
+      "kinds": {
+        "JPEG": 26,
+        "LWSC 3": 8,
+        "unclassified": 4,
+        "TGA (validated uncompressed layout)": 1,
+        "PNG": 1,
+        "FORM LWO2": 24,
+        "FORM LWOB": 16,
+        "RAR4": 1,
+        "LWSC 1": 3
+      },
+      "references": {
+        "unique-suffix-candidate": 318
       }
     },
     "space-suit-000": {
@@ -204,11 +507,31 @@
         "unique-suffix-candidate": 54
       }
     },
-    "the-tempest": {
-      "files": 40,
-      "bytes": 24238195,
+    "steam-mech": {
+      "files": 3,
+      "bytes": 199161,
       "kinds": {
-        "unclassified": 1,
+        "LWSC 3": 1,
+        "FORM LWO2": 1,
+        "JPEG": 1
+      },
+      "references": {
+        "no-local-candidate": 3
+      }
+    },
+    "steam_helicopter": {
+      "files": 2,
+      "bytes": 1249542,
+      "kinds": {
+        "FORM LWO2": 1,
+        "FORM LXOB": 1
+      },
+      "references": {}
+    },
+    "the-tempest": {
+      "files": 39,
+      "bytes": 24232047,
+      "kinds": {
         "FORM LWO2": 9,
         "FORM LWOB": 6,
         "LWSC 1": 1,
@@ -223,6 +546,19 @@
         "unique-suffix-candidate": 18,
         "unique-basename-candidate": 23,
         "ambiguous-local": 2
+      }
+    },
+    "the-wreck": {
+      "files": 24,
+      "bytes": 36452820,
+      "kinds": {
+        "TGA (validated uncompressed layout)": 6,
+        "FORM LWO2": 13,
+        "JPEG": 2,
+        "LWSC 3": 3
+      },
+      "references": {
+        "unique-basename-candidate": 10
       }
     },
     "toxic-waste-container": {
@@ -257,34 +593,39 @@
     }
   },
   "kinds": {
-    "unclassified": 84,
-    "FORM LWOB": 496,
-    "FORM ILBM": 75,
-    "JPEG": 359,
-    "LWSC 1": 79,
-    "FORM TVPP": 4,
-    "PSD": 62,
+    "unclassified": 122,
+    "FORM LWOB": 589,
+    "LWSC 3": 128,
+    "FORM LWO2": 326,
+    "JPEG": 916,
+    "LWSC 1": 98,
+    "PSD": 155,
+    "GIF": 23,
+    "TIFF": 47,
+    "TGA (validated uncompressed layout)": 91,
+    "FORM ILBM": 93,
+    "FORM TVPP": 7,
+    "PNG": 6,
+    "RIFF WAVE": 1,
+    "BMP": 2,
+    "RIFF AVI ": 14,
     "FORM TDDD": 5,
-    "TGA (validated uncompressed layout)": 18,
-    "GIF": 17,
-    "PNG": 2,
-    "FORM LWO2": 106,
-    "LWSC 3": 13,
-    "TIFF": 8,
-    "TGA (validated RLE layout)": 37,
-    "RIFF AVI ": 7,
+    "TGA (validated RLE layout)": 77,
     "LWMO": 2,
     "PostScript": 3,
-    "BMP": 1,
     "LWEN": 2,
-    "ZIP": 2,
-    "PE/DOS executable": 2
+    "ZIP": 5,
+    "PE/DOS executable": 2,
+    "FORM PST_": 2,
+    "RAR4": 2,
+    "Radiance HDR": 4,
+    "FORM LXOB": 1
   },
   "reference_statuses": {
-    "no-local-candidate": 189,
-    "unique-suffix-candidate": 634,
-    "unique-basename-candidate": 390,
-    "ambiguous-local": 35
+    "no-local-candidate": 387,
+    "unique-suffix-candidate": 1333,
+    "unique-basename-candidate": 883,
+    "ambiguous-local": 42
   },
   "files_with_warnings": [
     "content/eddy-the-anchoralien/bruts/edi.001.iff",
@@ -294,6 +635,8 @@
     "content/my-village/kid/face.iff",
     "content/orange-juice-signage/maps/env4.iff",
     "content/orange-juice-signage/maps/maptransp.IFF",
+    "content/sky-warps/warp/sky/skyWarp__left.iff",
+    "content/sky-warps/warp/sky/skyWarp__right.iff",
     "content/the-tempest/maps/base_wall.iff",
     "content/the-tempest/maps/sideberkjaune.iff",
     "content/the-tempest/maps/wall.crasse.alpha.iff",
@@ -317,6 +660,20 @@
       "content/1st-year-student-amiga-project/Earth/Roue Metaformée a2"
     ],
     [
+      "content/circus/meshes/phare_freezed.lwo",
+      "content/circus/meshes/phare_freezed_close_shot.lwo"
+    ],
+    [
+      "content/collosus-concept-design/items/aircon/convertir les jpegs en tga.txt",
+      "content/collosus-concept-design/items/tv_small/convertir les jpegs en tga.txt",
+      "content/collosus-concept-design/items/weapon_4guns/convertir les jpegs en tga.txt",
+      "content/collosus-concept-design/maps/sunk_boat/convertir les jpegs en tga.txt"
+    ],
+    [
+      "content/dora-maar/Aaa.jpg",
+      "content/dora-maar/Picas.jpg"
+    ],
+    [
       "content/eddy-the-anchoralien/edi.lwo",
       "content/my-village/edi.lwo"
     ],
@@ -325,8 +682,20 @@
       "content/nxng-experiments/edi_oreille.lwo"
     ],
     [
+      "content/film-kafka-3d-student-works/src/grosse_plaque.lwo",
+      "content/film-kafka-3d-student-works/src/l.grosse_plaque.lwo"
+    ],
+    [
+      "content/giant-head/gelato_head.lws",
+      "content/giant-head/gelato_head_02.lws"
+    ],
+    [
       "content/mandarine-000-lw5/maps/EnvMap.jpg",
       "content/orange-juice-signage/maps/EnvMap.jpg"
+    ],
+    [
+      "content/metropolis-robots/maps/check.tga",
+      "content/planetes/check.tga"
     ],
     [
       "content/metropolis-robots/maps/robot_occ0000.tga",
@@ -364,6 +733,14 @@
       "content/metropolis-robots/maps/robot_occ0023.tga",
       "content/metropolis-robots/maps/robot_occ0026.tga",
       "content/metropolis-robots/maps/robot_occ0029.tga"
+    ],
+    [
+      "content/metropolis-robots/maps/solalpha.tif",
+      "content/smila-by-moebius/maps/solalpha.tif"
+    ],
+    [
+      "content/nxng-experiments/16-9eme.lwo",
+      "content/snow-tanks/NEW/obj_16-9eme.lwo"
     ],
     [
       "content/nxng-experiments/[SPARK].lwo",
@@ -404,6 +781,10 @@
     [
       "content/nxng-experiments/gus_lo/r_main.lwo",
       "content/nxng-experiments/lady_lo/r_main.lwo"
+    ],
+    [
+      "content/nxng-experiments/Hnoise.jpg",
+      "content/snow-tanks/NEW/map_hnoise.jpg"
     ],
     [
       "content/nxng-experiments/maps_psd/real_sky_back/sky_down.jpg",
@@ -453,7 +834,89 @@
     [
       "content/nxng-experiments/thomson/Copie (2) de stargaze2.jpg",
       "content/nxng-experiments/thomson/stargaze2.jpg"
+    ],
+    [
+      "content/planetes/cosmo.02",
+      "content/planetes/maps/uv_trick.lwo",
+      "content/planetes/uv_trick.lwo"
+    ],
+    [
+      "content/planetes/maps/face_map.jpg",
+      "content/realistic-face/maps/face_map.jpg"
+    ],
+    [
+      "content/planetes/maps/face_map.psd",
+      "content/realistic-face/maps/face_map.psd"
+    ],
+    [
+      "content/planetes/maps/face_map.tif",
+      "content/realistic-face/maps/face_map.tif"
+    ],
+    [
+      "content/planetes/maps/solalpha.tif",
+      "content/quatuor/work/3d/maps/solalpha.tif",
+      "content/realistic-face/maps/solalpha.tif"
+    ],
+    [
+      "content/quatuor/work/3d/skinning.lwo",
+      "content/quatuor/work/3d/subdiv/AVallin.lwo"
+    ],
+    [
+      "content/quatuor/work/3d/sol.lwo",
+      "content/quatuor/work/3d/sol_dialogue.lwo"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/day_BK.jpg",
+      "content/sky-warps/warps_finis/day_BK.jpg"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/day_DN.jpg",
+      "content/sky-warps/warps_finis/day_DN.jpg"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/day_FR.jpg",
+      "content/sky-warps/warps_finis/day_FR.jpg"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/day_LF.jpg",
+      "content/sky-warps/warps_finis/day_LF.jpg"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/day_RT.jpg",
+      "content/sky-warps/warps_finis/day_RT.jpg"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/day_UP.jpg",
+      "content/sky-warps/warps_finis/day_UP.jpg"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/tga/day_BK.tga",
+      "content/sky-warps/warps_finis/TGA/day_BK.tga"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/tga/day_DN.tga",
+      "content/sky-warps/warps_finis/TGA/day_DN.tga"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/tga/day_FR.tga",
+      "content/sky-warps/warps_finis/TGA/day_FR.tga"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/tga/day_LF.tga",
+      "content/sky-warps/warps_finis/TGA/day_LF.tga"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/tga/day_RT.tga",
+      "content/sky-warps/warps_finis/TGA/day_RT.tga"
+    ],
+    [
+      "content/sky-warps/warp/sky/warps_finis/tga/day_UP.tga",
+      "content/sky-warps/warps_finis/TGA/day_UP.tga"
+    ],
+    [
+      "content/smila-by-moebius/maps/Copie de tank_body_dust.0001.tga",
+      "content/smila-by-moebius/maps/tank_body_dust.0001.tga"
     ]
   ],
-  "scope": "Regular files including hidden files; ZIP member names only; no extraction. LightWave chunk/geometry audit and selected dependency fields, not full semantic validation. Latin-1 display of non-UTF8 strings is a hypothesis; matches are candidates only."
+  "scope": "Regular files including hidden files; root-level files grouped under <root>; ZIP member names only; RAR signatures only; no extraction. LightWave chunk/geometry audit including PST_/PDAT surface forms and selected dependency fields, not full semantic validation. Latin-1 display of non-UTF8 strings is a hypothesis; matches are candidates only."
 }

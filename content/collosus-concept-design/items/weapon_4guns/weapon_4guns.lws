@@ -1,0 +1,412 @@
+LWSC
+3
+
+RenderRangeType 0
+FirstFrame 0
+LastFrame 60
+FrameStep 2
+RenderRangeArbitrary 1-60
+PreviewFirstFrame 0
+PreviewLastFrame 60
+PreviewFrameStep 1
+CurrentFrame 0
+FramesPerSecond 30
+Plugin MasterHandler 1 Fprime
+BEGIN WORLEY_LABS_PLUGIN FPrime
+# -506332479 x86 FPrime Version 1.0-MX Mar 30 2004
+# Saved Sun Nov 21 13:49:57 2004
+
+VERSION 1
+ BEGIN RADIO RADTYPE
+  SELECTION 0
+ END
+ BEGIN NUM RADSTRENGTH
+ VALUE 1
+ END
+ BEGIN NUM RADBOUNCE
+ VALUE 1
+ END
+ BEGIN NUM DOF25D
+ VALUE 1
+ END
+ BEGIN NUM MB25D
+ VALUE 1
+ END
+END WORLEY_LABS_PLUGIN FPrime
+EndPlugin
+Plugin MasterHandler 2 .SceneEditorStandardBanks
+EndPlugin
+Plugin MasterHandler 3 SceneEditor
+VERS 2
+{ CurrentWorkspace
+  Name "<default>"
+  WindowDimensions 10 10 1f4 12c
+  Divider1 0.30000001
+  LayoutItemFilterEnabled 0
+  LayoutItemChannelFilterEnabled 0
+  SurfaceFilterEnabled 0
+  SurfaceChannelFilterEnabled 0
+  ChannelFilterEnabled 0
+  { Bank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { SurfaceListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { ChannelListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  BackgroundColorOdd 78 78 78 ff
+  BackgroundColorEven 6f 6f 6f ff
+  HierarchyIndent c
+  HighlightColor b5 b0 a5 ff
+  DefaultObjectColor 60 e0 f0 ff
+  DefaultBoneColor 0 30 80 ff
+  DefaultLightColor f0 60 f0 ff
+  DefaultCameraColor 20 e0 20 ff
+  AutoApplyToViewPorts 1
+  MultiselectSimilarTypes 1
+  LimitColorRange 1
+  ColorsAsHSV 0
+  ShowSelectionOrder 1
+  EnvelopeButtonOpensGraphEditor 1
+  ShowRenderExtents 1
+  BlockPeriod 0.033333335
+  BlockWidthMin 3
+  BlockWidthMax c8
+  ShowKeyTicks 1
+  OverrideBlockColors 0
+  BlockKeyColor 99 ae cf ff
+  BlockGroupColor 64 85 b6 ff
+  DSAllowChannelGroupSelection 1
+}
+EndPlugin
+
+LoadObjectLayer 1 C:collosus/items/weapon_4guns/weapon_4guns.lwo
+ShowObject 7 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 2 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 6.2823124 0
+  Key 6.283185 2 0 0 0 0 6.2823124 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -0.0017453292 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AmbientColor 1 1 1
+AmbientIntensity 0.05
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0.11433547 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.53669751 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -1.4948071 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.78539813 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.61086524 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 1 1 1
+LightIntensity 2
+AffectCaustics 1
+LightType 1
+LightFalloffType 1
+LightRange 2
+ShadowType 1
+ShadowColor 0 0 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0.43441719 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.060164355 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0.80261767 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.78539813 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.61086524 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 0.905882 0.517647 0.227451
+LightIntensity 3
+AffectCaustics 1
+LightType 1
+ShadowType 1
+ShadowColor 0 0 0
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key 1.0801941 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.61021382 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -1.5010239 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.63704515 0 0 0 0 0 0 0.045284402 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.34906599 0 0 0 0 0 0 0.15675315 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.0052359877 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 3.74
+ResolutionMultiplier 1.0
+FrameSize 480 480
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 1
+BackdropColor 0.137255 0.266667 0.360784
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 1
+RayRecursionLimit 16
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGB 1
+SaveRGBImagesPrefix I:\fra\DEMOS\MB\assets\renders\weapons\weapon_4guns_
+RGBImageSaver _Targa
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0.755006 0.1800002 -0.1481289
+ViewZoomFactor 8
+
+GridNumber 80
+GridSize 1
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 0
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor_fv 0 0 0
+
+CurrentObject 0
+CurrentLight 1
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}

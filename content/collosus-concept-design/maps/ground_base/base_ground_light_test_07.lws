@@ -1,0 +1,2850 @@
+LWSC
+3
+
+RenderRangeType 0
+FirstFrame 0
+LastFrame 2
+FrameStep 1
+RenderRangeArbitrary 0-2
+PreviewFirstFrame 0
+PreviewLastFrame 60
+PreviewFrameStep 1
+CurrentFrame 2
+FramesPerSecond 25
+Plugin MasterHandler 1 .SceneEditorStandardBanks
+EndPlugin
+Plugin MasterHandler 2 SceneEditor
+VERS 2
+{ CurrentWorkspace
+  Name "<default>"
+  WindowDimensions 104 116 31d 2d6
+  Divider1 0.5
+  LayoutItemFilterEnabled 0
+  LayoutItemChannelFilterEnabled 0
+  SurfaceFilterEnabled 0
+  SurfaceChannelFilterEnabled 0
+  ChannelFilterEnabled 0
+  { Bank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { SurfaceListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  { ChannelListBank
+    PresetID 5f425042
+    Column 5f425042 0 74
+    Column 5f425042 1 90
+    Column 5f425042 2 90
+    Column 5f425042 3 90
+    Column 5f425042 4 90
+    Column 5f425042 5 90
+    Column 5f425042 6 90
+    Column 5f425042 7 90
+  }
+  BackgroundColorOdd 78 78 78 ff
+  BackgroundColorEven 6f 6f 6f ff
+  HierarchyIndent c
+  HighlightColor b5 b0 a5 ff
+  DefaultObjectColor 60 e0 f0 ff
+  DefaultBoneColor 0 30 80 ff
+  DefaultLightColor f0 60 f0 ff
+  DefaultCameraColor 20 e0 20 ff
+  AutoApplyToViewPorts 1
+  MultiselectSimilarTypes 1
+  LimitColorRange 1
+  ColorsAsHSV 0
+  ShowSelectionOrder 1
+  EnvelopeButtonOpensGraphEditor 1
+  ShowRenderExtents 1
+  BlockPeriod 0.039999999
+  BlockWidthMin 3
+  BlockWidthMax c8
+  ShowKeyTicks 1
+  OverrideBlockColors 0
+  BlockKeyColor 99 ae cf ff
+  BlockGroupColor 64 85 b6 ff
+  DSAllowChannelGroupSelection 1
+}
+EndPlugin
+Plugin MasterHandler 3 Fprime
+BEGIN WORLEY_LABS_PLUGIN FPrime
+# 1463179080 x86 FPrime Version 1.0-RE Apr  2 2005
+# Saved Thu Dec 29 15:16:05 2005
+
+VERSION 1
+ BEGIN RADIO RADTYPE
+  SELECTION 2
+ END
+ BEGIN NUM RADSTRENGTH
+ VALUE 1
+ END
+ BEGIN NUM RADBOUNCE
+ VALUE 1
+ END
+ BEGIN NUM DOF25D
+ VALUE 1
+ END
+ BEGIN NUM MB25D
+ VALUE 1
+ END
+ BEGIN NUM ARQUALITY
+ VALUE 0.5
+ END
+END WORLEY_LABS_PLUGIN FPrime 
+EndPlugin
+
+LoadObjectLayer 1 3d/old/ground_01.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -0.017647203 0
+  Key -0.017708478 0.079999998 0 0 0 0 -0.017647203 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -0.017585747 0
+  Key -0.017646808 0.079999998 0 0 0 0 -0.017585747 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+SubPatchLevel 3 3
+DisplacementMaps
+{ TextureBlock
+  { Texture
+    { ImageMap
+      "(-128)"
+      Channel 1954051186
+      { Opacity
+        0
+        1
+        0
+      }
+      Enable 1
+      Negative 0
+      Axis 1
+    }
+    { TextureMap
+      { Center
+        0.38500977 18.845661 2.5
+        0
+      }
+      { Size
+        530.896 66.572639 505.06
+        0
+      }
+      { Rotation
+        0 0 0
+        0
+      }
+      { Falloff
+        0
+        0 0 0
+        0
+      }
+      RefObject "(none)"
+      Coordinates 0
+    }
+    Projection 0
+    Axis 1
+    { Image
+      { Clip
+        { Still
+          "2d/displace_map_01.tga"
+        }
+        Flags 80
+      }
+    }
+    WrapOptions 1 1
+    { WidthWrap
+      1
+      0
+    }
+    { HeightWrap
+      1
+      0
+    }
+    AntiAliasing 1 1
+    PixelBlending 1
+    { TextureAmplitude
+      1
+      0
+    }
+  }
+}
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -40.91423 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -8.5 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 7.4068851 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.054105192 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.013962613 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.1012291 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 5
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 0.600000 -0.400000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -45.852161 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -11.600001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 46.557556 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.17104223 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 1.200000 -0.800000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -24.33691 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -5.75 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 52.553612 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.24085541 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.75199997 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.75199997 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.75199997 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 1.800000 -1.200000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 8.1123028 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 1.5 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -1.1482075 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.059341196 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.74400002 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.74400002 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.74400002 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 2.400000 -1.600000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 55.022591 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 6.25 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -7.4068851 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -0.15707959 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.048869208 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1.0959995 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1.0959995 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1.0959995 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 3.000000 -2.000000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -78.301361 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -13.75 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 35.976295 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.0034906603 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.085521139 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.93800014 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.93800014 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.93800014 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 3.600000 -2.400000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -61.792538 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -8.7000008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -25.042326 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.11170112 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.83999991 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.83999991 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.83999991 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 4.200000 -2.800000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -91.351608 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -7.9499993 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -26.453161 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.092502452 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.93000019 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.93000019 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.93000019 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 4.800000 -3.200000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 61.018642 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 4.3499999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -46.204865 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.10297443 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.041887905 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 5.400000 -3.600000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 57.844234 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 10.049998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -76.537827 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.16057028 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.20769416 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.83000028 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.83000028 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.83000028 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 6.000000 -4.000000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -49.731964 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 5.6249986 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -92.056992 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.16755161 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 6.600000 -4.400000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -65.251152 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.1000001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -86.76635 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 7.200000 -4.800000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -71.981819 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -0.97500002 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -74.053658 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.96516711 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.72000015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.72000015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.72000015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 7.800000 -5.200000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -79.295502 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -1.4249998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -70.189056 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.99134707 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.74800009 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.74800009 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.74800009 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 8.400000 -5.600000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -88.52993 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -0.30000001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -74.774269 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.13264501 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1.0979999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1.0979999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1.0979999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 9.000000 -6.000000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -100.16931 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -1.2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -65.251129 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.29147005 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.05235989 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.63800019 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.63800019 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.63800019 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 9.600000 -6.400000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -95.231384 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.89999998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -84.297394 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.038397245 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.80199999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.80199999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.80199999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 10.200000 -6.800000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -81.256561 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.52499998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -85.002808 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.073303819 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.53000003 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.53000003 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.53000003 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 10.800000 -7.200000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -75.135918 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 1.2750002 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -89.656029 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 11.400000 -7.600000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -40.388927 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 8.5499973 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -109.71684 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.76600015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.76600015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.76600015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 12.000000 -8.000000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -40.561504 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 9.3749962 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -118.51016 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 3.4801862 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.068067834 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1.1160001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1.1160001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1.1160001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 12.600000 -8.400000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -65.956551 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 4.6500001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -108.17205 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.66400009 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.66400009 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.66400009 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 13.200000 -8.800000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -84.279388 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.9999998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -102.38871 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.18849556 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.52200001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.52200001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.52200001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 13.800000 -9.200000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -88.327591 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 6.7024465 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -116.5263 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.17104228 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.89600015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.89600015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.89600015 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 14.400000 -9.600000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -77.948647 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 7.125 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -118.15744 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.15358895 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.13089967 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1.2499999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1.2499999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1.2499999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 15.000000 -10.000000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -175.64899 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 15.899999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -82.886551 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 15.600000 -10.400000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -176.00169 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.6250002 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -4.2325058 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.17976891 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.69999999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.69999999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.69999999 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 16.200001 -10.800000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -105.4806 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -10.149997 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 52.216732 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.15009834 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -0.061086521 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.031415928 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 16.799999 -11.200000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -185.87756 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 9.6000013 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -53.259041 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.18325953 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.090757102 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.04712389 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.83200008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.83200008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.83200008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 17.400000 -11.600000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -198.22237 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 9.5249987 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -35.270874 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.20071286 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 0.73000008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 0.73000008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 0.73000008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/mushroom_01.lwo
+ShowObject 6 3
+SchematicPosition 18.000000 -12.000000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -168.18327 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 17.775003 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -125.38485 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.13962637 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.0069813197 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key -0.073303826 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AddNullObject buildings
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 1 3d/old/cargo_01.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  3
+  Key 13.36059 0 0 0 0 0 0 0 0
+  Key -53.985943 0.039999999 0 0 0 0 0 0 0
+  Key 48.021233 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  3
+  Key 38.225002 0 0 0 0 0 0 0 0
+  Key 41.475018 0.039999999 0 0 0 0 0 0 0
+  Key 56.10001 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  3
+  Key -6.035614 0 0 0 0 0 0 0 0
+  Key -88.773254 0.039999999 0 0 0 0 0.33093899 0 0
+  Key -78.910461 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  3
+  Key 0.41887906 0 0 0 0 0 0 0 0
+  Key -2.5272365 0.039999999 0 0 0 0 0.0017332925 0 0
+  Key 2.326524 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  3
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 0.039999999 0 0 0 0 0 0 0
+  Key 0 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  3
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 0.039999999 0 0 0 0 0 0 0
+  Key 0 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 48
+SubPatchLevel 3 3
+ShadowOptions 7
+
+AmbientColor 0.603922 0.47451 0.294118
+AmbientIntensity -1
+EnableRadiosity 1
+RadiosityType 0
+RadiosityIntensity 1
+RadiosityRays 3
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  3
+  Key 2000 0 0 0 0 0 0 0 0
+  Key 1822.4885 0.039999999 0 0 0 0 0 0 0
+  Key 2000 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  3
+  Key 626.92499 0 0 0 0 0 0 0 0
+  Key 538.92499 0.039999999 0 0 0 0 0 0 0
+  Key 626.92499 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  3
+  Key 50 0 0 0 0 0 0 0 0
+  Key -499.87341 0.039999999 0 0 0 0 0 0 0
+  Key 50 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  3
+  Key -7.8871422 0 0 0 0 0 0 0 0
+  Key -7.5747294 0.039999999 0 0 0 0 0 0 0
+  Key -7.8871422 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  3
+  Key 0.29496068 0 0 0 0 0 0 0 0
+  Key 0.26703539 0.039999999 0 0 0 0 0 0 0
+  Key 0.29496068 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  3
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 0.039999999 0 0 0 0 0 0 0
+  Key 0 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  2
+  Key 1 0 0 0 0 0 0 0 0
+  Key 1 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 32
+LightColor 0.694118 0.619608 0.360784
+LightIntensity 2
+AffectSpecular 0
+AffectCaustics 1
+LightType 2
+LightConeAngle 10
+LightEdgeAngle 5
+ShadowType 1
+ShadowColor 0 0 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 2.11534 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.30892336 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 48
+LightColor 0.184314 0.270588 0.317647
+LightIntensity 0.42
+AffectSpecular 0
+AffectCaustics 1
+LightType 0
+ShadowType 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 5.6500001 0 0 0 0 0 0 -3.6373703 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  2
+  Key -7.8679442 0 0 0 0 0 0 3.7064283 0
+  Key -4.1486464 0.079999998 0 0 0 0 3.7064283 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  2
+  Key 0.30892336 0 0 0 0 0 0 7.7328806 0
+  Key 8.0686541 0.079999998 0 0 0 0 7.7328806 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 40
+LightColor 0.552941 0.407843 0.984314
+LightIntensity 0.22
+AffectSpecular 0
+AffectCaustics 1
+LightType 0
+ShadowType 1
+ShadowColor 0 0 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 29.069731 0
+  Key 29.170668 0.079999998 0 0 0 0 29.069731 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 29.049129 0
+  Key 29.149994 0.079999998 0 0 0 0 29.049129 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -63.421654 0
+  Key -63.641869 0.079999998 0 0 0 0 -63.421654 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 0.470588 0.65098 0.847059
+LightIntensity 2
+AffectSpecular 0
+LightType 1
+LightFalloffType 1
+LightRange 30
+LensFlare 1
+FlareIntensity 0.5
+FlareNominalDistance 5
+FlareDissolve 0
+LensFlareFade 22
+LensFlareOptions 545
+ShadowType 0
+
+AddLight
+LightName Light
+ShowLight 1 5
+SchematicPosition 0.600000 -0.400000
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -55.61095 0
+  Key -55.804043 0.079999998 0 0 0 0 -55.61095 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 3.8615832 0
+  Key 3.8749914 0.079999998 0 0 0 0 3.8615832 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  2
+  Key 0 0 0 0 0 0 0 -51.670963 0
+  Key -51.850376 0.079999998 0 0 0 0 -51.670963 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 1 0.74902 0
+LightIntensity 2
+AffectDiffuse 0
+AffectSpecular 0
+AffectOpenGL 0
+LightType 1
+LightFalloffType 1
+LightRange 30
+LensFlare 1
+FlareIntensity 0.5
+FlareNominalDistance 5
+FlareDissolve 0
+LensFlareFade 22
+LensFlareOptions 545
+ShadowType 0
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  3
+  Key -158.1053 0 0 0 0 0 0 0 0
+  Key -102.70597 0.039999999 0 0 0 0 -0.048733838 0 0
+  Key -171.71608 0.079999998 0 0 0 0 -0.63475215 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  3
+  Key 102.02499 0 0 0 0 0 0 0 0
+  Key -7.4000092 0.039999999 0 0 0 0 0 0 0
+  Key 21.249992 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  3
+  Key 241.59721 0 0 0 0 0 0 0 0
+  Key 60.140835 0.039999999 0 0 0 0 -0.061553746 0 0
+  Key -134.37312 0.079999998 0 0 0 0 -0.26200119 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  3
+  Key 2.5830863 0 0 0 0 0 0 0 0
+  Key 2.9688039 0.039999999 0 0 0 0 0.0051998007 0 0
+  Key 7.0703278 0.079999998 0 0 0 0 0.0086664138 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  3
+  Key 0.58119476 0 0 0 0 0 0 0 0
+  Key -0.019198727 0.039999999 0 0 0 0 -0.01213304 0 0
+  Key -0.062831923 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  3
+  Key 0 0 0 0 0 0 0 0 0
+  Key 0 0.039999999 0 0 0 0 0 0 0
+  Key 0 0.079999998 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 1.5
+ResolutionMultiplier 2.0
+FrameSize 1600 1200
+PixelAspect 1
+MaskPosition 0 0 800 600
+MotionBlur 0
+FieldRendering 0
+
+LimitedRegion 1
+RegionLimits 0 1 0 1
+ApertureHeight 0.015
+Antialiasing 1
+AntiAliasingLevel -1
+ReconstructionFilter 0
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 0
+BackdropColor 0.27451 0.396078 0.52549
+ZenithColor 0.227451 0.329412 0.439216
+SkyColor 0.478431 0.643137 0.737255
+GroundColor 0.478431 0.643137 0.737255
+NadirColor 0.141176 0.203922 0.27451
+SkySqueezeAmount 8
+GroundSqueezeAmount 8
+FogType 1
+FogMinDistance 146
+FogMaxDistance 505
+FogMinAmount 0
+FogMaxAmount 1
+FogColor 0.5098 0.5098 0.549
+BackdropFog 1
+DitherIntensity 3
+AnimatedDither 0
+Plugin ImageFilterHandler 1 LW_Virtual_Darkroom2.0
+2
+Basic 2 1 0.64999998 1 1 0 24 32 1 0.00039999999
+BWFilmPtX -4 -3.75 -3.5 -3.25 -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0
+BWFilmPtY 0.083300002 0.20829999 0.25 0.375 0.54170001 0.70829999 0.91670001 1.1667 1.375 1.5833 1.7917 1.9583 2.1666999 2.375 2.5416999 2.7083001 2.8333001 0 0 0 0
+BWPaperPtX -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 0 0 0 0 0 0 0 0 0 0 0 0 0
+BWPaperPtY 0.074074 0.111111 0.175926 0.5 1.111111 1.675926 2.07407 2.1481481 0 0 0 0 0 0 0 0 0 0 0 0 0
+ColorFilmRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmRedPtY 0.322 0.32800001 0.34400001 0.39399999 0.47600001 0.59799999 0.74800003 0.90600002 1.064 1.228 1.388 1.54 1.684 1.826 1.96 2.082 2.1960001 0 0 0 0
+ColorPaperRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperRedPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.17647 2 2.5588 2.7058799 2.7058799 2.7058799 0 0 0 0 0 0 0 0
+ColorFilmGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmGreenPtY 0.68400002 0.68599999 0.69 0.73000002 0.81599998 0.94599998 1.102 1.266 1.4299999 1.5880001 1.744 1.902 2.0480001 2.184 2.3099999 2.428 2.5339999 0 0 0 0
+ColorPaperGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperGreenPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.5294499 2.6029 2.6322999 0 0 0 0 0 0 0 0
+ColorFilmBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmBluePtY 0.935 0.95499998 1.1015 1.11 1.23 1.375 1.545 1.715 1.89 2.0550001 2.2249999 2.3900001 2.5550001 2.7149999 2.865 3 3.125 0 0 0 0
+ColorPaperBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperBluePtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.4852901 2.5441 2.57353 0 0 0 0 0 0 0 0
+Percent_RGB 0 0 0
+Negative_RGB 1 0 0 0 0.25 0 0 0 0.050000001
+Printing_RGB 0.94999999 0.029999999 0.02 0.029999999 0.94 0.029999999 0.02 0.029999999 0.94999999
+BWMTFPtX 1 60.900002 120.8 180.7 240.60001 300.5 360.39999 420.5 480.20001 540.09998 600 0 0 0 0 0 0 0 0 0 0
+BWMTFPtY 1 0.91759998 0.55379999 0.32730001 0.2316 0.1961 0.16060001 0.1252 0.089699998 0.054299999 0.02 0 0 0 0 0 0 0 0 0 0
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 1
+DepthBufferAA 0
+RayRecursionLimit 4
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 1
+SaveRGB 1
+SaveRGBImagesPrefix I:\fra\DEMOS\MB\assets\renders\ground_base_04_
+RGBImageSaver LW_JPEG(.jpg)
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 8
+ViewAimpoint -3.092709 0 -16.66765
+ViewZoomFactor 1.174238
+
+GridNumber 10
+GridSize 50
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 1
+ShowFogEffect 1
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor_fv 0 0 0
+
+CurrentObject 33
+CurrentLight 0
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}
+ImageEditorData
+NumberOfClips 1
+Clip 0
+{ ClipObject
+  "displace_map_01.tga"
+  128
+  0
+}
