@@ -1,0 +1,1096 @@
+LWSC
+3
+
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+PreviewFirstFrame 0
+PreviewLastFrame 60
+PreviewFrameStep 1
+CurrentFrame 0
+FramesPerSecond 30
+
+LoadObjectLayer 1 SHELLER/meshes/monde.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -0.53172803 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -0.61000001 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0.88400531 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key -0.27401665 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0.11693698 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1.132 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1.132 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1.132 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LockedChannels 24
+PivotPosition 0 -0.49 0
+ShadowOptions 7
+
+LoadObjectLayer 2 SHELLER/meshes/monde.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0.26136747 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0.77239078 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1.498 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1.5899998 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+Plugin DisplacementHandler 1 Sasquatch
+BEGIN WORLEY_LABS_PLUGIN Sasquatch
+# 33333 2565   x86 Sasquatch Version 1.0-EN Nov 11 2001
+# Saved Wed Dec 04 22:17:50 2002
+
+VERSION 1.5
+ BEGIN COLOR SALTDIFFUSEBCOLOR
+  RED 0
+  GREEN 64
+  BLUE 0
+ END
+ BEGIN COLOR SALTDIFFUSETCOLOR
+  RED 101
+  GREEN 139
+  BLUE 63
+ END
+ BEGIN COLOR PEPPERDIFFUSEBCOLOR
+  RED 44
+  GREEN 54
+  BLUE 10
+ END
+ BEGIN COLOR PEPPERDIFFUSETCOLOR
+  RED 43
+  GREEN 106
+  BLUE 21
+ END
+ BEGIN SURFVARY SPBIAS
+ VALUE 0
+ HIGHVALUE 1
+ DOFRAC
+ FRACSCALEX 0.25
+ FRACSCALEY 0.25
+ FRACSCALEZ 0.25
+ FRACSMALL 0.6
+ FRACSHARP 0.75
+ FRACBIAS 0.5
+ END
+ BEGIN SURFVARY SPGAIN
+ VALUE 0
+ END
+ BEGIN SURFVARY COLORSKEW
+ VALUE 0.5
+ END
+ BEGIN SURFVARY SKEWVARY
+ VALUE 0.1
+ END
+ BEGIN SURFVARY COLORSHARP
+ VALUE 0.5
+ END
+ BEGIN SURFVARY BRIGHTVARY
+ VALUE 0.25
+ END
+ BEGIN SURFVARY HUEVARY
+ VALUE 0.15
+ END
+ BEGIN SURFVARY CLUMPINHERIT
+ VALUE 0.9
+ END
+ BEGIN SURFVARY DIFFUSE
+ VALUE 0.85
+ END
+ BEGIN SURFVARY SPECULAR
+ VALUE 0.2
+ END
+ BEGIN SURFVARY GLOSS
+ VALUE 0.5
+ END
+ BEGIN SURFVARY SPECTINT
+ VALUE 0.2
+ END
+ BEGIN SURFVARY SCATTER
+ VALUE 0.1
+ END
+ BEGIN SURFVARY DIRECT
+ VALUE 0
+ END
+ BEGIN SURFVARY AMBIENT
+ VALUE 0.5
+ END
+ BEGIN SURFVARY SELF_SHADOW
+ VALUE 0.5
+ END
+ BEGIN SURFVARY DENSITY
+ VALUE 0.4
+ END
+ BEGIN NUM DENSITYANIM
+ VALUE 1
+ END
+ BEGIN SURFVARY LENGTH2
+ VALUE 0.5
+ END
+ BEGIN NUM LENGTHANIM
+ VALUE 1
+ END
+ BEGIN SURFVARY LENGTHVARY
+ VALUE 0.2
+ END
+ BEGIN SURFVARY COARSENESS
+ VALUE 5
+ END
+ BEGIN SURFVARY COARSEVARY
+ VALUE 0.1
+ END
+ BEGIN SURFVARY NARROWING
+ VALUE 0.75
+ END
+ BEGIN NUM SEGQUAL
+ VALUE 0.25
+ END
+ BEGIN NUM MANUALSIZE
+ VALUE 1
+ END
+ BEGIN BUTTON AUTOSIZE
+  CHECKED NO
+  HIGHLIGHTED YES
+ END
+ BEGIN NUM SUBDIVIDE
+ VALUE 0.1
+ END
+ BEGIN NUM POSEFRAME
+ VALUE 0
+ END
+ BEGIN RADIO ACTION
+  SELECTION 0
+ END
+ BEGIN RADIO SURFACETYPE
+  SELECTION 0
+ END
+ BEGIN STRING SURFACE
+  STRING2 0 @
+ END
+ BEGIN NUM SURFCREEP
+ VALUE 0
+ END
+ BEGIN STRING COMMENT
+  STRING2 0 @
+ END
+ BEGIN NUM SURFSOFT
+ VALUE 0
+ END
+ BEGIN SURFVARY HAIRWIDTH
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRTHICK
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRMERGE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRHELIX
+ VALUE 0
+ END
+ BEGIN NUM HAIRCLUMPS
+ VALUE 8
+ END
+ BEGIN NUM HAIRFIBERS
+ VALUE 4
+ END
+ BEGIN NUM HAIRSMOOTHING
+ VALUE 0.5
+ END
+ BEGIN NUM HAIRSIZEIND
+ VALUE 0.75
+ END
+ BEGIN NUM HAIRLENGTH
+ VALUE 1
+ END
+ BEGIN SURFVARY COMBSTRENGTH
+ VALUE 0
+ END
+ BEGIN STRING COMBSURFACE
+  STRING2 0 @
+ END
+ BEGIN RADIO COMBTYPE
+  SELECTION 0
+ END
+ BEGIN SURFVARY COMBBIAS
+ VALUE 0
+ END
+ BEGIN ITEM COMBITEM
+ END
+ BEGIN SURFVARY MAXSLEEK
+ VALUE 1
+ END
+ BEGIN SURFVARY TANGLE
+ VALUE 0.15
+ END
+ BEGIN SURFVARY BASEDROOP
+ VALUE 0
+ END
+ BEGIN SURFVARY TIPDROOP
+ VALUE 0.15
+ END
+ BEGIN SURFVARY CURL
+ VALUE 0
+ END
+ BEGIN SURFVARY CURLVARY
+ VALUE 0
+ END
+ BEGIN SURFVARY TIPCURL
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CURLDIRECTION
+ VALUE 0.5
+ END
+ BEGIN SURFVARY FRIZZ
+ VALUE 0.1
+ HIGHVALUE 0.2
+ DOFRAC
+ FRACSCALEX 0.1
+ FRACSCALEY 0.1
+ FRACSCALEZ 0.1
+ FRACSMALL 0.4
+ FRACSHARP 0.5
+ FRACBIAS 0.5
+ END
+ BEGIN SURFVARY KINK
+ VALUE 0.05
+ END
+ BEGIN SURFVARY KINKFREQ
+ VALUE 0.5
+ END
+ BEGIN SURFVARY WINDROOT
+ VALUE 1
+ END
+ BEGIN SURFVARY WINDTIP
+ VALUE 0.565
+ END
+ BEGIN SURFVARY FLOPROOT
+ VALUE 0
+ END
+ BEGIN SURFVARY FLOPTIP
+ VALUE 0
+ END
+ BEGIN NUM RESTORE
+ VALUE 0.5
+ END
+ BEGIN NUM DAMPING
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPCOUNT
+ VALUE 0
+ END
+ BEGIN SURFVARY CLUMPSCALE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPSCALEVARY
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPMATT
+ VALUE 0.95
+ END
+ BEGIN SURFVARY CLUMPBIAS
+ VALUE 0.75
+ END
+ BEGIN SURFVARY CLUMPWIGGLE
+ VALUE 0.75
+ END
+ BEGIN SURFVARY CLUMPLENGTHVARY
+ VALUE 0.25
+ END
+ BEGIN NUM IMCOLSTR
+ VALUE 0
+ END
+ BEGIN RADIO IMPROJ
+  SELECTION 0
+ END
+ BEGIN RADIO IMAXIS
+  SELECTION 2
+ END
+ BEGIN RADIO IMTYPE
+  SELECTION 0
+ END
+ BEGIN ITEM IMCOLDEF
+ END
+ BEGIN NUM VCOLSTR
+ VALUE 1
+ END
+ BEGIN NUMSTORE SEED
+ COUNT 1
+  0
+ END
+END WORLEY_LABS_PLUGIN Sasquatch
+EndPlugin
+ShadowOptions 7
+
+LoadObjectLayer 3 SHELLER/meshes/monde.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 3 SHELLER/meshes/monde.lwo
+ShowObject 6 3
+SchematicPosition 0.600000 -0.400000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 1.7520106 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -0.045852147 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2.5716617 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 3 SHELLER/meshes/monde.lwo
+ShowObject 6 3
+SchematicPosition 1.200000 -0.800000
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0.90550941 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key -0.045852147 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 4.7646809 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AddNullObject Focus
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -0.37250152 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0.22220656 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0.27026227 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+AmbientColor 0.345098 0.517647 0.596078
+AmbientIntensity 1
+NoiseReduction 1
+EnableRadiosity 1
+RadiosityType 1
+RadiosityIntensity 1
+RadiosityRays 12
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -4.1735678 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.2100008 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 5.3615708 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -3.7873645 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.32986709 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 0.996078 0.972549 0.878431
+LightIntensity 1
+AffectCaustics 1
+LightType 2
+LightConeAngle 27.5
+LightEdgeAngle 16
+ShadowType 2
+ShadowColor 0.141176 0.239216 0.34902
+ShadowMapSize 2048
+UseConeAngle 0
+ShadowMapAngle 25.5
+ShadowFuzziness 5
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key 1.341502 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2.3099992 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -3.290185 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.25656337 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.61261076 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 3.2
+ResolutionMultiplier .5
+FrameSize 320 240
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 1
+AdaptiveSampling 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+Plugin EnvironmentHandler 1 LW_ImageWorld
+1
+0
+2.3561945
+0
+3
+0.00089426676
+{ Clip
+  { Still
+    "SHELLER/mine/maps/base_ambiance.tif"
+  }
+  { Saturation
+    1
+    0
+  }
+}
+EndPlugin
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+Plugin PixelFilterHandler 1 Sasquatch
+BEGIN WORLEY_LABS_PLUGIN Sasquatch
+# 33333 2565   x86 Sasquatch Version 1.0-EN Nov 11 2001
+# Saved Wed Dec 04 22:17:50 2002
+
+VERSION 1.5
+ BEGIN NUM AALev
+ VALUE 2
+ END
+ BEGIN BUTTON PREVIEW
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON FREEZE
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON ONEPASS
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN NUM TRANSP
+ VALUE 0
+ END
+ BEGIN NUM REAR
+ VALUE 0.15
+ END
+ BEGIN NUM OFFSCREEN
+ VALUE 0.9
+ END
+ BEGIN NUM SHADINGQUAL
+ VALUE 0.5
+ END
+ BEGIN NUM ZBUFSIZE2
+ VALUE 96
+ END
+ BEGIN NUM SNZBUFSIZE2
+ VALUE 96
+ END
+ BEGIN NUM WINDSPEED
+ VALUE 0
+ END
+ BEGIN ITEM WINDITEM
+ END
+ BEGIN NUM WINDGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWSPEED
+ VALUE 0
+ END
+ BEGIN ITEM BLOWITEM
+ END
+ BEGIN NUM BLOWGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWDIST
+ VALUE 0.1
+ END
+ BEGIN NUM GUSTSIZE
+ VALUE 0.5
+ END
+ BEGIN NUM GUSTTIME
+ VALUE 1
+ END
+ BEGIN NUM GUSTTURB
+ VALUE 0.8
+ END
+ BEGIN BUTTON LWSHADOW
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON SELFSHAD
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON CASTSHAD
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN RADIO WHATSHAD
+  SELECTION 0
+ END
+ BEGIN ITEM SHADOWLIGHTS
+ END
+ BEGIN NUM SHADRES
+ VALUE 1000
+ END
+ BEGIN BUTTON SPOT_CONES
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN NUM SHAD_SOFT
+ VALUE 0.1
+ END
+ BEGIN ITEM BOOSTITEM
+ END
+ BEGIN NUM BOOST1
+ VALUE 1
+ END
+ BEGIN NUM BOOST2
+ VALUE 1
+ END
+ BEGIN RADIO ALPHA
+  SELECTION 2
+ END
+ BEGIN RADIO Z
+  SELECTION 2
+ END
+ BEGIN BUTTON THREAD_RENDER
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON LWBUG
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN BUTTON RADIOSITY
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN BUTTON OTHERPOS
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON USEDISTCLIP
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN NUM DISTCLIP
+ VALUE 100
+ END
+ BEGIN NUM LOW_FRAME
+ VALUE -32767
+ END
+ BEGIN NUM HIGH_FRAME
+ VALUE 32767
+ END
+END WORLEY_LABS_PLUGIN Sasquatch 
+EndPlugin
+PluginEnabled 0
+Plugin PixelFilterHandler 2 .PF_DOFBlur
+EndPlugin
+Plugin ImageFilterHandler 1 LW_Virtual_Darkroom2.0
+2
+Basic 2 1 0.64999998 1 1 0 24 32 1 0.00039999999
+BWFilmPtX -4 -3.75 -3.5 -3.25 -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0
+BWFilmPtY 0.083300002 0.20829999 0.25 0.375 0.54170001 0.70829999 0.91670001 1.1667 1.375 1.5833 1.7917 1.9583 2.1666999 2.375 2.5416999 2.7083001 2.8333001 0 0 0 0
+BWPaperPtX -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 0 0 0 0 0 0 0 0 0 0 0 0 0
+BWPaperPtY 0.074074 0.111111 0.175926 0.5 1.111111 1.675926 2.07407 2.1481481 0 0 0 0 0 0 0 0 0 0 0 0 0
+ColorFilmRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmRedPtY 0.322 0.32800001 0.34400001 0.39399999 0.47600001 0.59799999 0.74800003 0.90600002 1.064 1.228 1.388 1.54 1.684 1.826 1.96 2.082 2.1960001 0 0 0 0
+ColorPaperRedPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperRedPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.17647 2 2.5588 2.7058799 2.7058799 2.7058799 0 0 0 0 0 0 0 0
+ColorFilmGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmGreenPtY 0.68400002 0.68599999 0.69 0.73000002 0.81599998 0.94599998 1.102 1.266 1.4299999 1.5880001 1.744 1.902 2.0480001 2.184 2.3099999 2.428 2.5339999 0 0 0 0
+ColorPaperGreenPtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperGreenPtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.5294499 2.6029 2.6322999 0 0 0 0 0 0 0 0
+ColorFilmBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0.25 0.5 0.75 1 0 0 0 0
+ColorFilmBluePtY 0.935 0.95499998 1.1015 1.11 1.23 1.375 1.545 1.715 1.89 2.0550001 2.2249999 2.3900001 2.5550001 2.7149999 2.865 3 3.125 0 0 0 0
+ColorPaperBluePtX -3 -2.75 -2.5 -2.25 -2 -1.75 -1.5 -1.25 -1 -0.75 -0.5 -0.25 0 0 0 0 0 0 0 0 0
+ColorPaperBluePtY 0.088229999 0.088229999 0.088229999 0.088229999 0.088229999 0.17647 0.44117001 1.08823 1.7647001 2.2939999 2.4852901 2.5441 2.57353 0 0 0 0 0 0 0 0
+Percent_RGB 0 0 0
+Negative_RGB 1 0 0 0 0.25 0 0 0 0.050000001
+Printing_RGB 0.94999999 0.029999999 0.02 0.029999999 0.94 0.029999999 0.02 0.029999999 0.94999999
+BWMTFPtX 1 60.900002 120.8 180.7 240.60001 300.5 360.39999 420.5 480.20001 540.09998 600 0 0 0 0 0 0 0 0 0 0
+BWMTFPtY 1 0.91759998 0.55379999 0.32730001 0.2316 0.1961 0.16060001 0.1252 0.089699998 0.054299999 0.02 0 0 0 0 0 0 0 0 0 0
+EndPlugin
+PluginEnabled 0
+Plugin ImageFilterHandler 2 LW_DOFBlur
+3
+0
+0
+0
+1
+268435461
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0.1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    1
+    0
+  }
+}
+{ VariantParameter
+  3
+  0
+  { ParameterValue
+    0
+    0
+  }
+}
+EndPlugin
+
+RenderMode 1
+RayTraceEffects 3
+RayRecursionLimit 4
+RayTraceOptimization 1
+DataOverlayLabel  
+OutputFilenameFormat 3
+SaveRGB 1
+SaveRGBImagesPrefix E:\works\SHELLER\mine\rendus\a03.
+RGBImageSaver LW_TIFF24(.tif)
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0.5499999 0.36 0
+ViewZoomFactor 32
+
+GridNumber 0
+GridSize 2
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 1
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor 1
+
+CurrentObject 5
+CurrentLight 0
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}
