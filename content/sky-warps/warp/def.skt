@@ -1,0 +1,69 @@
+SkyTracer
+
+
+	Version: 2
+	Dissolve: 0
+
+   --render_settings--
+	noAntiAliasing: 0
+	1/2Resolution: 0
+	volumetric_shadows: 0
+	Earth_radius: 6300
+	Ground_level: -1
+	Gain: 100
+	Contrast: 0
+
+   --atmosphere_settings--
+   thickness: 100
+   luminosity: 100
+   opacity: 90
+   falloff: 120
+   samples: 10
+   --haze_settings--
+   thickness: 1000
+   luminosity: 10
+   opacity: 0
+   falloff: 0
+   samples: 10
+   --cumulus_settings--
+   On/Off: 0
+   parent_object: (none)
+   type: 0
+   small_scale: 100
+   big_scale: 10
+   grain: 20
+   cover: 25
+   contrast: 200
+   shadows: 100
+   luminosity: 15
+   opacity: 80
+   altitude: 1000
+   --stratus_settings--
+   On/Off: 1
+   parent_object: (none)
+   type: 1
+   small_scale: 30
+   big_scale: 4
+   grain: 50
+   cover: 45
+   contrast: 180
+   shadows: 10
+   luminosity: 15
+   opacity: 20
+   altitude: 7000
+   --light1_settings--
+   light_name: Light
+   light_type: 1
+   flare_size: 20
+   flare_intensity: 100
+   flare_boost: 1
+   flare_colorshift: 1
+   flare_streaks: 10
+   --light2_settings--
+   light_name: (none)
+   light_type: 2
+   flare_size: 10
+   flare_intensity: 50
+   flare_boost: 1
+   flare_colorshift: 0
+   flare_streaks: 2
