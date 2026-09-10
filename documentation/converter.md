@@ -1,15 +1,16 @@
-# Convertisseur LWS/LWO en C — v0.1.0
+# LWS/LWO converter in C — v0.1.0
 
-État au 10 septembre 2026. Ce premier jalon fournit une bibliothèque C17 et un
-exécutable `lwconvert`, sans dépendance à Blender. Il extrait les structures
-natives et produit des OBJ/MTL. Les backends glTF 2.0 et `.blend` restent à écrire.
+Status as of 10 September 2026. This first milestone provides a C17 library and
+the `lwconvert` executable, with no Blender dependency. It extracts native
+structures and produces OBJ/MTL files. The glTF 2.0 and `.blend` backends remain
+to be implemented.
 
-## Commandes
+## Commands
 
-La compilation Windows et les exemples de démarrage figurent dans le
-[README](../README.md). MSVC 19.41 x64 a été utilisé en Debug, Release et
-RelWithDebInfo avec AddressSanitizer. La branche POSIX existe, mais sa compilation
-et son comportement n'ont pas encore été validés sur Linux/macOS.
+Windows build instructions and getting-started examples are in the
+[README](../README.md). MSVC 19.41 x64 was used for Debug, Release and
+RelWithDebInfo with AddressSanitizer. A POSIX implementation exists, but its
+build and behavior have not yet been validated on Linux/macOS.
 
 ```text
 lwconvert inspect INPUT
@@ -20,84 +21,82 @@ lwconvert convert INPUT --output NEW_DIRECTORY
     [--uv-map NAME]
 ```
 
-`inspect` détecte le format par sa signature, sans imposer d'extension, et écrit
-un résumé JSON sur stdout. `convert` crée une sortie nouvelle, hors de la racine
-de contenu ; son dossier parent doit exister. Les fichiers sources sont ouverts
-en lecture seule. Le manifeste est écrit en dernier ; une erreur d'écriture peut
-laisser une sortie incomplète sans manifeste, à supprimer ou à examiner avant de
-relancer vers un autre dossier.
+`inspect` detects the format by its signature, regardless of the file extension,
+and writes a JSON summary to stdout. `convert` creates a new output directory
+outside the content root; its parent directory must exist. Source files are
+opened read-only. The manifest is written last; a write error may leave an
+incomplete output without a manifest. Remove or inspect that output before
+retrying with another directory.
 
-La racine de contenu vaut par défaut le dossier de l'entrée. Pour une scène,
-choisir la racine du projet aide à éviter les collisions entre objets homonymes.
-`--frame` accepte une frame fractionnaire et vaut par défaut `FirstFrame`.
-`--uv-map` sélectionne explicitement une map TXUV native ; aucune map n'est
-choisie automatiquement en fonction des matériaux.
+The content root defaults to the input's directory. For a scene, selecting the
+project root helps avoid collisions between objects with the same name.
+`--frame` accepts fractional frames and defaults to `FirstFrame`.
+`--uv-map` explicitly selects a native TXUV map; no map is automatically selected
+from material settings.
 
-Codes de sortie :
+Exit codes:
 
-| Code | Signification |
+| Code | Meaning |
 |---|---|
-| 0 | Lecture réussie ou export du sous-ensemble pris en charge |
-| 1 | Erreur d'arguments, de lecture, de structure ou d'écriture ; diagnostic avec offset |
-| 2 | Paquet produit avec éléments manquants, omis ou approximés ; consulter le manifeste |
+| 0 | Successful read or export of the supported subset |
+| 1 | Argument, read, structural or write error; diagnostic includes an offset |
+| 2 | Package produced with missing, omitted or approximated elements; see the manifest |
 
-Le code 0 ne garantit pas une restitution visuelle LightWave. Les matériaux MTL
-restent une approximation scalaire, et le périmètre est inscrit dans chaque paquet.
+Exit code 0 does not guarantee LightWave visual fidelity. MTL materials remain
+a scalar approximation, and the scope is recorded in every package.
 
-## Lecture et conservation
+## Reading and preservation
 
-| Entrée | Données interprétées dans ce jalon |
+| Input | Data interpreted in this milestone |
 |---|---|
-| LWOB | PNTS, SRFS, POLS avec surfaces signées et polygones de détail, PCHS, sous-ensemble SURF et références d'images |
-| LWO2 | LAYR, blocs PNTS/POLS, TAGS/PTAG, VMAP/VMAD de toute dimension et de tout type, sous-ensemble SURF/CLIP |
-| PST_ | Enveloppe de preset conservée et objet LWO2/LWOB imbriqué dans PDAT |
-| LWSC 1/3 | Objets, nulls, identifiants des lumières/caméras/bones, parents, pivots, canaux de mouvement et clés, blocs de plugins |
+| LWOB | PNTS, SRFS, POLS with signed surface numbers and detail polygons, PCHS, a SURF subset and image references |
+| LWO2 | LAYR, PNTS/POLS blocks, TAGS/PTAG, VMAP/VMAD of any dimension and type, a SURF/CLIP subset |
+| PST_ | Preserved preset wrapper and LWO2/LWOB object nested in PDAT |
+| LWSC 1/3 | Objects, nulls, light/camera/bone IDs, parents, pivots, motion channels and keys, plugin blocks |
 
-Les bornes IFF, les tailles, les indices de points et les flottants de géométrie
-sont contrôlés. Les indices invalides de maps/attributions sont conservés et
-comptés. Les valeurs non finies de maps restent présentes dans le binaire et sont
-signalées ; elles ne deviennent pas des UV exportés. La limite de lecture est de
-512 Mio par fichier. Les tableaux sont limités à des indices 32 bits, avec bornes
-de récursion pour les chunks imbriqués, les dossiers et la hiérarchie de scène.
+IFF bounds, sizes, point indices and geometry floating-point values are checked.
+Invalid map/assignment indices are preserved and counted. Non-finite map values
+remain in the binary data and are reported; they are not exported as UVs.
+The input limit is 512 MiB per file. Arrays use indices limited to 32 bits, with
+recursion bounds for nested chunks, directories and the scene hierarchy.
 
-Chaque entrée interprétée est copiée intégralement dans `source.bin`, avec son
-SHA-256. Les champs non interprétés restent donc récupérables, y compris les
-projections, plugins, enveloppes scalaires, réglages de rendu et chunks inconnus.
-Les références d'images sont extraites mais les images ne sont pas encore
-résolues, copiées ni décodées. Les dépendances absentes ou illisibles sont
-signalées ; elles ne sont pas incorporées au paquet.
+Each parsed input is copied in full to `source.bin`, with its SHA-256 hash.
+Uninterpreted fields therefore remain recoverable, including projections,
+plugins, scalar envelopes, render settings and unknown chunks. Image references
+are extracted, but images are not yet resolved, copied or decoded. Missing or
+unreadable dependencies are reported and are not included in the package.
 
-Les chaînes gardent leurs octets sous forme `raw_hex`. Le champ `text` utilise
-UTF-8 si valide, sinon une hypothèse Latin-1 explicitement nommée. Une résolution
-réussie par cette hypothèse ne prouve pas l'encodage d'origine. Sous Windows, les
-chemins système passent par les API Unicode.
+Strings retain their original bytes in `raw_hex`. The `text` field uses UTF-8
+when valid, otherwise an explicitly named Latin-1 hypothesis. Successful path
+resolution using that hypothesis does not prove the original encoding.
+On Windows, filesystem paths use Unicode APIs.
 
-## Résolution des objets de scène
+## Scene object resolution
 
-L'ordre est le suivant :
+Resolution follows this order:
 
-1. Mapping explicite `--map`, avec priorité au préfixe correspondant le plus long.
-2. Chemin exact sous la racine de contenu, pour les références relatives.
-3. Recherche par suffixe de composants, puis par nom seul, parmi les fichiers
-   dont la signature est LWOB/LWO2 sous cette racine.
+1. Explicit `--map` rules, with priority given to the longest matching prefix.
+2. An exact path under the content root, for relative references.
+3. Matching by path-component suffix, then basename alone, among files with
+   LWOB/LWO2 signatures under that root.
 
-Par exemple, `--map "Y:meshes/=C:/archives/projet/meshes"` remplace un ancien
-préfixe. Les lettres de lecteurs historiques ne déclenchent pas directement une
-lecture du lecteur actuel. Les liens de répertoire ne sont pas parcourus lors
-de la découverte. Un mapping explicite absent ne déclenche pas de repli implicite.
+For example, `--map "Y:meshes/=C:/archives/projet/meshes"` replaces a historical
+prefix. Historical drive letters do not directly trigger reads from the current
+drive. Directory links are not traversed during discovery. If an explicit
+mapping points to a missing object, no implicit fallback is attempted.
 
-Une égalité entre plusieurs meilleurs candidats reste `ambiguous`, même si leurs
-contenus sont identiques. Un candidat unique par suffixe ou nom seul est retenu
-avec un statut indiquant cette heuristique. Les chemins candidats et le choix
-sont enregistrés dans `scene.json`. Sous Windows, les comparaisons ignorent la
-casse Unicode ; la branche POSIX ne replie que la casse ASCII.
+A tie between multiple best candidates remains `ambiguous`, even when their
+contents are identical. A unique suffix or basename candidate is selected with
+a status identifying the heuristic. Candidate paths and the selection are
+recorded in `scene.json`. Windows comparisons ignore Unicode case; the POSIX
+implementation folds ASCII case only.
 
-`LoadObjectLayer n` est confronté à l'identifiant LAYR `n-1`, conformément aux
-fichiers observés ; le nombre original est conservé. L'ordre physique des chunks
-ne détermine pas le numéro de couche. Une couche absente ou un ID dupliqué rend
-l'instance non résolue. Les objets résolus sont dédupliqués par chemin puis SHA-256.
+`LoadObjectLayer n` is checked against LAYR ID `n-1`, following the observed files;
+the original number is preserved. Physical chunk order does not determine the
+layer number. A missing layer or duplicate ID leaves the instance unresolved.
+Resolved objects are deduplicated by path, then by SHA-256.
 
-## Paquet LWIR 0.1
+## LWIR 0.1 package
 
 ```text
 manifest.json
@@ -107,150 +106,148 @@ assets/<sha256>/
     geometry.bin
     mesh.obj
     materials.mtl
-scene/                    # entrée LWS seulement
+scene/                    # LWS input only
     source.bin
     scene.json
     animation.bin
-scene.obj                 # instantané si les transformations sont évaluables
+scene.obj                 # snapshot when transforms can be evaluated
 scene.mtl
 ```
 
-Les URI internes sont relatives au JSON qui les contient. Les chemins absolus
-d'origine servent à la provenance. Ce schéma initial est versionné `0.1` et peut
-encore évoluer ; il ne constitue pas encore un contrat d'archivage stabilisé.
+Internal URIs are relative to the JSON file containing them. Original absolute
+paths record provenance. This initial schema is versioned `0.1` and may still
+change; it is not yet a stable archival contract.
 
-`geometry.bin` utilise un ordre d'octets little-endian explicite, sans sérialiser
-la disposition mémoire des structs C. Chaque vue JSON indique `offset`, `count`,
-`stride`, `component_type` et `components`.
+`geometry.bin` uses explicit little-endian byte order rather than serializing
+the memory layout of C structs. Each JSON view specifies `offset`, `count`,
+`stride`, `component_type` and `components`.
 
-| Vue | Enregistrement |
+| View | Record |
 |---|---|
-| `positions` | 3 float32, 12 octets ; coordonnées LightWave inchangées |
-| `indices` | 1 uint32, 4 octets ; indices globaux dans `positions` |
-| `primitives` | 9 uint32, 36 octets ; champs nommés dans `primitive_fields` |
-| Map `entries` | 2 uint32, 8 octets : point local, polygone local |
-| Map `values` | `dimension` float32 par entrée, y compris dimension zéro |
+| `positions` | 3 float32 values, 12 bytes; unchanged LightWave coordinates |
+| `indices` | 1 uint32, 4 bytes; global indices into `positions` |
+| `primitives` | 9 uint32 values, 36 bytes; fields named in `primitive_fields` |
+| Map `entries` | 2 uint32 values, 8 bytes: local point, local polygon |
+| Map `values` | `dimension` float32 values per entry, including dimension zero |
 
-Les neuf champs de primitive sont le premier indice, le nombre d'indices, le
-FourCC du type, les flags, le bloc POLS, le matériau, le tag, le parent de détail
-et les bits du numéro de surface LWOB signé. `4294967295` représente un indice
-absent. Le dernier champ se relit comme un int32 pour retrouver le signe.
-Les objets JSON conservent les blocs PNTS/POLS et leurs couches, les attributions
-PTAG, les noms et les descriptions des maps. Une référence `layer` dans un bloc
-est un indice dans le tableau `layers`, dont `id` conserve le numéro natif.
+The nine primitive fields are the first index, index count, type FourCC, flags,
+POLS block, material, tag, detail parent and bits of the signed LWOB surface
+number. `4294967295` denotes an absent index. Read the last field as an int32 to
+recover its sign. Object JSON preserves PNTS/POLS blocks and their layers, PTAG
+assignments, names and map descriptions. A block's `layer` reference is an index
+into the `layers` array, whose `id` field preserves the native number.
 
-Les indices VMAP/VMAD sont locaux aux blocs natifs désignés. Une VMAP continue
-utilise l'indice absent pour son polygone. Les VMAD gardent ainsi les valeurs
-différentes aux coutures, sans fusionner les coins avec les sommets.
+VMAP/VMAD indices are local to their designated native blocks. A continuous VMAP
+uses the absent index for its polygon. VMAD thus retains differing values at
+seams without collapsing corners onto vertices.
 
-`animation.bin` contient des clés de 72 octets : huit float64 (`time`, `value`,
-six paramètres), puis deux uint32 (`shape`, réservé à zéro). Les temps sont en
-frames pour LWSC 1, en secondes pour LWSC 3 ; les rotations sont respectivement
-en degrés et radians. Les pré/post-comportements, décalages temporels, nombres
-de clés déclarés et modificateurs opaques restent dans les canaux JSON.
+`animation.bin` contains 72-byte keys: eight float64 values (`time`, `value`,
+six parameters), followed by two uint32 values (`shape`, reserved as zero).
+Times are in frames for LWSC 1 and seconds for LWSC 3; rotations are in degrees
+and radians respectively. Pre/post behaviors, time offsets, declared key counts
+and opaque modifiers remain in the JSON channels.
 
-## OBJ et évaluation initiale
+## OBJ and initial evaluation
 
-Les OBJ individuels conservent les n-gones, avec réflexion de Z pour passer au
-repère droit Y-up choisi. L'ordre des coins est inversé selon le signe du
-déterminant total. Les points et lignes simples sont exportés ; les points
-non utilisés par une primitive exportée reçoivent un enregistrement `p`.
+Individual OBJ files preserve n-gons, reflecting Z to use the chosen right-handed
+Y-up coordinate system. Corner order is reversed according to the sign of the
+total determinant. Simple points and lines are exported; points unused by any
+exported primitive receive a `p` record.
 
-Les PTCH/PCHS sont exportés comme cages de contrôle, les CURV comme polylignes de
-contrôle, avec compteurs d'approximation. Les bones, types de primitives inconnus,
-polygones de détail et faces à indices répétés sont omis de l'OBJ et conservés
-dans LWIR. Les anciens CRVS restent opaques. Les normales, le lissage et la
-subdivision LightWave ne sont pas encore évalués.
+PTCH/PCHS are exported as control cages and CURV as control polylines, with
+approximation counters. Bones, unknown primitive types, detail polygons and
+faces with repeated indices are omitted from OBJ and preserved in LWIR.
+Legacy CRVS remain opaque. LightWave normals, smoothing and subdivision are
+not yet evaluated.
 
-Avec `--uv-map`, les VMAD prennent priorité sur les VMAP. Une face dont certains
-coins n'ont pas de valeur valide sort sans indices UV ; aucun zéro n'est inventé
-pour compléter la map. Un logiciel qui réimporte cet OBJ peut toutefois créer
-ses propres UV par défaut. Les MTL contiennent couleur diffuse, spéculaire,
-émission et transparence approximatives, sans liaison de texture.
+With `--uv-map`, VMAD takes precedence over VMAP. A face with corners lacking
+valid values is exported without UV indices; no zeros are invented to complete
+the map. Software reimporting that OBJ may nevertheless create its own default
+UVs. MTL files contain approximations of diffuse color, specular response,
+emission and transparency, without texture bindings.
 
-Pour `scene.obj`, la matrice locale actuelle est
-`T(position) × Ry(heading) × Rx(pitch) × Rz(bank) × S × T(-pivot)` ; elle est
-composée avec les parents avant la conversion du repère. Les tests vérifient la
-translation, la rotation de heading, le pivot, les parents et l'échelle négative.
-Les pivots/parents de couches LWO2 non triviaux bloquent cet instantané tant que
-leurs interactions avec Layout ne sont pas qualifiées.
+For `scene.obj`, the current local matrix is
+`T(position) × Ry(heading) × Rx(pitch) × Rz(bank) × S × T(-pivot)`;
+it is composed with parent transforms before coordinate-system conversion.
+Tests check translation, heading rotation, pivots, parents and negative scale.
+Nontrivial LWO2 layer pivots/parents block this snapshot until their interactions
+with Layout are qualified.
 
-L'évaluateur accepte les clés exactes, les interpolations linéaires et en
-escalier, ainsi que les comportements reset, constant et repeat. Les paramètres
-TCB/Hermite/Bézier sont conservés, mais l'échantillonnage à l'intérieur de ces
-segments n'est pas implémenté. Les transformations pilotées par certains plugins,
-des modificateurs de canaux, des pivots orientés, des bones ou l'IK bloquent
-l'instantané. Les cycles et parents manquants sont également signalés.
+The evaluator supports exact keys, linear and stepped interpolation, and reset,
+constant and repeat behaviors. TCB/Hermite/Bezier parameters are preserved, but
+sampling within those spans is not implemented. Transforms driven by certain
+plugins, channel modifiers, rotated pivots, bones or IK block the snapshot.
+Cycles and missing parents are also reported.
 
-Une scène avec des dépendances manquantes peut fournir un `scene.obj` partiel.
-L'OBJ montre la géométrie de base des instances résolues : il n'applique pas les
-morphs, déformations, masques de visibilité, dissolutions ni effets de rendu.
-Les compteurs du manifeste décrivent les omissions et approximations sur
-l'ensemble des OBJ produits, objets individuels et scène compris.
+A scene with missing dependencies may produce a partial `scene.obj`.
+The OBJ shows the base geometry of resolved instances: it does not apply morphs,
+deformations, visibility masks, dissolves or render effects. Manifest counters
+describe omissions and approximations across all generated OBJ files, including
+individual objects and the scene.
 
-## Validation effectuée
+## Validation performed
 
-- 19 tests de régression avec fichiers synthétiques : buffers, SHA-256, octets
-  sources, encodages, padding, VX 24 bits, détails, couches, coutures VMAD, poids
-  infinis, résolution des chemins, hiérarchie et mouvements, entrées tronquées,
-  blocs de plugins et refus d'écrasement.
-- Comparaison du lecteur C à l'inventaire Python indépendant : **1 143/1 143**
-  fichiers, soit 915 objets, 226 scènes et deux presets. Concordance des compteurs
-  et SHA-256, dont **1 162 552 points**, **1 450 682 primitives**, **1 137 maps**,
-  **1 974 chargements d'objets** et **2 741 bones**.
-- AddressSanitizer : aucun diagnostic d'accès mémoire sur les tests et le corpus.
-  Lecture et SHA-256 vérifiés également sur les 64 LWOB et 11 LWS 1 de Freestyle.
-- Réimport indépendant en Blender 4.2, en arrière-plan : Metropolis UV
-  (633 sommets, 458 faces, comparaison de 1 752 coins UV, dont les coins sans
-  liaison convertis en valeurs par défaut par Blender) et logo Freestyle
-  (4 sommets, 1 face).
-- Export de `circus/Mr_Lector_2.lws` : les deux instances demandant des couches
-  absentes sont signalées ; les cages exportées sont comptées.
+- 19 regression tests using synthetic files: buffers, SHA-256, source bytes,
+  encodings, padding, 24-bit VX, details, layers, VMAD seams, infinite weights,
+  path resolution, hierarchy and motion, truncated inputs, plugin blocks and
+  overwrite prevention.
+- Comparison of the C reader with the independent Python inventory:
+  **1,143/1,143** files, comprising 915 objects, 226 scenes and two presets.
+  Counts and SHA-256 hashes match, including **1,162,552 points**,
+  **1,450,682 primitives**, **1,137 maps**, **1,974 object loads** and **2,741 bones**.
+- AddressSanitizer: no memory access diagnostics on the tests or corpus.
+  Reading and SHA-256 hashes were also checked for Freestyle's 64 LWOB and
+  11 LWS 1 files.
+- Independent reimport in background Blender 4.2: Metropolis UV (633 vertices,
+  458 faces, comparison of 1,752 UV corners, including unbound corners filled
+  with default values by Blender) and the Freestyle logo (4 vertices, 1 face).
+- Export of `circus/Mr_Lector_2.lws`: the two instances requesting unavailable
+  layers are reported, and exported cages are counted.
 
-Le [rapport de validation](diagnostics/converter-validation.json) précise les
-configurations et résultats. Ces contrôles établissent la récupération
-structurelle et des propriétés d'export ciblées. Ils ne valident pas encore la
-fidélité d'un rendu LightWave, l'ensemble de l'animation ni les autres plateformes.
+The [validation report](diagnostics/converter-validation.json) records the
+configurations and results. These checks establish structural recovery and
+selected export properties. They do not yet validate LightWave render fidelity,
+complete animation behavior or other platforms.
 
-Pour relancer la comparaison du corpus :
+To rerun the corpus comparison:
 
 ```powershell
 python tests/check_corpus.py build/Release/lwconvert.exe --report build/corpus.json
 ```
 
-Le test Blender est optionnel :
+The Blender test is optional:
 
 ```powershell
 python tests/check_obj_blender.py --blender "C:/Program Files/Blender Foundation/Blender 4.2/blender.exe" --obj output/lector/scene.obj --report build/obj-check.json
 ```
 
-Il vérifie les comptes, arités et multisets d'UV par coin. Ce n'est pas encore
-un test de correspondance UV par face ni un test de rendu.
+It checks counts, arities and per-corner UV multisets. It does not yet check
+per-face UV correspondence or rendering.
 
-Pour AddressSanitizer sous MSVC, configurer un autre dossier avec
-`-DLWCONVERT_SANITIZE=ON`, compiler en `RelWithDebInfo` et ajouter le dossier du
-runtime ASan du compilateur au `PATH` du processus de test. Sur les compilateurs
-non MSVC, l'option demande AddressSanitizer et UndefinedBehaviorSanitizer ; cette
-branche reste à qualifier.
+For AddressSanitizer with MSVC, configure a separate build directory with
+`-DLWCONVERT_SANITIZE=ON`, build in `RelWithDebInfo` and add the compiler's ASan
+runtime directory to the test process's `PATH`. With non-MSVC compilers, this
+option requests AddressSanitizer and UndefinedBehaviorSanitizer; that branch
+remains to be qualified.
 
-## Références et prochaines étapes
+## References and next steps
 
-Le dépôt `C:/works/projects/preservation-freestyle-by-syndrome-condense`, révision
-`1ba8faabbab39cdcf163de53a64ea92e93f4b55d`, a servi à comparer la structure de ses
-lecteurs `src/lwob.cpp` et `src/scene.cpp` et à sélectionner un exemple réel.
-Ces lecteurs C++ comportent des conventions nXng, notamment le repère Y-down et
-le traitement de clés distantes d'une frame comme des coupures. Ces conventions
-ne sont pas importées dans le convertisseur générique. Leur code GPL n'a pas été
-copié dans cette implémentation C ; les nouveaux fichiers suivent la licence du dépôt.
+The repository `C:/works/projects/preservation-freestyle-by-syndrome-condense`,
+revision `1ba8faabbab39cdcf163de53a64ea92e93f4b55d`, was used to compare the
+structure of its `src/lwob.cpp` and `src/scene.cpp` readers and select a real
+example. These C++ readers include nXng conventions, notably Y-down coordinates
+and treating keys one frame apart as cuts. Those conventions are not imported
+into the generic converter. Their GPL code was not copied into this C
+implementation; the new files follow this repository's license.
 
-Les descriptions des champs natifs proviennent du SDK NewTek archivé :
-[objets LWO2](https://documentation.help/LightWave/lwo2.html) et
-[scènes LWSC 3](https://documentation.help/LightWave/lwsc.html). Les variantes du
-corpus complètent cette documentation : notamment les numéros de couches,
-les presets et les enveloppes dont le nombre de clés déclaré est incohérent.
+Native field descriptions come from the archived NewTek SDK:
+[LWO2 objects](https://documentation.help/LightWave/lwo2.html) and
+[LWSC 3 scenes](https://documentation.help/LightWave/lwsc.html). Corpus variants
+supplement this documentation, particularly layer numbering, presets and
+envelopes with inconsistent declared key counts.
 
-La suite proposée est d'évaluer les courbes d'animation et les projections de
-textures, puis d'ajouter le writer glTF 2.0 et l'adaptateur Python pour `.blend`.
-Ce dernier sera lancé par un processus Blender en arrière-plan ; aucun addon
-personnalisé n'est nécessaire. Les trois sorties doivent partager LWIR et les
-mêmes dérivations qualifiées de géométrie, de matériaux et d'animation.
+The proposed next steps are to evaluate animation curves and texture projections,
+then add the glTF 2.0 writer and Python adapter for `.blend`. The latter will run
+in a background Blender process; no custom addon is required. All three outputs
+should share LWIR and the same qualified geometry, material and animation
+derivations.

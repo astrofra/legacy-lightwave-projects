@@ -35,5 +35,7 @@ if(BUILD_TESTING)
     find_package(Python3 COMPONENTS Interpreter REQUIRED)
     add_test(NAME converter_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_converter.py" "$<TARGET_FILE:lwconvert>")
+    add_test(NAME batch_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_batch.py" "$<TARGET_FILE:lwconvert>")
 endif()
 install(TARGETS lwconvert RUNTIME DESTINATION bin)

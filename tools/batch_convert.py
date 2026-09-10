@@ -1,0 +1,176 @@
+"""Convert every supported loose LightWave file and report all other inputs."""
+import argparse
+from collections import Counter
+from datetime import datetime, timezone
+import json
+import math
+import os
+from pathlib import Path
+import stat
+import subprocess
+import sys
+import tempfile
+
+REPOSITORY = Path(__file__).resolve().parents[1]
+KINDS = {b"LWOB": "LWOB", b"LWO2": "LWO2", b"PST_": "PST_"}
+
+
+class BatchParser(argparse.ArgumentParser):
+    def error(self, message):
+        self.print_usage(sys.stderr)
+        self.exit(1, f"{self.prog}: error: {message}\n")
+
+
+def is_link(path):
+    info = path.lstat()
+    return path.is_symlink() or bool(getattr(info, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0))
+
+
+def discover(content):
+    records = []
+
+    def walk_error(error):
+        raise error
+
+    for parent, directories, files in os.walk(content, followlinks=False, onerror=walk_error):
+        for name in sorted(directories + files):
+            path = Path(parent) / name
+            record = {"source": path.relative_to(content).as_posix()}
+            if is_link(path):
+                record.update(status="skipped", reason="Filesystem link/reparse point; not traversed")
+                records.append(record)
+                if name in directories:
+                    directories.remove(name)
+                continue
+            if name in directories:
+                continue
+            try:
+                with path.open("rb") as stream:
+                    header = stream.read(12)
+            except OSError as error:
+                record.update(status="failed", reason=str(error))
+            else:
+                kind = "LWSC" if header[:4] == b"LWSC" else KINDS.get(header[8:12]) if header[:4] == b"FORM" else None
+                if kind:
+                    record.update(status="pending", kind=kind)
+                else:
+                    record.update(status="skipped", reason="No supported LWOB/LWO2/PST_/LWSC signature; ancillary files and archives are not converted")
+            records.append(record)
+        directories.sort()
+    return sorted(records, key=lambda record: record["source"])
+
+
+def counts(records):
+    return dict(sorted(Counter(record["status"] for record in records).items()))
+
+
+def write_report(run, report):
+    report["counts"] = counts(report["files"])
+    temporary = run / "batch-report.json.tmp"
+    temporary.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temporary.replace(run / "batch-report.json")
+
+
+def find_converter():
+    for relative in ("build/Release/lwconvert.exe", "build/lwconvert.exe", "build/Debug/lwconvert.exe", "build/lwconvert"):
+        candidate = REPOSITORY / relative
+        if candidate.is_file():
+            return candidate
+    return None
+
+
+def convert_one(record, number, content, run, converter, options):
+    relative = Path(record["source"])
+    source = content / relative
+    project = content / relative.parts[0] if len(relative.parts) > 1 else content
+    package = run / "packages" / relative
+    record.update(package=package.relative_to(run).as_posix(), content_root=str(project))
+    log = run / "logs" / f"{number:06d}.log"
+    record["log"] = log.relative_to(run).as_posix()
+    command = [str(converter), "convert", str(source), "--content-root", str(project), "--output", str(package)]
+    for option in ("frame", "uv_map"):
+        value = getattr(options, option)
+        if value is not None:
+            command += ["--" + option.replace("_", "-"), str(value)]
+    for rule in options.map:
+        command += ["--map", rule]
+    try:
+        package.parent.mkdir(parents=True, exist_ok=True)
+        with log.open("w", encoding="utf-8") as stream:
+            stream.write("Arguments: " + json.dumps(command, ensure_ascii=False) + "\n\n")
+            stream.flush()
+            result = subprocess.run(command, stdout=stream, stderr=subprocess.STDOUT, timeout=options.timeout, check=False)
+        record["return_code"] = result.returncode
+        if result.returncode not in (0, 2):
+            record.update(status="failed", reason=f"Converter returned {result.returncode}; see log")
+            return
+        manifest = json.loads((package / "manifest.json").read_text("utf-8"))
+        expected = "partial" if result.returncode == 2 else "converted-supported-subset"
+        if manifest.get("status") != expected:
+            raise ValueError("Converter exit code and manifest status disagree")
+        record.update(status="partial" if result.returncode == 2 else "converted", manifest=(package / "manifest.json").relative_to(run).as_posix())
+        record["scene_obj_issue"] = manifest.get("scene_obj_issue", "")
+        record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)
+    except (OSError, ValueError, subprocess.TimeoutExpired) as error:
+        record.update(status="failed", reason=str(error))
+
+
+def main(argv=None):
+    parser = BatchParser(description=__doc__)
+    parser.add_argument("--content", type=Path, default=REPOSITORY / "content", help="Input tree (default: repository content/)")
+    parser.add_argument("--output-root", type=Path, default=REPOSITORY / "output", help="Parent of a new batch directory (default: repository output/)")
+    parser.add_argument("--converter", type=Path, help="Converter executable (default: Release build, then Debug)")
+    parser.add_argument("--dry-run", action="store_true", help="List supported files and counts without creating output or invoking the converter")
+    parser.add_argument("--timeout", type=float, default=120, help="Maximum seconds per conversion (default: 120)")
+    parser.add_argument("--frame", type=float, help="Override the snapshot frame for every scene")
+    parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
+    parser.add_argument("--map", action="append", default=[], metavar="PREFIX=DIRECTORY", help="Explicit historical path mapping passed to every conversion")
+    options = parser.parse_args(argv)
+    content, output = options.content.resolve(), options.output_root.resolve()
+    if not content.is_dir():
+        parser.error(f"Input directory does not exist: {content}")
+    if output == content or content in output.parents or output in content.parents:
+        parser.error("Input and output trees must be separate, without nesting")
+    if not math.isfinite(options.timeout) or options.timeout <= 0:
+        parser.error("--timeout must be a positive finite number")
+    if options.frame is not None and not math.isfinite(options.frame):
+        parser.error("--frame must be finite")
+    converter = options.converter.resolve() if options.converter else find_converter()
+    if not options.dry_run and (converter is None or not converter.is_file()):
+        parser.error("Converter not found. Build it first: cmake --build build --config Release (see README.md), or use --converter")
+    records = discover(content)
+    eligible = [record for record in records if record["status"] == "pending"]
+    print(f"Scanned {len(records)} entries; {len(eligible)} supported LightWave files; {counts(records)}", flush=True)
+    if options.dry_run:
+        for record in eligible:
+            print(f"{record['kind']}: {record['source']}")
+        return 1 if any(record["status"] == "failed" for record in records) else 0
+    output.mkdir(parents=True, exist_ok=True)
+    run = Path(tempfile.mkdtemp(prefix=datetime.now().strftime("batch-%Y%m%d-%H%M%S-"), dir=output))
+    (run / "logs").mkdir()
+    report = {"schema_version": "0.1", "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout}, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL and LWIR only. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
+    write_report(run, report)
+    print(f"Output: {run}", flush=True)
+    interrupted = False
+    try:
+        for number, record in enumerate(eligible, 1):
+            convert_one(record, number, content, run, converter, options)
+            print(f"[{number}/{len(eligible)}] {record['status'].upper()}: {record['source']}", flush=True)
+            if number % 25 == 0:
+                write_report(run, report)
+    except KeyboardInterrupt:
+        interrupted = True
+    final_counts = counts(records)
+    code = 130 if interrupted else 1 if final_counts.get("failed") else 2 if final_counts.get("partial") else 0
+    report.update(status="interrupted" if interrupted else "failed" if code == 1 else "partial" if code == 2 else "completed", exit_code=code, finished_utc=datetime.now(timezone.utc).isoformat())
+    write_report(run, report)
+    print(f"Batch {report['status']}: {final_counts}\nReport: {run / 'batch-report.json'}", flush=True)
+    return code
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except OSError as error:
+        print(f"Batch error: {error}", file=sys.stderr)
+        raise SystemExit(1)
