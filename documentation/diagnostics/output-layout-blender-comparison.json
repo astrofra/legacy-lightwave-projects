@@ -1,0 +1,24 @@
+{
+  "blender_version": "4.2.0",
+  "background": true,
+  "identical_geometry_and_materials_after_rename": true,
+  "imports": [
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-180051-_oa2050y\\packages\\lake-scenery-yours\\Lacustre.lws\\scene.obj",
+      "obj_faces": 18170,
+      "blender_faces": 18167,
+      "vertices": 10449,
+      "materials": 15,
+      "import_digest": "250d776a70199a73f061682cd9b593ea85edb3ef6827f4c5d3b0a5bdb5686952"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-182442\\packages\\lake-scenery\\obj\\Lacustre.lws.obj",
+      "obj_faces": 18170,
+      "blender_faces": 18167,
+      "vertices": 10449,
+      "materials": 15,
+      "import_digest": "250d776a70199a73f061682cd9b593ea85edb3ef6827f4c5d3b0a5bdb5686952"
+    }
+  ],
+  "limitation": "Blender imports 18,167 of 18,170 OBJ faces in both layouts. The missing three faces predate this naming change; full face-count equivalence is not established for Lacustre."
+}

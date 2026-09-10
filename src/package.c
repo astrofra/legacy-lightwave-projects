@@ -125,27 +125,70 @@ static int collect(LWPackage *p,const LWOptions *opts,LWError *e) {
     }
     return 1;
 }
+static int assign_names(LWPackage *p,LWError *e) {
+    LWPaths bases={0}; size_t i,j; int ok=0;
+    for(i=0;i<p->objects.n+(p->is_scene?1:0);i++) {
+        char *name=lw_output_name(i<p->objects.n?p->objects.v[i].source.path:p->scene.source.path);
+        if(!name) { lw_error(e,0,"allocation","out of memory"); goto done; }
+        if(!LW_ADD(bases,name,e)) { free(name); goto done; }
+    }
+    for(i=0;i<bases.n;i++) {
+        char *name=lw_dup(bases.v[i]); size_t suffix=1;
+        for(;;) {
+            int collision=0;
+            if(!name) { lw_error(e,0,"allocation","out of memory"); goto done; }
+            for(j=0;j<p->names.n;j++) if(lw_path_equal(name,p->names.v[j])) collision=1;
+            /* A generated suffix must not consume another source's natural name. */
+            if(suffix>1) for(j=0;j<bases.n;j++) if(lw_path_equal(name,bases.v[j])) collision=1;
+            if(!collision) break;
+            free(name); suffix++;
+            name=malloc(strlen(bases.v[i])+32);
+            if(name) snprintf(name,strlen(bases.v[i])+32,"%s-%zu",bases.v[i],suffix);
+        }
+        if(i==p->objects.n) p->scene_name=name;
+        else if(!LW_ADD(p->names,name,e)) { free(name); goto done; }
+    }
+    ok=1;
+done:
+    lw_free_paths(&bases); return ok;
+}
+static int json_output_path(FILE *f,const char *format,const char *name,const char *suffix,LWError *e) {
+    char *path=lw_named_path(format,name,suffix);
+    if(!path) return lw_error(e,0,"allocation","out of memory");
+    lw_json_string(f,path); free(path); return 1;
+}
 static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,int partial,LWError *e) {
     char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i;
     if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
+    fputs(",\"layout_version\":\"0.2\",\"formats\":{\"obj\":\"generated\",\"IR\":\"generated\",\"gltf\":\"not-implemented\",\"blender\":\"not-implemented\"}",f);
     fputs(",\n\"content_root\":",f); lw_json_string(f,opts->root); fputs(",\n\"path_rules\":[",f);
     for(i=0;i<opts->rules.n;i++) { if(i) fputc(',',f); fputs("{\"prefix\":",f); lw_json_string(f,opts->rules.v[i].prefix); fputs(",\"destination\":",f); lw_json_string(f,opts->rules.v[i].destination); fputc('}',f); }
     fputs("],\n\"assets\":[",f);
     for(i=0;i<p->objects.n;i++) {
         const LWObject *o=&p->objects.v[i]; if(i) fputc(',',f);
-        fprintf(f,"{\"index\":%zu,\"id\":\"%s\",\"uri\":\"assets/%s/object.json\",\"obj\":\"assets/%s/mesh.obj\",\"source_path\":",i,o->source.sha256,o->source.sha256,o->source.sha256); lw_json_string(f,o->source.path);
+        fprintf(f,"{\"index\":%zu,\"id\":\"%s\",\"name\":",i,o->source.sha256); lw_json_string(f,p->names.v[i]);
+        fputs(",\"uri\":",f); if(!json_output_path(f,"IR",p->names.v[i],"/object.json",e)) goto failed;
+        fputs(",\"obj\":",f); if(!json_output_path(f,"obj",p->names.v[i],".obj",e)) goto failed;
+        fputs(",\"mtl\":",f); if(!json_output_path(f,"obj",p->names.v[i],".mtl",e)) goto failed;
+        fputs(",\"source_path\":",f); lw_json_string(f,o->source.path);
         fprintf(f,",\"images_not_exported\":%zu,\"texture_blocks_not_evaluated\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"opaque_chunks\":%zu,\"non_finite_map_values\":%zu}",o->images.n,o->texture_blocks+o->legacy_textures,o->invalid_map_references,o->missing_materials,o->opaque_chunks,o->non_finite_map_values);
     }
-    fputs("],\n\"scene\":",f); if(p->is_scene) fputs("\"scene/scene.json\"",f); else fputs("null",f);
-    fputs(",\"scene_obj\":",f); if(stats->scene_written) fputs("\"scene.obj\"",f); else fputs("null",f);
+    fputs("],\n\"scene\":",f);
+    if(p->is_scene) { if(!json_output_path(f,"IR",p->scene_name,"/scene.json",e)) goto failed; } else fputs("null",f);
+    fputs(",\"scene_obj\":",f);
+    if(stats->scene_written) { if(!json_output_path(f,"obj",p->scene_name,".obj",e)) goto failed; } else fputs("null",f);
+    fputs(",\"scene_mtl\":",f);
+    if(stats->scene_written) { if(!json_output_path(f,"obj",p->scene_name,".mtl",e)) goto failed; } else fputs("null",f);
     fputs(",\"scene_obj_issue\":",f); lw_json_string(f,stats->scene_issue);
     fprintf(f,",\n\"frame\":%.17g,\"unresolved_object_instances\":%zu,\"skipped_obj_primitives\":%zu,\"exported_patch_cages\":%zu,\"exported_curve_control_polylines\":%zu,\"unmapped_uv_corners\":%zu,\n\"obj_coordinates\":\"right-handed Y-up; source Z reflected; winding adjusted for transform determinant\",\"uv_map\":",opts->frame,p->unresolved,stats->skipped,stats->cages,stats->control_curves,stats->uv_missing);
     if(opts->uv_map) lw_json_string(f,opts->uv_map); else fputs("null",f);
     fprintf(f,",\n\"obj_triangulated_faces\":%zu,\"obj_triangles\":%zu,\"obj_bridged_hole_faces\":%zu,\"obj_triangulation_failures\":%zu,\"obj_nonplanar_faces\":%zu,\"obj_removed_duplicate_corners\":%zu,\"obj_triangulation\":\"projected ear clipping of FACE boundaries, including paired reverse-edge hole bridges; source corners and native LWIR polygons preserved\"",stats->triangulated_faces,stats->triangles,stats->bridged_faces,stats->triangulation_failures,stats->nonplanar_faces,stats->removed_corners);
     fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction and OBJ/MTL geometry; scalar material approximation; no texture decoding/projection, subdivision evaluation, normals, rig/deformation evaluation, glTF or Blender backend yet\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",p->scene.plugins.n,p->scene.unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }
+failed:
+    fclose(f); free(path); return 0;
 }
 int lw_convert(const LWOptions *opts,LWError *e) {
     LWPackage p={0}; LWExportStats stats={0}; size_t i; char *assets=NULL,*dir=NULL; int ok=0,partial=0;
@@ -153,14 +196,23 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     if(lw_path_exists(opts->output)) { lw_error(e,0,"output","output directory already exists; choose a new path"); return -1; }
     if(lw_path_inside(opts->output,opts->root)) { lw_error(e,0,"output","output must be outside the content root"); return -1; }
     if(!collect(&p,opts,e)) goto done;
+    if(!assign_names(&p,e)) goto done;
     if(p.is_scene&&!opts->frame_set) effective.frame=p.scene.first_frame;
     opts=&effective;
     if(!lw_mkdir(opts->output,e)) goto done;
-    assets=lw_join(opts->output,"assets"); if(!assets) { lw_error(e,0,"allocation","out of memory"); goto done; }
+    {
+        const char *formats[]={"obj","gltf","blender"};
+        for(i=0;i<3;i++) {
+            dir=lw_join(opts->output,formats[i]); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
+            if(!lw_mkdir(dir,e)) goto done;
+            free(dir); dir=NULL;
+        }
+    }
+    assets=lw_join(opts->output,"IR"); if(!assets) { lw_error(e,0,"allocation","out of memory"); goto done; }
     if(!lw_mkdir(assets,e)) goto done;
     for(i=0;i<p.objects.n;i++) {
         const LWObject *o=&p.objects.v[i]; size_t k;
-        dir=lw_join(assets,o->source.sha256); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
+        dir=lw_join(assets,p.names.v[i]); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
         if(!lw_mkdir(dir,e)||!lw_write_object(dir,o,e)) goto done;
         free(dir); dir=NULL;
         if(o->images.n||o->texture_blocks||o->legacy_textures||o->invalid_map_references||o->missing_materials||o->non_finite_map_values) partial=1;
@@ -169,7 +221,7 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     }
     if(p.is_scene) {
         for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform) partial=1;
-        dir=lw_join(opts->output,"scene"); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
+        dir=lw_join(assets,p.scene_name); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
         if(!lw_mkdir(dir,e)||!lw_write_scene(dir,&p.scene,e)) goto done;
         free(dir); dir=NULL;
     }
@@ -183,5 +235,5 @@ done:
 }
 void lw_free_package(LWPackage *p) {
     size_t i; for(i=0;i<p->objects.n;i++) lw_free_object(&p->objects.v[i]);
-    LW_FREE(p->objects); lw_free_scene(&p->scene); lw_free_paths(&p->files);
+    LW_FREE(p->objects); lw_free_scene(&p->scene); lw_free_paths(&p->files); lw_free_paths(&p->names); free(p->scene_name);
 }

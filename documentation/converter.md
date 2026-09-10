@@ -1,4 +1,4 @@
-# LWS/LWO converter in C — v0.1.1
+# LWS/LWO converter in C — v0.2.0
 
 Status as of 10 September 2026. This first milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
@@ -96,27 +96,61 @@ the original number is preserved. Physical chunk order does not determine the
 layer number. A missing layer or duplicate ID leaves the instance unresolved.
 Resolved objects are deduplicated by path, then by SHA-256.
 
-## LWIR 0.1 package
+## Output layout 0.2 and LWIR 0.1
+
+A direct `lwconvert convert` call creates the following layout. The original
+filename, including its extension when present, identifies each output:
 
 ```text
 manifest.json
-assets/<sha256>/
+obj/
+    Tour_Toit.lwo.obj
+    Tour_Toit.lwo.mtl
+    Lacustre.lws.obj       # LWS snapshot when transforms can be evaluated
+    Lacustre.lws.mtl
+IR/Tour_Toit.lwo/
     source.bin
     object.json
     geometry.bin
-    mesh.obj
-    materials.mtl
-scene/                    # LWS input only
+IR/Lacustre.lws/           # LWS input only
     source.bin
     scene.json
     animation.bin
-scene.obj                 # snapshot when transforms can be evaluated
-scene.mtl
+gltf/                     # Reserved; backend not implemented yet
+blender/                  # Reserved; backend not implemented yet
 ```
 
+The batch combines these files under `packages/<project>/`, reusing an object's
+IR and OBJ/MTL pair when the same source path and hash recur in that project.
+It puts each input's conversion manifest in `IR/<source name>/manifest.json` and
+writes an index at the project root. Asset indices remain local to each
+conversion, so a scene's node indices refer to that conversion's asset list.
+The batch rewrites the manifest URIs and OBJ `mtllib` references when publishing
+files. Copy the whole project directory to retain the shared dependencies.
+
+Names preserve accents and the source extension. ASCII whitespace, control
+characters, `#` and Windows-invalid filename characters become `_`, trailing
+dots are removed, and Windows device names receive a leading `_`. These rules
+keep each OBJ material-library filename a single token. Duplicate output names
+receive numeric suffixes (`mesh.lwo-2.obj`, etc.), with case-insensitive collision
+checks. Natural names are reserved before suffix allocation, so a source already
+named `mesh.lwo-2` keeps that name. The batch allocates names in sorted source
+path order; direct scene conversion follows the collected asset order. A later
+mapped dependency is allocated when first encountered. Names are deterministic
+for the same inputs, but may change if the set of colliding inputs changes.
+
+SHA-256 remains the source identity in metadata and is not used as a directory
+name. Native object and scene JSON/binary schemas remain `0.1`; the manifest's
+`layout_version` is `0.2`. Readers must follow URIs rather than assume the old
+`assets/<sha256>/` or `scene.obj` paths. Asset entries now include `name` and
+`mtl`, and scenes include `scene_mtl`. A `formats` map explicitly marks `gltf`
+and `blender` as `not-implemented`; their directories are empty placeholders.
+Batch reports use schema version `0.2` and link directly to each conversion's
+manifest and primary OBJ when available.
+
 Internal URIs are relative to the JSON file containing them. Original absolute
-paths record provenance. This initial schema is versioned `0.1` and may still
-change; it is not yet a stable archival contract.
+paths record provenance. These schemas may still change; they are not yet a
+stable archival contract.
 
 `geometry.bin` uses explicit little-endian byte order rather than serializing
 the memory layout of C structs. Each JSON view specifies `offset`, `count`,
@@ -186,7 +220,7 @@ the map. Software reimporting that OBJ may nevertheless create its own default
 UVs. MTL files contain approximations of diffuse color, specular response,
 emission and transparency, without texture bindings.
 
-For `scene.obj`, the current local matrix is
+For scene snapshots (`obj/<scene filename>.obj`), the current local matrix is
 `T(position) × Ry(heading) × Rx(pitch) × Rz(bank) × S × T(-pivot)`;
 it is composed with parent transforms before coordinate-system conversion.
 Tests check translation, heading rotation, pivots, parents and negative scale.
@@ -199,7 +233,7 @@ sampling within those spans is not implemented. Transforms driven by certain
 plugins, channel modifiers, rotated pivots, bones or IK block the snapshot.
 Cycles and missing parents are also reported.
 
-A scene with missing dependencies may produce a partial `scene.obj`.
+A scene with missing dependencies may produce a partial OBJ snapshot.
 The OBJ shows the base geometry of resolved instances: it does not apply morphs,
 deformations, visibility masks, dissolves or render effects. Manifest counters
 describe omissions and approximations across all generated OBJ files, including
@@ -207,11 +241,17 @@ individual objects and the scene.
 
 ## Validation performed
 
-- 25 regression tests using synthetic files: buffers, SHA-256, source bytes,
+- 26 converter regression tests using synthetic files: buffers, SHA-256, source bytes,
   encodings, padding, 24-bit VX, details, layers, VMAD seams, infinite weights,
   path resolution, hierarchy and motion, truncated inputs, plugin blocks and
   overwrite prevention, concave polygons, bridged holes, winding, UV transfer,
-  coordinate scale, degenerate contours and nonplanar geometry.
+  coordinate scale, degenerate contours, nonplanar geometry, readable filenames,
+  collisions and OBJ/MTL references.
+- 11 batch regression tests covering project scope, source preservation,
+  extensionless files, failure continuation, partial status, the Windows launcher,
+  destination validation, repeated runs, timestamp collisions, shared scene
+  dependencies and colliding source/project names. Release and AddressSanitizer
+  configurations pass.
 - Comparison of the C reader with the independent Python inventory:
   **1,143/1,143** files, comprising 915 objects, 226 scenes and two presets.
   Counts and SHA-256 hashes match, including **1,162,552 points**,
@@ -229,6 +269,17 @@ individual objects and the scene.
   faces are recovered. The source and native geometry buffers are unchanged.
   The triangulator was also exercised under AddressSanitizer on all 915 objects
   and two presets; see the [triangulation report](diagnostics/van-triangulation-check.json).
+- v0.2.0 full batch: 1,143 conversions across 37 projects, with no failures
+  (170 supported-subset conversions, 973 partial conversions and 1,580 skipped
+  ancillary files). All conversion/project links, 1,143 copied source hashes and
+  native buffer sizes, and 1,064 OBJ/MTL pairs pass the
+  [output layout audit](diagnostics/output-layout-validation.json).
+- Background Blender 4.2 reimport of renamed `Tour_Toit.lwo.obj`: 2,449 vertices
+  and 4,256 faces match the OBJ. For `Lacustre.lws.obj`, the old and new layouts
+  import identically, including geometry and material assignments. Blender
+  imports 18,167 of 18,170 OBJ faces in both layouts; this pre-existing difference
+  remains unresolved and is recorded in the
+  [comparison report](diagnostics/output-layout-blender-comparison.json).
 
 The [validation report](diagnostics/converter-validation.json) records the
 configurations and results. These checks establish structural recovery and
@@ -241,10 +292,16 @@ To rerun the corpus comparison:
 python tests/check_corpus.py build/Release/lwconvert.exe --report build/corpus.json
 ```
 
+To audit a completed batch's layout while its original inputs are available:
+
+```powershell
+python tests/check_output_layout.py output/batch-20260910-182442 --report build/layout-check.json
+```
+
 The Blender test is optional:
 
 ```powershell
-python tests/check_obj_blender.py --blender "C:/Program Files/Blender Foundation/Blender 4.2/blender.exe" --obj output/lector/scene.obj --report build/obj-check.json
+python tests/check_obj_blender.py --blender "C:/Program Files/Blender Foundation/Blender 4.2/blender.exe" --obj output/lector/obj/Mr_Lector_2.lws.obj --report build/obj-check.json
 ```
 
 It checks counts, arities and per-corner UV multisets. It does not yet check

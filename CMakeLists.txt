@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.1.1 LANGUAGES C)
+project(lightwave_preservation VERSION 0.2.0 LANGUAGES C)
 
 add_library(lwconvert_core STATIC
     src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/obj.c src/triangulate.c)

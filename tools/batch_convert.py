@@ -6,10 +6,11 @@ import json
 import math
 import os
 from pathlib import Path
+import shutil
 import stat
 import subprocess
 import sys
-import tempfile
+from output_layout import FORMATS, Names, ProjectOutput, new_run, output_name
 
 REPOSITORY = Path(__file__).resolve().parents[1]
 KINDS = {b"LWOB": "LWOB", b"LWO2": "LWO2", b"PST_": "PST_"}
@@ -79,13 +80,25 @@ def find_converter():
     return None
 
 
-def convert_one(record, number, content, run, converter, options):
+def prepare_projects(records, content, run):
+    groups = {}
+    for record in records:
+        source = content / record["source"]
+        project = content / Path(record["source"]).parts[0] if len(Path(record["source"]).parts) > 1 else content
+        groups.setdefault(project, []).append(source)
+        record["content_root"] = str(project)
+    names = Names(output_name(project.name) for project in groups)
+    return {str(project): ProjectOutput(run / "packages" / names.get(str(project), output_name(project.name)), sources)
+            for project, sources in sorted(groups.items())}
+
+
+def convert_one(record, number, content, run, converter, options, project_output):
     relative = Path(record["source"])
     source = content / relative
-    project = content / relative.parts[0] if len(relative.parts) > 1 else content
-    package = run / "packages" / relative
-    record.update(package=package.relative_to(run).as_posix(), content_root=str(project))
-    log = run / "logs" / f"{number:06d}.log"
+    project = Path(record["content_root"])
+    package = run / ".work" / f"{number:06d}"
+    record["package"] = project_output.directory.relative_to(run).as_posix()
+    log = run / "logs" / project_output.directory.name / (project_output.name_for(source) + ".log")
     record["log"] = log.relative_to(run).as_posix()
     command = [str(converter), "convert", str(source), "--content-root", str(project), "--output", str(package)]
     for option in ("frame", "uv_map"):
@@ -96,6 +109,7 @@ def convert_one(record, number, content, run, converter, options):
         command += ["--map", rule]
     try:
         package.parent.mkdir(parents=True, exist_ok=True)
+        log.parent.mkdir(parents=True, exist_ok=True)
         with log.open("w", encoding="utf-8") as stream:
             stream.write("Arguments: " + json.dumps(command, ensure_ascii=False) + "\n\n")
             stream.flush()
@@ -108,11 +122,26 @@ def convert_one(record, number, content, run, converter, options):
         expected = "partial" if result.returncode == 2 else "converted-supported-subset"
         if manifest.get("status") != expected:
             raise ValueError("Converter exit code and manifest status disagree")
-        record.update(status="partial" if result.returncode == 2 else "converted", manifest=(package / "manifest.json").relative_to(run).as_posix())
+        published = project_output.publish(package, manifest)
+        record.update(status="partial" if result.returncode == 2 else "converted", manifest=published.relative_to(run).as_posix())
+        obj_uri = manifest["scene_obj"] if manifest["scene"] else manifest["assets"][0]["obj"]
+        record["obj"] = (published.parent / obj_uri).resolve().relative_to(run).as_posix() if obj_uri else None
         record["scene_obj_issue"] = manifest.get("scene_obj_issue", "")
         record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         record.update(status="failed", reason=str(error))
+    finally:
+        if package.exists():
+            record["work_package"] = package.relative_to(run).as_posix()
+            if record["status"] in ("converted", "partial"):
+                # Only remove this converter's temporary package, inside this run.
+                resolved, work = package.resolve(), (run / ".work").resolve()
+                if resolved != work and resolved.is_relative_to(work):
+                    try:
+                        shutil.rmtree(resolved)
+                        del record["work_package"]
+                    except OSError as error:
+                        record["cleanup_issue"] = str(error)
 
 
 def main(argv=None):
@@ -146,20 +175,24 @@ def main(argv=None):
             print(f"{record['kind']}: {record['source']}")
         return 1 if any(record["status"] == "failed" for record in records) else 0
     output.mkdir(parents=True, exist_ok=True)
-    run = Path(tempfile.mkdtemp(prefix=datetime.now().strftime("batch-%Y%m%d-%H%M%S-"), dir=output))
+    run = new_run(output, datetime.now().strftime("batch-%Y%m%d-%H%M%S"))
     (run / "logs").mkdir()
-    report = {"schema_version": "0.1", "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout}, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL and LWIR only. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
+    projects = prepare_projects(eligible, content, run)
+    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout}, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL and LWIR only. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
     write_report(run, report)
     print(f"Output: {run}", flush=True)
     interrupted = False
     try:
         for number, record in enumerate(eligible, 1):
-            convert_one(record, number, content, run, converter, options)
+            convert_one(record, number, content, run, converter, options, projects[record["content_root"]])
             print(f"[{number}/{len(eligible)}] {record['status'].upper()}: {record['source']}", flush=True)
             if number % 25 == 0:
                 write_report(run, report)
     except KeyboardInterrupt:
         interrupted = True
+    work = run / ".work"
+    if work.exists() and not any(work.iterdir()):
+        work.rmdir()
     final_counts = counts(records)
     code = 130 if interrupted else 1 if final_counts.get("failed") else 2 if final_counts.get("partial") else 0
     report.update(status="interrupted" if interrupted else "failed" if code == 1 else "partial" if code == 2 else "completed", exit_code=code, finished_utc=datetime.now(timezone.utc).isoformat())

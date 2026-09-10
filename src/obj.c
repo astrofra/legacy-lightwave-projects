@@ -5,8 +5,8 @@ typedef struct { float u,v; unsigned char valid; } UV;
 static int selected(const LWObject *o,uint32_t layer,uint32_t request) {
     return request==LW_NONE||o->layers.v[layer].id==request-1;
 }
-static FILE *create_file(const char *dir,const char *name,LWError *e) {
-    char *path=lw_join(dir,name); FILE *f;
+static FILE *create_file(const char *dir,const char *name,const char *suffix,LWError *e) {
+    char *path=lw_named_path(dir,name,suffix); FILE *f;
     if(!path) { lw_error(e,0,"allocation","out of memory"); return NULL; }
     f=lw_fopen(path,"wb");
     if(!f) lw_error(e,0,"output","cannot create %s",path);
@@ -135,20 +135,17 @@ done:
     free(uv); free(vertices); free(used); return ok;
 }
 int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExportStats *stats,LWError *e) {
-    size_t i,j,v=0,vt=0,bad=SIZE_MAX; double identity[16],*matrices=NULL; FILE *f=NULL,*mtl=NULL; char *assets=NULL,*asset_dir=NULL; int ok=0; LWError local={0};
-    lw_identity(identity); assets=lw_join(dir,"assets");
-    if(!assets) return lw_error(e,0,"allocation","out of memory");
+    size_t i,j,v=0,vt=0,bad=SIZE_MAX; double identity[16],*matrices=NULL; FILE *f=NULL,*mtl=NULL; char *obj_dir=NULL; int ok=0; LWError local={0};
+    lw_identity(identity); obj_dir=lw_join(dir,"obj");
+    if(!obj_dir) return lw_error(e,0,"allocation","out of memory");
     for(i=0;i<p->objects.n;i++) {
-        asset_dir=lw_join(assets,p->objects.v[i].source.sha256);
-        if(!asset_dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
-        mtl=create_file(asset_dir,"materials.mtl",e); if(!mtl) goto done;
+        mtl=create_file(obj_dir,p->names.v[i],".mtl",e); if(!mtl) goto done;
         materials(mtl,&p->objects.v[i],i);
         { int closed=lw_close(mtl,"materials.mtl",e); mtl=NULL; if(!closed) goto done; }
-        f=create_file(asset_dir,"mesh.obj",e); if(!f) goto done;
-        fputs("# lwconvert: FACE polygons triangulated; patches are control cages\nmtllib materials.mtl\n",f); v=vt=0;
+        f=create_file(obj_dir,p->names.v[i],".obj",e); if(!f) goto done;
+        fprintf(f,"# lwconvert: FACE polygons triangulated; patches are control cages\nmtllib %s.mtl\n",p->names.v[i]); v=vt=0;
         if(!mesh(f,&p->objects.v[i],i,0,LW_NONE,identity,opts->uv_map,&v,&vt,stats,e)) goto done;
         { int closed=lw_close(f,"mesh.obj",e); f=NULL; if(!closed) goto done; }
-        free(asset_dir); asset_dir=NULL;
     }
     if(!p->is_scene) { ok=1; goto done; }
     matrices=calloc(p->scene.nodes.n?p->scene.nodes.n:1,16*sizeof *matrices);
@@ -166,11 +163,11 @@ int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExpo
             }
         }
     }
-    mtl=create_file(dir,"scene.mtl",e); if(!mtl) goto done;
+    mtl=create_file(obj_dir,p->scene_name,".mtl",e); if(!mtl) goto done;
     for(i=0;i<p->objects.n;i++) materials(mtl,&p->objects.v[i],i);
     { int closed=lw_close(mtl,"scene.mtl",e); mtl=NULL; if(!closed) goto done; }
-    f=create_file(dir,"scene.obj",e); if(!f) goto done;
-    fprintf(f,"# base geometry snapshot, frame %.17g; see manifest.json\nmtllib scene.mtl\n",opts->frame); v=vt=0;
+    f=create_file(obj_dir,p->scene_name,".obj",e); if(!f) goto done;
+    fprintf(f,"# base geometry snapshot, frame %.17g; see conversion manifest\nmtllib %s.mtl\n",opts->frame,p->scene_name); v=vt=0;
     for(i=0;i<p->scene.nodes.n;i++) {
         const LWNode *n=&p->scene.nodes.v[i];
         if(n->asset!=SIZE_MAX&&!mesh(f,&p->objects.v[n->asset],n->asset,i,n->layer,matrices+16*i,opts->uv_map,&v,&vt,stats,e)) goto done;
@@ -180,5 +177,5 @@ int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExpo
 done:
     if(f) fclose(f);
     if(mtl) fclose(mtl);
-    free(matrices); free(asset_dir); free(assets); return ok;
+    free(matrices); free(obj_dir); return ok;
 }

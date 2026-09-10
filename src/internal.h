@@ -33,6 +33,8 @@ void lw_free_source(LWSource *);
 FILE *lw_fopen(const char *, const char *);
 char *lw_absolute(const char *);
 char *lw_join(const char *, const char *);
+char *lw_named_path(const char *, const char *, const char *);
+char *lw_output_name(const char *);
 char *lw_dirname(const char *);
 const char *lw_basename(const char *);
 int lw_path_exists(const char *);
@@ -54,6 +56,8 @@ typedef struct {
     LWScene scene;
     int is_scene;
     LWPaths files;
+    LWPaths names;
+    char *scene_name;
     size_t unresolved, approximation_count;
 } LWPackage;
 int lw_convert(const LWOptions *, LWError *);

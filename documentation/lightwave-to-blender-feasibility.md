@@ -414,19 +414,28 @@ Use precise diagnostics containing source hash/path, byte offset or text line, c
 
 ### 8.2 Intermediate representation
 
-Prefer an inspectable directory package, provisionally named `LWIR`, with a small JSON manifest and typed binary arrays. The name and schema below are proposals, not an existing standard.
+Prefer an inspectable directory package, provisionally named `LWIR`, with a small JSON manifest and typed binary arrays. The implementation uses readable source filenames and groups files by format under each project. Since converter v0.2.0, the batch layout is:
 
 ```text
-project.lwir/
+packages/<project>/
   manifest.json
-  assets/<stable-id>/object.json
-  assets/<stable-id>/geometry.bin
-  scenes/<stable-id>/scene.json
-  scenes/<stable-id>/animation.bin
-  originals/<sha256>/<original-file>
-  images/<stable-id>/<derivative.png>
-  reports/conversion.json
+  obj/<object filename>.obj
+  obj/<object filename>.mtl
+  obj/<scene filename>.obj
+  obj/<scene filename>.mtl
+  IR/<object filename>/manifest.json
+  IR/<object filename>/object.json
+  IR/<object filename>/geometry.bin
+  IR/<object filename>/source.bin
+  IR/<scene filename>/manifest.json
+  IR/<scene filename>/scene.json
+  IR/<scene filename>/animation.bin
+  IR/<scene filename>/source.bin
+  gltf/                         # Reserved for future glTF 2.0 exports
+  blender/                      # Reserved for future .blend exports
 ```
+
+Original extensions remain part of export names, such as `Tour_Toit.lwo.obj`. Numeric suffixes are added only for name collisions; SHA-256 identities remain in metadata. Each native source and its binary arrays have a separate IR directory, and scene dependencies are shared within a project. The two future output directories are currently empty, with their unimplemented status declared in manifests. See the [converter guide](converter.md) for the naming rules, relative URIs and versioned layout. This is a project-specific representation, not an existing standard.
 
 The manifest should declare schema version, extractor version, source hashes, original paths, unit assumptions, source coordinate conventions, dependency rules and asset IDs. A portable package must either contain its originals or identify an accompanying immutable source bundle; a hash alone cannot recover an unknown chunk if the source file is lost.
 

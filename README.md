@@ -37,7 +37,8 @@ Exit code **2** means a package was produced with limitations reported in
 `manifest.json`: textures not exported, missing UVs, unavailable layers, etc.
 **0** confirms success for the supported subset; **1** indicates an error.
 A scene produces individual OBJ exports for its resolved objects and, when
-the transforms can be evaluated, a `scene.obj` at the requested frame.
+the transforms can be evaluated, an `obj/<scene filename>.obj` at the requested frame.
+For example, `Mr_Lector_2.lws` produces `obj/Mr_Lector_2.lws.obj` and its `.mtl`.
 
 See the [converter guide](documentation/converter.md) for the package format,
 path resolution and current limitations, and the
@@ -59,18 +60,48 @@ Each top-level content directory is used as a separate project root for resolvin
 scene dependencies. Images, archives and other unsupported files are listed as
 skipped; archive contents are not extracted.
 
-Every run creates a new `output/batch-<timestamp>-<unique suffix>/` directory:
+Every run creates a new `output/batch-<timestamp>/` directory. A numeric suffix
+(`-2`, `-3`, etc.) is added only if that directory already exists:
 
 ```text
 batch-report.json
-logs/000001.log
-packages/<project>/<original relative path and filename>/manifest.json
+logs/lake-scenery/Lacustre.lws.log
+packages/lake-scenery/
+    manifest.json
+    obj/
+        Lacustre.lws.obj
+        Lacustre.lws.mtl
+        Tour_Toit.lwo.obj
+        Tour_Toit.lwo.mtl
+    IR/
+        Lacustre.lws/
+            manifest.json
+            scene.json
+            animation.bin
+            source.bin
+        Tour_Toit.lwo/
+            manifest.json
+            object.json
+            geometry.bin
+            source.bin
+    gltf/                  # Reserved; backend not implemented yet
+    blender/               # Reserved; backend not implemented yet
 ```
 
-The package tree follows the input tree, with each source filename becoming a
-package directory. Existing exports are preserved. The batch continues after
-individual failures and writes an overall report, with per-file logs and links
-to package manifests. Exit codes are **0** for success, **2** when at least one
+Since v0.2.0, each project groups outputs by format. Names retain the original
+extension, such as `Tour_Toit.lwo.obj`; duplicate basenames receive `-2`, `-3`,
+etc. Spaces and characters unsuitable for OBJ material-library references become
+underscores; accents are preserved. SHA-256 hashes remain in metadata rather
+than directory names. Scene dependencies already published in the same project
+are reused. Each input keeps its conversion manifest under `IR/<source name>/`,
+and the project manifest indexes these conversions. Loose files directly under
+the content root are grouped under that directory's name.
+
+Existing exports are preserved. The batch continues after individual failures
+and writes an overall report, with per-file logs and links to manifests and OBJ
+files. Failed temporary packages remain under `.work/` for inspection and are
+listed in the report; successful temporary packages are removed. Exit codes are
+**0** for success, **2** when at least one
 conversion is partial, and **1** when any file fails. Skipped ancillary files do
 not count as failures. Interrupted runs return **130** and record pending files.
 

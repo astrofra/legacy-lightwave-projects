@@ -12,6 +12,8 @@ import unittest
 EXE = str(Path(sys.argv.pop(1)).resolve())
 REPOSITORY = Path(__file__).resolve().parents[1]
 BATCH = REPOSITORY / "tools/batch_convert.py"
+sys.path.insert(0, str(REPOSITORY / "tools"))
+from output_layout import new_run
 
 
 def form(kind, payload):
@@ -19,8 +21,8 @@ def form(kind, payload):
     return b"FORM" + struct.pack(">I", len(body)) + body
 
 
-def object_bytes():
-    points = struct.pack(">9f", 0,0,0, 1,0,0, 0,1,0)
+def object_bytes(offset=0):
+    points = struct.pack(">9f", offset,0,0, offset+1,0,0, offset,1,0)
     return form(b"LWOB", b"PNTS"+struct.pack(">I",len(points))+points+b"POLS"+struct.pack(">I5H",10,3,0,1,2,0))
 
 
@@ -51,6 +53,45 @@ class BatchTests(unittest.TestCase):
     def reports(self):
         return sorted(self.output.glob("batch-*/batch-report.json"))
 
+    def check_published_files(self, report_path):
+        run = report_path.parent
+        report = json.loads(report_path.read_text("utf-8"))
+        self.assertFalse((run / ".work").exists())
+        for record in report["files"]:
+            if record["status"] not in ("converted", "partial"):
+                continue
+            package = run / record["package"]
+            manifest_path = run / record["manifest"]
+            manifest = json.loads(manifest_path.read_text("utf-8"))
+            index = json.loads((package / "manifest.json").read_text("utf-8"))
+            self.assertIn(manifest_path.relative_to(package).as_posix(), [entry["manifest"] for entry in index["conversions"]])
+            for planned in ("gltf", "blender"):
+                self.assertEqual(index["formats"][planned], "not-implemented")
+                self.assertEqual(list((package / planned).iterdir()), [])
+            uris = [asset["uri"] for asset in manifest["assets"]]
+            if manifest["scene"]:
+                uris.append(manifest["scene"])
+            for uri in uris:
+                path = (manifest_path.parent / uri).resolve()
+                self.assertTrue(path.is_relative_to(package))
+                data = json.loads(path.read_text("utf-8"))
+                self.assertEqual(hashlib.sha256((path.parent / data["source"]["uri"]).read_bytes()).hexdigest(), data["source"]["sha256"])
+                buffer = data.get("buffer", data.get("animation_buffer"))
+                if buffer:
+                    self.assertTrue((path.parent / buffer["uri"]).is_file())
+            for asset in manifest["assets"]:
+                self.assertTrue((manifest_path.parent / asset["obj"]).is_file())
+                self.assertTrue((manifest_path.parent / asset["mtl"]).is_file())
+            if record["obj"]:
+                self.assertTrue((run / record["obj"]).is_file())
+        for obj in (run / "packages").glob("*/obj/*.obj"):
+            lines = obj.read_text("utf-8").splitlines()
+            mtl = obj.parent / next(line.split()[1] for line in lines if line.startswith("mtllib "))
+            self.assertEqual(mtl, obj.with_suffix(".mtl"))
+            materials = {line.split()[1] for line in mtl.read_text("utf-8").splitlines() if line.startswith("newmtl ")}
+            self.assertTrue({line.split()[1] for line in lines if line.startswith("usemtl ")} <= materials)
+        return report
+
     def test_signatures_extensionless_files_and_project_roots(self):
         a = self.source("project A/mesh ! é", object_bytes())
         self.source("project B/mesh ! é", object_bytes())
@@ -65,7 +106,8 @@ class BatchTests(unittest.TestCase):
         self.assertEqual(report["counts"], {"converted":4,"skipped":2})
         scene = next(r for r in report["files"] if r["source"].endswith("scene.lws"))
         self.assertEqual(Path(scene["content_root"]), a.parent)
-        self.assertTrue((report_path.parent/scene["package"]/"scene.obj").is_file())
+        self.assertEqual(scene["obj"], "packages/project_A/obj/scene.lws.obj")
+        self.check_published_files(report_path)
         for path, checksum in before.items():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), checksum)
 
@@ -77,6 +119,62 @@ class BatchTests(unittest.TestCase):
         self.run_batch()
         self.assertEqual(len(self.reports()), 2)
         self.assertEqual(first.read_bytes(), original)
+
+    def test_timestamp_suffix_only_on_collision(self):
+        self.output.mkdir()
+        first = new_run(self.output, "batch-20260910-180051")
+        (first / "keep.txt").write_text("preserved")
+        second = new_run(self.output, "batch-20260910-180051")
+        third = new_run(self.output, "batch-20260910-180051")
+        self.assertEqual(first.name, "batch-20260910-180051")
+        self.assertEqual(second.name, "batch-20260910-180051-2")
+        self.assertEqual(third.name, "batch-20260910-180051-3")
+        self.assertEqual((first / "keep.txt").read_text(), "preserved")
+
+    def test_project_collisions_and_shared_scene_assets(self):
+        sources = ["a/door.lwo", "b/door.lwo", "c/Door.lwo", "d/door.lwo-2", "e/é ! #.lwo", "f/é_!__.lwo"]
+        for i, name in enumerate(sources):
+            self.source("project/" + name, object_bytes(i))
+        scene = ("LWSC\n1\n" + "".join(f"LoadObject {name}\n" for name in sources)).encode()
+        self.source("project/0.lws", scene)
+        self.source("project/1.lws", scene)
+        self.run_batch()
+        report_path = self.reports()[0]
+        report = self.check_published_files(report_path)
+        package = report_path.parent / "packages/project"
+        self.assertEqual({p.name for p in (package / "obj").glob("*.obj")},
+                         {"0.lws.obj", "1.lws.obj", "door.lwo.obj", "door.lwo-3.obj", "Door.lwo-4.obj", "door.lwo-2.obj", "é_!__.lwo.obj", "é_!__.lwo-2.obj"})
+        self.assertEqual(len(list((package / "IR").glob("*/object.json"))), 6)
+        self.assertEqual(report["counts"], {"converted":8})
+        paths = {}
+        for record in report["files"]:
+            manifest_path = report_path.parent / record["manifest"]
+            manifest = json.loads(manifest_path.read_text("utf-8"))
+            for asset in manifest["assets"]:
+                uri = (manifest_path.parent / asset["uri"]).resolve()
+                self.assertEqual(paths.setdefault(asset["source_path"], uri), uri)
+
+    def test_loose_root_input_and_project_name_collision(self):
+        self.source("mesh.lwo", object_bytes())
+        self.source("content/mesh.lwo", object_bytes(2))
+        self.run_batch()
+        report = self.check_published_files(self.reports()[0])
+        self.assertEqual({r["package"] for r in report["files"]}, {"packages/content", "packages/content-2"})
+
+    def test_mapped_dependencies_share_the_collision_namespace(self):
+        self.source("project/local/mesh.lwo", object_bytes())
+        external = self.base / "external"
+        external.mkdir()
+        (external / "mesh.lwo").write_bytes(object_bytes(7))
+        self.source("project/0.lws", b"LWSC\n1\nLoadObject outside:mesh.lwo\nLoadObject local/mesh.lwo\n")
+        self.source("project/1.lws", b"LWSC\n1\nLoadObject local/mesh.lwo\nLoadObject outside:mesh.lwo\n")
+        self.run_batch("--map", f"outside:={external}")
+        report_path = self.reports()[0]
+        self.check_published_files(report_path)
+        ir = report_path.parent / "packages/project/IR"
+        self.assertEqual((ir / "mesh.lwo/source.bin").read_bytes(), object_bytes())
+        self.assertEqual((ir / "mesh.lwo-2/source.bin").read_bytes(), object_bytes(7))
+        self.assertEqual(len(list(ir.glob("*/object.json"))), 2)
 
     def test_errors_do_not_abort_other_files(self):
         self.source("project/a-bad.lws", b"LWSC\n99\n")

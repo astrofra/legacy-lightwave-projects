@@ -50,6 +50,31 @@ char *lw_join(const char *base,const char *name) {
 const char *lw_basename(const char *s) {
     const char *p=s; for(;*s;s++) if(*s=='/'||*s=='\\') p=s+1; return p;
 }
+char *lw_named_path(const char *dir,const char *name,const char *suffix) {
+    size_t a=strlen(name),b=strlen(suffix); char *file,*path;
+    if(a>SIZE_MAX-b-1) return NULL;
+    file=malloc(a+b+1); if(!file) return NULL;
+    memcpy(file,name,a); memcpy(file+a,suffix,b+1);
+    path=lw_join(dir,file); free(file); return path;
+}
+char *lw_output_name(const char *path) {
+    const char *base=lw_basename(path); size_t i,n=strlen(base),stem;
+    char *name=malloc(n+3),device[8]={0}; int reserved;
+    if(!name) return NULL;
+    for(i=0;i<n;i++) {
+        unsigned char c=(unsigned char)base[i];
+        name[i]=(c<=32||c==127||strchr("<>:\"/\\|?*#",c))?'_':(char)c;
+    }
+    name[n]=0;
+    while(n&&name[n-1]=='.') name[--n]=0;
+    if(!n) { strcpy(name,"_"); n=1; }
+    for(stem=0;stem<n&&name[stem]!='.';stem++) {}
+    if(stem<sizeof device) for(i=0;i<stem;i++) device[i]=(char)toupper((unsigned char)name[i]);
+    reserved=!strcmp(device,"CON")||!strcmp(device,"PRN")||!strcmp(device,"AUX")||!strcmp(device,"NUL")||
+        (stem==4&&(!strncmp(device,"COM",3)||!strncmp(device,"LPT",3))&&device[3]>='1'&&device[3]<='9');
+    if(reserved) { memmove(name+1,name,n+1); name[0]='_'; }
+    return name;
+}
 char *lw_dirname(const char *s) {
     char *p=lw_dup(s),*last; size_t n;
     if(!p) return NULL;

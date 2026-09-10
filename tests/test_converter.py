@@ -95,10 +95,37 @@ class Converter(unittest.TestCase):
         self.assertEqual(obj["tags"][0]["decoding"], "latin1-hypothesis")
         self.assertEqual(obj["buffer_bytes"], len((directory / "geometry.bin").read_bytes()))
         self.assertEqual(struct.unpack_from("<3f", (directory / "geometry.bin").read_bytes()), (0, 0, 1))
-        text = (directory / "mesh.obj").read_text()
+        text = (out / manifest["assets"][0]["obj"]).read_text()
         self.assertIn("v 0 0 -1", text)
         self.assertIn("f 3 2 1", text)
         self.assertEqual(obj["chunks"][-1]["status"], "preserved-opaque")
+
+    def test_readable_layout_collisions_and_material_links(self):
+        self.write("a/mesh.lwo", lwob())
+        self.write("b/mesh.lwo", lwob(chunk("XTRA", b"different")))
+        self.write("c/mesh.lwo-2", lwob(chunk("XTRA", b"third")))
+        self.write("d/é ! #.lwo", lwob(chunk("XTRA", b"fourth")))
+        scene = self.write("layout.lws", "LWSC\n1\nLoadObject a/mesh.lwo\nLoadObject b/mesh.lwo\nLoadObject c/mesh.lwo-2\nLoadObject d/é ! #.lwo\n")
+        out, manifest = self.convert(scene)
+        self.assertEqual(manifest["layout_version"], "0.2")
+        self.assertEqual([a["name"] for a in manifest["assets"]], ["mesh.lwo", "mesh.lwo-3", "mesh.lwo-2", "é_!__.lwo"])
+        self.assertEqual(manifest["scene"], "IR/layout.lws/scene.json")
+        self.assertEqual(manifest["scene_obj"], "obj/layout.lws.obj")
+        for asset in manifest["assets"]:
+            self.assertEqual(asset["uri"], f"IR/{asset['name']}/object.json")
+            self.assertEqual(asset["obj"], f"obj/{asset['name']}.obj")
+            data = json.loads((out / asset["uri"]).read_text("utf-8"))
+            self.assertEqual(data["source"]["sha256"], asset["id"])
+            self.assertNotIn(asset["id"], asset["uri"])
+        for obj in (out / "obj").glob("*.obj"):
+            lines = obj.read_text("utf-8").splitlines()
+            mtllib = next(line.split()[1] for line in lines if line.startswith("mtllib "))
+            self.assertEqual(mtllib, obj.with_suffix(".mtl").name)
+            materials = {line.split()[1] for line in (obj.parent / mtllib).read_text("utf-8").splitlines() if line.startswith("newmtl ")}
+            self.assertTrue({line.split()[1] for line in lines if line.startswith("usemtl ")} <= materials)
+        for planned in ("gltf", "blender"):
+            self.assertEqual(manifest["formats"][planned], "not-implemented")
+            self.assertEqual(list((out / planned).iterdir()), [])
 
     def test_lwo2_vmad_seam(self):
         maps = chunk("VMAP", b"TXUV" + U16(2) + s0("uv") + b"".join(vx(i)+F32(i/2, 0) for i in range(3)))
@@ -107,8 +134,8 @@ class Converter(unittest.TestCase):
         out, manifest = self.convert(path, "--uv-map", "uv")
         directory, obj = self.object_data(out, manifest)
         self.assertEqual(len(obj["maps"]), 2)
-        self.assertIn("vt 0.25 0.75", (directory / "mesh.obj").read_text())
-        self.assertIn("f 3/3 2/2 1/1", (directory / "mesh.obj").read_text())
+        self.assertIn("vt 0.25 0.75", (out / manifest["assets"][0]["obj"]).read_text())
+        self.assertIn("f 3/3 2/2 1/1", (out / manifest["assets"][0]["obj"]).read_text())
         out, manifest = self.convert(path, "--uv-map", "absent", code=2)
         self.assertEqual(manifest["unmapped_uv_corners"], 3)
 
@@ -125,7 +152,7 @@ class Converter(unittest.TestCase):
         out, manifest = self.convert(self.write("big-index", raw))
         directory, obj = self.object_data(out, manifest)
         self.assertEqual(obj["positions"]["count"], 65281)
-        self.assertIn("p 65281", (directory / "mesh.obj").read_text())
+        self.assertIn("p 65281", (out / manifest["assets"][0]["obj"]).read_text())
 
     def test_detail_polygons_preserved_not_flattened(self):
         record = U16(3)+U16(0)+U16(1)+U16(2)
@@ -139,12 +166,12 @@ class Converter(unittest.TestCase):
     def test_layers_selected_by_id_not_chunk_order(self):
         self.write("layers.lwo", form("LWO2", layer(3, 100), layer(0, 10)))
         scene = self.write("layers.lws", "LWSC\n3\nLoadObjectLayer 1 layers.lwo\n")
-        out, _ = self.convert(scene)
-        self.assertIn("v 10 0 -1", (out / "scene.obj").read_text())
-        self.assertNotIn("v 100 ", (out / "scene.obj").read_text())
+        out, manifest = self.convert(scene)
+        self.assertIn("v 10 0 -1", (out / manifest["scene_obj"]).read_text())
+        self.assertNotIn("v 100 ", (out / manifest["scene_obj"]).read_text())
         out, manifest = self.convert(self.write("missing.lws", "LWSC\n3\nLoadObjectLayer 2 layers.lwo\n"), code=2)
         self.assertEqual(manifest["unresolved_object_instances"], 1)
-        self.assertEqual(json.loads((out / "scene/scene.json").read_text())["nodes"][0]["resolution"], "missing-layer")
+        self.assertEqual(json.loads((out / manifest["scene"]).read_text())["nodes"][0]["resolution"], "missing-layer")
 
     def test_linear_scene_parent_pivot_and_default_frame(self):
         self.write("tri", lwob())
@@ -154,15 +181,15 @@ class Converter(unittest.TestCase):
         scene += motion1([(0, [0,0,0,0,0,0,1,1,1], 1), (10, [10,0,0,0,0,0,1,1,1], 1)])
         out, manifest = self.convert(self.write("move.lws", scene))
         self.assertEqual(manifest["frame"], 5)
-        self.assertIn("v 14 0 -1", (out / "scene.obj").read_text())
-        data = json.loads((out / "scene/scene.json").read_text())
-        self.assertEqual(data["animation_bytes"], len((out / "scene/animation.bin").read_bytes()))
+        self.assertIn("v 14 0 -1", (out / manifest["scene_obj"]).read_text())
+        data = json.loads((out / manifest["scene"]).read_text())
+        self.assertEqual(data["animation_bytes"], len(((out / manifest["scene"]).parent / "animation.bin").read_bytes()))
 
     def test_heading_and_negative_scale(self):
         self.write("tri", lwob())
         scene = "LWSC\n1\nLoadObject tri\n" + motion1([(0, [0,0,0,90,0,0,-1,1,1], 1)])
-        out, _ = self.convert(self.write("rotation.lws", scene))
-        lines = (out / "scene.obj").read_text().splitlines()
+        out, manifest = self.convert(self.write("rotation.lws", scene))
+        lines = (out / manifest["scene_obj"]).read_text().splitlines()
         points = [list(map(float, line.split()[1:])) for line in lines if line.startswith("v ")]
         self.assertAlmostEqual(points[0][0], 1)
         self.assertAlmostEqual(points[1][2], -1)
@@ -174,17 +201,17 @@ class Converter(unittest.TestCase):
             scene = self.write(f"motion{shape}.lws", "LWSC\n3\nFramesPerSecond 20\nLoadObject tri\n" + motion3(shape=shape))
             out, manifest = self.convert(scene, "--frame", "10", code=code)
             if not code:
-                self.assertIn("v 5 0 -1", (out / "scene.obj").read_text())
+                self.assertIn("v 5 0 -1", (out / manifest["scene_obj"]).read_text())
             else:
                 self.assertIsNone(manifest["scene_obj"])
                 self.assertIn("animation", manifest["scene_obj_issue"])
-                self.assertFalse((out / "scene.obj").exists())
+                self.assertFalse((out / "obj" / (Path(manifest["input"]).name + ".obj")).exists())
 
     def test_envelope_modifiers_and_declared_count(self):
         self.write("tri", lwob())
         scene = self.write("channel.lws", "LWSC\n3\nLoadObject tri\n" + motion3(declared=0, modifier='{ ChannelHandler\n"Expression"\n}\n'))
         out, manifest = self.convert(scene, code=2)
-        channel = json.loads((out / "scene/scene.json").read_text())["nodes"][0]["channels"][0]
+        channel = json.loads((out / manifest["scene"]).read_text())["nodes"][0]["channels"][0]
         self.assertEqual((channel["declared_keys"], channel["keys"]["count"], channel["opaque_modifiers"]), (0, 2, 1))
         self.assertIsNone(manifest["scene_obj"])
 
@@ -193,7 +220,7 @@ class Converter(unittest.TestCase):
         b = self.write("b/shared", lwob())
         scene = self.write("ambiguous.lws", "LWSC\n1\nLoadObject old:shared\n")
         out, manifest = self.convert(scene, code=2)
-        node = json.loads((out / "scene/scene.json").read_text())["nodes"][0]
+        node = json.loads((out / manifest["scene"]).read_text())["nodes"][0]
         self.assertEqual(node["resolution"], "ambiguous")
         self.assertEqual(len(node["candidates"]), 2)
         out, manifest = self.convert(scene, "--map", "old:=" + str(b.parent))
@@ -219,7 +246,7 @@ class Converter(unittest.TestCase):
 
     def test_no_overwrite_or_output_inside_sources(self):
         path = self.write("tri", lwob())
-        out, _ = self.convert(path)
+        out, manifest = self.convert(path)
         self.run_cli("convert", path, "--output", out, code=1)
         self.run_cli("convert", path, "--output", self.root / "forbidden", code=1)
         self.assertFalse((self.root / "forbidden").exists())
@@ -243,17 +270,17 @@ class Converter(unittest.TestCase):
         out, manifest = self.convert(self.write("tagged", raw), code=2)
         directory, obj = self.object_data(out, manifest)
         self.assertEqual(obj["invalid_map_references"], 1)
-        self.assertIn("usemtl a0_m0", (directory / "mesh.obj").read_text())
-        self.assertIn("Kd 0 1 0", (directory / "materials.mtl").read_text())
+        self.assertIn("usemtl a0_m0", (out / manifest["assets"][0]["obj"]).read_text())
+        self.assertIn("Kd 0 1 0", (out / manifest["assets"][0]["mtl"]).read_text())
 
     def test_repeat_and_stepped_interpolation(self):
         self.write("tri", lwob())
         scene = self.write("repeat.lws", "LWSC\n1\nLoadObject tri\n" + motion1([(2, [0,0,0,0,0,0,1,1,1], 1), (12, [10,0,0,0,0,0,1,1,1], 1)], end=2))
-        out, _ = self.convert(scene, "--frame", "17")
-        self.assertIn("v 5 0 -1", (out / "scene.obj").read_text())
+        out, manifest = self.convert(scene, "--frame", "17")
+        self.assertIn("v 5 0 -1", (out / manifest["scene_obj"]).read_text())
         scene = self.write("step.lws", "LWSC\n3\nLoadObject tri\nFramesPerSecond 30\n" + motion3(shape=4))
-        out, _ = self.convert(scene, "--frame", "15")
-        self.assertIn("v 0 0 -1", (out / "scene.obj").read_text())
+        out, manifest = self.convert(scene, "--frame", "15")
+        self.assertIn("v 0 0 -1", (out / manifest["scene_obj"]).read_text())
 
     def polygon_fixture(self, points, indices, maps=b""):
         return form("LWO2", chunk("PNTS", F32(*(v for point in points for v in point))), chunk("POLS", b"FACE"+U16(len(indices))+b"".join(vx(i) for i in indices)), maps)
@@ -263,7 +290,7 @@ class Converter(unittest.TestCase):
         # The native boundary is independent of the triangulated derivative.
         self.assertEqual(obj["primitives"]["count"], 1)
         self.assertEqual(obj["indices"]["count"], len(boundary))
-        polygons = [line.split()[1:] for line in (directory/"mesh.obj").read_text().splitlines() if line.startswith("f ")]
+        polygons = [line.split()[1:] for line in (out / manifest["assets"][0]["obj"]).read_text().splitlines() if line.startswith("f ")]
         projected = [(p[axes[0]], p[axes[1]]) for p in points]
         area = lambda a,b,c: (b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0])
         expected = sum(projected[a][0]*projected[b][1]-projected[b][0]*projected[a][1] for a,b in zip(boundary,boundary[1:]+boundary[:1]))
@@ -305,7 +332,7 @@ class Converter(unittest.TestCase):
         self.assertEqual(len(polygons), 8)
         self.assertEqual(manifest["obj_bridged_hole_faces"], 1)
         directory,_ = self.object_data(out,manifest)
-        uv = [tuple(map(float,line.split()[1:])) for line in (directory/"mesh.obj").read_text().splitlines() if line.startswith("vt ")]
+        uv = [tuple(map(float,line.split()[1:])) for line in (out / manifest["assets"][0]["obj"]).read_text().splitlines() if line.startswith("vt ")]
         for polygon in polygons:
             for corner in polygon:
                 vertex,texture = map(int,corner.split('/'))
@@ -331,7 +358,7 @@ class Converter(unittest.TestCase):
             out, manifest = self.convert(self.write("invalid-contour",self.polygon_fixture(points,list(range(len(points))))),code=2)
             self.assertEqual(manifest["obj_triangulation_failures"], 1)
             directory,_ = self.object_data(out,manifest)
-            self.assertFalse(any(line.startswith('f ') for line in (directory/'mesh.obj').read_text().splitlines()))
+            self.assertFalse(any(line.startswith('f ') for line in (out / manifest["assets"][0]["obj"]).read_text().splitlines()))
 
     def test_nonplanar_face_is_an_explicit_approximation(self):
         points = [(0,0,0),(1,0,0),(1,1,.2),(0,1,0)]
