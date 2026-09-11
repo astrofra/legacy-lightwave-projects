@@ -69,7 +69,16 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
     for(i=0;i<o->materials.n;i++) {
         const LWMaterial *m=&o->materials.v[i]; if(i) fputc(',',f);
         fputs("{\"name\":",f); lw_json_name(f,m->name); fputs(",\"source_name\":",f); lw_json_name(f,m->source);
-        fprintf(f,",\"color\":[%.9g,%.9g,%.9g],\"diffuse\":%.9g,\"specular\":%.9g,\"luminosity\":%.9g,\"transparency\":%.9g,\"smoothing_angle\":%.9g,\"flags\":%u,\"side\":%u,\"present_fields\":%u,\"float_fields\":%u}",m->color[0],m->color[1],m->color[2],m->diffuse,m->specular,m->luminosity,m->transparency,m->smoothing,m->flags,m->side,m->present,m->float_fields);
+        fprintf(f,",\"color\":[%.9g,%.9g,%.9g],\"diffuse\":%.9g,\"specular\":%.9g,\"luminosity\":%.9g,\"transparency\":%.9g,\"smoothing_angle\":%.9g,\"flags\":%u,\"side\":%u,\"present_fields\":%u,\"float_fields\":%u,\"textures\":",m->color[0],m->color[1],m->color[2],m->diffuse,m->specular,m->luminosity,m->transparency,m->smoothing,m->flags,m->side,m->present,m->float_fields);
+        lw_json_textures(f,o,(uint32_t)i);
+        fputs(",\"derived_maps\":{",f);
+        {
+            const char *keys[]={"base_color","opacity","emissive","specular","bump"};
+            const char *uris[]={m->base_texture,m->opacity_texture,m->emissive_texture,m->specular_texture,m->bump_texture};
+            int comma=0;
+            for(j=0;j<5;j++) if(uris[j]) { if(comma) fputc(',',f); comma=1; lw_json_string(f,keys[j]); fputc(':',f); lw_json_string(f,uris[j]); }
+        }
+        fputs("}}",f);
     }
     offset=primitive_offset+36*o->primitives.n; fputs("],\n\"maps\":[",f);
     for(i=0;i<o->maps.n;i++) {
@@ -85,7 +94,7 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
         LWChunk c=o->chunks.v[i]; char tag[5]; lw_tag_text(c.tag,tag); if(i) fputc(',',f);
         fputs("{\"tag\":",f); lw_json_string(f,tag); fprintf(f,",\"offset\":%zu,\"payload_bytes\":%zu,\"status\":\"%s\"}",c.offset,c.size,c.status);
     }
-    fprintf(f,"],\n\"buffer_bytes\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"non_finite_map_values\":%zu,\"material_scope\":\"scalar subset; complete source SURF/CLIP bytes retained\"\n}\n",offset,o->invalid_map_references,o->missing_materials,o->non_finite_map_values);
+    fprintf(f,"],\n\"buffer_bytes\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"non_finite_map_values\":%zu,\"material_scope\":\"scalar subset and LWOB texture bindings; native projections and source SURF/CLIP bytes retained; derived PNG maps use a repeat sampler and approximate scalar interpolation; height bump exported to OBJ only\"\n}\n",offset,o->invalid_map_references,o->missing_materials,o->non_finite_map_values);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 }
 static void clip_maps_json(FILE *f,const LWNode *node) {

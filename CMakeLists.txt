@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.3.0 LANGUAGES C)
+project(lightwave_preservation VERSION 0.4.0 LANGUAGES C)
 
 option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 if(MSVC AND NOT LWCONVERT_SANITIZE)
@@ -8,7 +8,11 @@ if(MSVC AND NOT LWCONVERT_SANITIZE)
 endif()
 
 add_library(lwconvert_core STATIC
-    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/images.c src/obj.c src/triangulate.c src/geometry.c src/gltf.c)
+    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/images.c src/raster.c src/textures.c src/obj.c src/triangulate.c src/geometry.c src/gltf.c third_party/libilbm/byterun.c)
+add_library(lwconvert_raster STATIC src/stb.c)
+target_include_directories(lwconvert_raster PRIVATE third_party/stb)
+target_include_directories(lwconvert_core PRIVATE third_party/stb third_party/libilbm)
+target_link_libraries(lwconvert_core PUBLIC lwconvert_raster)
 target_include_directories(lwconvert_core PUBLIC include PRIVATE src)
 target_compile_features(lwconvert_core PUBLIC c_std_17)
 set_target_properties(lwconvert_core PROPERTIES C_EXTENSIONS OFF)
@@ -29,9 +33,11 @@ if(LWCONVERT_SANITIZE)
     if(MSVC)
         # Select Release or RelWithDebInfo: MSVC Debug's /RTC is incompatible.
         target_compile_options(lwconvert_core PUBLIC /fsanitize=address /Zi)
+        target_compile_options(lwconvert_raster PRIVATE /fsanitize=address /Zi)
         target_link_options(lwconvert_core PUBLIC /INCREMENTAL:NO)
     else()
         target_compile_options(lwconvert_core PUBLIC -fsanitize=address,undefined -fno-omit-frame-pointer)
+        target_compile_options(lwconvert_raster PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
         target_link_options(lwconvert_core PUBLIC -fsanitize=address,undefined)
     endif()
 endif()
@@ -42,6 +48,7 @@ if(WIN32 AND CMAKE_C_COMPILER_ARCHITECTURE_ID STREQUAL "x64" AND NOT LWCONVERT_S
         COMMAND "${CMAKE_COMMAND}" "-DCONFIG=$<CONFIG>"
             "-DSOURCE=$<TARGET_FILE:lwconvert>"
             "-DDESTINATION=${PROJECT_SOURCE_DIR}/bin/win64"
+            "-DTHIRD_PARTY=${PROJECT_SOURCE_DIR}/third_party"
             -P "${PROJECT_SOURCE_DIR}/cmake/StageWin64.cmake"
         DEPENDS lwconvert
         VERBATIM)
@@ -58,5 +65,10 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_batch.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME gltf_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_gltf.py" "$<TARGET_FILE:lwconvert>")
+    add_test(NAME texture_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_textures.py" "$<TARGET_FILE:lwconvert>")
 endif()
 install(TARGETS lwconvert RUNTIME DESTINATION bin)
+install(FILES third_party/README.md DESTINATION bin/licenses)
+install(FILES third_party/libilbm/LICENSE DESTINATION bin/licenses RENAME libilbm.txt)
+install(FILES third_party/stb/LICENSE DESTINATION bin/licenses RENAME stb.txt)

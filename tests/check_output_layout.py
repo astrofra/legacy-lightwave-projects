@@ -41,6 +41,14 @@ def check(run):
                 if reference.get("uri"):
                     image = linked(path.parent, reference["uri"], project)
                     assert hashlib.sha256(image.read_bytes()).hexdigest() == reference["sha256"], image
+                decoded = reference.get("decoded_image") or {}
+                if decoded.get("png_uri"):
+                    image = linked(path.parent, decoded["png_uri"], project)
+                    assert hashlib.sha256(image.read_bytes()).hexdigest() == decoded["png_sha256"], image
+            for material in data.get("materials", []):
+                for uri in material.get("derived_maps", {}).values():
+                    image = linked(path.parent, uri, project)
+                    assert hashlib.sha256(image.read_bytes()).hexdigest() == image.stem, image
             source = linked(path.parent, data["source"]["uri"], project)
             digest = hashlib.sha256(source.read_bytes()).hexdigest()
             assert digest == data["source"]["sha256"], source
@@ -72,6 +80,16 @@ def check(run):
                     for buffer in data.get("buffers", []):
                         assert linked(path.parent, unquote(buffer["uri"]), project) == bin_path
                         assert bin_path.stat().st_size == buffer["byteLength"]
+                    for image in data.get("images", []):
+                        image_path = linked(path.parent, unquote(image["uri"]), project)
+                        assert hashlib.sha256(image_path.read_bytes()).hexdigest() == image_path.stem, image_path
+                    for texture in data.get("textures", []):
+                        assert 0 <= texture["source"] < len(data["images"])
+                        assert 0 <= texture["sampler"] < len(data["samplers"])
+                    for material in data.get("materials", []):
+                        bindings = [material.get("pbrMetallicRoughness", {}).get("baseColorTexture"),material.get("emissiveTexture"),material.get("extensions", {}).get("KHR_materials_specular", {}).get("specularTexture")]
+                        for binding in bindings:
+                            if binding: assert 0 <= binding["index"] < len(data["textures"])
                     gltfs.add(path)
             primary = manifest["scene_gltf"] if manifest["scene"] else manifest["assets"][0]["gltf"]
             assert (linked(run, record["gltf"], project) if record["gltf"] else None) == (linked(manifest_path.parent, primary, project) if primary else None)
@@ -86,6 +104,10 @@ def check(run):
         assert libraries == [obj.with_suffix(".mtl")], obj
         materials = {line.split()[1] for line in libraries[0].read_text("utf-8").splitlines() if line.startswith("newmtl ")}
         assert used <= materials, (obj, used - materials)
+        for line in libraries[0].read_text("utf-8").splitlines():
+            if line.startswith(("map_Kd ", "map_d ", "map_Ke ", "map_Ks ", "bump ")):
+                image = linked(obj.parent, line.split()[-1], obj.parent)
+                assert hashlib.sha256(image.read_bytes()).hexdigest() == image.stem, image
     for project, manifests in projects.items():
         index = json.loads((project / "manifest.json").read_text("utf-8"))
         assert manifests == {linked(project, item["manifest"], project) for item in index["conversions"]}, project
@@ -95,7 +117,7 @@ def check(run):
         for path in project.rglob("*"):
             assert not re.fullmatch(r"[0-9a-f]{64}", path.name), path
     assert not (run / ".work").exists(), "Successful batches must remove temporary packages"
-    return {"batch": str(run), "layout_version": report["layout_version"], "input_statuses": dict(Counter(r["status"] for r in report["files"])), "projects": len(projects), "conversion_manifests": sum(map(len, projects.values())), "native_sources_checked": len(native), "obj_mtl_pairs_checked": len(objects), "gltf_buffer_pairs_checked": len(gltfs), "passed": True, "scope": "Published relative links, project indexes, copied/original source hashes, buffer sizes, OBJ/MTL material references and glTF buffer URIs. Does not assess LightWave visual fidelity."}
+    return {"batch": str(run), "layout_version": report["layout_version"], "input_statuses": dict(Counter(r["status"] for r in report["files"])), "projects": len(projects), "conversion_manifests": sum(map(len, projects.values())), "native_sources_checked": len(native), "obj_mtl_pairs_checked": len(objects), "gltf_buffer_pairs_checked": len(gltfs), "passed": True, "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."}
 
 
 if __name__ == "__main__":

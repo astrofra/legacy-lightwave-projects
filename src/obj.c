@@ -13,13 +13,22 @@ static FILE *create_file(const char *dir,const char *name,const char *suffix,LWE
 }
 static double unit(double x) { return x<0?0:x>1?1:x; }
 static void materials(FILE *f,const LWObject *o,size_t asset) {
-    size_t i;
+    size_t i,j;
     fprintf(f,"newmtl a%zu_default\nKd 0.8 0.8 0.8\nillum 1\n\n",asset);
     for(i=0;i<o->materials.n;i++) {
         const LWMaterial *m=&o->materials.v[i];
-        fprintf(f,"newmtl a%zu_m%zu\nKd %.9g %.9g %.9g\nKs %.9g %.9g %.9g\nKe %.9g %.9g %.9g\nd %.9g\nillum 2\n\n",asset,i,
-            unit(m->color[0]*m->diffuse),unit(m->color[1]*m->diffuse),unit(m->color[2]*m->diffuse),
-            unit(m->specular),unit(m->specular),unit(m->specular),(double)m->color[0]*m->luminosity,(double)m->color[1]*m->luminosity,(double)m->color[2]*m->luminosity,unit(1-m->transparency));
+        fprintf(f,"newmtl a%zu_m%zu\nKd %.9g %.9g %.9g\nKs %.9g %.9g %.9g\nKe %.9g %.9g %.9g\nd %.9g\nillum 2\n",asset,i,
+            m->base_texture?1:unit(m->color[0]*m->diffuse),m->base_texture?1:unit(m->color[1]*m->diffuse),m->base_texture?1:unit(m->color[2]*m->diffuse),
+            m->specular_texture?1:unit(m->specular),m->specular_texture?1:unit(m->specular),m->specular_texture?1:unit(m->specular),
+            m->emissive_texture?1:(double)m->color[0]*m->luminosity,m->emissive_texture?1:(double)m->color[1]*m->luminosity,m->emissive_texture?1:(double)m->color[2]*m->luminosity,m->opacity_texture?1:unit(1-m->transparency));
+        if(m->base_texture) fprintf(f,"map_Kd %s\n",m->base_texture);
+        if(m->opacity_texture) fprintf(f,"map_d %s\n",m->opacity_texture);
+        if(m->emissive_texture) fprintf(f,"map_Ke %s\n",m->emissive_texture);
+        if(m->specular_texture) fprintf(f,"map_Ks %s\n",m->specular_texture);
+        if(m->bump_texture) for(j=0;j<o->textures.n;j++) if(o->textures.v[j].material==i&&o->textures.v[j].supported&&o->textures.v[j].channel==LW_TAG('B','U','M','P')) {
+            fprintf(f,"bump -bm %.9g %s\n",o->textures.v[j].amplitude,m->bump_texture); break;
+        }
+        fputc('\n',f);
     }
 }
 static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t request,const double m[16],const char *uv_name,size_t *vertex_base,size_t *uv_base,LWExportStats *stats,LWError *e) {
@@ -27,7 +36,7 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
     unsigned char *used=calloc(count+1,1); LWUV *uv=NULL; int ok=0;
     double determinant=m[0]*(m[5]*m[10]-m[9]*m[6])-m[4]*(m[1]*m[10]-m[9]*m[2])+m[8]*(m[1]*m[6]-m[5]*m[2]);
     if(!vertices||!used) { lw_error(e,0,"allocation","out of memory"); goto done; }
-    if(uv_name) { uv=lw_corner_uvs(o,uv_name,e); if(!uv) goto done; }
+    uv=uv_name?lw_corner_uvs(o,uv_name,e):lw_texture_uvs(o,e); if(!uv) goto done;
     fprintf(f,"o instance_%zu_asset_%zu\n",instance,asset);
     for(i=0;i<o->point_blocks.n;i++) {
         const LWPointBlock *pb=&o->point_blocks.v[i];
@@ -41,7 +50,7 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
     }
     for(i=0;i<o->primitives.n;i++) {
         const LWPrimitive *p=&o->primitives.v[i]; const LWPolygonBlock *block=&o->polygon_blocks.v[p->block];
-        int repeated=0,has_uv=uv!=NULL,is_curve=p->type==LW_TAG('C','U','R','V'); size_t first_uv=*uv_base+1;
+        int repeated=0,has_uv=uv_name||(p->material<o->materials.n&&o->materials.v[p->material].textured),is_curve=p->type==LW_TAG('C','U','R','V'); size_t first_uv=*uv_base+1;
         int triangulated=p->type==LW_TAG('F','A','C','E')&&p->count>=3;
         LWTriangulation triangles={0};
         if(!selected(o,block->layer,request)) continue;
@@ -63,7 +72,7 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
         }
         if(p->type==LW_TAG('P','C','H','S')||p->type==LW_TAG('P','T','C','H')) stats->cages++;
         if(is_curve) stats->control_curves++;
-        if(uv) for(j=0;j<p->count;j++) if(!uv[p->first+j].valid) { has_uv=0; stats->uv_missing++; }
+        if(has_uv) for(j=0;j<p->count;j++) if(!uv[p->first+j].valid) { has_uv=0; stats->uv_missing++; }
         if(p->count<3||is_curve) has_uv=0;
         if(has_uv) for(j=0;j<p->count;j++) { fprintf(f,"vt %.9g %.9g\n",uv[p->first+j].u,uv[p->first+j].v); ++*uv_base; }
         fprintf(f,"g instance_%zu_layer_%u\n",instance,o->layers.v[block->layer].id);

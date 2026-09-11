@@ -67,6 +67,11 @@ int lw_write_scene(const char *, const LWScene *, LWError *);
 int lw_package_images(const char *, const char *, LWImageReference *, size_t, LWError *);
 void lw_free_image(LWImageReference *);
 void lw_json_images(FILE *, const LWImageReference *, size_t);
+int lw_decode_raster(const LWSource *,LWImageReference *,LWError *);
+int lw_save_png(const char *,const unsigned char *,int,int,char [65],LWError *);
+int lw_encode_png(const unsigned char *,int,int,LWSource *,LWError *);
+int lw_prepare_textures(const char *,const char *,LWObject *,const LWOptions *,LWError *);
+void lw_json_textures(FILE *,const LWObject *,uint32_t);
 typedef struct {
     size_t skipped, cages, control_curves, uv_missing;
     size_t triangulated_faces, triangles, bridged_faces, triangulation_failures, nonplanar_faces, removed_corners;
@@ -82,6 +87,7 @@ int lw_triangulate(const LWObject *,const LWPrimitive *,LWTriangulation *,LWErro
 void lw_free_triangulation(LWTriangulation *);
 int lw_write_obj(const char *, const LWPackage *, const LWOptions *, LWExportStats *, LWError *);
 typedef struct { float u,v; unsigned char valid; } LWUV;
+LWUV *lw_texture_uvs(const LWObject *,LWError *);
 LWUV *lw_corner_uvs(const LWObject *,const char *,LWError *);
 typedef struct {
     LWExportStats geometry;

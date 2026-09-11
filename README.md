@@ -14,9 +14,9 @@ concave outlines and bridged holes. Native polygons remain in LWIR. See the
 
 Since v0.3.0, every conversion also writes `gltf/<source filename>.gltf` and its
 `.bin`. The first glTF profile exports static geometry, flat triangle normals,
-scalar material approximations and explicitly selected UVs. Scene snapshots
+material approximations and UVs. Scene snapshots
 retain geometry instances and their parent transforms at `--frame`. Animation,
-texture bindings, native smoothing, cameras, lights and deformations are not
+native smoothing, cameras, lights and deformations are not
 exported. The manifest records the supported subset and any blocked snapshot.
 
 Image references now resolve within the owning LWS/LWO directory and its
@@ -24,8 +24,14 @@ descendants, including an alternative image extension when the filename stem
 matches uniquely (for example, `signe.psd` to `signe.jpg`). Found images are copied
 into `IR/<source filename>/textures/` and linked in the IR metadata. Equal path
 matches prefer PSD, TGA, PNG, JPEG, JPG, GIF, TIFF, then other image formats;
-remaining ambiguities are reported. Applying those images to OBJ/glTF materials
-remains unimplemented.
+remaining ambiguities are reported.
+
+Since v0.4.0, LWOB planar and spherical image maps generate UVs and PNG material
+maps for OBJ and glTF. IFF/ILBM textures are decoded to PNG while the originals
+are retained. The IR records native channels, projections and image bindings.
+The `orange-juice-signage` example now exports its textured screen, orange skin
+and floor transparency. See the [texture profile](documentation/textures.md)
+for supported channels and the remaining rendering approximations.
 
 Scene clip maps are preserved explicitly on their owning instances, with image
 roles, native parameter trees and source byte ranges. Object dissolve remains a
@@ -46,7 +52,9 @@ Every normal MSVC x64 Release build copies `lwconvert.exe` into `bin/win64/`,
 including builds where the executable was already up to date. This directory is
 intentionally versioned so the Windows converter can be used directly after a
 checkout. The Release executable links the C runtime statically; no Visual C++
-runtime DLL needs to be shipped alongside it. Debug and AddressSanitizer builds
+runtime DLL needs to be shipped alongside it. Vendored raster components retain
+their MIT notices in `third_party/`, also copied to `bin/win64/licenses/`.
+Keep those notices with redistributed binaries. Debug and AddressSanitizer builds
 stay in their build directories and do not replace the distributed binary.
 
 The copy can also be refreshed with
@@ -63,7 +71,7 @@ bin/win64/lwconvert.exe convert content/circus/Mr_Lector_2.lws --content-root co
 ```
 
 Exit code **2** means a package was produced with limitations reported in
-`manifest.json`: textures not exported, missing UVs, unavailable layers, etc.
+`manifest.json`: approximated or unsupported textures, missing UVs, unavailable layers, etc.
 **0** confirms success for the supported subset; **1** indicates an error.
 A scene produces individual OBJ exports for its resolved objects and, when
 the transforms can be evaluated, an `obj/<scene filename>.obj` at the requested frame.

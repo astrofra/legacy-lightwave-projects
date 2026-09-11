@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.3.0"
+#define LWCONVERT_VERSION "0.4.0"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -32,9 +32,20 @@ typedef struct {
 } LWMap;
 typedef struct { uint32_t type, polygon, tag, block; } LWTagAssignment;
 typedef struct {
+    LWString type;
+    uint32_t material, channel, flags, wrap[2];
+    size_t image, offset, bytes;
+    float size[3], center[3], falloff[3], velocity[3], value, amplitude, tiles[2];
+    char issue[192];
+    int supported;
+} LWTexture;
+typedef struct {
     LWString name, source;
     float color[3], diffuse, specular, luminosity, transparency, smoothing;
     uint32_t flags, side, present, float_fields;
+    size_t projection_texture;
+    char *base_texture, *opacity_texture, *emissive_texture, *specular_texture, *bump_texture;
+    int textured, texture_alpha;
 } LWMaterial;
 typedef struct {
     LWString path;
@@ -44,6 +55,10 @@ typedef struct {
     char *resolved_path, *uri;
     LW_ARRAY(char *) candidates;
     char resolution[48], issue[256], sha256[65];
+    char *png_uri;
+    char png_sha256[65], decode_issue[192];
+    unsigned char *rgba;
+    int width, height;
 } LWImageReference;
 typedef struct LWObject {
     LWSource source;
@@ -61,6 +76,7 @@ typedef struct LWObject {
     LW_ARRAY(LWMaterial) materials;
     LW_ARRAY(LWMap) maps;
     LW_ARRAY(LWImageReference) images;
+    LW_ARRAY(LWTexture) textures;
     size_t texture_blocks, legacy_textures, opaque_chunks, repeated_primitives;
     size_t invalid_map_references, missing_materials, non_finite_map_values;
 } LWObject;

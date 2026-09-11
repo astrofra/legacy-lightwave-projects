@@ -1,6 +1,6 @@
-# LWS/LWO converter in C — v0.3.0
+# LWS/LWO converter in C — v0.4.0
 
-Status as of 10 September 2026. This first milestone provides a C17 library and
+Status as of 11 September 2026. This milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
 structures and produces OBJ/MTL and glTF 2.0 files. The `.blend` backend remains
 to be implemented.
@@ -31,8 +31,9 @@ retrying with another directory.
 The content root defaults to the input's directory. For a scene, selecting the
 project root helps avoid collisions between objects with the same name.
 `--frame` accepts fractional frames and defaults to `FirstFrame`.
-`--uv-map` explicitly selects a native TXUV map; no map is automatically selected
-from material settings.
+`--uv-map` explicitly selects a native TXUV map and disables automatic material
+projection bindings. Without this option, compatible LWOB planar/spherical image
+maps generate their own UVs; LWO2 TXUV map selection remains explicit.
 
 Exit codes:
 
@@ -43,7 +44,7 @@ Exit codes:
 | 2 | Package produced with missing, omitted or approximated elements; see the manifest |
 
 Exit code 0 does not guarantee LightWave visual fidelity. MTL materials remain
-a scalar approximation, and the scope is recorded in every package.
+a rendering approximation, and the scope is recorded in every package.
 
 ## Reading and preservation
 
@@ -64,7 +65,8 @@ Each parsed input is copied in full to `source.bin`, with its SHA-256 hash.
 Uninterpreted fields therefore remain recoverable, including projections,
 plugins, scalar envelopes, render settings and unknown chunks. Image references
 are extracted and resolved within each source's directory tree. Selected images
-are copied verbatim into its IR directory; they are not decoded or bound to
+are copied verbatim into its IR directory. Supported raster images are decoded,
+with lossless PNG derivatives for ILBM; compatible LWOB image maps are bound to
 exported materials. Missing or unreadable dependencies are reported and are not
 included in the package.
 
@@ -133,9 +135,13 @@ Each `image_references` entry in `object.json` or `scene.json` retains the origi
 path and source offset, and adds `resolution`, `candidates`, `resolved_path`,
 `uri`, `sha256` and `issue`. Copied files use local `textures/<index>-<filename>`
 paths, preserved by batch publication. Repeated references to one file within a
-document share one copy. Manifests count packaged and unresolved references;
-`status: not-evaluated` and `images_not_exported` still describe texture evaluation
-and material bindings, which remain unsupported in OBJ/glTF.
+document share one copy. Manifests count packaged, unresolved and decoded
+references. `decoded_image` reports dimensions and optional `png_uri`/`png_sha256`;
+`decode_issue` explains unsupported or malformed images. `status: decoded` means
+raster decoding succeeded, independently of whether the image is used in an
+exported material. `images_not_exported` counts references without a supported
+LWOB binding. Native material `textures` and `derived_maps` describe the
+[texture export profile](textures.md).
 
 For example, `I:fra/3D/posts/Aliens@Newtek/signe.psd` in `aliens@newtek/01.lws`
 resolves to the local `signe.jpg`. This reference belongs to a `ClipMaps` block:
@@ -326,7 +332,9 @@ With `--uv-map`, VMAD takes precedence over VMAP. A face with corners lacking
 valid values is exported without UV indices; no zeros are invented to complete
 the map. Software reimporting that OBJ may nevertheless create its own default
 UVs. MTL files contain approximations of diffuse color, specular response,
-emission and transparency, without texture bindings.
+emission and transparency. Compatible LWOB image maps add `map_Kd`, `map_Ks`,
+`map_Ke`, `map_d` and `bump` with generated UVs and PNG resources; see
+[textures](textures.md).
 
 For scene snapshots (`obj/<scene filename>.obj`), the current local matrix is
 `T(position) × Ry(heading) × Rx(pitch) × Rz(bank) × S × T(-pivot)`;
@@ -351,7 +359,8 @@ individual objects and the scene.
 
 The direct C writer consumes native objects and the shared triangulator/UV
 resolver. It does not parse OBJ or invoke Blender. Output is `.gltf` JSON with
-one sibling `.bin` file, without extensions or external texture dependencies.
+one sibling `.bin` file and, for supported image maps, local `textures/*.png`.
+Specular image maps use the optional `KHR_materials_specular` extension.
 Geometry-free inputs produce a valid document without buffer/accessor arrays;
 their accompanying `.bin` is empty. Surface presets retain their materials and
 do not gain a synthetic preview mesh.
@@ -377,8 +386,9 @@ smoothing, tangents or subdivision evaluation is claimed.
 `--uv-map` shares the OBJ resolver, including VMAD precedence and native block
 scope. The glTF derivative stores `(u, 1-v)`. A source face missing any selected
 UV value goes into a primitive without `TEXCOORD_0`; zero UVs are not invented.
-No map is inferred from material settings, and UV export does not imply that
-images or projection settings have been translated.
+When no explicit map is selected, compatible LWOB planar/spherical image
+projections generate UVs and material bindings as described in the
+[texture profile](textures.md). LWO2 texture blocks remain preserved only.
 
 Material names and surface assignments survive. Base color is clamped
 `color * diffuse`, opacity is clamped `1 - transparency`, and emission is clamped
@@ -388,8 +398,9 @@ Metallic is zero and roughness is one. Opacity below one selects alpha blending.
 LWO2 `SIDE=3` and the legacy LWOB double-sided flag produce double-sided
 materials; `SIDE=1` is front-only. Other SIDE values use the front-only fallback
 and increment `gltf_unsupported_sidedness`, making the conversion partial.
-Specular response, reflection, refraction and procedural shading are not
-reconstructed by this neutral rough dielectric approximation. The supported
+Specular image factors use `KHR_materials_specular`; native glossiness,
+reflection, refraction and procedural shading are not reconstructed by this
+neutral rough dielectric approximation. The supported
 LWO2 sidedness values are defined in the
 [NewTek object specification](https://documentation.help/LightWave/lwo2.html).
 
@@ -559,7 +570,7 @@ supplement this documentation, particularly layer numbering, presets and
 envelopes with inconsistent declared key counts.
 
 The proposed next steps are to evaluate animation curves, native smoothing and
-texture projections, extend the glTF profile, and add the Python adapter for
+additional texture projections and shader semantics, extend the glTF profile, and add the Python adapter for
 `.blend`. The latter will run
 in a background Blender process; no custom addon is required. All three outputs
 should share LWIR and the same qualified geometry, material and animation

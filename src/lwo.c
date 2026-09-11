@@ -19,11 +19,52 @@ static int image_ref(LWObject *o,LWReader r,uint32_t clip) {
     return LW_ADD(o->images,ref,r.error);
 }
 static int material_chunks(LWObject *o,LWMaterial *m,LWReader r,unsigned depth,int direct,uint32_t clip) {
+    size_t active=SIZE_MAX;
     if(depth>32) return lw_error(r.error,r.base,"SURF","subchunk nesting exceeds 32");
     while(r.pos<r.size) {
         LWReader c; uint32_t tag,v; size_t off;
         LW_TRY(lw_chunk(&r,1,&tag,&c,&off));
+        if(o->format==TAG("LWOB")&&m&&direct) {
+            uint32_t channel=0;
+            if(tag==TAG("CTEX")) channel=TAG("COLR"); else if(tag==TAG("DTEX")) channel=TAG("DIFF");
+            else if(tag==TAG("LTEX")) channel=TAG("LUMI"); else if(tag==TAG("STEX")) channel=TAG("SPEC");
+            else if(tag==TAG("TTEX")) channel=TAG("TRAN"); else if(tag==TAG("BTEX")) channel=TAG("BUMP");
+            else if(tag==TAG("RTEX")) channel=TAG("REFL");
+            if(channel) {
+                LWTexture t={0}; size_t k;
+                if(active!=SIZE_MAX) o->textures.v[active].bytes=off-o->textures.v[active].offset;
+                t.channel=channel; t.material=(uint32_t)o->materials.n; t.type=unpadded_string(c); t.offset=off;
+                t.image=SIZE_MAX; t.flags=4; t.value=t.amplitude=t.tiles[0]=t.tiles[1]=1; t.wrap[0]=t.wrap[1]=1;
+                for(k=0;k<3;k++) t.size[k]=1;
+                LW_TRY(LW_ADD(o->textures,t,r.error)); active=o->textures.n-1;
+            } else if(active!=SIZE_MAX) {
+                LWTexture *t=&o->textures.v[active]; LWReader value=c; size_t k;
+                if(tag==TAG("TFLG")) LW_TRY(lw_u16(&value,&t->flags));
+                else if(tag==TAG("TWRP")) { LW_TRY(lw_u16(&value,&t->wrap[0])); LW_TRY(lw_u16(&value,&t->wrap[1])); }
+                else if(tag==TAG("TVAL")) { uint32_t n; LW_TRY(lw_u16(&value,&n)); t->value=n/256.f; }
+                else if(tag==TAG("TAMP")) LW_TRY(lw_float(&value,&t->amplitude));
+                else if(tag==TAG("TFP0")) LW_TRY(lw_float(&value,&t->tiles[0]));
+                else if(tag==TAG("TFP1")) LW_TRY(lw_float(&value,&t->tiles[1]));
+                else {
+                    float *vector=tag==TAG("TSIZ")?t->size:tag==TAG("TCTR")?t->center:tag==TAG("TFAL")?t->falloff:tag==TAG("TVEL")?t->velocity:NULL;
+                    if(vector) for(k=0;k<3;k++) LW_TRY(lw_float(&value,&vector[k]));
+                }
+            }
+        }
+        {
+            size_t before=o->images.n;
         if(tag==TAG("STIL")|| (o->format==TAG("LWOB")&&(tag==TAG("TIMG")||tag==TAG("RIMG")))) LW_TRY(image_ref(o,c,clip));
+            if(o->images.n>before&&o->format==TAG("LWOB")&&m) {
+                if(tag==TAG("RIMG")) {
+                    LWTexture t={0}; t.material=(uint32_t)o->materials.n; t.channel=TAG("REFL"); t.type=lw_string("Reflection Environment");
+                    t.image=before; t.offset=off; t.bytes=c.size+6; LW_TRY(LW_ADD(o->textures,t,r.error));
+                    o->images.v[before].role="reflection-environment";
+                } else if(active!=SIZE_MAX) {
+                    LWTexture *t=&o->textures.v[active]; t->image=before;
+                    o->images.v[before].role=t->channel==TAG("COLR")?"color":t->channel==TAG("DIFF")?"diffuse":t->channel==TAG("SPEC")?"specular":t->channel==TAG("LUMI")?"luminosity":t->channel==TAG("TRAN")?"transparency":t->channel==TAG("BUMP")?"bump":"reflection";
+                }
+            }
+        }
         if(tag==TAG("BLOK")||tag==TAG("TMAP")) {
             if(tag==TAG("BLOK")) o->texture_blocks++;
             LW_TRY(material_chunks(o,m,c,depth+1,0,clip));
@@ -57,6 +98,7 @@ static int material_chunks(LWObject *o,LWMaterial *m,LWReader r,unsigned depth,i
             }
         }
     }
+    if(active!=SIZE_MAX) o->textures.v[active].bytes=r.base+r.size-o->textures.v[active].offset;
     return 1;
 }
 static int primitive(LWObject *o,LWReader *r,uint32_t block,uint32_t type,int modern,uint32_t parent,unsigned depth) {
@@ -149,6 +191,7 @@ static int parse_form(LWObject *o,LWReader r) {
             LW_TRY(map_chunk(o,c,tag==TAG("VMAD"),point_block,polygon_block));
         } else if(tag==TAG("SURF")) {
             LWMaterial m={0}; m.color[0]=m.color[1]=m.color[2]=.784313725f; m.diffuse=1; m.side=1;
+            m.projection_texture=SIZE_MAX;
             LW_TRY(lw_s0(&c,&m.name)); if(modern) LW_TRY(lw_s0(&c,&m.source));
             LW_TRY(material_chunks(o,&m,c,0,1,LW_NONE)); LW_TRY(LW_ADD(o->materials,m,c.error)); chunk.status="partial";
         } else if(tag==TAG("CLIP")&&modern) {
@@ -232,6 +275,8 @@ void lw_free_object(LWObject *o) {
     LW_FREE(o->maps); LW_FREE(o->layers); LW_FREE(o->point_blocks); LW_FREE(o->polygon_blocks);
     LW_FREE(o->positions); LW_FREE(o->indices); LW_FREE(o->primitives); LW_FREE(o->tags);
     for(i=0;i<o->images.n;i++) lw_free_image(&o->images.v[i]);
+    for(i=0;i<o->materials.n;i++) { LWMaterial *m=&o->materials.v[i]; free(m->base_texture); free(m->opacity_texture); free(m->emissive_texture); free(m->specular_texture); free(m->bump_texture); }
+    LW_FREE(o->textures);
     LW_FREE(o->materials); LW_FREE(o->images); LW_FREE(o->assignments); LW_FREE(o->chunks);
     lw_free_source(&o->source); memset(o,0,sizeof *o);
 }

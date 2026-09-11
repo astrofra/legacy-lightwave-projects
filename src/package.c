@@ -158,7 +158,7 @@ static int json_output_path(FILE *f,const char *format,const char *name,const ch
     lw_json_string(f,path); free(path); return 1;
 }
 static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,const LWGltfStats *gltf,int partial,LWError *e) {
-    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0,clip_maps=0;
+    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0,clip_maps=0,decoded_images=0,png_images=0;
     if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
@@ -168,13 +168,18 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     for(i=0;i<=p->objects.n;i++) {
         const LWImageReference *refs=i<p->objects.n?p->objects.v[i].images.v:p->scene.images.v;
         size_t count=i<p->objects.n?p->objects.v[i].images.n:p->scene.images.n;
-        for(j=0;j<count;j++) { if(refs[j].uri) packaged_images++; else unresolved_images++; }
+        for(j=0;j<count;j++) { if(refs[j].uri) packaged_images++; else unresolved_images++; if(refs[j].width) decoded_images++; if(refs[j].png_uri) png_images++; }
     }
     for(i=0;i<p->scene.nodes.n;i++) clip_maps+=p->scene.nodes.v[i].clip_maps.n;
     fprintf(f,"],\n\"scene_clip_maps_not_evaluated\":%zu,\"clip_map_targets\":{\"obj\":{\"representation\":\"MTL map_d\",\"portable_binary_cutoff\":false,\"status\":\"requires-texture-evaluation\"},\"gltf\":{\"representation\":\"baseColorTexture alpha with alphaMode MASK and alphaCutoff\",\"requires_extension\":false,\"status\":\"requires-texture-evaluation\"},\"blender\":{\"status\":\"deferred\"}}",clip_maps);
-    fprintf(f,",\n\"image_references_packaged\":%zu,\"image_references_unresolved\":%zu,\"image_resolution_scope\":\"owner directory and descendants; image filename extensions; exact filename before alternative extension; unique best suffix; original image bytes copied into owning IR/textures; no texture evaluation or material bindings\",\n\"assets\":[",packaged_images,unresolved_images);
+    fprintf(f,",\n\"image_references_packaged\":%zu,\"image_references_unresolved\":%zu,\"image_references_decoded\":%zu,\"image_references_converted_to_png\":%zu,\"image_resolution_scope\":\"owner directory and descendants; image filename extensions; exact filename before alternative extension; unique best suffix; original bytes in owning IR/textures; ILBM decoded to PNG with original retained\",\n\"assets\":[",packaged_images,unresolved_images,decoded_images,png_images);
     for(i=0;i<p->objects.n;i++) {
-        const LWObject *o=&p->objects.v[i]; if(i) fputc(',',f);
+        const LWObject *o=&p->objects.v[i]; size_t bindings=0,not_exported=0,k; if(i) fputc(',',f);
+        for(j=0;j<o->textures.n;j++) bindings+=o->textures.v[j].supported!=0;
+        for(j=0;j<o->images.n;j++) {
+            for(k=0;k<o->textures.n;k++) if(o->textures.v[k].supported&&o->textures.v[k].image==j) break;
+            not_exported+=k==o->textures.n;
+        }
         fprintf(f,"{\"index\":%zu,\"id\":\"%s\",\"name\":",i,o->source.sha256); lw_json_string(f,p->names.v[i]);
         fputs(",\"uri\":",f); if(!json_output_path(f,"IR",p->names.v[i],"/object.json",e)) goto failed;
         fputs(",\"obj\":",f); if(!json_output_path(f,"obj",p->names.v[i],".obj",e)) goto failed;
@@ -182,7 +187,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
         fputs(",\"gltf\":",f); if(!json_output_path(f,"gltf",p->names.v[i],".gltf",e)) goto failed;
         fputs(",\"gltf_bin\":",f); if(!json_output_path(f,"gltf",p->names.v[i],".bin",e)) goto failed;
         fputs(",\"source_path\":",f); lw_json_string(f,o->source.path);
-        fprintf(f,",\"images_not_exported\":%zu,\"texture_blocks_not_evaluated\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"opaque_chunks\":%zu,\"non_finite_map_values\":%zu}",o->images.n,o->texture_blocks+o->legacy_textures,o->invalid_map_references,o->missing_materials,o->opaque_chunks,o->non_finite_map_values);
+        fprintf(f,",\"texture_bindings_approximated\":%zu,\"images_not_exported\":%zu,\"texture_blocks_not_evaluated\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"opaque_chunks\":%zu,\"non_finite_map_values\":%zu}",bindings,not_exported,o->texture_blocks+o->textures.n-bindings,o->invalid_map_references,o->missing_materials,o->opaque_chunks,o->non_finite_map_values);
     }
     fputs("],\n\"scene\":",f);
     if(p->is_scene) { if(!json_output_path(f,"IR",p->scene_name,"/scene.json",e)) goto failed; } else fputs("null",f);
@@ -197,11 +202,11 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     if(gltf->geometry.scene_written) { if(!json_output_path(f,"gltf",p->scene_name,".bin",e)) goto failed; } else fputs("null",f);
     fputs(",\"scene_gltf_issue\":",f); lw_json_string(f,gltf->geometry.scene_issue);
     fprintf(f,",\"gltf_unsupported_sidedness\":%zu",gltf->unsupported_sidedness);
-    fprintf(f,",\n\"gltf_files\":%zu,\"gltf_triangles\":%zu,\"gltf_points\":%zu,\"gltf_line_segments\":%zu,\"gltf_skipped_primitives\":%zu,\"gltf_triangulation_failures\":%zu,\"gltf_nonplanar_faces\":%zu,\"gltf_patch_cages\":%zu,\"gltf_curve_control_polylines\":%zu,\"gltf_unmapped_uv_corners\":%zu,\"gltf_removed_duplicate_corners\":%zu,\"gltf_material_approximations\":%zu,\"gltf_animated_channels_not_exported\":%zu,\"gltf_scene_nodes_not_exported\":%zu,\"gltf_profile\":\"static-base-geometry-0.1; source Z reflected; flat triangle normals; UV (u,1-v); scalar rough dielectric materials; geometry and parent nodes at snapshot frame; no animation, texture bindings, cameras, lights, skinning or morph evaluation\"",gltf->files,gltf->geometry.triangles,gltf->points,gltf->lines,gltf->geometry.skipped,gltf->geometry.triangulation_failures,gltf->geometry.nonplanar_faces,gltf->geometry.cages,gltf->geometry.control_curves,gltf->geometry.uv_missing,gltf->geometry.removed_corners,gltf->materials,gltf->animated_channels,gltf->omitted_nodes);
+    fprintf(f,",\n\"gltf_files\":%zu,\"gltf_triangles\":%zu,\"gltf_points\":%zu,\"gltf_line_segments\":%zu,\"gltf_skipped_primitives\":%zu,\"gltf_triangulation_failures\":%zu,\"gltf_nonplanar_faces\":%zu,\"gltf_patch_cages\":%zu,\"gltf_curve_control_polylines\":%zu,\"gltf_unmapped_uv_corners\":%zu,\"gltf_removed_duplicate_corners\":%zu,\"gltf_material_approximations\":%zu,\"gltf_animated_channels_not_exported\":%zu,\"gltf_scene_nodes_not_exported\":%zu,\"gltf_profile\":\"static-base-geometry-0.1; source Z reflected; flat triangle normals; UV (u,1-v); rough dielectric materials and compatible LWOB image bindings; geometry and parent nodes at snapshot frame; no animation, cameras, lights, skinning or morph evaluation\"",gltf->files,gltf->geometry.triangles,gltf->points,gltf->lines,gltf->geometry.skipped,gltf->geometry.triangulation_failures,gltf->geometry.nonplanar_faces,gltf->geometry.cages,gltf->geometry.control_curves,gltf->geometry.uv_missing,gltf->geometry.removed_corners,gltf->materials,gltf->animated_channels,gltf->omitted_nodes);
     fprintf(f,",\n\"frame\":%.17g,\"unresolved_object_instances\":%zu,\"skipped_obj_primitives\":%zu,\"exported_patch_cages\":%zu,\"exported_curve_control_polylines\":%zu,\"unmapped_uv_corners\":%zu,\n\"obj_coordinates\":\"right-handed Y-up; source Z reflected; winding adjusted for transform determinant\",\"uv_map\":",opts->frame,p->unresolved,stats->skipped,stats->cages,stats->control_curves,stats->uv_missing);
     if(opts->uv_map) lw_json_string(f,opts->uv_map); else fputs("null",f);
     fprintf(f,",\n\"obj_triangulated_faces\":%zu,\"obj_triangles\":%zu,\"obj_bridged_hole_faces\":%zu,\"obj_triangulation_failures\":%zu,\"obj_nonplanar_faces\":%zu,\"obj_removed_duplicate_corners\":%zu,\"obj_triangulation\":\"projected ear clipping of FACE boundaries, including paired reverse-edge hole bridges; source corners and native LWIR polygons preserved\"",stats->triangulated_faces,stats->triangles,stats->bridged_faces,stats->triangulation_failures,stats->nonplanar_faces,stats->removed_corners);
-    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 static base geometry; scalar material approximation; no texture decoding/projection, subdivision evaluation, native normals/smoothing, rig/deformation evaluation or Blender backend yet\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",p->scene.plugins.n,p->scene.unsupported_features);
+    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 static base geometry; LWOB planar/spherical image maps and PNG derivatives; approximate materials; no subdivision evaluation, native normals/smoothing, rig/deformation evaluation or Blender backend yet\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",p->scene.plugins.n,p->scene.unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 failed:
     fclose(f); free(path); return 0;
@@ -229,7 +234,7 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     for(i=0;i<p.objects.n;i++) {
         LWObject *o=&p.objects.v[i]; size_t k;
         dir=lw_join(assets,p.names.v[i]); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
-        if(!lw_mkdir(dir,e)||!lw_package_images(dir,o->source.path,o->images.v,o->images.n,e)||!lw_write_object(dir,o,e)) goto done;
+        if(!lw_mkdir(dir,e)||!lw_package_images(dir,o->source.path,o->images.v,o->images.n,e)||!lw_prepare_textures(dir,opts->output,o,opts,e)||!lw_write_object(dir,o,e)) goto done;
         free(dir); dir=NULL;
         if(o->images.n||o->texture_blocks||o->legacy_textures||o->invalid_map_references||o->missing_materials||o->non_finite_map_values) partial=1;
         for(k=0;k<o->chunks.n;k++) if(o->chunks.v[k].tag==LW_TAG('C','R','V','S')) partial=1;

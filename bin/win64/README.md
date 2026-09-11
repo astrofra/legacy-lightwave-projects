@@ -16,3 +16,6 @@ CMake copies only the Release converter here, with the C runtime linked
 statically. Debug builds, sanitizer builds, test programs, static libraries and
 debug symbols stay in their build directories. Commit the updated executable
 alongside the corresponding source changes.
+
+The `licenses/` directory is refreshed by the same build. Keep it alongside the
+executable when redistributing: libilbm and stb retain their MIT attribution.

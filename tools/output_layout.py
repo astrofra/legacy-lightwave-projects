@@ -1,5 +1,6 @@
 """Publish converter packages into a readable, shared project directory."""
 import json
+import hashlib
 import os
 from pathlib import Path
 import shutil
@@ -76,6 +77,9 @@ def copy_file(source, destination):
 
 def copy_obj(source, mtl_source, destination):
     copy_file(mtl_source, destination.with_suffix(".mtl"))
+    for line in mtl_source.read_text("utf-8").splitlines():
+        if line.startswith(("map_Kd ", "map_d ", "map_Ke ", "map_Ks ", "bump ")):
+            copy_texture(mtl_source.parent, line.split()[-1], destination.parent)
     with source.open("rb") as reader, destination.open("xb") as writer:
         # Current converter headers contain mtllib before all geometry. Stream
         # the remaining bytes unchanged, including UVs, groups and face order.
@@ -89,24 +93,34 @@ def copy_obj(source, mtl_source, destination):
             raise ValueError(f"Missing mtllib in {source}")
 
 
+def copy_texture(source_directory, uri, destination, content_addressed=True):
+    local = Path(uri)
+    if local.is_absolute() or local.drive or len(local.parts) != 2 or local.parts[0] != "textures" or local.parts[1] in {".", ".."}:
+        raise ValueError(f"Invalid texture URI: {uri}")
+    source = package_file(source_directory, uri)
+    if content_addressed and (local.suffix != ".png" or hashlib.sha256(source.read_bytes()).hexdigest() != local.stem):
+        raise ValueError(f"Texture content hash mismatch: {uri}")
+    target = destination / local
+    target.parent.mkdir(exist_ok=True)
+    if target.exists():
+        if target.read_bytes() != source.read_bytes():
+            raise ValueError(f"Texture collision: {target}")
+    else:
+        copy_file(source, target)
+
+
 def copy_ir(package, data, destination, filenames):
     metadata = json.loads(data.read_text("utf-8"))
     for filename in filenames:
         copy_file(package_file(package, relative(data.parent / filename, package)), destination / filename)
-    copied = set()
+    uris = set()
     for reference in metadata.get("image_references", []):
-        uri = reference.get("uri")
-        if not uri or uri in copied:
-            continue
-        # Image links are local to the owning IR document in both layouts.
-        local = Path(uri)
-        if local.is_absolute() or local.drive or len(local.parts) != 2 or local.parts[0] != "textures" or local.parts[1] in {".", ".."}:
-            raise ValueError(f"Invalid IR image URI: {uri}")
-        source = package_file(package, relative(data.parent / local, package))
-        target = destination / local
-        target.parent.mkdir(exist_ok=True)
-        copy_file(source, target)
-        copied.add(uri)
+        uris.add(reference.get("uri"))
+        uris.add((reference.get("decoded_image") or {}).get("png_uri"))
+    for material in metadata.get("materials", []):
+        uris.update(material.get("derived_maps", {}).values())
+    for uri in sorted(uris - {None}):
+        copy_texture(data.parent, uri, destination, content_addressed=False)
 
 
 class ProjectOutput:
@@ -138,6 +152,9 @@ class ProjectOutput:
             raise ValueError("Expected the converter's single-buffer glTF profile")
         for buffer in data.get("buffers", []):
             buffer["uri"] = quote(binary.name, safe="-._~")
+        source_directory = package_file(package, uri).parent
+        for image in data.get("images", []):
+            copy_texture(source_directory, image["uri"], destination.parent)
         copy_file(package_file(package, bin_uri), binary)
         with destination.open("x", encoding="utf-8") as writer:
             json.dump(data, writer, ensure_ascii=False, separators=(",", ":"))

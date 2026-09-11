@@ -1,7 +1,7 @@
 #include "internal.h"
 
 /* This allowlist identifies filename formats, not decoder support or visual
-   equivalence. The selected file is preserved verbatim, never transcoded. */
+   equivalence. The selected file is preserved verbatim alongside derivatives. */
 static const char *image_extension(const char *path) {
     static const char *extensions[]={
         ".jpg", ".jpeg", ".jpe", ".png", ".tga", ".tif", ".tiff", ".bmp",
@@ -104,6 +104,13 @@ int lw_package_images(const char *dir,const char *source,LWImageReference *refs,
         if(j<i) {
             ref->uri=lw_dup(refs[j].uri); memcpy(ref->sha256,refs[j].sha256,sizeof ref->sha256);
             if(!ref->uri) { lw_error(e,0,"allocation","out of memory"); goto done; }
+            ref->width=refs[j].width; ref->height=refs[j].height;
+            memcpy(ref->decode_issue,refs[j].decode_issue,sizeof ref->decode_issue);
+            memcpy(ref->png_sha256,refs[j].png_sha256,sizeof ref->png_sha256);
+            if(refs[j].png_uri) {
+                ref->png_uri=lw_dup(refs[j].png_uri);
+                if(!ref->png_uri) { lw_error(e,0,"allocation","out of memory"); goto done; }
+            }
             continue;
         }
         if(!lw_read_source(ref->resolved_path,&data,&local)) {
@@ -124,14 +131,25 @@ int lw_package_images(const char *dir,const char *source,LWImageReference *refs,
             created=1;
         }
         if(!lw_write_bytes(path,data.data,data.size,e)) { free(path); lw_free_source(&data); goto done; }
-        memcpy(ref->sha256,data.sha256,sizeof ref->sha256); free(path); lw_free_source(&data);
+        memcpy(ref->sha256,data.sha256,sizeof ref->sha256); free(path);
+        if(lw_decode_raster(&data,ref,&local)) {
+            /* Archive the IFF as well as the lossless, consumer-ready PNG. */
+            if(data.size>=4&&!memcmp(data.data,"FORM",4)) {
+                ref->png_uri=lw_named_path("textures",lw_basename(ref->uri),".png");
+                path=ref->png_uri?lw_join(dir,ref->png_uri):NULL;
+                if(!path) { lw_free_source(&data); lw_error(e,0,"allocation","out of memory"); goto done; }
+                if(!lw_save_png(path,ref->rgba,ref->width,ref->height,ref->png_sha256,e)) { free(path); lw_free_source(&data); goto done; }
+                free(path);
+            }
+        } else snprintf(ref->decode_issue,sizeof ref->decode_issue,"%.24s: %.160s",local.context,local.message);
+        lw_free_source(&data);
     }
     ok=1;
 done:
     lw_free_paths(&files); free(root); free(textures); return ok;
 }
 void lw_free_image(LWImageReference *ref) {
-    clear_candidates(ref); LW_FREE(ref->candidates); free(ref->resolved_path); free(ref->uri);
+    clear_candidates(ref); LW_FREE(ref->candidates); free(ref->resolved_path); free(ref->uri); free(ref->png_uri); free(ref->rgba);
 }
 void lw_json_images(FILE *f,const LWImageReference *refs,size_t count) {
     size_t i,j; fputc('[',f);
@@ -142,12 +160,20 @@ void lw_json_images(FILE *f,const LWImageReference *refs,size_t count) {
         fputs(",\"role\":",f); lw_json_string(f,ref->role?ref->role:"unspecified");
         fprintf(f,",\"source_offset\":%zu,\"clip\":",ref->offset);
         if(ref->clip==LW_NONE) fputs("null",f); else fprintf(f,"%u",ref->clip);
-        fputs(",\"status\":\"not-evaluated\",\"resolution\":",f);
+        fprintf(f,",\"status\":\"%s\",\"resolution\":",ref->width?"decoded":"not-evaluated");
         lw_json_string(f,ref->resolution[0]?ref->resolution:"not-evaluated");
         fputs(",\"resolved_path\":",f); if(ref->resolved_path) lw_json_string(f,ref->resolved_path); else fputs("null",f);
         fputs(",\"uri\":",f); if(ref->uri) lw_json_string(f,ref->uri); else fputs("null",f);
         fputs(",\"sha256\":",f); if(ref->uri) lw_json_string(f,ref->sha256); else fputs("null",f);
         fputs(",\"issue\":",f); lw_json_string(f,ref->issue);
+        fputs(",\"decoded_image\":",f);
+        if(ref->width) {
+            fprintf(f,"{\"width\":%d,\"height\":%d,\"channels\":\"RGBA8\",\"png_uri\":",ref->width,ref->height);
+            if(ref->png_uri) lw_json_string(f,ref->png_uri); else fputs("null",f);
+            fputs(",\"png_sha256\":",f); if(ref->png_uri) lw_json_string(f,ref->png_sha256); else fputs("null",f);
+            fputc('}',f);
+        } else fputs("null",f);
+        fputs(",\"decode_issue\":",f); lw_json_string(f,ref->decode_issue);
         fputs(",\"candidates\":[",f);
         for(j=0;j<ref->candidates.n;j++) { if(j) fputc(',',f); lw_json_string(f,ref->candidates.v[j]); }
         fputs("]}",f);
