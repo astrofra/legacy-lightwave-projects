@@ -79,12 +79,8 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
         fputs(",\"entries\":",f); view(f,offset,m->entries.n,8,"uint32",2); offset+=8*m->entries.n;
         fputs(",\"values\":",f); view(f,offset,m->entries.n,4*m->dimension,"float32",m->dimension); offset+=4*m->values.n; fputc('}',f);
     }
-    fputs("],\n\"image_references\":[",f);
-    for(i=0;i<o->images.n;i++) {
-        LWImageReference ref=o->images.v[i]; if(i) fputc(',',f); fputs("{\"path\":",f); lw_json_name(f,ref.path);
-        fprintf(f,",\"source_offset\":%zu,\"clip\":",ref.offset); index_json(f,ref.clip); fputs(",\"status\":\"not-evaluated\"}",f);
-    }
-    fputs("],\n\"chunks\":[",f);
+    fputs("],\n\"image_references\":",f); lw_json_images(f,o->images.v,o->images.n);
+    fputs(",\n\"chunks\":[",f);
     for(i=0;i<o->chunks.n;i++) {
         LWChunk c=o->chunks.v[i]; char tag[5]; lw_tag_text(c.tag,tag); if(i) fputc(',',f);
         fputs("{\"tag\":",f); lw_json_string(f,tag); fprintf(f,",\"offset\":%zu,\"payload_bytes\":%zu,\"status\":\"%s\"}",c.offset,c.size,c.status);
@@ -127,7 +123,8 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
         }
         fputs("]}",f);
     }
-    fputs("],\n\"plugins\":[",f);
+    fputs("],\n\"image_references\":",f); lw_json_images(f,s->images.v,s->images.n);
+    fputs(",\n\"plugins\":[",f);
     for(i=0;i<s->plugins.n;i++) {
         const LWPlugin *plugin=&s->plugins.v[i]; if(i) fputc(',',f); fputs("{\"name\":",f); lw_json_name(f,plugin->name);
         fprintf(f,",\"offset\":%zu,\"bytes\":%zu,\"status\":\"preserved-opaque\"}",plugin->offset,plugin->size);

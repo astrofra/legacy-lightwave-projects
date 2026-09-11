@@ -19,6 +19,14 @@ retain geometry instances and their parent transforms at `--frame`. Animation,
 texture bindings, native smoothing, cameras, lights and deformations are not
 exported. The manifest records the supported subset and any blocked snapshot.
 
+Image references now resolve within the owning LWS/LWO directory and its
+descendants, including an alternative image extension when the filename stem
+matches uniquely (for example, `signe.psd` to `signe.jpg`). Found images are copied
+into `IR/<source filename>/textures/` and linked in the IR metadata. Equal path
+matches prefer PSD, TGA, PNG, JPEG, JPG, GIF, TIFF, then other image formats;
+remaining ambiguities are reported. Applying those images to OBJ/glTF materials
+remains unimplemented.
+
 Build on Windows with CMake and Visual Studio 2022:
 
 ```powershell
@@ -65,7 +73,8 @@ the repository's `content/` recursively by signature, including objects without
 extensions, and converts every loose LWOB/LWO2 object, PST_ preset and LWS scene.
 Each top-level content directory is used as a separate project root for resolving
 scene dependencies. Images, archives and other unsupported files are listed as
-skipped; archive contents are not extracted.
+skipped standalone inputs; resolved image dependencies are bundled with their
+owning IR documents. Archive contents are not extracted.
 
 Every run creates a new `output/batch-<timestamp>/` directory. A numeric suffix
 (`-2`, `-3`, etc.) is added only if that directory already exists:

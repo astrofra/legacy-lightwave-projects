@@ -63,8 +63,10 @@ recursion bounds for nested chunks, directories and the scene hierarchy.
 Each parsed input is copied in full to `source.bin`, with its SHA-256 hash.
 Uninterpreted fields therefore remain recoverable, including projections,
 plugins, scalar envelopes, render settings and unknown chunks. Image references
-are extracted, but images are not yet resolved, copied or decoded. Missing or
-unreadable dependencies are reported and are not included in the package.
+are extracted and resolved within each source's directory tree. Selected images
+are copied verbatim into its IR directory; they are not decoded or bound to
+exported materials. Missing or unreadable dependencies are reported and are not
+included in the package.
 
 Strings retain their original bytes in `raw_hex`. The `text` field uses UTF-8
 when valid, otherwise an explicitly named Latin-1 hypothesis. Successful path
@@ -95,6 +97,50 @@ implementation folds ASCII case only.
 the original number is preserved. Physical chunk order does not determine the
 layer number. A missing layer or duplicate ID leaves the instance unresolved.
 Resolved objects are deduplicated by path, then by SHA-256.
+
+## Image reference resolution
+
+Object `STIL` (LWO2), `TIMG`/`RIMG` (LWOB), and scene multiline `{ Still ... }`
+references are resolved automatically. Scene references are extracted even from
+nested opaque texture blocks; plugin payloads remain opaque. Other scene image
+syntaxes and image sequences are not interpreted by this resolver.
+
+The search is limited to the directory containing the owning source and its
+descendants. An object's images use that object's directory, including when the
+object is loaded from a scene. Parent/sibling directories and filesystem links
+are excluded. Historical drives and `--map` object rules do not expand this scope.
+
+Resolution prefers a source-relative path, then the exact filename (including
+extension), then an identical filename stem with an alternative image extension.
+The last fallback requires both extensions to be in the image allowlist: JPEG,
+PNG, TGA, TIFF, BMP, GIF, PSD, IFF/ILBM/LBM, PIC/PICT, SGI, HDR, EXR, WebP, DDS,
+PCX and Netpbm filename variants (the exact list is in `src/images.c`). Comparisons
+use the same case rules as object resolution and accept mixed historical path
+separators. There is no fuzzy spelling or numeric-suffix substitution.
+
+Within each tier, the longest matching suffix of path components wins (ignoring
+the final extension in the alternative-format tier). Equal path matches are
+ranked by the archive's format preference: PSD, TGA, PNG, JPEG, JPG, GIF, TIFF,
+then other allowed formats. JPE shares JPEG's rank; TIF shares TIFF's rank.
+Only a unique best candidate is selected; candidates with the same path score
+and format priority remain `ambiguous`. An ambiguity in the original-format
+tier does not fall back to another format. These preferences do not inspect a
+file's actual compression. Filename extensions identify candidates; no image decoding,
+content equivalence, alpha preservation or target renderer compatibility is inferred.
+
+Each `image_references` entry in `object.json` or `scene.json` retains the original
+path and source offset, and adds `resolution`, `candidates`, `resolved_path`,
+`uri`, `sha256` and `issue`. Copied files use local `textures/<index>-<filename>`
+paths, preserved by batch publication. Repeated references to one file within a
+document share one copy. Manifests count packaged and unresolved references;
+`status: not-evaluated` and `images_not_exported` still describe texture evaluation
+and material bindings, which remain unsupported in OBJ/glTF.
+
+For example, `I:fra/3D/posts/Aliens@Newtek/signe.psd` in `aliens@newtek/01.lws`
+resolves to the local `signe.jpg`. This reference belongs to a `ClipMaps` block:
+the JPEG is preserved and linked in IR, while evaluating that clip mask remains
+outside the current static-geometry export profile. Original LWS/LWO bytes and
+their archived `source.bin` copies are unchanged.
 
 ## Output layout 0.2 and LWIR 0.1
 

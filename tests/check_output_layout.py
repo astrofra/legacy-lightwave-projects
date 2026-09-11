@@ -37,6 +37,10 @@ def check(run):
             if path in native:
                 continue
             data = json.loads(path.read_text("utf-8"))
+            for reference in data.get("image_references", []):
+                if reference.get("uri"):
+                    image = linked(path.parent, reference["uri"], project)
+                    assert hashlib.sha256(image.read_bytes()).hexdigest() == reference["sha256"], image
             source = linked(path.parent, data["source"]["uri"], project)
             digest = hashlib.sha256(source.read_bytes()).hexdigest()
             assert digest == data["source"]["sha256"], source

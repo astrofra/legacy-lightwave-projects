@@ -231,6 +231,7 @@ void lw_free_object(LWObject *o) {
     for(i=0;i<o->maps.n;i++) { LW_FREE(o->maps.v[i].entries); LW_FREE(o->maps.v[i].values); }
     LW_FREE(o->maps); LW_FREE(o->layers); LW_FREE(o->point_blocks); LW_FREE(o->polygon_blocks);
     LW_FREE(o->positions); LW_FREE(o->indices); LW_FREE(o->primitives); LW_FREE(o->tags);
+    for(i=0;i<o->images.n;i++) lw_free_image(&o->images.v[i]);
     LW_FREE(o->materials); LW_FREE(o->images); LW_FREE(o->assignments); LW_FREE(o->chunks);
     lw_free_source(&o->source); memset(o,0,sizeof *o);
 }

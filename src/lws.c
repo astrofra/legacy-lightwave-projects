@@ -129,6 +129,17 @@ static int add_node(LWScene *s,uint32_t id,Line line,LWString name,size_t *curre
     snprintf(n.resolution,sizeof n.resolution,"not-evaluated");
     LW_TRY(LW_ADD(s->nodes,n,e)); *current=s->nodes.n-1; return 1;
 }
+static int still_image(LWScene *s,const Lines *ls,size_t i,LWError *e) {
+    LWString key,value; LWImageReference ref={0};
+    split(ls->v[i],&key,&value);
+    if(!lw_string_is(key,"{")||!lw_string_is(value,"Still")||i+2>=ls->n) return 1;
+    split(ls->v[i+2],&key,&value);
+    if(!lw_string_is(key,"}")) return 1;
+    ref.path=unquote(ls->v[i+1].text); ref.clip=LW_NONE;
+    ref.offset=(size_t)(ref.path.data-s->source.data);
+    if(!ref.path.size||lw_string_is(ref.path,"(none)")||lw_string_is(ref.path,"<none>")) return 1;
+    return LW_ADD(s->images,ref,e);
+}
 static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
     size_t i,current=SIZE_MAX; uint32_t object_count=0,light_count=0,camera_count=0,bone_count=0;
     if(ls->n<2||!lw_string_is(ls->v[0].text,"LWSC")) return lw_error(e,0,"LWS","expected LWSC header");
@@ -149,9 +160,10 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
         }
         if(lw_string_is(key,"{")) {
             unsigned depth=1;
+            LW_TRY(still_image(s,ls,i,e));
             while(depth) {
                 LW_TRY(next_line(ls,&i,e)); split(ls->v[i],&key,&value);
-                if(lw_string_is(key,"{")) depth++;
+                if(lw_string_is(key,"{")) { depth++; LW_TRY(still_image(s,ls,i,e)); }
                 else if(lw_string_is(key,"}")) depth--;
             }
             s->opaque_blocks++; continue;
@@ -232,7 +244,8 @@ void lw_free_scene(LWScene *s) {
         for(j=0;j<n->candidates.n;j++) free(n->candidates.v[j]);
         LW_FREE(n->candidates); LW_FREE(n->channels); free(n->resolved_path);
     }
-    LW_FREE(s->nodes); LW_FREE(s->plugins); lw_free_source(&s->source); memset(s,0,sizeof *s);
+    for(i=0;i<s->images.n;i++) lw_free_image(&s->images.v[i]);
+    LW_FREE(s->images); LW_FREE(s->nodes); LW_FREE(s->plugins); lw_free_source(&s->source); memset(s,0,sizeof *s);
 }
 void lw_scene_summary(FILE *f,const LWScene *s) {
     size_t i,j,objects=0,bones=0,keys=0;

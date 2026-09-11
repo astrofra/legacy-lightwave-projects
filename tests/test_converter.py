@@ -83,6 +83,121 @@ class Converter(unittest.TestCase):
         path = out / manifest["assets"][0]["uri"]
         return path.parent, json.loads(path.read_text("utf-8"))
 
+    def image_object(self, name, reference, kind="LWOB"):
+        if kind == "LWO2":
+            raw = form(kind, layer(0), chunk("CLIP", struct.pack(">I", 7) + chunk("STIL", s0(reference), True)))
+        else:
+            raw = lwob(chunk("SURF", s0("image") + chunk("TIMG", s0(reference), True)))
+        path = self.write(name, raw)
+        out, manifest = self.convert(path, code=2)
+        directory, data = self.object_data(out, manifest)
+        self.assertEqual((directory / "source.bin").read_bytes(), raw)
+        return directory, data["image_references"][0]
+
+    def test_image_alternative_extension_and_historical_path(self):
+        image = self.write("project/maps/Signe.v2.JPG", b"\xff\xd8\xff\xd9")
+        self.write("project/signe.v2.lwo", lwob())
+        self.write("project/signe.v2.jpg.txt", b"not an image filename")
+        reference = "I:fra/3D/posts/Aliens\\@Newtek/signe.v2.psd"
+        for kind in ("LWOB", "LWO2"):
+            with self.subTest(kind=kind):
+                directory, ref = self.image_object("project/alien.lwo", reference, kind)
+                self.assertEqual(ref["path"]["text"], reference)
+                self.assertEqual(ref["resolution"], "unique-image-stem")
+                self.assertEqual(Path(ref["resolved_path"]), image)
+                self.assertEqual((directory / ref["uri"]).read_bytes(), image.read_bytes())
+                self.assertEqual(ref["sha256"], hashlib.sha256(image.read_bytes()).hexdigest())
+                self.assertEqual(ref["clip"], 7 if kind == "LWO2" else None)
+
+    def test_image_original_extension_and_source_relative_path_priority(self):
+        preferred = self.write("project/maps/signe.psd", b"original")
+        self.write("project/backup/maps/signe.psd", b"duplicate basename")
+        self.write("project/maps/signe.jpg", b"alternative")
+        directory, ref = self.image_object("project/alien.lwo", "maps\\signe.psd")
+        self.assertEqual(ref["resolution"], "source-relative")
+        self.assertEqual(Path(ref["resolved_path"]), preferred)
+        # An existing original format wins over a more specific converted path.
+        self.write("project/better/maps/signe.jpg", b"closer suffix")
+        directory, ref = self.image_object("project/alien.lwo", "Old:better/maps/signe.psd")
+        self.assertEqual(ref["resolution"], "ambiguous")
+        self.assertEqual({Path(p).suffix for p in ref["candidates"]}, {".psd"})
+        self.assertIsNone(ref["uri"])
+
+    def test_image_alternative_suffix_and_ambiguity(self):
+        expected = self.write("project/recovered/maps/signe.jpg", b"one")
+        self.write("project/elsewhere/signe.png", b"two")
+        directory, ref = self.image_object("project/alien.lwo", "I:old/maps/signe.psd")
+        self.assertEqual(ref["resolution"], "unique-image-stem-suffix")
+        self.assertEqual(Path(ref["resolved_path"]), expected)
+        preferred = self.write("project/recovered/maps/signe.png", b"three")
+        directory, ref = self.image_object("project/alien.lwo", "I:old/maps/signe.psd")
+        self.assertEqual(Path(ref["resolved_path"]), preferred)
+        self.write("project/another/maps/signe.png", b"four")
+        directory, ref = self.image_object("project/alien.lwo", "I:old/maps/signe.psd")
+        self.assertEqual(ref["resolution"], "ambiguous")
+        self.assertEqual(len(ref["candidates"]), 2)
+        self.assertIsNone(ref["resolved_path"])
+        self.assertIsNone(ref["uri"])
+        self.assertFalse((directory / "textures").exists())
+
+    def test_image_format_priority_breaks_equal_path_matches(self):
+        formats = ("PSD", "TGA", "PNG", "JPEG", "JPG", "GIF", "TIFF", "BMP")
+        images = [self.write("project/signe." + ext, ext.encode()) for ext in formats]
+        for image in images:
+            with self.subTest(extension=image.suffix):
+                directory, ref = self.image_object("project/alien.lwo", "Old:signe.exr")
+                self.assertEqual(Path(ref["resolved_path"]), image)
+                self.assertEqual((directory / ref["uri"]).read_bytes(), image.read_bytes())
+                image.unlink()
+        # TIFF aliases have the same rank, so neither wins arbitrarily.
+        self.write("project/signe.tif", b"one")
+        self.write("project/signe.tiff", b"two")
+        directory, ref = self.image_object("project/alien.lwo", "Old:signe.exr")
+        self.assertEqual(ref["resolution"], "ambiguous")
+        self.assertEqual(len(ref["candidates"]), 2)
+
+    def test_image_search_stays_within_owner_directory(self):
+        outside = self.write("project/signe.jpg", b"parent")
+        self.write("project/sibling/signe.png", b"sibling")
+        for reference in ("signe.psd", "../signe.jpg", str(outside)):
+            with self.subTest(reference=reference):
+                directory, ref = self.image_object("project/objects/alien.lwo", reference)
+                self.assertEqual(ref["resolution"], "missing")
+                self.assertEqual(ref["candidates"], [])
+                self.assertIsNone(ref["uri"])
+        nested = self.write("project/objects/deeper/signe.jpg", b"descendant")
+        directory, ref = self.image_object("project/objects/alien.lwo", "signe.psd")
+        self.assertEqual(Path(ref["resolved_path"]), nested)
+
+    def test_image_substitution_requires_image_extension_and_exact_stem(self):
+        self.write("project/signe.jpg", b"one")
+        self.write("project/sign.png", b"two")
+        for reference in ("signe.lwo", "signe", "signe.txt", "signe2.psd"):
+            with self.subTest(reference=reference):
+                directory, ref = self.image_object("project/alien.lwo", reference)
+                self.assertEqual(ref["resolution"], "missing")
+                self.assertEqual(ref["candidates"], [])
+
+    def test_scene_still_images_nested_blocks_and_repeated_references(self):
+        image = self.write("project/signe.jpg", b"jpeg bytes")
+        # The object's own subtree does not include the scene's texture.
+        self.write("project/objects/alien.lwo", lwob(chunk("SURF", s0("image") + chunk("TIMG", s0("signe.psd"), True))))
+        still = '{ Image\n{ Clip\n{ Still\n"I:fra/3D/posts/Aliens\\@Newtek/signe.psd"\n}\n}\n}\n'
+        scene = self.write("project/01.lws", "LWSC\n3\nLoadObjectLayer 1 objects/alien.lwo\nClipMaps\n{ TextureBlock\n" + still + still + "}\nPlugin CustomObjHandler 1 opaque\n{ Still\n\"unrelated.jpg\"\n}\nEndPlugin\n")
+        out, manifest = self.convert(scene, code=2)
+        path = out / manifest["scene"]
+        self.assertEqual(manifest["image_references_packaged"], 2)
+        self.assertEqual(manifest["image_references_unresolved"], 1)
+        data = json.loads(path.read_text("utf-8"))
+        refs = data["image_references"]
+        self.assertEqual(len(refs), 2)
+        self.assertEqual(refs[0]["uri"], refs[1]["uri"])
+        self.assertEqual(len(list((path.parent / "textures").iterdir())), 1)
+        self.assertEqual((path.parent / refs[0]["uri"]).read_bytes(), image.read_bytes())
+        self.assertEqual((path.parent / "source.bin").read_bytes(), scene.read_bytes())
+        self.assertEqual(scene.read_bytes()[refs[0]["source_offset"]:][:len(refs[0]["path"]["text"])].decode(), refs[0]["path"]["text"])
+        self.assertEqual(self.object_data(out, manifest)[1]["image_references"][0]["resolution"], "missing")
+
     def test_lwob_binary_hash_encoding_winding(self):
         raw = lwob(chunk("XTRA", b"abc"))
         path = self.write("élément sans extension", raw)

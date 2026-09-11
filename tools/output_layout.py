@@ -89,6 +89,26 @@ def copy_obj(source, mtl_source, destination):
             raise ValueError(f"Missing mtllib in {source}")
 
 
+def copy_ir(package, data, destination, filenames):
+    metadata = json.loads(data.read_text("utf-8"))
+    for filename in filenames:
+        copy_file(package_file(package, relative(data.parent / filename, package)), destination / filename)
+    copied = set()
+    for reference in metadata.get("image_references", []):
+        uri = reference.get("uri")
+        if not uri or uri in copied:
+            continue
+        # Image links are local to the owning IR document in both layouts.
+        local = Path(uri)
+        if local.is_absolute() or local.drive or len(local.parts) != 2 or local.parts[0] != "textures" or local.parts[1] in {".", ".."}:
+            raise ValueError(f"Invalid IR image URI: {uri}")
+        source = package_file(package, relative(data.parent / local, package))
+        target = destination / local
+        target.parent.mkdir(exist_ok=True)
+        copy_file(source, target)
+        copied.add(uri)
+
+
 class ProjectOutput:
     def __init__(self, directory, sources):
         self.directory = directory
@@ -142,8 +162,7 @@ class ProjectOutput:
             else:
                 data = package_file(package, asset["uri"])
                 asset_ir.mkdir(exist_ok=True)
-                for filename in ("object.json", "geometry.bin", "source.bin"):
-                    copy_file(package_file(package, relative(data.parent / filename, package)), asset_ir / filename)
+                copy_ir(package, data, asset_ir, ("object.json", "geometry.bin", "source.bin"))
                 copy_obj(package_file(package, asset["obj"]), package_file(package, asset["mtl"]), obj)
                 self.publish_gltf(package, asset["gltf"], asset["gltf_bin"], asset_name, ir)
                 self.assets[key] = asset["id"]
@@ -152,8 +171,7 @@ class ProjectOutput:
             asset.update(gltf=relative(gltf, ir), gltf_bin=relative(gltf.with_suffix(".bin"), ir))
         if manifest["scene"]:
             scene = package_file(package, manifest["scene"])
-            for filename in ("scene.json", "animation.bin", "source.bin"):
-                copy_file(package_file(package, relative(scene.parent / filename, package)), ir / filename)
+            copy_ir(package, scene, ir, ("scene.json", "animation.bin", "source.bin"))
             manifest["scene"] = "scene.json"
         if manifest["scene_obj"]:
             obj = self.directory / "obj" / (name + ".obj")

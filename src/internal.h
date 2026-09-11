@@ -64,6 +64,9 @@ int lw_convert(const LWOptions *, LWError *);
 void lw_free_package(LWPackage *);
 int lw_write_object(const char *, const LWObject *, LWError *);
 int lw_write_scene(const char *, const LWScene *, LWError *);
+int lw_package_images(const char *, const char *, LWImageReference *, size_t, LWError *);
+void lw_free_image(LWImageReference *);
+void lw_json_images(FILE *, const LWImageReference *, size_t);
 typedef struct {
     size_t skipped, cages, control_curves, uv_missing;
     size_t triangulated_faces, triangles, bridged_faces, triangulation_failures, nonplanar_faces, removed_corners;

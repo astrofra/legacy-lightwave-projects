@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 project(lightwave_preservation VERSION 0.3.0 LANGUAGES C)
 
 add_library(lwconvert_core STATIC
-    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/obj.c src/triangulate.c src/geometry.c src/gltf.c)
+    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/images.c src/obj.c src/triangulate.c src/geometry.c src/gltf.c)
 target_include_directories(lwconvert_core PUBLIC include PRIVATE src)
 target_compile_features(lwconvert_core PUBLIC c_std_17)
 set_target_properties(lwconvert_core PROPERTIES C_EXTENSIONS OFF)

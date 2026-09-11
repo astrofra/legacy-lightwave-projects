@@ -158,14 +158,19 @@ static int json_output_path(FILE *f,const char *format,const char *name,const ch
     lw_json_string(f,path); free(path); return 1;
 }
 static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,const LWGltfStats *gltf,int partial,LWError *e) {
-    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i;
+    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0;
     if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
     fputs(",\"layout_version\":\"0.2\",\"formats\":{\"obj\":\"generated\",\"IR\":\"generated\",\"gltf\":\"generated\",\"blender\":\"not-implemented\"}",f);
     fputs(",\n\"content_root\":",f); lw_json_string(f,opts->root); fputs(",\n\"path_rules\":[",f);
     for(i=0;i<opts->rules.n;i++) { if(i) fputc(',',f); fputs("{\"prefix\":",f); lw_json_string(f,opts->rules.v[i].prefix); fputs(",\"destination\":",f); lw_json_string(f,opts->rules.v[i].destination); fputc('}',f); }
-    fputs("],\n\"assets\":[",f);
+    for(i=0;i<=p->objects.n;i++) {
+        const LWImageReference *refs=i<p->objects.n?p->objects.v[i].images.v:p->scene.images.v;
+        size_t count=i<p->objects.n?p->objects.v[i].images.n:p->scene.images.n;
+        for(j=0;j<count;j++) { if(refs[j].uri) packaged_images++; else unresolved_images++; }
+    }
+    fprintf(f,"],\n\"image_references_packaged\":%zu,\"image_references_unresolved\":%zu,\"image_resolution_scope\":\"owner directory and descendants; image filename extensions; exact filename before alternative extension; unique best suffix; original image bytes copied into owning IR/textures; no texture evaluation or material bindings\",\n\"assets\":[",packaged_images,unresolved_images);
     for(i=0;i<p->objects.n;i++) {
         const LWObject *o=&p->objects.v[i]; if(i) fputc(',',f);
         fprintf(f,"{\"index\":%zu,\"id\":\"%s\",\"name\":",i,o->source.sha256); lw_json_string(f,p->names.v[i]);
@@ -220,9 +225,9 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     assets=lw_join(opts->output,"IR"); if(!assets) { lw_error(e,0,"allocation","out of memory"); goto done; }
     if(!lw_mkdir(assets,e)) goto done;
     for(i=0;i<p.objects.n;i++) {
-        const LWObject *o=&p.objects.v[i]; size_t k;
+        LWObject *o=&p.objects.v[i]; size_t k;
         dir=lw_join(assets,p.names.v[i]); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
-        if(!lw_mkdir(dir,e)||!lw_write_object(dir,o,e)) goto done;
+        if(!lw_mkdir(dir,e)||!lw_package_images(dir,o->source.path,o->images.v,o->images.n,e)||!lw_write_object(dir,o,e)) goto done;
         free(dir); dir=NULL;
         if(o->images.n||o->texture_blocks||o->legacy_textures||o->invalid_map_references||o->missing_materials||o->non_finite_map_values) partial=1;
         for(k=0;k<o->chunks.n;k++) if(o->chunks.v[k].tag==LW_TAG('C','R','V','S')) partial=1;
@@ -231,7 +236,8 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     if(p.is_scene) {
         for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform) partial=1;
         dir=lw_join(assets,p.scene_name); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
-        if(!lw_mkdir(dir,e)||!lw_write_scene(dir,&p.scene,e)) goto done;
+        if(!lw_mkdir(dir,e)||!lw_package_images(dir,p.scene.source.path,p.scene.images.v,p.scene.images.n,e)||!lw_write_scene(dir,&p.scene,e)) goto done;
+        if(p.scene.images.n) partial=1;
         free(dir); dir=NULL;
     }
     if(!lw_write_obj(opts->output,&p,opts,&stats,e)) goto done;

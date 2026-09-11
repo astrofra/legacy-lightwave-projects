@@ -36,7 +36,14 @@ typedef struct {
     float color[3], diffuse, specular, luminosity, transparency, smoothing;
     uint32_t flags, side, present, float_fields;
 } LWMaterial;
-typedef struct { LWString path; size_t offset; uint32_t clip; } LWImageReference;
+typedef struct {
+    LWString path;
+    size_t offset;
+    uint32_t clip;
+    char *resolved_path, *uri;
+    LW_ARRAY(char *) candidates;
+    char resolution[48], issue[256], sha256[65];
+} LWImageReference;
 typedef struct LWObject {
     LWSource source;
     uint32_t format;
@@ -79,6 +86,7 @@ typedef struct LWScene {
     double first_frame, last_frame, fps;
     LW_ARRAY(LWNode) nodes;
     LW_ARRAY(LWPlugin) plugins;
+    LW_ARRAY(LWImageReference) images;
     size_t opaque_blocks, unsupported_features;
 } LWScene;
 

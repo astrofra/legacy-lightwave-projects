@@ -77,6 +77,11 @@ class BatchTests(unittest.TestCase):
                 path = (manifest_path.parent / uri).resolve()
                 self.assertTrue(path.is_relative_to(package))
                 data = json.loads(path.read_text("utf-8"))
+                for reference in data.get("image_references", []):
+                    if reference.get("uri"):
+                        image = (path.parent / reference["uri"]).resolve()
+                        self.assertTrue(image.is_relative_to(package))
+                        self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(), reference["sha256"])
                 self.assertEqual(hashlib.sha256((path.parent / data["source"]["uri"]).read_bytes()).hexdigest(), data["source"]["sha256"])
                 buffer = data.get("buffer", data.get("animation_buffer"))
                 if buffer:
@@ -102,6 +107,25 @@ class BatchTests(unittest.TestCase):
             materials = {line.split()[1] for line in mtl.read_text("utf-8").splitlines() if line.startswith("newmtl ")}
             self.assertTrue({line.split()[1] for line in lines if line.startswith("usemtl ")} <= materials)
         return report
+
+    def test_image_copies_survive_batch_publication(self):
+        self.source("project/mesh.lwo", object_bytes())
+        still = '{ Clip\n{ Still\n"I:old/signe.psd"\n}\n}\n'
+        for name in ("01.lws", "02.lws"):
+            self.source("project/" + name, ("LWSC\n1\nLoadObject mesh.lwo\n" + still + still).encode())
+        self.source("project/signe.jpg", b"jpeg bytes")
+        self.run_batch(code=2)
+        report_path = self.reports()[0]
+        report = self.check_published_files(report_path)
+        for record in report["files"]:
+            if not record["source"].endswith(".lws"):
+                continue
+            directory = (report_path.parent / record["manifest"]).parent
+            data = json.loads((directory / "scene.json").read_text("utf-8"))
+            ref = data["image_references"][0]
+            self.assertEqual(ref["resolution"], "unique-image-stem")
+            self.assertEqual((directory / ref["uri"]).read_bytes(), b"jpeg bytes")
+            self.assertEqual(len(list((directory / "textures").iterdir())), 1)
 
     def test_signatures_extensionless_files_and_project_roots(self):
         a = self.source("project A/mesh ! é", object_bytes())
