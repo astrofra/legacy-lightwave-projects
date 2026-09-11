@@ -4,9 +4,9 @@ Assessment date: 2026-09-10. Converter baseline: `lwconvert 0.3.0`.
 
 ## Assessment
 
-**Both archives contain readable RenderMan Shading Language (RSL). LightMan is a substantial research reference; Light-R is a smaller reference for basic shading and lighting.** The strongest findings are LightWave texture projections, procedural texture approximations, and embedded material-generation formulas. They can guide a richer native material representation and Blender node generation, but do not provide a complete, directly reusable LightWave renderer.
+**Both archives contain readable RenderMan Shading Language (RSL). LightMan is a substantial research reference; Light-R is a smaller reference for basic shading and lighting.** The strongest findings are LightWave texture projections, procedural texture approximations, and embedded material-generation formulas. Their purpose here is to help understand original LightWave material behavior and find the most suitable equivalent in Blender. These third-party bridges contain their own approximations, so their code provides evidence to investigate rather than an authoritative description of LightWave.
 
-Recommendation: use the findings to develop and validate material translation within the existing **C → IR → Blender** architecture. Keep ordinary Blender nodes as the default output. Neither historic plugin should become a conversion dependency, and their redistribution terms require attention before incorporating code.
+Recommendation: use source analysis, format documentation and reference renders to develop and validate material translation within the existing **C → IR → Blender** architecture. Keep ordinary Blender nodes as the default output. Reimplementing or porting the archival RSL shaders is outside this objective. Neither historic plugin should become a conversion dependency; any proposed copying or redistribution of archival material remains subject to the terms discussed in section 5.
 
 ## 1. What is actually present
 
@@ -79,23 +79,25 @@ The three light shaders document legacy attenuation modes. Unlike LightMan, Ligh
 
 The current [material structure](../include/lwconvert.h), [LWO parser](../src/lwo.c) and [glTF writer](../src/gltf.c) preserve/expose basic scalars but do not evaluate texture layers. glTF currently uses scalar color/diffuse/emission/opacity with fixed roughness and no texture bindings. The next prerequisite is richer material data in the IR.
 
+For each feature, use the archival code to form a hypothesis about the meaning of LightWave parameters and their visual effect. Check that hypothesis against format documentation and controlled original LightWave renders when available, then choose and calibrate a native Blender representation. For example, the recovered glossiness formula motivates investigating highlight width and its response to glossiness; the conversion should select Blender settings that best reproduce the original LightWave highlights. Reproducing LightMan's intermediate exponent is not an acceptance criterion. Keep archive observations, confirmed LightWave behavior and chosen Blender approximations explicitly identified.
+
 Recommended sequence:
 
 1. **Expand the C parser and IR:** glossiness, reflection, IOR, translucency, color highlights, bump, ordered texture layers, projections/transforms, images, gradients and envelopes. Preserve raw values and unsupported payloads alongside interpretation metadata.
 2. **Implement image mapping first:** explicit UV bindings, then static planar/cylindrical/spherical/cubic projections. Use independently created axis-marked textures and cases covering scale, rotation, reference objects, wrapping and seams. Account for the existing glTF UV flip exactly once.
-3. **Develop procedural approximations:** start with Turbulence, Crumple and Fractal Noise. Compare controlled parameter sweeps against LightWave renders when available; label unvalidated behavior as approximate. Do not mark a stub as supported.
+3. **Find Blender equivalents for procedural textures:** start with Turbulence, Crumple and Fractal Noise. Evaluate existing nodes and node groups by their appearance and response to parameter changes. Compare controlled parameter sweeps against LightWave renders when available; label unvalidated behavior as approximate. An archival stub supplies no evidence for a conversion rule.
 4. **Build Blender materials from IR:** generate ordinary coordinate, math, texture, ramp and shader nodes using a Python adapter launched through `blender --background --python ...`. Blender's installed 4.2 command-line help confirms both options. No maintained addon or GUI interaction is required; the adapter itself remains versioned conversion code.
 5. **Validate shading separately:** use controlled illumination, color management and scalar/channel passes for glossiness, transparency, bump and emission. Keep Blender's richer graph separate from OBJ/glTF approximations; bake supported channel results where appropriate, without discarding the native graph.
 
-**RSL cannot simply be loaded into Blender's Script node.** Blender uses OSL for that node, and OSL materials use renderer closures rather than RSL's explicit light loop. In Blender 4.2 this is Cycles-only, with CPU/OptiX restrictions; `trace()` also does not provide RSL-style shaded reflection lookup. An OSL port may be an optional research route, but is not a shortcut to exact LightWave shading or portable default output. [Blender 4.2 OSL documentation](https://docs.blender.org/manual/en/4.2/render/shader_nodes/osl.html).
-
 ## 5. Source reuse and provenance
+
+**The intended use is source analysis to understand LightWave and inform native Blender material conversion.** Reading the shaders and recovered fragments can reveal parameter relationships, coordinate conventions and visual hypotheses worth testing. The deliverable is our own conversion logic and Blender material graphs. A strict clean-room separation between source readers and implementers is not the workflow proposed here, and this assessment makes no claim of such separation. There is no planned RSL reimplementation or shader port.
 
 **LightMan is not an unrestricted source release.** `LightMan/doc/index.html`, §8, lines 1758–1763 prohibits redistribution of LightMan or its parts. It permits licensees to use/alter supplied or generated shader sources and headers on condition that changes are contributed back to the author. This assessment does not establish our licensee status or permission to redistribute ports. Establish applicable permission before copying, translating or distributing those sources or examples in the converter.
 
 **Light-R's terms are incomplete for source reuse.** Its README says “Use this program freely” and attributes modified light shaders to Aqsis, but supplies no explicit source redistribution license. That statement alone does not establish permission to incorporate all shader code. Preserve attribution and investigate upstream terms before reuse.
 
-For now, retain these as research references and pursue independent implementations grounded in format specifications and measured behavior. Inspection copies remain under ignored `build/archive-research/`; no archival source has been copied into converter code.
+For each conversion rule, record the archive observations that informed it, supporting format documentation or measurements, the selected Blender equivalent and remaining fidelity limits. A formula recovered from a bridge must retain its attribution and uncertainty until its relevance to original LightWave is established. Inspection copies remain under ignored `build/archive-research/`; no archival source has been copied into converter code. The reuse terms above remain relevant to any later proposal to copy, translate or redistribute archival code or examples.
 
 Archive SHA-256 values identify the exact versions assessed; binary offsets above are file offsets within this LightMan build:
 
@@ -105,4 +107,4 @@ Archive SHA-256 values identify the exact versions assessed; binary offsets abov
 | `extern/lightman11_lw7.zip` | `b98a0c442340c1245c613a167a768edf43455c1b399f26cfe67caff3169deb71` |
 | `LightMan/lightman.p` inside the latter archive | `4c004d85fa22fb0edc23f55a10b194d3582ba8b01bb92cd20918162930c410c0` |
 
-The archives materially reduce uncertainty around projections and several procedural patterns. They improve the basis for material translation; **visual fidelity still requires original-render comparisons, and source reuse requires resolving the stated terms**.
+The archives provide useful clues about projections, procedural patterns and material parameters. Their value is to guide **understanding of original LightWave behavior and selection of Blender equivalents**. Visual fidelity still requires comparisons against original LightWave renders.
