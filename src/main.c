@@ -7,16 +7,16 @@
 #endif
 
 static void help(void) {
-    puts("lwconvert " LWCONVERT_VERSION " - standalone LightWave extraction and OBJ export\n"
+    puts("lwconvert " LWCONVERT_VERSION " - standalone LightWave extraction, OBJ and glTF export\n"
          "Usage:\n  lwconvert inspect INPUT\n"
          "  lwconvert convert INPUT --output NEW_DIRECTORY [options]\n"
          "Options:\n  --content-root DIRECTORY  Virtual content root (default: input directory)\n"
          "  --map PREFIX=DIRECTORY    Explicit historic path mapping (repeatable)\n"
-         "  --frame NUMBER            Scene OBJ frame (default: scene FirstFrame)\n"
+         "  --frame NUMBER            OBJ/glTF snapshot frame (default: scene FirstFrame)\n"
          "  --uv-map NAME             Export this native TXUV map, including VMAD seams\n"
          "Output must be outside the content root. Source files are read only.\n"
          "Exit codes: 0 supported subset exported, 1 error, 2 partial export (see manifest).\n"
-         "glTF and Blender backends are not implemented in this first milestone.");
+         "glTF 2.0 exports static base geometry and scalar materials. Blender output is not implemented.");
 }
 static int run(int argc,char **argv) {
     LWOptions opts={0}; LWError error={0}; int i,result=1; size_t j;

@@ -1,0 +1,348 @@
+#include "internal.h"
+#include <math.h>
+
+/* Direct glTF 2.0 writer. Geometry is derived from native corners, never OBJ.
+   The initial scene profile is a static pose with local transforms/instancing. */
+typedef struct { float p[3],n[3],uv[2]; uint32_t polygon,corner,point; } GVertex;
+typedef struct { uint32_t material,mode; int uv; LW_ARRAY(GVertex) vertices; } GGroup;
+typedef LW_ARRAY(GGroup) GGroups;
+typedef struct {
+    size_t offset,map_offset,count,accessor,material; uint32_t mode,stride;
+    int uv; float low[3],high[3];
+} GPrimitive;
+typedef struct { size_t asset,first,count; uint32_t layer; } GMesh;
+typedef struct { size_t asset; uint32_t index; } GMaterial;
+typedef struct { size_t source,mesh,parent; double matrix[16]; } GNode;
+typedef struct {
+    const LWPackage *package; const LWOptions *options; LWGltfStats *stats;
+    FILE *bin; size_t bytes,accessors;
+    LW_ARRAY(GPrimitive) primitives;
+    LW_ARRAY(GMesh) meshes;
+    LW_ARRAY(GMaterial) materials;
+    LW_ARRAY(GNode) nodes;
+} GDocument;
+
+static double unit(double x) { return x<0?0:x>1?1:x; }
+static int selected(const LWObject *o,uint32_t layer,uint32_t request) {
+    return request==LW_NONE||o->layers.v[layer].id==request-1;
+}
+static void u32(FILE *f,uint32_t v) {
+    unsigned char b[4]={(unsigned char)v,(unsigned char)(v>>8),(unsigned char)(v>>16),(unsigned char)(v>>24)};
+    fwrite(b,1,4,f);
+}
+static void f32(FILE *f,float v) { uint32_t bits; memcpy(&bits,&v,4); u32(f,bits); }
+static GGroup *group(GGroups *groups,uint32_t material,uint32_t mode,int uv,LWError *e) {
+    size_t i; GGroup g={0};
+    for(i=0;i<groups->n;i++) if(groups->v[i].material==material&&groups->v[i].mode==mode&&groups->v[i].uv==uv) return &groups->v[i];
+    g.material=material; g.mode=mode; g.uv=uv;
+    if(!LW_ADD(*groups,g,e)) return NULL;
+    return &groups->v[groups->n-1];
+}
+static GVertex vertex(const LWObject *o,uint32_t polygon,uint32_t corner,const LWUV *uv) {
+    GVertex v={0}; uint32_t index=o->primitives.v[polygon].first+corner;
+    v.point=o->indices.v[index]; v.polygon=polygon; v.corner=corner;
+    memcpy(v.p,o->positions.v+3*v.point,sizeof v.p); v.p[2]=-v.p[2];
+    if(uv) { v.uv[0]=uv[index].u; v.uv[1]=(float)(1.0-uv[index].v); }
+    return v;
+}
+static int triangle(GGroup *g,const LWObject *o,uint32_t polygon,const uint32_t corners[3],const LWUV *uv,LWError *e) {
+    GVertex v[3]; double a[3],b[3],n[3],length; size_t i,j;
+    for(i=0;i<3;i++) v[i]=vertex(o,polygon,corners[2-i],uv);
+    for(i=0;i<3;i++) { a[i]=(double)v[1].p[i]-v[0].p[i]; b[i]=(double)v[2].p[i]-v[0].p[i]; }
+    n[0]=a[1]*b[2]-a[2]*b[1]; n[1]=a[2]*b[0]-a[0]*b[2]; n[2]=a[0]*b[1]-a[1]*b[0];
+    length=sqrt(n[0]*n[0]+n[1]*n[1]+n[2]*n[2]);
+    if(!length||!isfinite(length)) return lw_error(e,0,"glTF","triangulator returned a degenerate triangle");
+    for(i=0;i<3;i++) {
+        for(j=0;j<3;j++) v[i].n[j]=(float)(n[j]/length);
+        if(!LW_ADD(g->vertices,v[i],e)) return 0;
+    }
+    return 1;
+}
+static int derive(GDocument *doc,size_t asset,uint32_t request,GGroups *groups,LWError *e) {
+    const LWObject *o=&doc->package->objects.v[asset]; LWExportStats *s=&doc->stats->geometry;
+    LWUV *uv=NULL; unsigned char *used=calloc(o->positions.n/3+1,1); size_t i,j; int ok=0;
+    if(!used) return lw_error(e,0,"allocation","out of memory");
+    if(doc->options->uv_map) { uv=lw_corner_uvs(o,doc->options->uv_map,e); if(!uv) goto done; }
+    for(i=0;i<o->primitives.n;i++) {
+        const LWPrimitive *p=&o->primitives.v[i]; GGroup *g; int has_uv=uv!=NULL;
+        int curve=p->type==LW_TAG('C','U','R','V'),face=p->type==LW_TAG('F','A','C','E');
+        int cage=p->type==LW_TAG('P','C','H','S')||p->type==LW_TAG('P','T','C','H');
+        if(!selected(o,o->polygon_blocks.v[p->block].layer,request)) continue;
+        if(!p->count||p->detail_parent!=LW_NONE||p->legacy_surface<0||(!face&&!curve&&!cage)) { s->skipped++; continue; }
+        if(cage) s->cages++;
+        if(curve) s->control_curves++;
+        if((face||cage)&&p->count>=3) {
+            LWTriangulation t={0}; int status=lw_triangulate(o,p,&t,e);
+            if(status<0) { lw_free_triangulation(&t); goto done; }
+            if(!status) { s->skipped++; s->triangulation_failures++; lw_free_triangulation(&t); continue; }
+            if(uv) for(j=0;j<p->count;j++) if(!uv[p->first+j].valid) { has_uv=0; s->uv_missing++; }
+            g=group(groups,p->material,4,has_uv,e);
+            if(!g) { lw_free_triangulation(&t); goto done; }
+            for(j=0;j<t.corners.n;j+=3) if(!triangle(g,o,(uint32_t)i,t.corners.v+j,has_uv?uv:NULL,e)) { lw_free_triangulation(&t); goto done; }
+            for(j=0;j<t.corners.n;j++) used[o->indices.v[p->first+t.corners.v[j]]]=1;
+            s->triangles+=t.corners.n/3; s->triangulated_faces+=p->count>3;
+            s->bridged_faces+=t.bridges!=0; s->nonplanar_faces+=t.nonplanar!=0; s->removed_corners+=t.removed_corners;
+            lw_free_triangulation(&t);
+        } else {
+            uint32_t mode=p->count==1?0:1;
+            g=group(groups,p->material,mode,0,e); if(!g) goto done;
+            if(mode==0) {
+                GVertex v=vertex(o,(uint32_t)i,0,NULL);
+                if(!LW_ADD(g->vertices,v,e)) goto done;
+                used[v.point]=1; doc->stats->points++;
+            } else for(j=1;j<p->count;j++) {
+                GVertex a=vertex(o,(uint32_t)i,(uint32_t)j-1,NULL),b=vertex(o,(uint32_t)i,(uint32_t)j,NULL);
+                if(!LW_ADD(g->vertices,a,e)||!LW_ADD(g->vertices,b,e)) goto done;
+                used[a.point]=used[b.point]=1; doc->stats->lines++;
+            }
+        }
+    }
+    for(i=0;i<o->point_blocks.n;i++) {
+        const LWPointBlock *block=&o->point_blocks.v[i];
+        if(!selected(o,block->layer,request)) continue;
+        for(j=0;j<block->count;j++) if(!used[block->first+j]) {
+            GGroup *g=group(groups,LW_NONE,0,0,e); GVertex v={0};
+            if(!g) goto done;
+            v.point=block->first+(uint32_t)j; v.polygon=v.corner=LW_NONE;
+            memcpy(v.p,o->positions.v+3*v.point,sizeof v.p); v.p[2]=-v.p[2];
+            if(!LW_ADD(g->vertices,v,e)) goto done;
+            doc->stats->points++;
+        }
+    }
+    for(i=0;i<o->chunks.n;i++) if(o->chunks.v[i].tag==LW_TAG('C','R','V','S')) s->skipped++;
+    ok=1;
+done:
+    free(uv); free(used); return ok;
+}
+static int material_index(GDocument *doc,size_t asset,uint32_t index,size_t *result,LWError *e) {
+    GMaterial m={asset,index}; size_t i;
+    for(i=0;i<doc->materials.n;i++) if(doc->materials.v[i].asset==asset&&doc->materials.v[i].index==index) { *result=i; return 1; }
+    *result=doc->materials.n;
+    if(index<doc->package->objects.v[asset].materials.n) {
+        uint32_t side=doc->package->objects.v[asset].materials.v[index].side;
+        if(side!=1&&side!=3) doc->stats->unsupported_sidedness++;
+    }
+    return LW_ADD(doc->materials,m,e);
+}
+static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
+    GPrimitive p={0}; size_t i,j,bytes; uint32_t stride=12+(g->mode==4?12:0)+(g->uv?8:0);
+    if(!g->vertices.n) return 1;
+    if(g->vertices.n>UINT32_MAX/(stride+12)) return lw_error(e,0,"glTF","primitive buffer exceeds 4 GiB");
+    bytes=g->vertices.n*(stride+12);
+    if(doc->bytes>UINT32_MAX-bytes) return lw_error(e,0,"glTF","document buffer exceeds 4 GiB");
+    p.offset=doc->bytes; p.map_offset=p.offset+g->vertices.n*stride; p.count=g->vertices.n;
+    p.mode=g->mode; p.uv=g->uv; p.stride=stride; p.accessor=doc->accessors;
+    if(!material_index(doc,asset,g->material,&p.material,e)) return 0;
+    memcpy(p.low,g->vertices.v[0].p,sizeof p.low); memcpy(p.high,p.low,sizeof p.high);
+    for(i=0;i<g->vertices.n;i++) {
+        const GVertex *v=&g->vertices.v[i];
+        for(j=0;j<3;j++) { f32(doc->bin,v->p[j]); p.low[j]=fminf(p.low[j],v->p[j]); p.high[j]=fmaxf(p.high[j],v->p[j]); }
+        if(g->mode==4) for(j=0;j<3;j++) f32(doc->bin,v->n[j]);
+        if(g->uv) for(j=0;j<2;j++) f32(doc->bin,v->uv[j]);
+    }
+    /* Source mapping is application data in the same binary buffer. It is not
+       a glTF vertex attribute (uint32 is not a portable attribute encoding). */
+    for(i=0;i<g->vertices.n;i++) {
+        u32(doc->bin,g->vertices.v[i].polygon); u32(doc->bin,g->vertices.v[i].corner); u32(doc->bin,g->vertices.v[i].point);
+    }
+    if(ferror(doc->bin)) return lw_error(e,0,"glTF","cannot write geometry buffer");
+    doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0);
+    return LW_ADD(doc->primitives,p,e);
+}
+static int mesh_index(GDocument *doc,size_t asset,uint32_t layer,size_t *result,LWError *e) {
+    size_t i; GGroups groups={0}; GMesh mesh={asset,doc->primitives.n,0,layer}; int ok=0;
+    for(i=0;i<doc->meshes.n;i++) if(doc->meshes.v[i].asset==asset&&doc->meshes.v[i].layer==layer) { *result=i; return 1; }
+    if(!derive(doc,asset,layer,&groups,e)) goto done;
+    for(i=0;i<groups.n;i++) if(!write_group(doc,&groups.v[i],asset,e)) goto done;
+    mesh.count=doc->primitives.n-mesh.first;
+    *result=SIZE_MAX;
+    if(mesh.count) { *result=doc->meshes.n; if(!LW_ADD(doc->meshes,mesh,e)) goto done; }
+    ok=1;
+done:
+    for(i=0;i<groups.n;i++) LW_FREE(groups.v[i].vertices);
+    LW_FREE(groups); return ok;
+}
+static int scene_nodes(GDocument *doc,LWError *e) {
+    const LWScene *s=&doc->package->scene; size_t i,j,k,*map=NULL,*parents=NULL;
+    unsigned char *active=NULL; int ok=0;
+    map=malloc((s->nodes.n+1)*sizeof *map); parents=malloc((s->nodes.n+1)*sizeof *parents); active=calloc(s->nodes.n+1,1);
+    if(!map||!parents||!active) { lw_error(e,0,"allocation","out of memory"); goto done; }
+    for(i=0;i<s->nodes.n;i++) {
+        map[i]=parents[i]=SIZE_MAX;
+        if(s->nodes.v[i].parent!=LW_NONE) for(j=0;j<s->nodes.n;j++) if(s->nodes.v[j].id==s->nodes.v[i].parent) { parents[i]=j; break; }
+    }
+    /* The same resolved geometry and its parent chains are evaluated by OBJ. */
+    for(i=0;i<s->nodes.n;i++) if(s->nodes.v[i].asset!=SIZE_MAX) {
+        for(j=i,k=0;j!=SIZE_MAX&&!active[j];j=parents[j],k++) {
+            if(k>s->nodes.n) { lw_error(e,0,"hierarchy","cyclic parent chain"); goto done; }
+            active[j]=1;
+        }
+    }
+    for(i=0;i<s->nodes.n;i++) if(active[i]) {
+        GNode n={0}; const LWNode *source=&s->nodes.v[i]; double m[16];
+        n.source=i; n.mesh=n.parent=SIZE_MAX;
+        if(!lw_scene_node_matrix(s,i,doc->options->frame,m,e)) goto done;
+        /* C M C with C=diag(1,1,-1,1), while geometry already uses C p. */
+        for(j=0;j<16;j++) n.matrix[j]=m[j]*((j%4==2)^(j/4==2)?-1:1);
+        if(source->asset!=SIZE_MAX&&!mesh_index(doc,source->asset,source->layer,&n.mesh,e)) goto done;
+        map[i]=doc->nodes.n; if(!LW_ADD(doc->nodes,n,e)) goto done;
+    }
+    for(i=0;i<s->nodes.n;i++) if(active[i]&&parents[i]!=SIZE_MAX) doc->nodes.v[map[i]].parent=map[parents[i]];
+    doc->stats->omitted_nodes+=s->nodes.n-doc->nodes.n;
+    ok=1;
+done:
+    free(map); free(parents); free(active); return ok;
+}
+static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
+    const LWObject *o=&doc->package->objects.v[entry->asset];
+    const LWMaterial *m=entry->index<o->materials.n?&o->materials.v[entry->index]:NULL;
+    double color[3]={.8,.8,.8},emissive[3]={0},alpha=1; size_t j; int two_sided=0;
+    fputs("{\"name\":",f);
+    if(m) { char *name=lw_text(m->name); lw_json_string(f,name?name:"surface"); free(name); }
+    else lw_json_string(f,"Default surface");
+    if(m) {
+        for(j=0;j<3;j++) { color[j]=unit((double)m->color[j]*m->diffuse); emissive[j]=unit((double)m->color[j]*m->luminosity); }
+        alpha=unit(1.0-m->transparency); two_sided=m->side==3||(o->format==LW_TAG('L','W','O','B')&&(m->flags&256));
+    }
+    fprintf(f,",\"pbrMetallicRoughness\":{\"baseColorFactor\":[%.9g,%.9g,%.9g,%.9g],\"metallicFactor\":0,\"roughnessFactor\":1},\"emissiveFactor\":[%.9g,%.9g,%.9g],\"alphaMode\":\"%s\",\"doubleSided\":%s,\"extras\":{\"source_asset_index\":%zu,\"source_surface_index\":",color[0],color[1],color[2],alpha,emissive[0],emissive[1],emissive[2],alpha<1?"BLEND":"OPAQUE",two_sided?"true":"false",entry->asset);
+    if(m) fprintf(f,"%u",entry->index); else fputs("null",f);
+    fprintf(f,",\"source_sha256\":\"%s\",\"source_sidedness\":%u",o->source.sha256,m?m->side:1);
+    fputs(",\"interpretation\":\"scalar color/diffuse/emission/opacity approximation; neutral rough dielectric; no texture bindings or native smoothing\"}}",f);
+}
+static void buffer_uri(FILE *f,const char *name) {
+    const unsigned char *p=(const unsigned char *)name;
+    fputc('"',f);
+    for(;*p;p++) {
+        if((*p>='a'&&*p<='z')||(*p>='A'&&*p<='Z')||(*p>='0'&&*p<='9')||strchr("-._~",*p)) fputc(*p,f);
+        else fprintf(f,"%%%02X",(unsigned)*p);
+    }
+    fputs(".bin\"",f);
+}
+static void accessor(FILE *f,size_t view,size_t offset,size_t count,unsigned components,const float *low,const float *high) {
+    fprintf(f,"{\"bufferView\":%zu,\"byteOffset\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"VEC%u\"",view,offset,count,components);
+    if(low) fprintf(f,",\"min\":[%.9g,%.9g,%.9g],\"max\":[%.9g,%.9g,%.9g]",low[0],low[1],low[2],high[0],high[1],high[2]);
+    fputc('}',f);
+}
+static void json_document(FILE *f,const GDocument *doc,const char *name,int scene,size_t asset) {
+    const LWSource *source=scene?&doc->package->scene.source:&doc->package->objects.v[asset].source;
+    size_t i,j; int comma=0;
+    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"static-base-geometry-0.1\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,source->sha256); lw_json_string(f,source->path);
+    fprintf(f,",\"snapshot_frame\":%.17g,\"coordinates\":\"right-handed Y-up; source Z reflected\",\"uv_conversion\":\"u, 1-v\",\"animation\":\"not-exported; snapshot only\",\"textures\":\"not-exported\"},\n\"scene\":0,\"scenes\":[{\"name\":",doc->options->frame); lw_json_string(f,name);
+    for(i=0;i<doc->nodes.n;i++) if(doc->nodes.v[i].parent==SIZE_MAX) {
+        if(!comma) fputs(",\"nodes\":[",f); else fputc(',',f);
+        fprintf(f,"%zu",i); comma=1;
+    }
+    if(comma) fputc(']',f);
+    fputs("}]",f);
+    if(doc->nodes.n) {
+        fputs(",\n\"nodes\":[",f);
+        for(i=0;i<doc->nodes.n;i++) {
+            const GNode *n=&doc->nodes.v[i]; int identity=1; if(i) fputc(',',f);
+            fputs("{\"name\":",f);
+            if(scene) { char *text=lw_text(doc->package->scene.nodes.v[n->source].name); lw_json_string(f,text&&*text?text:"LightWave node"); free(text); }
+            else lw_json_string(f,name);
+            if(n->mesh!=SIZE_MAX) fprintf(f,",\"mesh\":%zu",n->mesh);
+            for(j=0;j<16;j++) if(n->matrix[j]!=(j%5==0?1:0)) identity=0;
+            if(!identity) { fputs(",\"matrix\":[",f); for(j=0;j<16;j++) { if(j) fputc(',',f); fprintf(f,"%.17g",n->matrix[j]); } fputc(']',f); }
+            comma=0;
+            for(j=0;j<doc->nodes.n;j++) if(doc->nodes.v[j].parent==i) { if(!comma) fputs(",\"children\":[",f); else fputc(',',f); fprintf(f,"%zu",j); comma=1; }
+            if(comma) fputc(']',f);
+            fprintf(f,",\"extras\":{\"source_node_index\":%zu",n->source);
+            if(scene) fprintf(f,",\"source_node_id\":%u",doc->package->scene.nodes.v[n->source].id);
+            fputs("}}",f);
+        }
+        fputc(']',f);
+    }
+    if(doc->materials.n) {
+        fputs(",\n\"materials\":[",f);
+        for(i=0;i<doc->materials.n;i++) { if(i) fputc(',',f); json_material(f,doc,&doc->materials.v[i]); }
+        fputc(']',f);
+    }
+    if(doc->meshes.n) {
+        fputs(",\n\"meshes\":[",f);
+        for(i=0;i<doc->meshes.n;i++) {
+            const GMesh *m=&doc->meshes.v[i]; if(i) fputc(',',f);
+            fputs("{\"name\":",f); lw_json_string(f,doc->package->names.v[m->asset]);
+            fprintf(f,",\"extras\":{\"source_asset_index\":%zu,\"source_sha256\":\"%s\",\"source_layer_request\":",m->asset,doc->package->objects.v[m->asset].source.sha256);
+            if(m->layer==LW_NONE) fputs("null",f); else fprintf(f,"%u",m->layer);
+            fputs("},\"primitives\":[",f);
+            for(j=0;j<m->count;j++) {
+                const GPrimitive *p=&doc->primitives.v[m->first+j]; if(j) fputc(',',f);
+                fprintf(f,"{\"attributes\":{\"POSITION\":%zu",p->accessor);
+                if(p->mode==4) fprintf(f,",\"NORMAL\":%zu",p->accessor+1);
+                if(p->uv) fprintf(f,",\"TEXCOORD_0\":%zu",p->accessor+2);
+                fprintf(f,"},\"mode\":%u,\"material\":%zu,\"extras\":{\"source_map\":{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"count\":%zu,\"stride\":12,\"component_type\":\"uint32\",\"byte_order\":\"little\",\"fields\":[\"polygon\",\"corner\",\"point\"],\"null_index\":4294967295}}}",p->mode,p->material,p->map_offset,p->count*12,p->count);
+            }
+            fputs("]}",f);
+        }
+        fputc(']',f);
+    }
+    if(doc->bytes) {
+        fprintf(f,",\n\"buffers\":[{\"byteLength\":%zu,\"uri\":",doc->bytes); buffer_uri(f,name); fputs("}],\n\"bufferViews\":[",f);
+        for(i=0;i<doc->primitives.n;i++) {
+            const GPrimitive *p=&doc->primitives.v[i]; if(i) fputc(',',f);
+            fprintf(f,"{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"byteStride\":%u,\"target\":34962}",p->offset,p->count*p->stride,p->stride);
+        }
+        fputs("],\n\"accessors\":[",f);
+        for(i=0;i<doc->primitives.n;i++) {
+            const GPrimitive *p=&doc->primitives.v[i]; if(i) fputc(',',f);
+            accessor(f,i,0,p->count,3,p->low,p->high);
+            if(p->mode==4) { fputc(',',f); accessor(f,i,12,p->count,3,NULL,NULL); }
+            if(p->uv) { fputc(',',f); accessor(f,i,24,p->count,2,NULL,NULL); }
+        }
+        fputc(']',f);
+    }
+    fputs("\n}\n",f);
+}
+static int write_document(const char *dir,const char *name,const LWPackage *package,const LWOptions *opts,int scene,size_t asset,LWGltfStats *stats,LWError *e) {
+    GDocument doc={0}; char *bin=NULL,*json=NULL; FILE *f=NULL; size_t i; int ok=0;
+    doc.package=package; doc.options=opts; doc.stats=stats;
+    bin=lw_named_path(dir,name,".bin"); json=lw_named_path(dir,name,".gltf");
+    if(!bin||!json) { lw_error(e,0,"allocation","out of memory"); goto done; }
+    doc.bin=lw_fopen(bin,"wb"); if(!doc.bin) { lw_error(e,0,"glTF","cannot create %s",bin); goto done; }
+    if(scene) { if(!scene_nodes(&doc,e)) goto done; }
+    else {
+        GNode node={0}; node.parent=SIZE_MAX; lw_identity(node.matrix);
+        if(!mesh_index(&doc,asset,LW_NONE,&node.mesh,e)||!LW_ADD(doc.nodes,node,e)) goto done;
+        /* A geometry-free surface preset still exports its material library. */
+        if(!doc.meshes.n) for(i=0;i<package->objects.v[asset].materials.n;i++) { size_t index; if(!material_index(&doc,asset,(uint32_t)i,&index,e)) goto done; }
+    }
+    { int closed=lw_close(doc.bin,bin,e); doc.bin=NULL; if(!closed) goto done; }
+    f=lw_fopen(json,"wb"); if(!f) { lw_error(e,0,"glTF","cannot create %s",json); goto done; }
+    json_document(f,&doc,name,scene,asset);
+    { int closed=lw_close(f,json,e); f=NULL; if(!closed) goto done; }
+    stats->files++; stats->materials+=doc.materials.n; ok=1;
+done:
+    if(f) fclose(f);
+    if(doc.bin) fclose(doc.bin);
+    LW_FREE(doc.primitives); LW_FREE(doc.meshes); LW_FREE(doc.materials); LW_FREE(doc.nodes);
+    free(bin); free(json); return ok;
+}
+int lw_write_gltf(const char *dir,const LWPackage *p,const LWOptions *opts,LWGltfStats *stats,LWError *e) {
+    char *gltf=lw_join(dir,"gltf"); double *matrices=NULL; size_t i,j,bad=SIZE_MAX; LWError local={0}; int ok=0;
+    if(!gltf) return lw_error(e,0,"allocation","out of memory");
+    for(i=0;i<p->objects.n;i++) if(!write_document(gltf,p->names.v[i],p,opts,0,i,stats,e)) goto done;
+    if(!p->is_scene) { ok=1; goto done; }
+    for(i=0;i<p->scene.nodes.n;i++) for(j=0;j<p->scene.nodes.v[i].channels.n;j++) if(p->scene.nodes.v[i].channels.v[j].keys.n>1) stats->animated_channels++;
+    matrices=calloc(p->scene.nodes.n?p->scene.nodes.n:1,16*sizeof *matrices);
+    if(!matrices) { lw_error(e,0,"allocation","out of memory"); goto done; }
+    if(!lw_scene_matrices(&p->scene,opts->frame,matrices,&bad,&local)) {
+        stats->omitted_nodes=p->scene.nodes.n;
+        snprintf(stats->geometry.scene_issue,sizeof stats->geometry.scene_issue,"%.40s: %.210s",local.context,local.message); ok=1; goto done;
+    }
+    for(i=0;i<p->scene.nodes.n;i++) {
+        const LWNode *n=&p->scene.nodes.v[i];
+        if(n->asset==SIZE_MAX) continue;
+        for(j=0;j<p->objects.v[n->asset].layers.n;j++) {
+            const LWLayer *l=&p->objects.v[n->asset].layers.v[j];
+            if(selected(&p->objects.v[n->asset],(uint32_t)j,n->layer)&&(l->pivot[0]||l->pivot[1]||l->pivot[2]||l->parent!=LW_NONE)) {
+                stats->omitted_nodes=p->scene.nodes.n;
+                snprintf(stats->geometry.scene_issue,sizeof stats->geometry.scene_issue,"layer pivot/parent semantics require qualification; instance %zu",i); ok=1; goto done;
+            }
+        }
+    }
+    if(!write_document(gltf,p->scene_name,p,opts,1,0,stats,e)) goto done;
+    stats->geometry.scene_written=1; ok=1;
+done:
+    free(matrices); free(gltf); return ok;
+}

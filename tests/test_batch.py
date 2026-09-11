@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from urllib.parse import unquote
 
 EXE = str(Path(sys.argv.pop(1)).resolve())
 REPOSITORY = Path(__file__).resolve().parents[1]
@@ -65,7 +66,8 @@ class BatchTests(unittest.TestCase):
             manifest = json.loads(manifest_path.read_text("utf-8"))
             index = json.loads((package / "manifest.json").read_text("utf-8"))
             self.assertIn(manifest_path.relative_to(package).as_posix(), [entry["manifest"] for entry in index["conversions"]])
-            for planned in ("gltf", "blender"):
+            self.assertEqual(index["formats"]["gltf"], "generated")
+            for planned in ("blender",):
                 self.assertEqual(index["formats"][planned], "not-implemented")
                 self.assertEqual(list((package / planned).iterdir()), [])
             uris = [asset["uri"] for asset in manifest["assets"]]
@@ -84,6 +86,15 @@ class BatchTests(unittest.TestCase):
                 self.assertTrue((manifest_path.parent / asset["mtl"]).is_file())
             if record["obj"]:
                 self.assertTrue((run / record["obj"]).is_file())
+            if record["gltf"]:
+                self.assertTrue((run / record["gltf"]).is_file())
+            for uri, binary in [(a["gltf"], a["gltf_bin"]) for a in manifest["assets"]] + ([(manifest["scene_gltf"], manifest["scene_gltf_bin"])] if manifest["scene_gltf"] else []):
+                path = manifest_path.parent / uri
+                data = json.loads(path.read_text("utf-8"))
+                for buffer in data.get("buffers", []):
+                    target = (path.parent / unquote(buffer["uri"])).resolve()
+                    self.assertEqual(target, (manifest_path.parent / binary).resolve())
+                    self.assertEqual(target.stat().st_size, buffer["byteLength"])
         for obj in (run / "packages").glob("*/obj/*.obj"):
             lines = obj.read_text("utf-8").splitlines()
             mtl = obj.parent / next(line.split()[1] for line in lines if line.startswith("mtllib "))

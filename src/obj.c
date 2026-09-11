@@ -1,7 +1,6 @@
 #include "internal.h"
 #include <math.h>
 
-typedef struct { float u,v; unsigned char valid; } UV;
 static int selected(const LWObject *o,uint32_t layer,uint32_t request) {
     return request==LW_NONE||o->layers.v[layer].id==request-1;
 }
@@ -23,47 +22,12 @@ static void materials(FILE *f,const LWObject *o,size_t asset) {
             unit(m->specular),unit(m->specular),unit(m->specular),(double)m->color[0]*m->luminosity,(double)m->color[1]*m->luminosity,(double)m->color[2]*m->luminosity,unit(1-m->transparency));
     }
 }
-static int map_named(const LWMap *m,const char *name) {
-    char *text; int match;
-    if(m->type!=LW_TAG('T','X','U','V')||m->dimension!=2) return 0;
-    text=lw_text(m->name); if(!text) return 0;
-    match=!strcmp(text,name); free(text); return match;
-}
-static UV *corner_uvs(const LWObject *o,const char *name,LWError *e) {
-    UV *points=calloc(o->positions.n/3+1,sizeof *points),*corners=calloc(o->indices.n+1,sizeof *corners); size_t i,j,k;
-    if(!points||!corners) { free(points); free(corners); lw_error(e,0,"allocation","out of memory"); return NULL; }
-    for(i=0;i<o->maps.n;i++) {
-        const LWMap *m=&o->maps.v[i]; const LWPointBlock *pb;
-        if(m->discontinuous||!map_named(m,name)||m->point_block>=o->point_blocks.n) continue;
-        pb=&o->point_blocks.v[m->point_block];
-        for(j=0;j<m->entries.n;j++) if(m->entries.v[j].point<pb->count) {
-            if(!isfinite(m->values.v[2*j])||!isfinite(m->values.v[2*j+1])) continue;
-            UV uv={m->values.v[2*j],m->values.v[2*j+1],1}; points[pb->first+m->entries.v[j].point]=uv;
-        }
-    }
-    for(i=0;i<o->indices.n;i++) corners[i]=points[o->indices.v[i]];
-    free(points);
-    for(i=0;i<o->maps.n;i++) {
-        const LWMap *m=&o->maps.v[i]; const LWPointBlock *pb; const LWPolygonBlock *pols;
-        if(!m->discontinuous||!map_named(m,name)||m->point_block>=o->point_blocks.n||m->polygon_block>=o->polygon_blocks.n) continue;
-        pb=&o->point_blocks.v[m->point_block]; pols=&o->polygon_blocks.v[m->polygon_block];
-        for(j=0;j<m->entries.n;j++) {
-            const LWMapEntry *entry=&m->entries.v[j]; const LWPrimitive *p;
-            if(entry->point>=pb->count||entry->polygon>=pols->count) continue;
-            p=&o->primitives.v[pols->first+entry->polygon];
-            for(k=0;k<p->count;k++) if(o->indices.v[p->first+k]==pb->first+entry->point) {
-                UV uv={m->values.v[2*j],m->values.v[2*j+1],0}; uv.valid=(unsigned char)(isfinite(uv.u)&&isfinite(uv.v)); corners[p->first+k]=uv;
-            }
-        }
-    }
-    return corners;
-}
 static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t request,const double m[16],const char *uv_name,size_t *vertex_base,size_t *uv_base,LWExportStats *stats,LWError *e) {
     size_t i,j,k,count=o->positions.n/3; size_t *vertices=calloc(count+1,sizeof *vertices);
-    unsigned char *used=calloc(count+1,1); UV *uv=NULL; int ok=0;
+    unsigned char *used=calloc(count+1,1); LWUV *uv=NULL; int ok=0;
     double determinant=m[0]*(m[5]*m[10]-m[9]*m[6])-m[4]*(m[1]*m[10]-m[9]*m[2])+m[8]*(m[1]*m[6]-m[5]*m[2]);
     if(!vertices||!used) { lw_error(e,0,"allocation","out of memory"); goto done; }
-    if(uv_name) { uv=corner_uvs(o,uv_name,e); if(!uv) goto done; }
+    if(uv_name) { uv=lw_corner_uvs(o,uv_name,e); if(!uv) goto done; }
     fprintf(f,"o instance_%zu_asset_%zu\n",instance,asset);
     for(i=0;i<o->point_blocks.n;i++) {
         const LWPointBlock *pb=&o->point_blocks.v[i];

@@ -157,12 +157,12 @@ static int json_output_path(FILE *f,const char *format,const char *name,const ch
     if(!path) return lw_error(e,0,"allocation","out of memory");
     lw_json_string(f,path); free(path); return 1;
 }
-static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,int partial,LWError *e) {
+static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,const LWGltfStats *gltf,int partial,LWError *e) {
     char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i;
     if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
-    fputs(",\"layout_version\":\"0.2\",\"formats\":{\"obj\":\"generated\",\"IR\":\"generated\",\"gltf\":\"not-implemented\",\"blender\":\"not-implemented\"}",f);
+    fputs(",\"layout_version\":\"0.2\",\"formats\":{\"obj\":\"generated\",\"IR\":\"generated\",\"gltf\":\"generated\",\"blender\":\"not-implemented\"}",f);
     fputs(",\n\"content_root\":",f); lw_json_string(f,opts->root); fputs(",\n\"path_rules\":[",f);
     for(i=0;i<opts->rules.n;i++) { if(i) fputc(',',f); fputs("{\"prefix\":",f); lw_json_string(f,opts->rules.v[i].prefix); fputs(",\"destination\":",f); lw_json_string(f,opts->rules.v[i].destination); fputc('}',f); }
     fputs("],\n\"assets\":[",f);
@@ -172,6 +172,8 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
         fputs(",\"uri\":",f); if(!json_output_path(f,"IR",p->names.v[i],"/object.json",e)) goto failed;
         fputs(",\"obj\":",f); if(!json_output_path(f,"obj",p->names.v[i],".obj",e)) goto failed;
         fputs(",\"mtl\":",f); if(!json_output_path(f,"obj",p->names.v[i],".mtl",e)) goto failed;
+        fputs(",\"gltf\":",f); if(!json_output_path(f,"gltf",p->names.v[i],".gltf",e)) goto failed;
+        fputs(",\"gltf_bin\":",f); if(!json_output_path(f,"gltf",p->names.v[i],".bin",e)) goto failed;
         fputs(",\"source_path\":",f); lw_json_string(f,o->source.path);
         fprintf(f,",\"images_not_exported\":%zu,\"texture_blocks_not_evaluated\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"opaque_chunks\":%zu,\"non_finite_map_values\":%zu}",o->images.n,o->texture_blocks+o->legacy_textures,o->invalid_map_references,o->missing_materials,o->opaque_chunks,o->non_finite_map_values);
     }
@@ -182,16 +184,23 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fputs(",\"scene_mtl\":",f);
     if(stats->scene_written) { if(!json_output_path(f,"obj",p->scene_name,".mtl",e)) goto failed; } else fputs("null",f);
     fputs(",\"scene_obj_issue\":",f); lw_json_string(f,stats->scene_issue);
+    fputs(",\"scene_gltf\":",f);
+    if(gltf->geometry.scene_written) { if(!json_output_path(f,"gltf",p->scene_name,".gltf",e)) goto failed; } else fputs("null",f);
+    fputs(",\"scene_gltf_bin\":",f);
+    if(gltf->geometry.scene_written) { if(!json_output_path(f,"gltf",p->scene_name,".bin",e)) goto failed; } else fputs("null",f);
+    fputs(",\"scene_gltf_issue\":",f); lw_json_string(f,gltf->geometry.scene_issue);
+    fprintf(f,",\"gltf_unsupported_sidedness\":%zu",gltf->unsupported_sidedness);
+    fprintf(f,",\n\"gltf_files\":%zu,\"gltf_triangles\":%zu,\"gltf_points\":%zu,\"gltf_line_segments\":%zu,\"gltf_skipped_primitives\":%zu,\"gltf_triangulation_failures\":%zu,\"gltf_nonplanar_faces\":%zu,\"gltf_patch_cages\":%zu,\"gltf_curve_control_polylines\":%zu,\"gltf_unmapped_uv_corners\":%zu,\"gltf_removed_duplicate_corners\":%zu,\"gltf_material_approximations\":%zu,\"gltf_animated_channels_not_exported\":%zu,\"gltf_scene_nodes_not_exported\":%zu,\"gltf_profile\":\"static-base-geometry-0.1; source Z reflected; flat triangle normals; UV (u,1-v); scalar rough dielectric materials; geometry and parent nodes at snapshot frame; no animation, texture bindings, cameras, lights, skinning or morph evaluation\"",gltf->files,gltf->geometry.triangles,gltf->points,gltf->lines,gltf->geometry.skipped,gltf->geometry.triangulation_failures,gltf->geometry.nonplanar_faces,gltf->geometry.cages,gltf->geometry.control_curves,gltf->geometry.uv_missing,gltf->geometry.removed_corners,gltf->materials,gltf->animated_channels,gltf->omitted_nodes);
     fprintf(f,",\n\"frame\":%.17g,\"unresolved_object_instances\":%zu,\"skipped_obj_primitives\":%zu,\"exported_patch_cages\":%zu,\"exported_curve_control_polylines\":%zu,\"unmapped_uv_corners\":%zu,\n\"obj_coordinates\":\"right-handed Y-up; source Z reflected; winding adjusted for transform determinant\",\"uv_map\":",opts->frame,p->unresolved,stats->skipped,stats->cages,stats->control_curves,stats->uv_missing);
     if(opts->uv_map) lw_json_string(f,opts->uv_map); else fputs("null",f);
     fprintf(f,",\n\"obj_triangulated_faces\":%zu,\"obj_triangles\":%zu,\"obj_bridged_hole_faces\":%zu,\"obj_triangulation_failures\":%zu,\"obj_nonplanar_faces\":%zu,\"obj_removed_duplicate_corners\":%zu,\"obj_triangulation\":\"projected ear clipping of FACE boundaries, including paired reverse-edge hole bridges; source corners and native LWIR polygons preserved\"",stats->triangulated_faces,stats->triangles,stats->bridged_faces,stats->triangulation_failures,stats->nonplanar_faces,stats->removed_corners);
-    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction and OBJ/MTL geometry; scalar material approximation; no texture decoding/projection, subdivision evaluation, normals, rig/deformation evaluation, glTF or Blender backend yet\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",p->scene.plugins.n,p->scene.unsupported_features);
+    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 static base geometry; scalar material approximation; no texture decoding/projection, subdivision evaluation, native normals/smoothing, rig/deformation evaluation or Blender backend yet\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",p->scene.plugins.n,p->scene.unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 failed:
     fclose(f); free(path); return 0;
 }
 int lw_convert(const LWOptions *opts,LWError *e) {
-    LWPackage p={0}; LWExportStats stats={0}; size_t i; char *assets=NULL,*dir=NULL; int ok=0,partial=0;
+    LWPackage p={0}; LWExportStats stats={0}; LWGltfStats gltf={0}; size_t i; char *assets=NULL,*dir=NULL; int ok=0,partial=0;
     LWOptions effective=*opts;
     if(lw_path_exists(opts->output)) { lw_error(e,0,"output","output directory already exists; choose a new path"); return -1; }
     if(lw_path_inside(opts->output,opts->root)) { lw_error(e,0,"output","output must be outside the content root"); return -1; }
@@ -226,8 +235,10 @@ int lw_convert(const LWOptions *opts,LWError *e) {
         free(dir); dir=NULL;
     }
     if(!lw_write_obj(opts->output,&p,opts,&stats,e)) goto done;
+    if(!lw_write_gltf(opts->output,&p,opts,&gltf,e)) goto done;
     if(p.unresolved||stats.skipped||stats.cages||stats.control_curves||stats.uv_missing||stats.nonplanar_faces||stats.removed_corners||stats.scene_issue[0]||p.scene.plugins.n||p.scene.unsupported_features) partial=1;
-    if(!write_manifest(opts,&p,&stats,partial,e)) goto done;
+    if(gltf.geometry.skipped||gltf.geometry.cages||gltf.geometry.control_curves||gltf.geometry.uv_missing||gltf.geometry.nonplanar_faces||gltf.geometry.removed_corners||gltf.geometry.scene_issue[0]||gltf.unsupported_sidedness) partial=1;
+    if(!write_manifest(opts,&p,&stats,&gltf,partial,e)) goto done;
     printf("{\"status\":\"%s\",\"assets\":%zu,\"unresolved_object_instances\":%zu,\"scene_obj\":%s,\"output\":",partial?"partial":"converted-supported-subset",p.objects.n,p.unresolved,stats.scene_written?"true":"false");
     lw_json_string(stdout,opts->output); fputs("}\n",stdout); ok=1;
 done:

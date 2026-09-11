@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.2.0 LANGUAGES C)
+project(lightwave_preservation VERSION 0.3.0 LANGUAGES C)
 
 add_library(lwconvert_core STATIC
-    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/obj.c src/triangulate.c)
+    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/obj.c src/triangulate.c src/geometry.c src/gltf.c)
 target_include_directories(lwconvert_core PUBLIC include PRIVATE src)
 target_compile_features(lwconvert_core PUBLIC c_std_17)
 set_target_properties(lwconvert_core PROPERTIES C_EXTENSIONS OFF)
@@ -40,5 +40,7 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_converter.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME batch_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_batch.py" "$<TARGET_FILE:lwconvert>")
+    add_test(NAME gltf_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_gltf.py" "$<TARGET_FILE:lwconvert>")
 endif()
 install(TARGETS lwconvert RUNTIME DESTINATION bin)

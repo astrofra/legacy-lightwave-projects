@@ -78,8 +78,16 @@ typedef struct {
 int lw_triangulate(const LWObject *,const LWPrimitive *,LWTriangulation *,LWError *);
 void lw_free_triangulation(LWTriangulation *);
 int lw_write_obj(const char *, const LWPackage *, const LWOptions *, LWExportStats *, LWError *);
+typedef struct { float u,v; unsigned char valid; } LWUV;
+LWUV *lw_corner_uvs(const LWObject *,const char *,LWError *);
+typedef struct {
+    LWExportStats geometry;
+    size_t files,points,lines,materials,animated_channels,omitted_nodes,unsupported_sidedness;
+} LWGltfStats;
+int lw_write_gltf(const char *,const LWPackage *,const LWOptions *,LWGltfStats *,LWError *);
 int lw_write_bytes(const char *, const void *, size_t, LWError *);
 int lw_close(FILE *, const char *, LWError *);
 void lw_identity(double [16]);
 int lw_scene_matrices(const LWScene *, double, double *, size_t *, LWError *);
+int lw_scene_node_matrix(const LWScene *,size_t,double,double [16],LWError *);
 #endif

@@ -5,12 +5,13 @@ import hashlib
 import json
 from pathlib import Path
 import re
+from urllib.parse import unquote
 
 
 def check(run):
     run = run.resolve()
     report = json.loads((run / "batch-report.json").read_text("utf-8"))
-    native, objects, projects = {}, set(), {}
+    native, objects, gltfs, projects = {}, set(), set(), {}
 
     def linked(directory, uri, root):
         assert not Path(uri).is_absolute(), uri
@@ -54,6 +55,22 @@ def check(run):
             objects.add(obj)
         primary = manifest["scene_obj"] if manifest["scene"] else manifest["assets"][0]["obj"]
         assert (linked(run, record["obj"], project) if record["obj"] else None) == (linked(manifest_path.parent, primary, project) if primary else None)
+        if manifest.get("formats", {}).get("gltf") == "generated":
+            pairs = [(a["gltf"], a["gltf_bin"]) for a in manifest["assets"]]
+            if manifest["scene_gltf"]:
+                pairs.append((manifest["scene_gltf"], manifest["scene_gltf_bin"]))
+            for uri, binary in pairs:
+                path = linked(manifest_path.parent, uri, project)
+                bin_path = linked(manifest_path.parent, binary, project)
+                if path not in gltfs:
+                    data = json.loads(path.read_text("utf-8"))
+                    assert data["asset"]["version"] == "2.0", path
+                    for buffer in data.get("buffers", []):
+                        assert linked(path.parent, unquote(buffer["uri"]), project) == bin_path
+                        assert bin_path.stat().st_size == buffer["byteLength"]
+                    gltfs.add(path)
+            primary = manifest["scene_gltf"] if manifest["scene"] else manifest["assets"][0]["gltf"]
+            assert (linked(run, record["gltf"], project) if record["gltf"] else None) == (linked(manifest_path.parent, primary, project) if primary else None)
     for obj in sorted(objects):
         used, libraries = set(), []
         with obj.open(encoding="utf-8") as reader:
@@ -69,12 +86,12 @@ def check(run):
         index = json.loads((project / "manifest.json").read_text("utf-8"))
         assert manifests == {linked(project, item["manifest"], project) for item in index["conversions"]}, project
         for planned in ("gltf", "blender"):
-            assert index["formats"][planned] == "not-implemented"
-            assert list((project / planned).iterdir()) == []
+            if index["formats"][planned] == "not-implemented":
+                assert list((project / planned).iterdir()) == []
         for path in project.rglob("*"):
             assert not re.fullmatch(r"[0-9a-f]{64}", path.name), path
     assert not (run / ".work").exists(), "Successful batches must remove temporary packages"
-    return {"batch": str(run), "layout_version": report["layout_version"], "input_statuses": dict(Counter(r["status"] for r in report["files"])), "projects": len(projects), "conversion_manifests": sum(map(len, projects.values())), "native_sources_checked": len(native), "obj_mtl_pairs_checked": len(objects), "passed": True, "scope": "Published relative links, project indexes, copied/original source hashes, buffer sizes and OBJ/MTL material references. Does not assess LightWave visual fidelity."}
+    return {"batch": str(run), "layout_version": report["layout_version"], "input_statuses": dict(Counter(r["status"] for r in report["files"])), "projects": len(projects), "conversion_manifests": sum(map(len, projects.values())), "native_sources_checked": len(native), "obj_mtl_pairs_checked": len(objects), "gltf_buffer_pairs_checked": len(gltfs), "passed": True, "scope": "Published relative links, project indexes, copied/original source hashes, buffer sizes, OBJ/MTL material references and glTF buffer URIs. Does not assess LightWave visual fidelity."}
 
 
 if __name__ == "__main__":

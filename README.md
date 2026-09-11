@@ -1,16 +1,23 @@
 # legacy-lightwave-projects
 My collection of personal Lightwave 3D objects and scenes, gathered since my early Amiga years.
 
-## C converter — first milestone
+## C converter
 
 `lwconvert` reads LWOB/LWO2 objects, PST_ presets and LWS 1/3 scenes.
-It produces an LWIR package that preserves the sources, alongside OBJ/MTL exports.
-glTF 2.0 and Blender outputs are planned for later milestones.
+It produces an LWIR package that preserves the sources, alongside OBJ/MTL and
+glTF 2.0 exports. Blender `.blend` output remains to be implemented.
 The converter runs without Blender, addons or a graphical interface.
 
 Since v0.1.1, OBJ exports triangulate ordinary face polygons in C, including
 concave outlines and bridged holes. Native polygons remain in LWIR. See the
 [van triangulation diagnosis](documentation/van-triangulation.md) for an example.
+
+Since v0.3.0, every conversion also writes `gltf/<source filename>.gltf` and its
+`.bin`. The first glTF profile exports static geometry, flat triangle normals,
+scalar material approximations and explicitly selected UVs. Scene snapshots
+retain geometry instances and their parent transforms at `--frame`. Animation,
+texture bindings, native smoothing, cameras, lights and deformations are not
+exported. The manifest records the supported subset and any blocked snapshot.
 
 Build on Windows with CMake and Visual Studio 2022:
 
@@ -84,7 +91,11 @@ packages/lake-scenery/
             object.json
             geometry.bin
             source.bin
-    gltf/                  # Reserved; backend not implemented yet
+    gltf/
+        Lacustre.lws.gltf
+        Lacustre.lws.bin
+        Tour_Toit.lwo.gltf
+        Tour_Toit.lwo.bin
     blender/               # Reserved; backend not implemented yet
 ```
 
@@ -98,8 +109,8 @@ and the project manifest indexes these conversions. Loose files directly under
 the content root are grouped under that directory's name.
 
 Existing exports are preserved. The batch continues after individual failures
-and writes an overall report, with per-file logs and links to manifests and OBJ
-files. Failed temporary packages remain under `.work/` for inspection and are
+and writes an overall report, with per-file logs and links to manifests, OBJ and
+glTF files. Failed temporary packages remain under `.work/` for inspection and are
 listed in the report; successful temporary packages are removed. Exit codes are
 **0** for success, **2** when at least one
 conversion is partial, and **1** when any file fails. Skipped ancillary files do
@@ -116,5 +127,5 @@ not count as failures. Interrupted runs return **130** and record pending files.
 The default binary is the Release build, falling back to a single-configuration
 build or Debug. `--help` lists input/output overrides, the per-file timeout
 (120 seconds by default), and explicit UV-map/path-mapping options. The batch
-uses the current converter's OBJ/MTL and LWIR outputs; glTF and `.blend` are not
-generated yet.
+uses the current converter's OBJ/MTL, LWIR and glTF outputs; `.blend` files are
+not generated yet. Keep each `.gltf` alongside its `.bin` when copying an export.

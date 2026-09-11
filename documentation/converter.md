@@ -1,8 +1,8 @@
-# LWS/LWO converter in C — v0.2.0
+# LWS/LWO converter in C — v0.3.0
 
 Status as of 10 September 2026. This first milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
-structures and produces OBJ/MTL files. The glTF 2.0 and `.blend` backends remain
+structures and produces OBJ/MTL and glTF 2.0 files. The `.blend` backend remains
 to be implemented.
 
 ## Commands
@@ -116,17 +116,23 @@ IR/Lacustre.lws/           # LWS input only
     source.bin
     scene.json
     animation.bin
-gltf/                     # Reserved; backend not implemented yet
+gltf/
+    Tour_Toit.lwo.gltf
+    Tour_Toit.lwo.bin
+    Lacustre.lws.gltf      # Static geometry scene with instances and parents
+    Lacustre.lws.bin
 blender/                  # Reserved; backend not implemented yet
 ```
 
 The batch combines these files under `packages/<project>/`, reusing an object's
-IR and OBJ/MTL pair when the same source path and hash recur in that project.
+IR, OBJ/MTL and glTF/binary files when the same source path and hash recur in that project.
 It puts each input's conversion manifest in `IR/<source name>/manifest.json` and
 writes an index at the project root. Asset indices remain local to each
 conversion, so a scene's node indices refer to that conversion's asset list.
-The batch rewrites the manifest URIs and OBJ `mtllib` references when publishing
-files. Copy the whole project directory to retain the shared dependencies.
+The batch rewrites manifest URIs, OBJ `mtllib` references and glTF buffer URIs
+when publishing files. Copy the whole project directory to retain the shared
+IR dependencies. Each glTF scene embeds its required geometry in its own `.bin`
+and can be copied independently with that binary file.
 
 Names preserve accents and the source extension. ASCII whitespace, control
 characters, `#` and Windows-invalid filename characters become `_`, trailing
@@ -143,10 +149,13 @@ SHA-256 remains the source identity in metadata and is not used as a directory
 name. Native object and scene JSON/binary schemas remain `0.1`; the manifest's
 `layout_version` is `0.2`. Readers must follow URIs rather than assume the old
 `assets/<sha256>/` or `scene.obj` paths. Asset entries now include `name` and
-`mtl`, and scenes include `scene_mtl`. A `formats` map explicitly marks `gltf`
-and `blender` as `not-implemented`; their directories are empty placeholders.
+`mtl`, and scenes include `scene_mtl`. Since v0.3.0, assets additionally include
+`gltf` and `gltf_bin`; scenes include `scene_gltf`, `scene_gltf_bin` and
+`scene_gltf_issue`. Missing scene exports use `null` with an explicit issue.
+A `formats` map marks `gltf` as `generated` and `blender` as `not-implemented`.
+Only the Blender directory remains an empty placeholder.
 Batch reports use schema version `0.2` and link directly to each conversion's
-manifest and primary OBJ when available.
+manifest and primary OBJ/glTF when available.
 
 Internal URIs are relative to the JSON file containing them. Original absolute
 paths record provenance. These schemas may still change; they are not yet a
@@ -239,7 +248,88 @@ deformations, visibility masks, dissolves or render effects. Manifest counters
 describe omissions and approximations across all generated OBJ files, including
 individual objects and the scene.
 
+## glTF 2.0 static geometry profile
+
+The direct C writer consumes native objects and the shared triangulator/UV
+resolver. It does not parse OBJ or invoke Blender. Output is `.gltf` JSON with
+one sibling `.bin` file, without extensions or external texture dependencies.
+Geometry-free inputs produce a valid document without buffer/accessor arrays;
+their accompanying `.bin` is empty. Surface presets retain their materials and
+do not gain a synthetic preview mesh.
+
+The writer follows glTF's right-handed Y-up convention, aligned float32 vertex
+attributes, position bounds and relative resource addressing. Binary filenames
+are percent-encoded in glTF buffer URIs, including accents, `%` and punctuation;
+the filenames themselves stay readable. The format reference is the
+[Khronos glTF 2.0 specification](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html).
+
+FACE polygons and patch control cages use the same projected ear clipping as
+the OBJ exporter. Cages are explicitly approximated, and unsupported or invalid
+contours are counted and retained in LWIR. Points, two-point polygons and curve
+control segments use glTF POINTS/LINES modes; loose points are retained. These
+line segments do not evaluate the original curve basis.
+
+Each triangle has three derived vertices and a computed flat normal. Grouping
+uses material, primitive mode and UV availability. This avoids merging corners
+at seams and keeps source polygon data independent from render geometry.
+The initial writer uses non-indexed primitives; no vertex deduplication, native
+smoothing, tangents or subdivision evaluation is claimed.
+
+`--uv-map` shares the OBJ resolver, including VMAD precedence and native block
+scope. The glTF derivative stores `(u, 1-v)`. A source face missing any selected
+UV value goes into a primitive without `TEXCOORD_0`; zero UVs are not invented.
+No map is inferred from material settings, and UV export does not imply that
+images or projection settings have been translated.
+
+Material names and surface assignments survive. Base color is clamped
+`color * diffuse`, opacity is clamped `1 - transparency`, and emission is clamped
+`color * luminosity`. Source scalar colors are used directly as an explicit
+approximation; historical color-management equivalence is not established.
+Metallic is zero and roughness is one. Opacity below one selects alpha blending.
+LWO2 `SIDE=3` and the legacy LWOB double-sided flag produce double-sided
+materials; `SIDE=1` is front-only. Other SIDE values use the front-only fallback
+and increment `gltf_unsupported_sidedness`, making the conversion partial.
+Specular response, reflection, refraction and procedural shading are not
+reconstructed by this neutral rough dielectric approximation. The supported
+LWO2 sidedness values are defined in the
+[NewTek object specification](https://documentation.help/LightWave/lwo2.html).
+
+Scene glTF files contain one mesh per resolved object/layer selection, reused by
+its instances. Geometry nodes and their parent chains keep local transforms at
+the selected frame, including pivots and negative scale. With reflected basis
+`C = diag(1,1,-1,1)`, the glTF local transform is `C M C`. Keeping the hierarchy
+avoids flattening a nonuniform parent scale into a potentially sheared node
+matrix. Only transforms supported by the existing evaluator are exported;
+unsupported interpolation, parent chains or layer pivot semantics block the
+scene snapshot while individual object glTF files remain available.
+
+The declared `static-base-geometry-0.1` profile contains no animation channels,
+cameras, light definitions, skins, morph targets or deformation evaluation.
+`gltf_animated_channels_not_exported` records source channels with multiple keys.
+Geometry-unrelated scene nodes are omitted and counted. A supported static
+snapshot may return exit code zero despite having source animation, because
+the profile explicitly targets one frame. Missing dependencies and geometry
+omissions/approximations still contribute to the existing partial status.
+
+Root and mesh `extras` retain source SHA-256 identities. Material extras include
+source surface indices and hashes; nodes retain original scene indices/IDs.
+Numeric source asset indices describe the original C extraction context;
+hashes remain the stable identity when the batch reuses an object's export.
+Every primitive's `extras.source_map` describes an additional span of the same
+binary buffer, with one 12-byte little-endian record per derived vertex:
+`uint32 polygon, uint32 corner, uint32 point`. These indices address the native
+LWIR object; polygon/corner use `4294967295` for loose points. This span is
+application metadata, not a glTF vertex attribute.
+
+Manifests record glTF files, triangles, points, line segments, rejected contours,
+nonplanar faces, cages, curve controls, missing UVs, material approximations and
+omitted scene nodes. Geometry counters count each stored mesh once per glTF
+document; repeated instances can therefore make OBJ and glTF totals differ.
+
 ## Validation performed
+
+The glTF-specific profile is described above. Earlier validation
+results remain historical evidence for their named converter versions.
 
 - 26 converter regression tests using synthetic files: buffers, SHA-256, source bytes,
   encodings, padding, 24-bit VX, details, layers, VMAD seams, infinite weights,
@@ -252,6 +342,12 @@ individual objects and the scene.
   destination validation, repeated runs, timestamp collisions, shared scene
   dependencies and colliding source/project names. Release and AddressSanitizer
   configurations pass.
+- Eight glTF regression tests decode the produced buffers and check reflected
+  coordinates, triangle normals, source-corner mappings, bridged holes, VMAD UVs,
+  incomplete UV groups, material opacity/sidedness, hierarchy, negative scale,
+  pivots, layer selections, point/line/cage outputs, empty presets and blocked
+  snapshots. Together, the 45 converter/batch/glTF tests pass in Release and
+  AddressSanitizer builds.
 - Comparison of the C reader with the independent Python inventory:
   **1,143/1,143** files, comprising 915 objects, 226 scenes and two presets.
   Counts and SHA-256 hashes match, including **1,162,552 points**,
@@ -280,6 +376,25 @@ individual objects and the scene.
   imports 18,167 of 18,170 OBJ faces in both layouts; this pre-existing difference
   remains unresolved and is recorded in the
   [comparison report](diagnostics/output-layout-blender-comparison.json).
+- v0.3.0 glTF qualification: the entire batch passes under AddressSanitizer,
+  with 1,143 conversions and no failures or memory-access diagnostics. The final
+  batch contains 917 object/preset glTF files and 147 scene glTF files; 79 scene
+  snapshots are explicitly blocked by the existing evaluator's limits. Native
+  sources and all published IR/OBJ/glTF links pass the
+  [layout audit](diagnostics/gltf-layout-validation.json).
+- The official Khronos validator 2.0.0-dev.3.10 checks all 1,064 glTF files and
+  their referenced buffers: zero errors, zero warnings and two informational
+  messages for material libraries without preview geometry. See the
+  [validator report](diagnostics/gltf-validator-results.json). A separate
+  [Metropolis UV export](diagnostics/gltf-uv-validation.json) also passes without
+  errors or warnings; its six informational messages identify UV attributes
+  without texture bindings, as expected for this profile.
+- Background Blender 4.2 imports preserve the OBJ-reference triangle position
+  multisets for Lacustre (18,170 triangles), Tour_Toit (4,256), the corrected van
+  (1,592), and Metropolis with selected UVs (836). The largest matched corner
+  distance for Lacustre is approximately `4.36e-6` meters. These are geometry and
+  static-pose checks, not renderer equivalence or UV image-placement checks.
+  See the [glTF reimport report](diagnostics/gltf-blender-reimport.json).
 
 The [validation report](diagnostics/converter-validation.json) records the
 configurations and results. These checks establish structural recovery and
@@ -296,6 +411,21 @@ To audit a completed batch's layout while its original inputs are available:
 
 ```powershell
 python tests/check_output_layout.py output/batch-20260910-182442 --report build/layout-check.json
+```
+
+The optional Khronos validator can be obtained from its
+[official releases](https://github.com/KhronosGroup/glTF-Validator/releases).
+It is a validation dependency only; the converter does not need it at runtime.
+To validate a batch without writing diagnostic files into the export folders:
+
+```powershell
+python tests/check_gltf_validator.py output/batch-20260910-211210/packages --validator build/tools/gltf-validator-2.0.0-dev.3.10/gltf_validator.exe --report build/gltf-validation.json --details build/gltf-validation-details
+```
+
+For an independent static-geometry reimport comparison:
+
+```powershell
+python tests/check_gltf_blender.py --blender "C:/Program Files/Blender Foundation/Blender 4.2/blender.exe" --gltf output/batch-20260910-211210/packages/lake-scenery/gltf/Lacustre.lws.gltf --obj output/batch-20260910-211210/packages/lake-scenery/obj/Lacustre.lws.obj --report build/gltf-import.json
 ```
 
 The Blender test is optional:
@@ -329,8 +459,9 @@ Native field descriptions come from the archived NewTek SDK:
 supplement this documentation, particularly layer numbering, presets and
 envelopes with inconsistent declared key counts.
 
-The proposed next steps are to evaluate animation curves and texture projections,
-then add the glTF 2.0 writer and Python adapter for `.blend`. The latter will run
+The proposed next steps are to evaluate animation curves, native smoothing and
+texture projections, extend the glTF profile, and add the Python adapter for
+`.blend`. The latter will run
 in a background Blender process; no custom addon is required. All three outputs
 should share LWIR and the same qualified geometry, material and animation
 derivations.

@@ -1,0 +1,64 @@
+{
+  "input": "S:\\works\\legacy-lightwave-projects\\output\\metropolis-gltf-uv-0.3.0\\gltf",
+  "validator_versions": [
+    "2.0.0-dev.3.10"
+  ],
+  "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+  "files_checked": 1,
+  "resource_validation": true,
+  "counts": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 6,
+    "numHints": 0
+  },
+  "issue_codes": {
+    "UNUSED_OBJECT": 6
+  },
+  "diagnostics": [
+    {
+      "file": "metropolis_model_UV.lwo.gltf",
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+    },
+    {
+      "file": "metropolis_model_UV.lwo.gltf",
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/1/attributes/TEXCOORD_0"
+    },
+    {
+      "file": "metropolis_model_UV.lwo.gltf",
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/3/attributes/TEXCOORD_0"
+    },
+    {
+      "file": "metropolis_model_UV.lwo.gltf",
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/4/attributes/TEXCOORD_0"
+    },
+    {
+      "file": "metropolis_model_UV.lwo.gltf",
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/5/attributes/TEXCOORD_0"
+    },
+    {
+      "file": "metropolis_model_UV.lwo.gltf",
+      "code": "UNUSED_OBJECT",
+      "message": "This object may be unused.",
+      "severity": 2,
+      "pointer": "/meshes/0/primitives/6/attributes/TEXCOORD_0"
+    }
+  ],
+  "passed": true,
+  "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+}

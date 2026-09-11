@@ -123,7 +123,9 @@ class Converter(unittest.TestCase):
             self.assertEqual(mtllib, obj.with_suffix(".mtl").name)
             materials = {line.split()[1] for line in (obj.parent / mtllib).read_text("utf-8").splitlines() if line.startswith("newmtl ")}
             self.assertTrue({line.split()[1] for line in lines if line.startswith("usemtl ")} <= materials)
-        for planned in ("gltf", "blender"):
+        self.assertEqual(manifest["formats"]["gltf"], "generated")
+        self.assertTrue((out / manifest["scene_gltf"]).is_file())
+        for planned in ("blender",):
             self.assertEqual(manifest["formats"][planned], "not-implemented")
             self.assertEqual(list((out / planned).iterdir()), [])
 

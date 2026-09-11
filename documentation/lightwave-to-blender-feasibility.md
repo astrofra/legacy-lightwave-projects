@@ -431,11 +431,14 @@ packages/<project>/
   IR/<scene filename>/scene.json
   IR/<scene filename>/animation.bin
   IR/<scene filename>/source.bin
-  gltf/                         # Reserved for future glTF 2.0 exports
+  gltf/<object filename>.gltf
+  gltf/<object filename>.bin
+  gltf/<scene filename>.gltf
+  gltf/<scene filename>.bin
   blender/                      # Reserved for future .blend exports
 ```
 
-Original extensions remain part of export names, such as `Tour_Toit.lwo.obj`. Numeric suffixes are added only for name collisions; SHA-256 identities remain in metadata. Each native source and its binary arrays have a separate IR directory, and scene dependencies are shared within a project. The two future output directories are currently empty, with their unimplemented status declared in manifests. See the [converter guide](converter.md) for the naming rules, relative URIs and versioned layout. This is a project-specific representation, not an existing standard.
+Original extensions remain part of export names, such as `Tour_Toit.lwo.obj` and `Tour_Toit.lwo.gltf`. Numeric suffixes are added only for name collisions; SHA-256 identities remain in metadata. Each native source and its binary arrays have a separate IR directory, and scene dependencies are shared within a project. Since v0.3.0, the glTF directory contains static geometry exports; only Blender output remains unimplemented. See the [converter guide](converter.md) for the naming rules, relative URIs and versioned layout. This is a project-specific representation, not an existing standard.
 
 The manifest should declare schema version, extractor version, source hashes, original paths, unit assumptions, source coordinate conventions, dependency rules and asset IDs. A portable package must either contain its originals or identify an accompanying immutable source bundle; a hash alone cannot recover an unknown chunk if the source file is lost.
 
@@ -657,7 +660,9 @@ The production converter is acceptable when:
 
 **First implementation milestone, 10 September 2026:** the repository now includes a C17 library and `lwconvert` CLI for LWOB/LWO2/PST_ and LWSC 1/3 extraction, a source-preserving LWIR 0.1 package, direct OBJ/MTL exports, dependency resolution and a bounded static-scene evaluator. All 1,143 loose objects/scenes/presets match the independent inventory's checked structural counts and SHA-256 hashes. Tests also cover synthetic malformed inputs, binary layouts, discontinuous UVs, layers, paths and selected transforms; AddressSanitizer reports no memory access errors on these checks. Independent background Blender reimports check two real OBJ exports. See the [implementation guide](converter.md) and [validation report](diagnostics/converter-validation.json).
 
-**Still unimplemented or unqualified:** production hardening and a stable LWIR contract; glTF generation; real-asset `.blend` construction; image resolution/pixel conversion and projection evaluation; archive-content interpretation; renderer comparisons; full TCB/Hermite/Bezier and deformation evaluation; platform/package portability and throughput. The current OBJ exports provide base geometry and scalar material approximations, with explicit partial-export reports. Structural extraction success is not a visual or animation fidelity result.
+**glTF milestone, v0.3.0, 10 September 2026:** the C converter now writes glTF 2.0 JSON and binary buffers directly from native geometry. The first profile includes triangulated faces/cages, flat normals, points/lines, explicitly selected UVs with VMAD seams, scalar material approximations, and static geometry instances with their parent transforms. The batch publishes readable filenames under `gltf/`. This profile contains no animation, images, camera/light definitions, skins or morph evaluation. The [converter guide](converter.md) documents the limits, source mappings and qualification results.
+
+**Still unimplemented or unqualified:** production hardening and a stable LWIR contract; richer glTF animation/shading profiles; real-asset `.blend` construction; native smoothing; image resolution/pixel conversion and projection evaluation; archive-content interpretation; renderer comparisons; full TCB/Hermite/Bezier and deformation evaluation; platform/package portability. Current OBJ and glTF exports provide base geometry and scalar material approximations, with explicit partial-export reports. Structural extraction success is not a visual or animation fidelity result.
 
 ## 12. Decision
 
@@ -665,4 +670,4 @@ The production converter is acceptable when:
 
 The expanded corpus makes the portable scene and morph capabilities more valuable while increasing the effort required for complex animation and shading. Preserve native geometry, corner attributes, material/projection intent, animation channels and unknown payloads in LWIR. Treat exported appearance and evaluated motion as documented interpretations.
 
-Following the first C extraction/OBJ milestone, the next stages are shared animation and texture derivation, the glTF writer and the background Blender adapter, leading to a real-asset three-output qualification run. Broad source recovery is well supported by the evidence; identical rendering and arbitrary plugin-driven animation remain feature-by-feature investigations.
+Following C extraction, OBJ and the first static glTF profile, the next stages are shared animation, smoothing and texture derivation, and the background Blender adapter, leading to a real-asset three-output qualification run. Broad source recovery is well supported by the evidence; identical rendering and arbitrary plugin-driven animation remain feature-by-feature investigations.

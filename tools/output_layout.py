@@ -3,8 +3,9 @@ import json
 import os
 from pathlib import Path
 import shutil
+from urllib.parse import quote
 
-FORMATS = {"obj": "generated", "IR": "generated", "gltf": "not-implemented", "blender": "not-implemented"}
+FORMATS = {"obj": "generated", "IR": "generated", "gltf": "generated", "blender": "not-implemented"}
 
 
 def output_name(name):
@@ -109,9 +110,23 @@ class ProjectOutput:
                 (self.directory / name).mkdir()
             self.initialized = True
 
+    def publish_gltf(self, package, uri, bin_uri, name, ir):
+        destination = self.directory / "gltf" / (name + ".gltf")
+        binary = destination.with_suffix(".bin")
+        data = json.loads(package_file(package, uri).read_text("utf-8"))
+        if len(data.get("buffers", [])) > 1:
+            raise ValueError("Expected the converter's single-buffer glTF profile")
+        for buffer in data.get("buffers", []):
+            buffer["uri"] = quote(binary.name, safe="-._~")
+        copy_file(package_file(package, bin_uri), binary)
+        with destination.open("x", encoding="utf-8") as writer:
+            json.dump(data, writer, ensure_ascii=False, separators=(",", ":"))
+            writer.write("\n")
+        return relative(destination, ir), relative(binary, ir)
+
     def publish(self, package, manifest):
-        if manifest.get("layout_version") != "0.2":
-            raise ValueError("Batch output requires lwconvert 0.2.0 or later; rebuild the selected converter")
+        if manifest.get("layout_version") != "0.2" or manifest.get("formats", {}).get("gltf") != "generated":
+            raise ValueError("Batch output requires lwconvert 0.3.0 or later; rebuild the selected converter")
         self.initialize()
         name = self.name_for(manifest["input"])
         ir = self.directory / "IR" / name
@@ -130,8 +145,11 @@ class ProjectOutput:
                 for filename in ("object.json", "geometry.bin", "source.bin"):
                     copy_file(package_file(package, relative(data.parent / filename, package)), asset_ir / filename)
                 copy_obj(package_file(package, asset["obj"]), package_file(package, asset["mtl"]), obj)
+                self.publish_gltf(package, asset["gltf"], asset["gltf_bin"], asset_name, ir)
                 self.assets[key] = asset["id"]
             asset.update(name=asset_name, uri=relative(asset_ir / "object.json", ir), obj=relative(obj, ir), mtl=relative(obj.with_suffix(".mtl"), ir))
+            gltf = self.directory / "gltf" / (asset_name + ".gltf")
+            asset.update(gltf=relative(gltf, ir), gltf_bin=relative(gltf.with_suffix(".bin"), ir))
         if manifest["scene"]:
             scene = package_file(package, manifest["scene"])
             for filename in ("scene.json", "animation.bin", "source.bin"):
@@ -141,6 +159,8 @@ class ProjectOutput:
             obj = self.directory / "obj" / (name + ".obj")
             copy_obj(package_file(package, manifest["scene_obj"]), package_file(package, manifest["scene_mtl"]), obj)
             manifest.update(scene_obj=relative(obj, ir), scene_mtl=relative(obj.with_suffix(".mtl"), ir))
+        if manifest["scene_gltf"]:
+            manifest["scene_gltf"], manifest["scene_gltf_bin"] = self.publish_gltf(package, manifest["scene_gltf"], manifest["scene_gltf_bin"], name, ir)
         manifest_path = ir / "manifest.json"
         if manifest_path.exists():
             raise FileExistsError(f"Conversion manifest already exists: {manifest_path}")

@@ -126,7 +126,10 @@ def convert_one(record, number, content, run, converter, options, project_output
         record.update(status="partial" if result.returncode == 2 else "converted", manifest=published.relative_to(run).as_posix())
         obj_uri = manifest["scene_obj"] if manifest["scene"] else manifest["assets"][0]["obj"]
         record["obj"] = (published.parent / obj_uri).resolve().relative_to(run).as_posix() if obj_uri else None
+        gltf_uri = manifest["scene_gltf"] if manifest["scene"] else manifest["assets"][0]["gltf"]
+        record["gltf"] = (published.parent / gltf_uri).resolve().relative_to(run).as_posix() if gltf_uri else None
         record["scene_obj_issue"] = manifest.get("scene_obj_issue", "")
+        record["scene_gltf_issue"] = manifest.get("scene_gltf_issue", "")
         record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         record.update(status="failed", reason=str(error))
@@ -178,7 +181,7 @@ def main(argv=None):
     run = new_run(output, datetime.now().strftime("batch-%Y%m%d-%H%M%S"))
     (run / "logs").mkdir()
     projects = prepare_projects(eligible, content, run)
-    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout}, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL and LWIR only. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
+    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout}, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 static geometry. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
     write_report(run, report)
     print(f"Output: {run}", flush=True)
     interrupted = False

@@ -287,22 +287,29 @@ static void local_matrix(double out[16],const double v[9],const double pivot[3])
     multiply(out,y,x); multiply(out,out,z); multiply(out,out,scale); multiply(out,out,t);
     for(i=0;i<3;i++) out[12+i]+=v[i];
 }
-static int world_node(const LWScene *s,size_t i,double time,double *matrices,unsigned char *state,size_t *bad,LWError *e,unsigned depth) {
-    const LWNode *node=&s->nodes.v[i]; size_t j; double v[9]={0,0,0,0,0,0,1,1,1}; double *m=matrices+16*i;
-    if(state[i]==2) return 1;
-    if(state[i]==1||depth>1024) return lw_error(e,node->source_offset,"hierarchy","cyclic or excessively deep parent chain");
-    state[i]=1;
-    if(node->unsupported_transform) { *bad=i; return lw_error(e,node->source_offset,"transform","node %08x requires unsupported pivot/IK/bone evaluation",node->id); }
+int lw_scene_node_matrix(const LWScene *s,size_t i,double frame,double m[16],LWError *e) {
+    const LWNode *node=&s->nodes.v[i]; size_t j; double v[9]={0,0,0,0,0,0,1,1,1};
+    double time=s->version==1?frame:frame/s->fps;
+    if(node->unsupported_transform) return lw_error(e,node->source_offset,"transform","node %08x requires unsupported pivot/IK/bone evaluation",node->id);
     for(j=0;j<node->channels.n;j++) {
         const LWChannel *c=&node->channels.v[j];
-        if(c->index<9 && !lw_channel_value(c,time,&v[c->index])) { *bad=i; return lw_error(e,node->source_offset,"animation","node %08x channel %u cannot be sampled by the first evaluator",node->id,c->index); }
+        if(c->index<9 && !lw_channel_value(c,time,&v[c->index])) return lw_error(e,node->source_offset,"animation","node %08x channel %u cannot be sampled by the first evaluator",node->id,c->index);
     }
     if(s->version==1) for(j=3;j<6;j++) v[j]*=0.017453292519943295;
     local_matrix(m,v,node->pivot);
+    for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"transform","non-finite matrix");
+    return 1;
+}
+static int world_node(const LWScene *s,size_t i,double frame,double *matrices,unsigned char *state,size_t *bad,LWError *e,unsigned depth) {
+    const LWNode *node=&s->nodes.v[i]; size_t j; double *m=matrices+16*i;
+    if(state[i]==2) return 1;
+    if(state[i]==1||depth>1024) return lw_error(e,node->source_offset,"hierarchy","cyclic or excessively deep parent chain");
+    state[i]=1;
+    if(!lw_scene_node_matrix(s,i,frame,m,e)) { *bad=i; return 0; }
     if(node->parent!=LW_NONE) {
         for(j=0;j<s->nodes.n;j++) if(s->nodes.v[j].id==node->parent) break;
         if(j==s->nodes.n) return lw_error(e,node->source_offset,"hierarchy","missing parent %08x",node->parent);
-        LW_TRY(world_node(s,j,time,matrices,state,bad,e,depth+1)); multiply(m,matrices+16*j,m);
+        LW_TRY(world_node(s,j,frame,matrices,state,bad,e,depth+1)); multiply(m,matrices+16*j,m);
     }
     for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"transform","non-finite matrix");
     state[i]=2; return 1;
@@ -315,7 +322,7 @@ int lw_scene_matrices(const LWScene *s,double frame,double *matrices,size_t *bad
         /* Only geometry instances and their parents are needed by OBJ. */
     }
     for(i=0;i<s->nodes.n;i++) if(s->nodes.v[i].object_path.size&&s->nodes.v[i].asset!=SIZE_MAX) {
-        if(!world_node(s,i,s->version==1?frame:frame/s->fps,matrices,state,bad,e,0)) { ok=0; break; }
+        if(!world_node(s,i,frame,matrices,state,bad,e,0)) { ok=0; break; }
     }
     free(state); return ok;
 }

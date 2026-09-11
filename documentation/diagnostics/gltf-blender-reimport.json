@@ -1,0 +1,39 @@
+{
+  "blender_version": "4.2.0",
+  "background": true,
+  "passed": [
+    {
+      "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-211210\\packages\\lake-scenery\\gltf\\Lacustre.lws.gltf",
+      "obj_reference": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-211210\\packages\\lake-scenery\\obj\\Lacustre.lws.obj",
+      "triangles": 18170,
+      "mesh_instances": 17,
+      "position_tolerance": 0.0009217315906524659,
+      "maximum_matched_corner_distance": 4.354410401971943e-06
+    },
+    {
+      "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-211210\\packages\\lake-scenery\\gltf\\Tour_Toit.lwo.gltf",
+      "obj_reference": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-211210\\packages\\lake-scenery\\obj\\Tour_Toit.lwo.obj",
+      "triangles": 4256,
+      "mesh_instances": 1,
+      "position_tolerance": 9.900515079498291e-06,
+      "maximum_matched_corner_distance": 0.0
+    },
+    {
+      "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-211210\\packages\\mandarine-000-lw5\\gltf\\van.lwo-2.gltf",
+      "obj_reference": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260910-211210\\packages\\mandarine-000-lw5\\obj\\van.lwo-2.obj",
+      "triangles": 1592,
+      "mesh_instances": 1,
+      "position_tolerance": 0.00010560315568436637,
+      "maximum_matched_corner_distance": 0.0
+    },
+    {
+      "gltf": "S:\\works\\legacy-lightwave-projects\\output\\metropolis-gltf-uv-0.3.0\\gltf\\metropolis_model_UV.lwo.gltf",
+      "obj_reference": "S:\\works\\legacy-lightwave-projects\\output\\metropolis-gltf-uv-0.3.0\\obj\\metropolis_model_UV.lwo.obj",
+      "triangles": 836,
+      "mesh_instances": 1,
+      "position_tolerance": 6.521204981952906e-05,
+      "maximum_matched_corner_distance": 0.0
+    }
+  ],
+  "scope": "World-space triangle position multisets compared to OBJ after axis conversion, within max(1e-6, 1e-5 * scene extent). Each imported triangle is matched once; vertex splitting and ordering may differ. Covers hierarchy and instancing through Blender import. Does not compare winding, shading, textures or animation."
+}
