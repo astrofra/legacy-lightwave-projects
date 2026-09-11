@@ -73,7 +73,8 @@ def write_report(run, report):
 
 
 def find_converter():
-    for relative in ("build/Release/lwconvert.exe", "build/lwconvert.exe", "build/Debug/lwconvert.exe", "build/lwconvert"):
+    candidates = ("bin/win64/lwconvert.exe", "build/Release/lwconvert.exe", "build/lwconvert.exe", "build/Debug/lwconvert.exe") if os.name == "nt" else ("build/lwconvert",)
+    for relative in candidates:
         candidate = REPOSITORY / relative
         if candidate.is_file():
             return candidate
@@ -151,7 +152,7 @@ def main(argv=None):
     parser = BatchParser(description=__doc__)
     parser.add_argument("--content", type=Path, default=REPOSITORY / "content", help="Input tree (default: repository content/)")
     parser.add_argument("--output-root", type=Path, default=REPOSITORY / "output", help="Parent of a new batch directory (default: repository output/)")
-    parser.add_argument("--converter", type=Path, help="Converter executable (default: Release build, then Debug)")
+    parser.add_argument("--converter", type=Path, help="Converter executable (Windows default: bin/win64/lwconvert.exe, then local builds)")
     parser.add_argument("--dry-run", action="store_true", help="List supported files and counts without creating output or invoking the converter")
     parser.add_argument("--timeout", type=float, default=120, help="Maximum seconds per conversion (default: 120)")
     parser.add_argument("--frame", type=float, help="Override the snapshot frame for every scene")

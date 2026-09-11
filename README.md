@@ -42,16 +42,24 @@ ctest --test-dir build -C Release --output-on-failure
 ```
 
 Python 3 is used for tests; set `-DBUILD_TESTING=OFF` to build only the C program.
-The executable is `build/Release/lwconvert.exe`.
+Every normal MSVC x64 Release build copies `lwconvert.exe` into `bin/win64/`,
+including builds where the executable was already up to date. This directory is
+intentionally versioned so the Windows converter can be used directly after a
+checkout. The Release executable links the C runtime statically; no Visual C++
+runtime DLL needs to be shipped alongside it. Debug and AddressSanitizer builds
+stay in their build directories and do not replace the distributed binary.
+
+The copy can also be refreshed with
+`cmake --build build --config Release --target stage_win64`.
 
 ```powershell
-build/Release/lwconvert.exe inspect content/metropolis-robots/metropolis_model_UV.lwo
+bin/win64/lwconvert.exe inspect content/metropolis-robots/metropolis_model_UV.lwo
 
 # The output's parent directory must exist; the output directory itself must be new.
 New-Item -ItemType Directory -Force output
-build/Release/lwconvert.exe convert content/metropolis-robots/metropolis_model_UV.lwo --content-root content/metropolis-robots --output output/metropolis --uv-map st
+bin/win64/lwconvert.exe convert content/metropolis-robots/metropolis_model_UV.lwo --content-root content/metropolis-robots --output output/metropolis --uv-map st
 
-build/Release/lwconvert.exe convert content/circus/Mr_Lector_2.lws --content-root content/circus --output output/lector --frame 1
+bin/win64/lwconvert.exe convert content/circus/Mr_Lector_2.lws --content-root content/circus --output output/lector --frame 1
 ```
 
 Exit code **2** means a package was produced with limitations reported in
@@ -68,7 +76,7 @@ for the architecture of the three outputs.
 
 ## Batch the entire content directory
 
-After building the converter, run this from a terminal:
+Using the included Windows binary (or after building the converter), run:
 
 ```powershell
 .\convert_content.bat
@@ -139,8 +147,10 @@ not count as failures. Interrupted runs return **130** and record pending files.
 .\convert_content.bat --converter build/Debug/lwconvert.exe --frame 1
 ```
 
-The default binary is the Release build, falling back to a single-configuration
-build or Debug. `--help` lists input/output overrides, the per-file timeout
+On Windows, the default binary is `bin/win64/lwconvert.exe`, falling back to the
+local Release, single-configuration or Debug build. `--converter` overrides this
+selection. On other platforms, the default is `build/lwconvert`.
+`--help` lists input/output overrides, the per-file timeout
 (120 seconds by default), and explicit UV-map/path-mapping options. The batch
 uses the current converter's OBJ/MTL, LWIR and glTF outputs; `.blend` files are
 not generated yet. Keep each `.gltf` alongside its `.bin` when copying an export.

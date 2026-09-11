@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.21)
 project(lightwave_preservation VERSION 0.3.0 LANGUAGES C)
 
+option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
+if(MSVC AND NOT LWCONVERT_SANITIZE)
+    # Ship Release as one executable, without the Visual C++ runtime DLLs.
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>$<$<NOT:$<CONFIG:Release>>:DLL>")
+endif()
+
 add_library(lwconvert_core STATIC
     src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/images.c src/obj.c src/triangulate.c src/geometry.c src/gltf.c)
 target_include_directories(lwconvert_core PUBLIC include PRIVATE src)
@@ -19,7 +25,6 @@ else()
     target_compile_options(lwconvert PRIVATE -Wall -Wextra -Wpedantic -Werror)
     target_link_libraries(lwconvert_core PUBLIC m)
 endif()
-option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 if(LWCONVERT_SANITIZE)
     if(MSVC)
         # Select Release or RelWithDebInfo: MSVC Debug's /RTC is incompatible.
@@ -29,6 +34,17 @@ if(LWCONVERT_SANITIZE)
         target_compile_options(lwconvert_core PUBLIC -fsanitize=address,undefined -fno-omit-frame-pointer)
         target_link_options(lwconvert_core PUBLIC -fsanitize=address,undefined)
     endif()
+endif()
+
+if(WIN32 AND CMAKE_C_COMPILER_ARCHITECTURE_ID STREQUAL "x64" AND NOT LWCONVERT_SANITIZE)
+    # ALL refreshes the copy even if no compilation/linking was necessary.
+    add_custom_target(stage_win64 ALL
+        COMMAND "${CMAKE_COMMAND}" "-DCONFIG=$<CONFIG>"
+            "-DSOURCE=$<TARGET_FILE:lwconvert>"
+            "-DDESTINATION=${PROJECT_SOURCE_DIR}/bin/win64"
+            -P "${PROJECT_SOURCE_DIR}/cmake/StageWin64.cmake"
+        DEPENDS lwconvert
+        VERBATIM)
 endif()
 include(CTest)
 if(BUILD_TESTING)
