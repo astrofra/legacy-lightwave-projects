@@ -1,0 +1,3738 @@
+{
+  "title": "Aminet LightWave historical test corpus",
+  "inspected_on": "2026-09-11",
+  "verification": "Archive bytes and scene text inspected. No LightWave render or converter execution performed. Basename presence is not proof of resolved dependencies or complete materials.",
+  "catalog_scope": {
+    "pix_3dobj_entries_displayed": 569,
+    "downloaded_archives_inspected": 32,
+    "additional_nested_archives_inspected": 1
+  },
+  "records": [
+    {
+      "archive": "atmobjs.lha",
+      "download_url": "https://aminet.net/pix/3dobj/atmobjs.lha",
+      "sha256": "611b98478dda85e343f889917457a4e9efc1ff03701dd0c13a35f6116746a0d8",
+      "archive_bytes": 320251,
+      "files": [
+        {
+          "path": "AS1",
+          "bytes": 79406
+        },
+        {
+          "path": "AS2",
+          "bytes": 27006
+        },
+        {
+          "path": "CloudCover",
+          "bytes": 11664
+        },
+        {
+          "path": "enginefire",
+          "bytes": 2542
+        },
+        {
+          "path": "lazer",
+          "bytes": 2950
+        },
+        {
+          "path": "MountainCircle2",
+          "bytes": 127994
+        },
+        {
+          "path": "NastyStation",
+          "bytes": 5124
+        },
+        {
+          "path": "PassMountains",
+          "bytes": 3257
+        },
+        {
+          "path": "README",
+          "bytes": 1715
+        },
+        {
+          "path": "sky2",
+          "bytes": 226
+        },
+        {
+          "path": "Station1",
+          "bytes": 127942
+        },
+        {
+          "path": "StationChase",
+          "bytes": 8433
+        },
+        {
+          "path": "thing",
+          "bytes": 153440
+        },
+        {
+          "path": "ThingKills",
+          "bytes": 7530
+        },
+        {
+          "path": "UDgradient.b",
+          "bytes": 17936
+        },
+        {
+          "path": "WeirdCone",
+          "bytes": 552
+        }
+      ],
+      "objects": [
+        {
+          "path": "AS1",
+          "type": "LWOB",
+          "bytes": 79406,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "AS2",
+          "type": "LWOB",
+          "bytes": 27006,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "CloudCover",
+          "type": "LWOB",
+          "bytes": 11664,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "enginefire",
+          "type": "LWOB",
+          "bytes": 2542,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "lazer",
+          "type": "LWOB",
+          "bytes": 2950,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "MountainCircle2",
+          "type": "LWOB",
+          "bytes": 127994,
+          "chunks": [
+            "SRFS",
+            "PNTS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "sky2",
+          "type": "LWOB",
+          "bytes": 226,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "Station1",
+          "type": "LWOB",
+          "bytes": 127942,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "thing",
+          "type": "LWOB",
+          "bytes": 153440,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "WeirdCone",
+          "type": "LWOB",
+          "bytes": 552,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        }
+      ],
+      "scenes": [
+        {
+          "path": "NastyStation",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 0.0,
+            "LastFrame": 200.0
+          },
+          "motion_key_range": [
+            0.0,
+            200.0
+          ],
+          "bones": [
+            {
+              "source_line": 29,
+              "owner_reference": "HD1:atm/space/Station1",
+              "BoneName": "Base",
+              "BoneActive": "1",
+              "BoneRestPosition": "-2.419465 -0.260000 0.000000",
+              "BoneRestDirection": "0.000000 -89.999990 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 41,
+              "owner_reference": "HD1:atm/space/Station1",
+              "BoneName": "Base",
+              "BoneActive": "1",
+              "BoneRestPosition": "2.400000 0.000000 0.000000",
+              "BoneRestDirection": "0.000000 -89.999990 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 53,
+              "owner_reference": "HD1:atm/space/Station1",
+              "BoneName": "Base",
+              "BoneActive": "1",
+              "BoneRestPosition": "0.000000 0.000000 2.380000",
+              "BoneRestDirection": "0.000000 -89.999990 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 65,
+              "owner_reference": "HD1:atm/space/Station1",
+              "BoneName": "Base",
+              "BoneActive": "1",
+              "BoneRestPosition": "0.000000 0.000000 -2.440000",
+              "BoneRestDirection": "0.000000 -89.999990 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 77,
+              "owner_reference": "HD1:atm/space/Station1",
+              "BoneName": "mid",
+              "BoneActive": "1",
+              "BoneRestPosition": "0.000000 0.000000 0.000000",
+              "BoneRestDirection": "0.000000 -89.999990 0.000000",
+              "BoneRestLength": "1.000000"
+            }
+          ],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 9,
+              "key_count": 8,
+              "frames": [
+                0.0,
+                50.0,
+                100.0,
+                157.0,
+                170.0,
+                175.0,
+                180.0,
+                200.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 35,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 47,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 59,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 71,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 83,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                77.0,
+                110.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 96,
+              "key_count": 2,
+              "frames": [
+                0.0,
+                200.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 107,
+              "key_count": 2,
+              "frames": [
+                0.0,
+                200.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 128,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 157,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 175,
+              "key_count": 8,
+              "frames": [
+                0.0,
+                30.0,
+                50.0,
+                67.0,
+                78.0,
+                89.0,
+                100.0,
+                130.0
+              ],
+              "values_change": true
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 4,
+            "ObjectMotion": 4,
+            "EndBehavior": 13,
+            "AddBone": 5,
+            "BoneName": 5,
+            "BoneActive": 5,
+            "BoneRestPosition": 5,
+            "BoneRestDirection": 5,
+            "BoneRestLength": 5,
+            "BoneMotion": 5,
+            "ShadowOptions": 4,
+            "ObjDissolve": 2,
+            "PivotPoint": 1,
+            "ParentObject": 1,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "AddLight": 1,
+            "LightName": 1,
+            "LightMotion": 1,
+            "TargetObject": 1,
+            "LightColor": 1,
+            "LgtIntensity": 1,
+            "LightType": 1,
+            "Falloff": 1,
+            "LensFlare": 1,
+            "FlareIntensity": 1,
+            "FlareDissolve": 1,
+            "LensFlareFade": 1,
+            "LensFlareOptions": 1,
+            "ShadowCasting": 1,
+            "CameraMotion": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "SaveANIMFileName": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowObjects": 1,
+            "ShowBones": 1,
+            "ShowLights": 1,
+            "ShowCamera": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "HD1:atm/space/Station1",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "Objects/Space/ActualStars",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/Planet",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "HD1:atm/space/WeirdCone",
+              "basename_present_case_insensitive": true
+            }
+          ]
+        },
+        {
+          "path": "PassMountains",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 0.0,
+            "LastFrame": 70.0
+          },
+          "motion_key_range": [
+            0.0,
+            70.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 9,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 18,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 27,
+              "key_count": 2,
+              "frames": [
+                0.0,
+                70.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 38,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 48,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 58,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 68,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 78,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 92,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 111,
+              "key_count": 6,
+              "frames": [
+                0.0,
+                17.0,
+                26.0,
+                38.0,
+                48.0,
+                70.0
+              ],
+              "values_change": true
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 8,
+            "ObjectMotion": 8,
+            "EndBehavior": 10,
+            "ShadowOptions": 8,
+            "ParentObject": 5,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "AddLight": 1,
+            "LightName": 1,
+            "LightMotion": 1,
+            "LightColor": 1,
+            "LgtIntensity": 1,
+            "LightType": 1,
+            "Falloff": 1,
+            "ConeAngle": 1,
+            "EdgeAngle": 1,
+            "LensFlare": 1,
+            "FlareIntensity": 1,
+            "FlareDissolve": 1,
+            "LensFlareFade": 1,
+            "LensFlareOptions": 1,
+            "ShadowCasting": 1,
+            "CameraMotion": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "SaveANIMFileName": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowObjects": 1,
+            "ShowBones": 1,
+            "ShowLights": 1,
+            "ShowCamera": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "HD1:atm/landscape/MountainCircle2",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "HD1:atm/landscape/CloudCover",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "Objects/Space/Spaceship",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/Spaceship",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/Spaceship",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/Spaceship",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/Spaceship",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/Spaceship",
+              "basename_present_case_insensitive": false
+            }
+          ]
+        },
+        {
+          "path": "StationChase",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 0.0,
+            "LastFrame": 200.0
+          },
+          "motion_key_range": [
+            0.0,
+            182.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 9,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 18,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 27,
+              "key_count": 7,
+              "frames": [
+                0.0,
+                60.0,
+                74.0,
+                119.0,
+                126.0,
+                140.0,
+                153.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 58,
+              "key_count": 5,
+              "frames": [
+                0.0,
+                136.0,
+                145.0,
+                146.0,
+                170.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 75,
+              "key_count": 7,
+              "frames": [
+                0.0,
+                146.0,
+                152.0,
+                158.0,
+                163.0,
+                173.0,
+                182.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 96,
+              "key_count": 6,
+              "frames": [
+                0.0,
+                142.0,
+                145.0,
+                147.0,
+                153.0,
+                164.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 115,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 124,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 133,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 163,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                87.0,
+                101.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 191,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                124.0,
+                140.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 232,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                124.0,
+                140.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 273,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                124.0,
+                140.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 312,
+              "key_count": 12,
+              "frames": [
+                0.0,
+                19.0,
+                47.0,
+                69.0,
+                74.0,
+                78.0,
+                85.0,
+                90.0,
+                94.0,
+                98.0,
+                109.0,
+                125.0
+              ],
+              "values_change": true
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 9,
+            "ObjectMotion": 9,
+            "EndBehavior": 19,
+            "ShadowOptions": 9,
+            "ObjDissolve": 1,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "AddLight": 4,
+            "LightName": 4,
+            "LightMotion": 4,
+            "LightColor": 4,
+            "LgtIntensity": 4,
+            "LightType": 4,
+            "Falloff": 4,
+            "ConeAngle": 1,
+            "EdgeAngle": 1,
+            "LensFlare": 4,
+            "FlareIntensity": 4,
+            "FlareDissolve": 4,
+            "LensFlareFade": 4,
+            "LensFlareOptions": 4,
+            "ShadowCasting": 4,
+            "ShadowMapSize": 1,
+            "UseConeAngle": 1,
+            "ShadowFuzziness": 1,
+            "ParentObject": 3,
+            "CameraMotion": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "SaveANIMFileName": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowObjects": 1,
+            "ShowBones": 1,
+            "ShowLights": 1,
+            "ShowCamera": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "Objects/Space/RandomStars",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "HD1:atm/space/Station1",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "HD1:atm/space/AS1",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "Objects/Space/SpaceFighter",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/SpaceFighter",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "Objects/Space/SpaceFighter",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "objects/NullObject",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "objects/NullObject",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "objects/NullObject",
+              "basename_present_case_insensitive": false
+            }
+          ]
+        },
+        {
+          "path": "ThingKills",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 0.0,
+            "LastFrame": 100.0
+          },
+          "motion_key_range": [
+            0.0,
+            100.0
+          ],
+          "bones": [
+            {
+              "source_line": 21,
+              "owner_reference": "HD1:atm/space/thing",
+              "BoneName": "Bone",
+              "BoneActive": "1",
+              "BoneRestPosition": "0.000000 0.000000 0.000000",
+              "BoneRestDirection": "0.000000 0.000000 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 39,
+              "owner_reference": "HD1:atm/space/thing",
+              "BoneName": "Bone",
+              "BoneActive": "1",
+              "BoneRestPosition": "2.800000 2.400000 15.799995",
+              "BoneRestDirection": "0.000000 0.000000 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 57,
+              "owner_reference": "HD1:atm/space/thing",
+              "BoneName": "Bone",
+              "BoneActive": "1",
+              "BoneRestPosition": "2.600000 -2.600000 -16.000000",
+              "BoneRestDirection": "0.000000 0.000000 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 75,
+              "owner_reference": "HD1:atm/space/thing",
+              "BoneName": "Bone",
+              "BoneActive": "1",
+              "BoneRestPosition": "3.000000 16.200001 -2.400000",
+              "BoneRestDirection": "0.000000 0.000000 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 93,
+              "owner_reference": "HD1:atm/space/thing",
+              "BoneName": "Bone",
+              "BoneActive": "1",
+              "BoneRestPosition": "3.200000 -16.200003 2.400000",
+              "BoneRestDirection": "0.000000 0.000000 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 111,
+              "owner_reference": "HD1:atm/space/thing",
+              "BoneName": "Bone",
+              "BoneActive": "0",
+              "BoneRestPosition": "0.000000 0.000000 0.000000",
+              "BoneRestDirection": "0.000000 0.000000 0.000000",
+              "BoneRestLength": "1.000000"
+            },
+            {
+              "source_line": 125,
+              "owner_reference": "HD1:atm/space/thing",
+              "BoneName": "Bone",
+              "BoneActive": "1",
+              "BoneRestPosition": "15.999997 8.400000 2.200000",
+              "BoneRestDirection": "0.000000 0.000000 0.000000",
+              "BoneRestLength": "1.000000"
+            }
+          ],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 9,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                31.0,
+                56.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 27,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                33.0,
+                56.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 45,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                33.0,
+                56.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 63,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                33.0,
+                56.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 81,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                33.0,
+                56.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 99,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                33.0,
+                56.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 117,
+              "key_count": 2,
+              "frames": [
+                0.0,
+                33.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "BoneMotion",
+              "source_line": 131,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                33.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 144,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                28.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 157,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                62.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 170,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                42.0,
+                66.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 183,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                37.0,
+                64.0,
+                85.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 202,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                28.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 220,
+              "key_count": 2,
+              "frames": [
+                0.0,
+                100.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 248,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                19.0,
+                41.0,
+                100.0
+              ],
+              "values_change": true
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 5,
+            "ObjectMotion": 5,
+            "EndBehavior": 16,
+            "AddBone": 7,
+            "BoneName": 7,
+            "BoneActive": 7,
+            "BoneRestPosition": 7,
+            "BoneRestDirection": 7,
+            "BoneRestLength": 7,
+            "BoneMotion": 7,
+            "ShadowOptions": 5,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "AddLight": 2,
+            "LightName": 2,
+            "LightMotion": 2,
+            "LightColor": 2,
+            "LgtIntensity": 2,
+            "LightType": 2,
+            "LensFlare": 2,
+            "ShadowCasting": 2,
+            "Falloff": 1,
+            "FlareIntensity": 1,
+            "FlareDissolve": 1,
+            "LensFlareFade": 1,
+            "LensFlareOptions": 1,
+            "CameraMotion": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "SaveANIMFileName": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowObjects": 1,
+            "ShowBones": 1,
+            "ShowLights": 1,
+            "ShowCamera": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "HD1:atm/space/thing",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "objects/Space/RandomStars",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "objects/Space/Planet",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "HD1:atm/space/AS1",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "HD1:atm/space/AS2",
+              "basename_present_case_insensitive": true
+            }
+          ]
+        }
+      ],
+      "notice_url": "https://aminet.net/package/pix/3dobj/atmobjs"
+    },
+    {
+      "archive": "JumpingBall.lha",
+      "download_url": "https://aminet.net/pix/3dobj/JumpingBall.lha",
+      "sha256": "7b97ac1f1aabec35012c0cf48bef1477afdb78db06ade2c21e072d4fd8bc9ba8",
+      "archive_bytes": 7552,
+      "files": [
+        {
+          "path": "JumpingBall/objects/JumpingBall/Ball",
+          "bytes": 6040
+        },
+        {
+          "path": "JumpingBall/objects/JumpingBall/Bridge",
+          "bytes": 836
+        },
+        {
+          "path": "JumpingBall/objects/JumpingBall/Cube",
+          "bytes": 254
+        },
+        {
+          "path": "JumpingBall/objects/JumpingBall/Desk",
+          "bytes": 292
+        },
+        {
+          "path": "JumpingBall/scenes.info",
+          "bytes": 1233
+        },
+        {
+          "path": "JumpingBall/scenes/JumpingBall.scene",
+          "bytes": 5127
+        },
+        {
+          "path": "JumpingBall.info",
+          "bytes": 1233
+        },
+        {
+          "path": "JumpingBall/objects.info",
+          "bytes": 1233
+        },
+        {
+          "path": "JumpingBall/objects/JumpingBall.info",
+          "bytes": 1233
+        },
+        {
+          "path": "ReadMe",
+          "bytes": 365
+        }
+      ],
+      "objects": [
+        {
+          "path": "JumpingBall/objects/JumpingBall/Ball",
+          "type": "LWOB",
+          "bytes": 6040,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "JumpingBall/objects/JumpingBall/Bridge",
+          "type": "LWOB",
+          "bytes": 836,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "JumpingBall/objects/JumpingBall/Cube",
+          "type": "LWOB",
+          "bytes": 254,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "JumpingBall/objects/JumpingBall/Desk",
+          "type": "LWOB",
+          "bytes": 292,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        }
+      ],
+      "scenes": [
+        {
+          "path": "JumpingBall/scenes/JumpingBall.scene",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 1.0,
+            "LastFrame": 70.0
+          },
+          "motion_key_range": [
+            0.0,
+            70.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 10,
+              "key_count": 40,
+              "frames": [
+                0.0,
+                2.0,
+                4.0,
+                6.0,
+                8.0,
+                10.0,
+                12.0,
+                14.0,
+                16.0,
+                18.0,
+                20.0,
+                22.0,
+                24.0,
+                25.0,
+                26.0,
+                27.0,
+                28.0,
+                29.0,
+                30.0,
+                31.0,
+                32.0,
+                33.0,
+                34.0,
+                35.0,
+                36.0,
+                37.0,
+                38.0,
+                39.0,
+                40.0,
+                41.0,
+                42.0,
+                43.0,
+                44.0,
+                45.0,
+                46.0,
+                47.0,
+                48.0,
+                49.0,
+                60.0,
+                70.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 99,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 109,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 120,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 131,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 146,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 158,
+              "key_count": 3,
+              "frames": [
+                0.0,
+                30.0,
+                70.0
+              ],
+              "values_change": true
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 5,
+            "ShowObject": 5,
+            "ObjectMotion": 5,
+            "EndBehavior": 7,
+            "LockedChannels": 4,
+            "ShadowOptions": 5,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "AddLight": 1,
+            "LightName": 1,
+            "ShowLight": 1,
+            "LightMotion": 1,
+            "LightColor": 1,
+            "LgtIntensity": 1,
+            "LightType": 1,
+            "ShadowCasting": 1,
+            "ShowCamera": 1,
+            "CameraMotion": 1,
+            "TargetObject": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "PixelAspectRatio": 1,
+            "SegmentMemory": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "RenderDisplayDevice": 1,
+            "DataOverlayLabel": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "3D:Objects/JumpingBall/Ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/JumpingBall/Desk",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/JumpingBall/Cube",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/JumpingBall/Cube",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/JumpingBall/Bridge",
+              "basename_present_case_insensitive": true
+            }
+          ]
+        }
+      ],
+      "notice_url": "https://aminet.net/package/pix/3dobj/JumpingBall"
+    },
+    {
+      "archive": "newtons.lha",
+      "download_url": "https://aminet.net/pix/3dobj/newtons.lha",
+      "sha256": "913e8af57d48e1a3b0211d648d4ac44cfe965d65c77680f082166686015190cf",
+      "archive_bytes": 22360,
+      "files": [
+        {
+          "path": "ball",
+          "bytes": 4428
+        },
+        {
+          "path": "Frame",
+          "bytes": 13974
+        },
+        {
+          "path": "pic.jpg",
+          "bytes": 8843
+        },
+        {
+          "path": "scene.1",
+          "bytes": 3866
+        },
+        {
+          "path": "scene.2",
+          "bytes": 4460
+        },
+        {
+          "path": "scene.3",
+          "bytes": 4877
+        },
+        {
+          "path": "scene.pic",
+          "bytes": 5130
+        },
+        {
+          "path": "String",
+          "bytes": 218
+        },
+        {
+          "path": "newtons.readme",
+          "bytes": 937
+        }
+      ],
+      "objects": [
+        {
+          "path": "ball",
+          "type": "LWOB",
+          "bytes": 4428,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "Frame",
+          "type": "LWOB",
+          "bytes": 13974,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "String",
+          "type": "LWOB",
+          "bytes": 218,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        }
+      ],
+      "scenes": [
+        {
+          "path": "scene.1",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 1.0,
+            "LastFrame": 50.0
+          },
+          "motion_key_range": [
+            0.0,
+            50.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 10,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 21,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                12.0,
+                25.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 39,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 51,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 63,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 75,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 87,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 99,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 111,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 123,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                25.0,
+                37.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 141,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 159,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 173,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 11,
+            "ShowObject": 11,
+            "ObjectMotion": 11,
+            "EndBehavior": 13,
+            "LockedChannels": 12,
+            "ShadowOptions": 11,
+            "ParentObject": 10,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "EnableLensFlare": 1,
+            "EnableShadowMaps": 1,
+            "AddLight": 1,
+            "LightName": 1,
+            "ShowLight": 1,
+            "LightMotion": 1,
+            "LightColor": 1,
+            "LgtIntensity": 1,
+            "LightType": 1,
+            "Falloff": 1,
+            "ShadowCasting": 1,
+            "ShowCamera": 1,
+            "CameraMotion": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "PixelAspectRatio": 1,
+            "SegmentMemory": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "DataOverlayLabel": 1,
+            "SaveRGBImagesPrefix": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "3D:Objects/newtons/Frame",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            }
+          ]
+        },
+        {
+          "path": "scene.2",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 1.0,
+            "LastFrame": 50.0
+          },
+          "motion_key_range": [
+            0.0,
+            50.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 10,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 21,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                12.0,
+                25.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 39,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 51,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                12.0,
+                25.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 69,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 81,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 93,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 105,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                25.0,
+                37.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 123,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 135,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                25.0,
+                37.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 153,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 165,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 181,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 195,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 11,
+            "ShowObject": 12,
+            "ObjectMotion": 12,
+            "EndBehavior": 14,
+            "LockedChannels": 12,
+            "ShadowOptions": 12,
+            "ParentObject": 10,
+            "AddNullObject": 1,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "EnableLensFlare": 1,
+            "EnableShadowMaps": 1,
+            "AddLight": 1,
+            "LightName": 1,
+            "ShowLight": 1,
+            "LightMotion": 1,
+            "LightColor": 1,
+            "LgtIntensity": 1,
+            "LightType": 1,
+            "Falloff": 1,
+            "ShadowCasting": 1,
+            "ShowCamera": 1,
+            "CameraMotion": 1,
+            "TargetObject": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "PixelAspectRatio": 1,
+            "SegmentMemory": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "DataOverlayLabel": 1,
+            "SaveRGBImagesPrefix": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "3D:Objects/newtons/Frame",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            }
+          ]
+        },
+        {
+          "path": "scene.3",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 1.0,
+            "LastFrame": 50.0
+          },
+          "motion_key_range": [
+            0.0,
+            50.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 10,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 21,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                12.0,
+                25.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 39,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 51,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                12.0,
+                25.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 69,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 81,
+              "key_count": 5,
+              "frames": [
+                0.0,
+                12.0,
+                25.0,
+                37.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 101,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 113,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                25.0,
+                37.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 131,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 143,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                25.0,
+                37.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 161,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 173,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 183,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 199,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 213,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 12,
+            "ShowObject": 13,
+            "ObjectMotion": 13,
+            "EndBehavior": 15,
+            "LockedChannels": 12,
+            "ShadowOptions": 13,
+            "ParentObject": 10,
+            "AddNullObject": 1,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "EnableLensFlare": 1,
+            "EnableShadowMaps": 1,
+            "AddLight": 1,
+            "LightName": 1,
+            "ShowLight": 1,
+            "LightMotion": 1,
+            "LightColor": 1,
+            "LgtIntensity": 1,
+            "LightType": 1,
+            "Falloff": 1,
+            "ShadowCasting": 1,
+            "ShowCamera": 1,
+            "CameraMotion": 1,
+            "TargetObject": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "PixelAspectRatio": 1,
+            "SegmentMemory": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "DataOverlayLabel": 1,
+            "SaveRGBImagesPrefix": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "3D:Objects/newtons/Frame",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/flipsphere",
+              "basename_present_case_insensitive": false
+            }
+          ]
+        },
+        {
+          "path": "scene.pic",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 1.0,
+            "LastFrame": 50.0
+          },
+          "motion_key_range": [
+            0.0,
+            50.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 10,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 21,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                12.0,
+                25.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 39,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 51,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 63,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 75,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 87,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 99,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 111,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 123,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                25.0,
+                37.0,
+                50.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 141,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 153,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 164,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 175,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 186,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 198,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 210,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 226,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 240,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "LoadObject": 16,
+            "ShowObject": 17,
+            "ObjectMotion": 17,
+            "EndBehavior": 19,
+            "LockedChannels": 14,
+            "ShadowOptions": 17,
+            "ParentObject": 15,
+            "AddNullObject": 1,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "EnableLensFlare": 1,
+            "EnableShadowMaps": 1,
+            "AddLight": 1,
+            "LightName": 1,
+            "ShowLight": 1,
+            "LightMotion": 1,
+            "LightColor": 1,
+            "LgtIntensity": 1,
+            "LightType": 1,
+            "Falloff": 1,
+            "ShadowCasting": 1,
+            "ShowCamera": 1,
+            "CameraMotion": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "Overscan": 1,
+            "PixelAspectRatio": 1,
+            "SegmentMemory": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "RenderDisplayDevice": 1,
+            "DataOverlayLabel": 1,
+            "SaveRGBImagesPrefix": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "3D:Objects/newtons/Frame",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/String",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/newtons/ball",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "3D:Objects/Furniture/CoffeeTable",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "3D:Objects/Furniture/Sofa",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "3D:Objects/Furniture/SofaChair",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "3D:Objects/Household/Pencil",
+              "basename_present_case_insensitive": false
+            },
+            {
+              "reference": "3D:Objects/Furniture/DeskLamp",
+              "basename_present_case_insensitive": false
+            }
+          ]
+        }
+      ],
+      "notice_url": "https://aminet.net/package/pix/3dobj/newtons"
+    },
+    {
+      "archive": "lw-vofi.lha",
+      "download_url": "https://aminet.net/pix/3dobj/lw-vofi.lha",
+      "sha256": "1ef333ce29af4180c12bd997ba161729799f29aa4d6cb6935379f3de647b38f4",
+      "archive_bytes": 426967,
+      "files": [
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/TVorlon.txt",
+          "bytes": 1243
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/TVorlonExample.lws",
+          "bytes": 4059
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/TVorlonMain",
+          "bytes": 204888
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/VorlonClosedPedals",
+          "bytes": 157238
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/VorlonOpenPedals",
+          "bytes": 157238
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/VorlonZapper",
+          "bytes": 314
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc000.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc001.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc002.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc003.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc004.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc005.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc006.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc007.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc008.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc009.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc010.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc011.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc012.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc013.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc014.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsc015.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr000.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr001.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr002.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr003.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr004.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr005.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr006.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr007.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr008.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr009.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr010.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr011.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr012.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr013.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr014.iff",
+          "bytes": 80104
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/Zaps/zapsr015.iff",
+          "bytes": 80104
+        }
+      ],
+      "objects": [
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/TVorlonMain",
+          "type": "LWOB",
+          "bytes": 204888,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/VorlonClosedPedals",
+          "type": "LWOB",
+          "bytes": 157238,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/VorlonOpenPedals",
+          "type": "LWOB",
+          "bytes": 157238,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/VorlonZapper",
+          "type": "LWOB",
+          "bytes": 314,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        }
+      ],
+      "scenes": [
+        {
+          "path": "FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/TVorlonExample.lws",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 0.0,
+            "LastFrame": 180.0,
+            "FramesPerSecond": 30.0
+          },
+          "motion_key_range": [
+            0.0,
+            180.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 11,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 21,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 51,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 63,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 86,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 100,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 114,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 198,
+              "key_count": 4,
+              "frames": [
+                0.0,
+                45.0,
+                100.0,
+                180.0
+              ],
+              "values_change": true
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "FramesPerSecond": 1,
+            "LoadObject": 5,
+            "ShowObject": 5,
+            "ObjectMotion": 5,
+            "EndBehavior": 13,
+            "ShadowOptions": 5,
+            "ClipMap": 1,
+            "TextureImage": 1,
+            "ImageSequenceInfo": 1,
+            "TextureFlags": 1,
+            "TextureAxis": 1,
+            "TextureSize": 1,
+            "TextureCenter": 1,
+            "TextureValue": 1,
+            "ObjDissolve": 2,
+            "ParentObject": 3,
+            "Metamorph": 1,
+            "MorphTarget": 1,
+            "MorphSurfaces": 1,
+            "AmbientColor": 1,
+            "AmbIntensity": 1,
+            "AddLight": 2,
+            "LightName": 2,
+            "ShowLight": 2,
+            "LightMotion": 2,
+            "LightColor": 2,
+            "LgtIntensity": 2,
+            "LightType": 2,
+            "ShadowType": 2,
+            "LensFlare": 1,
+            "FlareIntensity": 1,
+            "FlareDissolve": 1,
+            "LensFlareFade": 1,
+            "LensFlareOptions": 1,
+            "FlareStarFilter": 1,
+            "FlareRotationAngle": 1,
+            "FlareRandStreakInt": 1,
+            "FlareRandStreakDens": 1,
+            "FlareRandStreakSharp": 1,
+            "ShowCamera": 1,
+            "CameraMotion": 1,
+            "ZoomFactor": 1,
+            "RenderMode": 1,
+            "RayTraceEffects": 1,
+            "Resolution": 1,
+            "PixelAspectRatio": 1,
+            "SegmentMemory": 1,
+            "Antialiasing": 1,
+            "AdaptiveSampling": 1,
+            "AdaptiveThreshold": 1,
+            "FilmSize": 1,
+            "FieldRendering": 1,
+            "MotionBlur": 1,
+            "BlurLength": 1,
+            "DepthOfField": 1,
+            "SolidBackdrop": 1,
+            "BackdropColor": 1,
+            "ZenithColor": 1,
+            "SkyColor": 1,
+            "GroundColor": 1,
+            "NadirColor": 1,
+            "FogType": 1,
+            "DitherIntensity": 1,
+            "AnimatedDither": 1,
+            "GlowEffect": 1,
+            "GlowIntensity": 1,
+            "GlowRadius": 1,
+            "DataOverlayLabel": 1,
+            "SaveAnimationName": 1,
+            "AnimationType": 1,
+            "OutputFilenameFormat": 1,
+            "SaveRGBImagesPrefix": 1,
+            "RGBImageFormat": 1,
+            "ViewMode": 1,
+            "ViewAimpoint": 1,
+            "ViewDirection": 1,
+            "ViewZoomFactor": 1,
+            "LayoutGrid": 1,
+            "GridSize": 1,
+            "ShowMotionPath": 1,
+            "ShowSafeAreas": 1,
+            "ShowBGImage": 1,
+            "ShowFogRadius": 1,
+            "ShowRedraw": 1
+          },
+          "object_references": [
+            {
+              "reference": "OBJECTS\\Spaceships\\TVorlon\\TVorlonMain",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "OBJECTS\\Spaceships\\TVorlon\\VorlonZapper",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "OBJECTS\\Spaceships\\TVorlon\\VorlonClosedPedals",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "OBJECTS\\Spaceships\\TVorlon\\VorlonOpenPedals",
+              "basename_present_case_insensitive": true
+            },
+            {
+              "reference": "OBJECTS\\SPACE\\RANDOMSTARS.LWO",
+              "basename_present_case_insensitive": false
+            }
+          ]
+        }
+      ],
+      "notice_url": "https://aminet.net/package/pix/3dobj/lw-vofi"
+    },
+    {
+      "archive": "lw-njump.lha",
+      "download_url": "https://aminet.net/pix/3dobj/lw-njump.lha",
+      "sha256": "9b489060e5fcd3b6a9b99d3898d239033297e7f99ad9cb3213f0bc5613b59871",
+      "archive_bytes": 99678,
+      "files": [
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NarnJumpgate.txt",
+          "bytes": 2542
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NarnJumpgateBlue.lws",
+          "bytes": 14320
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NarnJumpgateYellow.lws",
+          "bytes": 14345
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateBlueSF.lws",
+          "bytes": 14765
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateVortexBlue",
+          "bytes": 34030
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateVortexMorph",
+          "bytes": 33674
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateVortexYellow",
+          "bytes": 33998
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateYellowSF.lws",
+          "bytes": 14798
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NJumpGateBlueMorph",
+          "bytes": 41290
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NJumpGateInactive",
+          "bytes": 40536
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NJumpGateYellowMorph",
+          "bytes": 41322
+        }
+      ],
+      "objects": [
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateVortexBlue",
+          "type": "LWOB",
+          "bytes": 34030,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateVortexMorph",
+          "type": "LWOB",
+          "bytes": 33674,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateVortexYellow",
+          "type": "LWOB",
+          "bytes": 33998,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NJumpGateBlueMorph",
+          "type": "LWOB",
+          "bytes": 41290,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NJumpGateInactive",
+          "type": "LWOB",
+          "bytes": 40536,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        },
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NJumpGateYellowMorph",
+          "type": "LWOB",
+          "bytes": 41322,
+          "chunks": [
+            "PNTS",
+            "SRFS",
+            "POLS",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF",
+            "SURF"
+          ],
+          "has_points": true,
+          "has_polygons": true
+        }
+      ],
+      "scenes": [
+        {
+          "path": "FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NarnJumpgateBlue.lws",
+          "format": "LWSC",
+          "version": "1",
+          "settings": {
+            "FirstFrame": 18.0,
+            "LastFrame": 290.0,
+            "FramesPerSecond": 30.0
+          },
+          "motion_key_range": [
+            0.0,
+            265.0
+          ],
+          "bones": [],
+          "motions": [
+            {
+              "kind": "ObjectMotion",
+              "source_line": 11,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 22,
+              "key_count": 5,
+              "frames": [
+                0.0,
+                85.0,
+                115.0,
+                235.0,
+                265.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 60,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 70,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 98,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 126,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 154,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "ObjectMotion",
+              "source_line": 164,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 179,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 195,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 226,
+              "key_count": 16,
+              "frames": [
+                0.0,
+                20.0,
+                25.0,
+                26.0,
+                30.0,
+                31.0,
+                35.0,
+                36.0,
+                40.0,
+                41.0,
+                45.0,
+                46.0,
+                50.0,
+                51.0,
+                62.0,
+                73.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 385,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 433,
+              "key_count": 16,
+              "frames": [
+                0.0,
+                20.0,
+                25.0,
+                26.0,
+                30.0,
+                31.0,
+                35.0,
+                36.0,
+                40.0,
+                41.0,
+                45.0,
+                46.0,
+                50.0,
+                51.0,
+                62.0,
+                73.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 592,
+              "key_count": 16,
+              "frames": [
+                0.0,
+                20.0,
+                25.0,
+                26.0,
+                30.0,
+                31.0,
+                35.0,
+                36.0,
+                40.0,
+                41.0,
+                45.0,
+                46.0,
+                50.0,
+                51.0,
+                62.0,
+                73.0
+              ],
+              "values_change": true
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 751,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 807,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 865,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 896,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "LightMotion",
+              "source_line": 927,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            },
+            {
+              "kind": "CameraMotion",
+              "source_line": 956,
+              "key_count": 1,
+              "frames": [
+                0.0
+              ],
+              "values_change": false
+            }
+          ],
+          "keywords": {
+            "LWSC": 1,
+            "FirstFrame": 1,
+            "LastFrame": 1,
+            "FrameStep": 1,
+            "FramesPerSecond": 1,
+            "LoadObject": 7,
+            "ShowObject": 8,
+            "ObjectMotion": 8,
+            "EndBehavior": 41,
+            "ObjDissolve": 3,
+            "ShadowOptions": 8,
+            "LockedChannels": 14,
+            "PivotPoint": 1,
+            "ParentObject": 14,
+            "Metamorph": 4,
+            "MorphTarget": 4,
+            "MorphSurfaces": 4,
+            "AddNullObject": 1,
+            "AmbientColor": 1,
+            "AmbIn

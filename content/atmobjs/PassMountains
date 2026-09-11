@@ -1,0 +1,166 @@
+LWSC
+1
+
+FirstFrame 0
+LastFrame 70
+FrameStep 1
+
+LoadObject HD1:atm/landscape/MountainCircle2
+ObjectMotion (unnamed)
+  9
+  1
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject HD1:atm/landscape/CloudCover
+ObjectMotion (unnamed)
+  9
+  1
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 2.290000 0.915000
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject Objects/Space/Spaceship
+ObjectMotion (unnamed)
+  9
+  2
+  -225.171844 111.599983 184.458923 111.600029 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+  313.328186 111.599983 -81.941109 111.600029 0.0 0.0 1.0 1.0 1.0
+  70 0 0.0 0.0 0.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject Objects/Space/Spaceship
+ObjectMotion (unnamed)
+  9
+  1
+  -7.299999 0.0 -12.100003 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+LoadObject Objects/Space/Spaceship
+ObjectMotion (unnamed)
+  9
+  1
+  8.199999 0.0 -13.000002 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+LoadObject Objects/Space/Spaceship
+ObjectMotion (unnamed)
+  9
+  1
+  -0.100000 0.0 -26.100002 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+LoadObject Objects/Space/Spaceship
+ObjectMotion (unnamed)
+  9
+  1
+  -15.099998 0.0 -25.199997 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+LoadObject Objects/Space/Spaceship
+ObjectMotion (unnamed)
+  9
+  1
+  15.100000 0.0 -25.100002 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+LightMotion (unnamed)
+  9
+  1
+  -327.575714 380.999878 -638.856384 26.399992 33.200008 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 2
+Falloff 0.000000
+ConeAngle 30.000000
+EdgeAngle 5.000000
+LensFlare 1
+FlareIntensity 0.500000
+FlareDissolve 0.000000
+LensFlareFade 4
+LensFlareOptions 415
+ShadowCasting 0
+
+CameraMotion (unnamed)
+  9
+  6
+  106.705055 16.350008 124.550743 -447.599854 -7.399979 0.0 1.0 1.0 1.0
+  0 0 1.0 0.0 0.0
+  106.705055 16.350008 124.550743 -455.067261 -13.762712 0.0 1.0 1.0 1.0
+  17 0 0.0 0.0 0.0
+  106.705055 16.350008 124.550743 -475.408936 -22.794731 0.0 1.0 1.0 1.0
+  26 0 0.0 0.0 0.0
+  106.705055 16.350008 124.550743 -510.512115 -36.677952 0.0 1.0 1.0 1.0
+  38 0 0.0 0.0 0.0
+  106.705055 16.350008 124.550743 -547.014343 -32.622833 0.0 1.0 1.0 1.0
+  48 0 0.0 0.0 0.0
+  106.705055 16.350008 124.550743 -582.800049 -5.599979 0.0 1.0 1.0 1.0
+  70 0 1.0 0.0 0.0
+EndBehavior 1
+ZoomFactor 3.200000
+RenderMode 2
+RayTraceEffects 0
+Resolution 0
+Overscan 1
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 8
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 0
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+SaveANIMFileName HD1:Framestore/105.FS.passmtns
+
+ViewMode 5
+ViewAimpoint 51.199993 0.000000 41.100006
+ViewDirection 0.000000 -0.174533 0.000000
+ViewZoomFactor 0.120000
+LayoutGrid 3
+GridSize 10.000000
+ShowObjects 1
+ShowBones 1
+ShowLights 1
+ShowCamera 1
+ShowMotionPath 1
+ShowSafeAreas 0
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0

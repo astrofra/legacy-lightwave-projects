@@ -1,6 +1,42 @@
 # legacy-lightwave-projects
 My collection of personal Lightwave 3D objects and scenes, gathered since my early Amiga years.
 
+## Download the Aminet corpus
+
+With Python 3 and [7-Zip](https://www.7-zip.org/) installed, run:
+
+```powershell
+.\download_aminet.bat
+```
+
+The script reads `documentation/aminet.json`, downloads each record's
+`download_url`, verifies `archive_bytes` and `sha256`, and extracts the LHA into
+`content/<archive name without extension>/`, preserving its internal folders.
+For example, `JumpingBall.lha` becomes `content/JumpingBall/`.
+7-Zip is detected in `PATH` and the usual Windows installation directories;
+use `--seven-zip "C:\Program Files\7-Zip\7z.exe"` to select it explicitly.
+
+Verified downloads are cached in `_tmp/aminet/archives/`. Existing destination
+folders are skipped without modifying their contents. A failed extraction never
+publishes a partial destination, and a failed package does not stop the others.
+The exit code is 1 if any package fails, otherwise 0.
+
+The currently supplied manifest is truncated inside its fifth record. Its five
+complete download headers can be processed explicitly with:
+
+```powershell
+.\download_aminet.bat --recover-truncated-manifest
+```
+
+This prints a warning and leaves the source JSON untouched. Only five archive
+URLs are present; the header's count of 32 inspected archives is not a download
+list. Replace the manifest with the complete JSON to retrieve further packages.
+
+Use `--list` to preview the URLs and destinations. `--manifest`, `--output` and
+`--cache` accept alternative paths. Defaults are relative to the repository,
+so the launcher works from any current directory. On other systems, run
+`python3 tools/download_aminet.py` with `7z` or `7zz` installed.
+
 ## C converter
 
 `lwconvert` reads LWOB/LWO2 objects, PST_ presets and LWS 1/3 scenes.

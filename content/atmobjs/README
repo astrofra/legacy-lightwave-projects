@@ -1,0 +1,41 @@
+This is a collection of objects, scripts, and images for Lightwave
+3.0.  Everything here is done by me, Alan Mackey.  To contact me
+send email to MACKEY@ENIGMA.RIDER.EDU or write to me at PO BOX 475,
+Wayne PA 19087, USA.  Some scripts use the default objects that came
+with lightwave, like space/randomstars, space/planet, etc.  Here's a
+list of what all these files do:
+
+  SPACE OBJECTS
+AS1-  Al's Ship 1..  A tiny ship, tanish, cool blue window, sleek.
+      Fun thing to blow up.
+AS2-  Al's Ship 2..  Another tiny ship, shiny grey, fighter.  Fun
+      thing to blow stuff up with.
+enginefire-  Parent this to a ship and position behind engine for
+      fun effects.
+lazer-  A simple white lazer.
+Station1-  a big dark blue space station with lots of windows and
+      creepy twisty towers.
+thing-  A big space creature, put bones in it and move'em around and
+      make it attack things, it's fun.
+WeirdCone-  A thing you could use as an engine flare or some sort of
+      vaporizing beam.  Bright cyan.
+
+  LANDSCAPE OBJECTS
+MountainCircle2-  a small chunk of land with mountains on it.
+CloudCover-  designed to fit over MountainCircle2.
+sky2-  alternate sky with distance dissolve.
+
+  IMAGES
+UDgradient.b-  image used in enginefire.
+
+  StationChase-  A ship gets launched out of a space station and
+      gets blown up.
+  NastyStation-  Station attacks Planet. cool.
+  PassMountains-  Some aircraft fly over moutntains.
+  ThingKills-  A WORK OF ART.  Short but awesome.  The space thing
+      devours a planet.
+
+  Sorry about the carless orginization of this archive and bad
+spelling in this textfile..  this was put together in kind of a
+hurry for no reason at all.
+                                        -Al

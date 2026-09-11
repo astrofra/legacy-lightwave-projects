@@ -1,0 +1,53 @@
+				   Narn Jumpgate
+
+			       Made by: Terry Hagerty
+
+				  August 20 / 1996
+
+	Well, this is my attempt to recreate the Narn Jumpgate as seen in the 
+ever-so excellent (and needless to say my most FAVE show of all time) science 
+fiction television series BABYLON 5.
+
+	This is my first attempt at recreating something from the show by myself.
+My previous Vorlon Fighter ship replica (TVorlon) was done with the assistance 
+of Dean Scott's excellent version, using it as a reference.
+
+	Modeled in Lightwave 5.0, I can't guarantee that it will be fully formatted 
+properly (or compatible) with previous versions, but there shouldn't be any 
+problems. I have only used version 3.5 previous to 5.0. This was a bit tough to 
+make because there have been only two very short scenes where Narn Jumpgates
+where used. Not much to go by.... but I thought this was as close to it as one 
+could hope for. 
+
+	I have included four scenes I made up of the Jumpgate sequence for both
+the Yellow (Entering) and Blue (Exiting) Vortexes. Two of them use the SpaceFighter 
+object included with Lightwave(but not here). When activated, the Generators light 
+up in sequence and then tear open a hole into Hyperspace. The Generator Panels 
+light up according to what kind of Vortex is activated. (Blue or Yellow)  The Blue 
+Vortex swirls outward while the Yellow Vortex swirls inward. 
+
+	Please don't sue me WarnerBros., PTEN, or Foundation Imaging. This was 
+made purely for a learning experience for myself and others and not intended for 
+anything else. If there are any problems, please contact me.
+
+This can be freely distributed as long as the original archive contents are intact 
+(with the exception of Mike Meshew and his Lightrom CD's), there is no profit to 
+be made (again with the exception of Mike Meshew and his Lightrom CD's), and 
+that there is no broadcast of images made with this object. Also make sure that 
+myself, Ron Thornton and Foundation Imaging get their credits due. Those boys 
+are damn talented! (With the exception of myself.)
+
+	Oh, and I almost forgot... a VERY special thanks to Dean Scott who has 
+helped me so much over the last couple of years. His original Jumpgate inspired me 
+to do this Narn Jumpgate. I never would have understood how to use the GRID texture 
+with fall-off to do the transparent and black ends of the Vortex. Thanks as always 
+Dean!
+
+Any questions, ideas, suggestions, criticisms... 
+
+E-Mail me at thagerty@mnsi.net
+
+	Terry Hagerty
+
+	August 20 / 1996
+

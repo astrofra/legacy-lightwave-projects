@@ -1,0 +1,234 @@
+LWSC
+1
+
+FirstFrame 0
+LastFrame 200
+FrameStep 1
+
+LoadObject HD1:atm/space/Station1
+ObjectMotion (unnamed)
+  9
+  8
+  0.0 0.440000 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+  0.0 0.440000 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  50 0 1.0 0.0 1.0
+  0.0 0.440000 0.0 0.0 -8.599999 180.000000 1.0 1.0 1.0
+  100 0 1.0 0.0 -1.0
+  0.0 0.440000 0.0 0.0 -8.599999 180.000000 1.0 1.0 1.0
+  157 0 1.0 0.0 1.0
+  1.204981 2.120000 2.205815 29.199999 45.600037 175.200012 1.0 1.0 1.0
+  170 0 0.0 0.0 0.0
+  2.868265 3.471304 4.672656 36.797825 63.229385 174.939133 1.0 1.0 1.0
+  175 0 0.0 0.0 0.0
+  4.926429 3.580000 7.672151 43.200005 79.800041 175.200012 1.0 1.0 1.0
+  180 0 0.0 0.0 0.0
+  33.962212 3.580000 22.884327 62.200012 87.200027 175.200012 1.0 1.0 1.0
+  200 0 0.0 0.0 0.0
+EndBehavior 1
+AddBone
+BoneName Base
+BoneActive 1
+BoneRestPosition -2.419465 -0.260000 0.000000
+BoneRestDirection 0.000000 -89.999990 0.000000
+BoneRestLength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  -2.419465 -0.260000 0.0 0.0 -90.000000 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+AddBone
+BoneName Base
+BoneActive 1
+BoneRestPosition 2.400000 0.000000 0.000000
+BoneRestDirection 0.000000 -89.999990 0.000000
+BoneRestLength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  2.400000 0.0 0.0 0.0 -90.000000 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+AddBone
+BoneName Base
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 2.380000
+BoneRestDirection 0.000000 -89.999990 0.000000
+BoneRestLength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0.0 0.0 2.380000 0.0 -90.000000 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+AddBone
+BoneName Base
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 -2.440000
+BoneRestDirection 0.000000 -89.999990 0.000000
+BoneRestLength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0.0 0.0 -2.440000 0.0 -90.000000 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+AddBone
+BoneName mid
+BoneActive 1
+BoneRestPosition 0.000000 0.000000 0.000000
+BoneRestDirection 0.000000 -89.999990 0.000000
+BoneRestLength 1.000000
+BoneMotion (unnamed)
+  9
+  3
+  0.0 0.0 0.0 0.0 -90.000000 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+  0.0 0.0 0.0 0.0 -90.000000 0.0 1.0 1.0 1.0
+  77 0 1.0 0.0 1.0
+  0.0 -3.200000 0.0 0.0 -90.000000 0.0 1.0 1.0 1.0
+  110 0 1.0 0.0 -1.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject Objects/Space/ActualStars
+ObjectMotion (unnamed)
+  9
+  2
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+  0.0 0.0 0.0 14.200000 0.0 0.0 1.0 1.0 1.0
+  200 0 0.0 0.0 0.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject Objects/Space/Planet
+ObjectMotion (unnamed)
+  9
+  2
+  5.928735 -123.620003 19.095289 0.0 0.0 0.0 0.100000 0.100000 0.100000
+  0 0 0.0 0.0 0.0
+  5.928735 -123.620003 19.095289 0.0 52.799992 0.0 0.100000 0.100000 0.100000
+  200 0 0.0 0.0 0.0
+EndBehavior 1
+ObjDissolve (envelope)
+  1
+  3
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  110 0 1.0 0.0 1.0
+  1.0
+  140 0 1.0 0.0 -1.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject HD1:atm/space/WeirdCone
+ObjectMotion (unnamed)
+  9
+  1
+  0.0 -1.280000 0.0 0.0 180.000000 0.0 13.499999 13.499999 13.499999
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+PivotPoint 0.0 1.560000 0.0
+ParentObject 1
+ObjDissolve (envelope)
+  1
+  5
+  1.0
+  0 0 0.0 0.0 0.0
+  1.0
+  110 0 1.0 0.0 1.0
+  0.0
+  130 0 1.0 0.0 -1.0
+  0.0
+  140 0 1.0 0.0 1.0
+  1.0
+  160 0 1.0 0.0 -1.0
+EndBehavior 1
+ShadowOptions 7
+
+AmbientColor 113 188 255
+AmbIntensity 0.100000
+
+AddLight
+LightName Light
+LightMotion (unnamed)
+  9
+  1
+  -88.127609 -10.899999 -18.657845 62.599995 -3.200003 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity 0.500000
+FlareDissolve 0.000000
+LensFlareFade 4
+LensFlareOptions 311
+ShadowCasting 1
+
+CameraMotion (unnamed)
+  9
+  8
+  -2.134059 0.391111 0.252832 62.200001 62.600010 0.0 1.0 1.0 1.0
+  0 0 1.0 0.0 0.0
+  -2.134059 8.151111 0.252832 77.199997 71.800018 -36.999989 1.0 1.0 1.0
+  30 0 0.0 0.0 0.0
+  -7.766629 8.151111 2.295711 107.999962 39.800022 -54.399994 1.0 1.0 1.0
+  50 0 0.0 0.0 0.0
+  -5.515903 10.511111 3.922068 138.199936 56.600033 -71.599998 1.0 1.0 1.0
+  67 0 0.0 0.0 0.0
+  0.524439 9.605727 3.733256 202.326889 63.592361 -55.603844 1.0 1.0 1.0
+  78 0 0.0 0.0 0.0
+  8.208670 8.311111 4.892876 242.400024 43.000057 -34.599995 1.0 1.0 1.0
+  89 0 0.0 0.0 0.0
+  17.864986 8.311111 14.210257 234.800018 25.800055 -24.799995 1.0 1.0 1.0
+  100 0 0.0 0.0 0.0
+  33.338413 8.311111 23.779404 234.600037 22.600054 15.000008 1.0 1.0 1.0
+  130 0 1.0 0.0 -1.0
+EndBehavior 1
+ZoomFactor 3.200000
+RenderMode 2
+RayTraceEffects 0
+Resolution 0
+Overscan 1
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 8
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+SaveANIMFileName HD1:Framestore/107.FS.temp
+
+ViewMode 5
+ViewAimpoint 3.661694 0.560000 0.373431
+ViewDirection -0.460767 -0.342085 0.000000
+ViewZoomFactor 2.075000
+LayoutGrid 3
+GridSize 2.000000
+ShowObjects 1
+ShowBones 1
+ShowLights 1
+ShowCamera 1
+ShowMotionPath 1
+ShowSafeAreas 0
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
