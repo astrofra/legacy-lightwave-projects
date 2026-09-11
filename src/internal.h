@@ -92,6 +92,7 @@ LWUV *lw_corner_uvs(const LWObject *,const char *,LWError *);
 typedef struct {
     LWExportStats geometry;
     size_t files,points,lines,materials,animated_channels,omitted_nodes,unsupported_sidedness;
+    struct LWRigExports *rigs;
 } LWGltfStats;
 int lw_write_gltf(const char *,const LWPackage *,const LWOptions *,LWGltfStats *,LWError *);
 int lw_write_bytes(const char *, const void *, size_t, LWError *);
@@ -99,4 +100,29 @@ int lw_close(FILE *, const char *, LWError *);
 void lw_identity(double [16]);
 int lw_scene_matrices(const LWScene *, double, double *, size_t *, LWError *);
 int lw_scene_node_matrix(const LWScene *,size_t,double,double [16],LWError *);
+int lw_bone_rest_matrix(const LWNode *,double [16],LWError *);
+
+typedef struct { size_t source,parent; double local[16],world[16],inverse_bind[16]; } LWRigJoint;
+typedef struct { uint16_t joint; float weight; } LWRigInfluence;
+typedef struct { size_t first,count; } LWRigPoint;
+typedef struct {
+    size_t owner,asset;
+    LW_ARRAY(LWRigJoint) joints;
+    LW_ARRAY(LWRigInfluence) influences;
+    LWRigPoint *points;
+    size_t point_count,influence_sets,unweighted_points,missing_maps,procedural_bones;
+    int weighted;
+    char issue[256];
+} LWRig;
+typedef struct {
+    size_t owner,bones,sets,unweighted_points,missing_maps,procedural_bones;
+    char *name;
+    int weighted,written;
+    char issue[256];
+} LWRigExport;
+typedef struct LWRigExports { LWRigExport *v; size_t n,cap; } LWRigExports;
+void lw_resolve_bone_maps(LWPackage *);
+int lw_build_rig(const LWPackage *,size_t,LWRig *,LWError *);
+void lw_free_rig(LWRig *);
+void lw_free_gltf_stats(LWGltfStats *);
 #endif

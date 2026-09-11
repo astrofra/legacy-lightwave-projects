@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.4.1"
+#define LWCONVERT_VERSION "0.5.0"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -97,12 +97,25 @@ typedef struct {
 } LWClipMap;
 
 typedef struct {
+    uint32_t owner, present;
+    int active, weight_map_only, normalize, scale_strength, limited_range;
+    double rest_position[3], rest_rotation[3], rest_length, strength, range[2];
+    double joint_comp[2], muscle_flex[2];
+    LWString weight_map;
+    char weight_map_status[48];
+} LWBone;
+
+typedef struct {
     uint32_t id, parent, layer; /* Scene layer request is one-based; LW_NONE = whole object. */
     LWString name, object_path;
     size_t source_offset;
     double pivot[3], pivot_rotation[3];
     LW_ARRAY(LWChannel) channels;
     LW_ARRAY(LWClipMap) clip_maps;
+    LW_ARRAY(LWTextureField) rig_parameters;
+    LWBone bone;
+    uint32_t bone_falloff;
+    int faster_bones;
     LWString object_dissolve; /* Complete statement and optional envelope. */
     int unsupported_transform;
     size_t key_count_mismatches;

@@ -159,6 +159,8 @@ static int mirrored_bank_follower(LWNode *node,const Lines *ls,size_t start,size
 }
 static int add_node(LWScene *s,uint32_t id,Line line,LWString name,size_t *current,LWError *e) {
     LWNode n={0}; n.id=id; n.parent=LW_NONE; n.layer=LW_NONE; n.name=unquote(name);
+    n.bone.owner=LW_NONE; n.bone_falloff=LW_NONE;
+    n.bone.active=n.bone.normalize=n.bone.scale_strength=1; n.bone.strength=1;
     n.asset=SIZE_MAX; n.source_offset=line.offset;
     snprintf(n.resolution,sizeof n.resolution,"not-evaluated");
     LW_TRY(LW_ADD(s->nodes,n,e)); *current=s->nodes.n-1; return 1;
@@ -286,10 +288,37 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             uint32_t id;
             if(!object_count||object_count>65536||bone_count>=4096) return lw_error(e,ls->v[i].offset,"bone","invalid owner/bone ordinal");
             id=0x40000000|(bone_count++<<16)|(object_count-1);
-            LW_TRY(add_node(s,id,ls->v[i],value,&current,e)); s->nodes.v[current].unsupported_transform=1; s->unsupported_features++; continue;
+            LW_TRY(add_node(s,id,ls->v[i],value,&current,e));
+            s->nodes.v[current].bone.owner=0x10000000|(object_count-1);
+            s->nodes.v[current].parent=s->nodes.v[current].bone.owner;
+            s->nodes.v[current].unsupported_transform=1; s->unsupported_features++; continue;
         }
         if(lw_string_is(key,"CameraMotion")&&current==SIZE_MAX) LW_TRY(add_node(s,0x30000000|camera_count++,ls->v[i],lw_string("Camera"),&current,e));
         node=current==SIZE_MAX?NULL:&s->nodes.v[current];
+        if(node&&((key.size>=4&&!memcmp(key.data,"Bone",4)&&!lw_string_is(key,"BoneMotion")&&!lw_string_is(key,"BoneName"))||
+           lw_string_is(key,"ScaleBoneStrength")||lw_string_is(key,"FasterBones")||lw_string_is(key,"UseBonesFrom")||
+           lw_string_is(key,"SubdivisionOrder")||lw_string_is(key,"SubPatchLevel"))) {
+            LWTextureField field={0}; LWBone *bone=&node->bone;
+            field.name=key; field.value=value; field.parent=SIZE_MAX; field.offset=ls->v[i].offset;
+            LW_TRY(LW_ADD(node->rig_parameters,field,e));
+            if(lw_string_is(key,"BoneFalloffType")) LW_TRY(integer(value,&node->bone_falloff,field.offset,e));
+            else if(lw_string_is(key,"FasterBones")) { uint32_t v; LW_TRY(integer(value,&v,field.offset,e)); node->faster_bones=v!=0; }
+            else if(bone->owner!=LW_NONE) {
+                double *vector=lw_string_is(key,"BoneRestPosition")?bone->rest_position:lw_string_is(key,"BoneRestDirection")?bone->rest_rotation:NULL;
+                double *scalar=lw_string_is(key,"BoneRestLength")?&bone->rest_length:lw_string_is(key,"BoneStrength")?&bone->strength:
+                    lw_string_is(key,"BoneMinRange")?&bone->range[0]:lw_string_is(key,"BoneMaxRange")?&bone->range[1]:
+                    lw_string_is(key,"BoneJointComp")?&bone->joint_comp[0]:lw_string_is(key,"BoneJointCompParent")?&bone->joint_comp[1]:
+                    lw_string_is(key,"BoneMuscleFlex")?&bone->muscle_flex[0]:lw_string_is(key,"BoneMuscleFlexParent")?&bone->muscle_flex[1]:NULL;
+                int *flag=lw_string_is(key,"BoneActive")?&bone->active:lw_string_is(key,"BoneWeightMapOnly")?&bone->weight_map_only:
+                    lw_string_is(key,"BoneNormalization")?&bone->normalize:lw_string_is(key,"ScaleBoneStrength")?&bone->scale_strength:
+                    lw_string_is(key,"BoneLimitedRange")?&bone->limited_range:NULL;
+                if(vector) { LW_TRY(numbers(value,vector,3,field.offset,e)); bone->present|=vector==bone->rest_position?1:2; }
+                else if(scalar) { LW_TRY(numbers(value,scalar,1,field.offset,e)); if(scalar==&bone->rest_length) bone->present|=4; }
+                else if(flag) { uint32_t v; LW_TRY(integer(value,&v,field.offset,e)); if(v>1) return lw_error(e,field.offset,"bone","expected a boolean bone setting"); *flag=(int)v; }
+                else if(lw_string_is(key,"BoneWeightMapName")) bone->weight_map=unquote(value);
+            }
+            continue;
+        }
         if(node&&lw_string_is(key,"ObjectDissolve")) {
             size_t start=ls->v[i].offset;
             if(i+1<ls->n) {
@@ -354,6 +383,7 @@ void lw_free_scene(LWScene *s) {
         for(j=0;j<n->candidates.n;j++) free(n->candidates.v[j]);
         for(j=0;j<n->clip_maps.n;j++) { LW_FREE(n->clip_maps.v[j].fields); LW_FREE(n->clip_maps.v[j].images); }
         LW_FREE(n->clip_maps);
+        LW_FREE(n->rig_parameters);
         LW_FREE(n->candidates); LW_FREE(n->channels); free(n->resolved_path);
     }
     for(i=0;i<s->images.n;i++) lw_free_image(&s->images.v[i]);
@@ -467,6 +497,20 @@ int lw_scene_node_matrix(const LWScene *s,size_t i,double frame,double m[16],LWE
     if(s->version==1) for(j=3;j<6;j++) v[j]*=0.017453292519943295;
     local_matrix(m,v,node->pivot);
     for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"transform","non-finite matrix");
+    return 1;
+}
+int lw_bone_rest_matrix(const LWNode *node,double m[16],LWError *e) {
+    double v[9]={0,0,0,0,0,0,1,1,1},pivot[3]={0}; size_t j;
+    int rotated=node->pivot_rotation[0]||node->pivot_rotation[1]||node->pivot_rotation[2];
+    if((node->bone.present&3)!=3) return lw_error(e,node->source_offset,"bone","missing rest position or direction for %08x",node->id);
+    if(node->pivot[0]||node->pivot[1]||node->pivot[2]) return lw_error(e,node->source_offset,"bone","translated bone pivot semantics are not qualified");
+    /* Record Pivot Rotation records the orientation while zeroing the channels.
+       With zero rest angles only that orientation remains; composing nonzero
+       rest and pivot rotations needs an independently qualified convention. */
+    if(rotated&&(node->bone.rest_rotation[0]||node->bone.rest_rotation[1]||node->bone.rest_rotation[2])) return lw_error(e,node->source_offset,"bone","combined rest and pivot rotation semantics are not qualified");
+    for(j=0;j<3;j++) { v[j]=node->bone.rest_position[j]; v[3+j]=(rotated?node->pivot_rotation[j]:node->bone.rest_rotation[j])*0.017453292519943295; }
+    local_matrix(m,v,pivot);
+    for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"bone","non-finite rest matrix");
     return 1;
 }
 static int world_node(const LWScene *s,size_t i,double frame,double *matrices,unsigned char *state,size_t *bad,LWError *e,unsigned depth) {

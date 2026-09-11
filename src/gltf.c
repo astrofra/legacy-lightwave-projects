@@ -8,14 +8,17 @@ typedef struct { uint32_t material,mode; int uv; LW_ARRAY(GVertex) vertices; } G
 typedef LW_ARRAY(GGroup) GGroups;
 typedef struct {
     size_t offset,map_offset,count,accessor,material; uint32_t mode,stride;
+    size_t skin_offset,skin_view,skin_accessor,skin_sets;
     int uv; float low[3],high[3];
 } GPrimitive;
 typedef struct { size_t asset,first,count; uint32_t layer; } GMesh;
 typedef struct { size_t asset; uint32_t index; int uv; size_t base,emissive,specular; } GMaterial;
-typedef struct { size_t source,mesh,parent; double matrix[16]; } GNode;
+typedef struct { size_t source,mesh,parent; int skinned; double matrix[16]; } GNode;
 typedef struct {
     const LWPackage *package; const LWOptions *options; LWGltfStats *stats;
     FILE *bin; size_t bytes,accessors;
+    const LWRig *rig;
+    size_t skin_views,bind_offset,bind_accessor;
     LW_ARRAY(GPrimitive) primitives;
     LW_ARRAY(GMesh) meshes;
     LW_ARRAY(GMaterial) materials;
@@ -32,6 +35,7 @@ static void u32(FILE *f,uint32_t v) {
     fwrite(b,1,4,f);
 }
 static void f32(FILE *f,float v) { uint32_t bits; memcpy(&bits,&v,4); u32(f,bits); }
+static void u16(FILE *f,uint16_t v) { fputc(v&255,f); fputc(v>>8,f); }
 static GGroup *group(GGroups *groups,uint32_t material,uint32_t mode,int uv,LWError *e) {
     size_t i; GGroup g={0};
     for(i=0;i<groups->n;i++) if(groups->v[i].material==material&&groups->v[i].mode==mode&&groups->v[i].uv==uv) return &groups->v[i];
@@ -137,6 +141,14 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
     if(!g->vertices.n) return 1;
     if(g->vertices.n>UINT32_MAX/(stride+12)) return lw_error(e,0,"glTF","primitive buffer exceeds 4 GiB");
     bytes=g->vertices.n*(stride+12);
+    if(doc->rig&&doc->rig->weighted) {
+        size_t skin_stride;
+        p.skin_sets=doc->rig->influence_sets;
+        if(p.skin_sets>UINT32_MAX/24) return lw_error(e,0,"skin","too many influence sets");
+        skin_stride=24*p.skin_sets;
+        if(g->vertices.n>(UINT32_MAX-bytes)/skin_stride) return lw_error(e,0,"skin","skin buffer exceeds 4 GiB");
+        bytes+=g->vertices.n*skin_stride;
+    }
     if(doc->bytes>UINT32_MAX-bytes) return lw_error(e,0,"glTF","document buffer exceeds 4 GiB");
     p.offset=doc->bytes; p.map_offset=p.offset+g->vertices.n*stride; p.count=g->vertices.n;
     p.mode=g->mode; p.uv=g->uv; p.stride=stride; p.accessor=doc->accessors;
@@ -153,8 +165,18 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
     for(i=0;i<g->vertices.n;i++) {
         u32(doc->bin,g->vertices.v[i].polygon); u32(doc->bin,g->vertices.v[i].corner); u32(doc->bin,g->vertices.v[i].point);
     }
+    if(p.skin_sets) {
+        size_t set,k; p.skin_offset=p.map_offset+12*p.count; p.skin_view=doc->skin_views;
+        p.skin_accessor=doc->accessors+1+(g->mode==4?1:0)+(g->uv?1:0);
+        for(set=0;set<p.skin_sets;set++) for(i=0;i<g->vertices.n;i++) {
+            const LWRigPoint *point=&doc->rig->points[g->vertices.v[i].point];
+            for(k=0;k<4;k++) { size_t index=4*set+k; u16(doc->bin,index<point->count?doc->rig->influences.v[point->first+index].joint:0); }
+            for(k=0;k<4;k++) { size_t index=4*set+k; f32(doc->bin,index<point->count?doc->rig->influences.v[point->first+index].weight:0); }
+        }
+        doc->skin_views+=p.skin_sets;
+    }
     if(ferror(doc->bin)) return lw_error(e,0,"glTF","cannot write geometry buffer");
-    doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0);
+    doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0)+2*p.skin_sets;
     return LW_ADD(doc->primitives,p,e);
 }
 static int mesh_index(GDocument *doc,size_t asset,uint32_t layer,size_t *result,LWError *e) {
@@ -201,6 +223,35 @@ static int scene_nodes(GDocument *doc,LWError *e) {
 done:
     free(map); free(parents); free(active); return ok;
 }
+static int rig_nodes(GDocument *doc,LWError *e) {
+    const LWRig *rig=doc->rig; const LWNode *owner=&doc->package->scene.nodes.v[rig->owner];
+    GNode root={0},mesh={0}; size_t i,j;
+    root.source=rig->owner; root.mesh=root.parent=SIZE_MAX; lw_identity(root.matrix);
+    LW_TRY(LW_ADD(doc->nodes,root,e));
+    for(i=0;i<rig->joints.n;i++) {
+        const LWRigJoint *joint=&rig->joints.v[i]; GNode node={0};
+        node.source=joint->source; node.mesh=SIZE_MAX; node.parent=joint->parent==SIZE_MAX?0:joint->parent+1;
+        for(j=0;j<16;j++) node.matrix[j]=joint->local[j]*((j%4==2)^(j/4==2)?-1:1);
+        LW_TRY(LW_ADD(doc->nodes,node,e));
+    }
+    mesh.source=rig->owner; mesh.parent=SIZE_MAX; mesh.skinned=rig->weighted; lw_identity(mesh.matrix);
+    LW_TRY(mesh_index(doc,rig->asset,owner->layer,&mesh.mesh,e));
+    LW_TRY(LW_ADD(doc->nodes,mesh,e));
+    if(rig->weighted) {
+        size_t bytes=(rig->joints.n+1)*64;
+        if(bytes>UINT32_MAX-doc->bytes) return lw_error(e,0,"skin","inverse bind buffer exceeds 4 GiB");
+        doc->bind_offset=doc->bytes; doc->bind_accessor=doc->accessors++;
+        for(j=0;j<16;j++) f32(doc->bin,j%5==0?1.f:0.f);
+        for(i=0;i<rig->joints.n;i++) for(j=0;j<16;j++) {
+            double value=rig->joints.v[i].inverse_bind[j]*((j%4==2)^(j/4==2)?-1:1);
+            if(!isfinite((float)value)) return lw_error(e,0,"skin","inverse bind matrix exceeds float32 range");
+            f32(doc->bin,(float)value);
+        }
+        doc->bytes+=bytes;
+        if(ferror(doc->bin)) return lw_error(e,0,"skin","cannot write inverse bind matrices");
+    }
+    return 1;
+}
 static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
     const LWObject *o=&doc->package->objects.v[entry->asset];
     const LWMaterial *m=entry->index<o->materials.n?&o->materials.v[entry->index]:NULL;
@@ -242,8 +293,13 @@ static void accessor(FILE *f,size_t view,size_t offset,size_t count,unsigned com
 static void json_document(FILE *f,const GDocument *doc,const char *name,int scene,size_t asset) {
     const LWSource *source=scene?&doc->package->scene.source:&doc->package->objects.v[asset].source;
     size_t i,j; int comma=0;
-    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"static-base-geometry-0.1\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,source->sha256); lw_json_string(f,source->path);
-    fprintf(f,",\"snapshot_frame\":%.17g,\"coordinates\":\"right-handed Y-up; source Z reflected\",\"uv_conversion\":\"u, 1-v\",\"animation\":\"not-exported; snapshot only\",\"textures\":\"LWOB compatible planar/spherical image maps; repeat sampling; PNG derivatives; approximate scalar channels\"},\n\"scene\":0,\"scenes\":[{\"name\":",doc->options->frame); lw_json_string(f,name);
+    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,doc->rig?"rest-skeleton-0.1":"static-base-geometry-0.1",source->sha256); lw_json_string(f,source->path);
+    if(doc->rig) {
+        fprintf(f,",\"pose\":\"native-rest; object-local; no scene animation or IK evaluation\",\"skin_status\":\"%s\",\"unweighted_points_on_object_anchor\":%zu,\"skin_issue\":",doc->rig->weighted?"explicit-normalized-weight-maps":"skeleton-only; native influences not evaluated",doc->rig->unweighted_points);
+        lw_json_string(f,doc->rig->issue);
+    }
+    if(!doc->rig) fprintf(f,",\"snapshot_frame\":%.17g",doc->options->frame);
+    fprintf(f,",\"coordinates\":\"right-handed Y-up; source Z reflected\",\"uv_conversion\":\"u, 1-v\",\"animation\":\"not-exported; %s\",\"subdivision\":\"control cage retained; never baked\",\"textures\":\"LWOB compatible planar/spherical image maps; repeat sampling; PNG derivatives; approximate scalar channels\"},\n\"scene\":0,\"scenes\":[{\"name\":",doc->rig?"native rest pose":"snapshot only"); lw_json_string(f,name);
     for(i=0;i<doc->nodes.n;i++) if(doc->nodes.v[i].parent==SIZE_MAX) {
         if(!comma) fputs(",\"nodes\":[",f); else fputc(',',f);
         fprintf(f,"%zu",i); comma=1;
@@ -258,6 +314,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
             if(scene) { char *text=lw_text(doc->package->scene.nodes.v[n->source].name); lw_json_string(f,text&&*text?text:"LightWave node"); free(text); }
             else lw_json_string(f,name);
             if(n->mesh!=SIZE_MAX) fprintf(f,",\"mesh\":%zu",n->mesh);
+            if(n->skinned) fputs(",\"skin\":0",f);
             for(j=0;j<16;j++) if(n->matrix[j]!=(j%5==0?1:0)) identity=0;
             if(!identity) { fputs(",\"matrix\":[",f); for(j=0;j<16;j++) { if(j) fputc(',',f); fprintf(f,"%.17g",n->matrix[j]); } fputc(']',f); }
             comma=0;
@@ -265,6 +322,22 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
             if(comma) fputc(']',f);
             fprintf(f,",\"extras\":{\"source_node_index\":%zu",n->source);
             if(scene) fprintf(f,",\"source_node_id\":%u",doc->package->scene.nodes.v[n->source].id);
+            if(doc->rig&&i>0&&i<=doc->rig->joints.n) {
+                const LWBone *bone=&doc->package->scene.nodes.v[n->source].bone;
+                fprintf(f,",\"native_bone\":true,\"active\":%s,\"rest_length\":%.17g,\"weight_map\":",bone->active?"true":"false",bone->rest_length);
+                lw_json_name(f,bone->weight_map); fputs(",\"weight_map_status\":",f); lw_json_string(f,bone->weight_map_status);
+                fprintf(f,",\"weight_map_only\":%s",bone->weight_map_only?"true":"false");
+            }
+            if(doc->rig) {
+                const LWNode *native=&doc->package->scene.nodes.v[n->source];
+                fputs(",\"native_rig_parameters\":[",f);
+                for(j=0;j<native->rig_parameters.n;j++) {
+                    const LWTextureField *field=&native->rig_parameters.v[j]; if(j) fputc(',',f);
+                    fputs("{\"name\":",f); lw_json_name(f,field->name); fputs(",\"value\":",f); lw_json_name(f,field->value);
+                    fprintf(f,",\"source_offset\":%zu}",field->offset);
+                }
+                fputc(']',f);
+            }
             fputs("}}",f);
         }
         fputc(']',f);
@@ -295,11 +368,17 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
                 fprintf(f,"{\"attributes\":{\"POSITION\":%zu",p->accessor);
                 if(p->mode==4) fprintf(f,",\"NORMAL\":%zu",p->accessor+1);
                 if(p->uv) fprintf(f,",\"TEXCOORD_0\":%zu",p->accessor+2);
+                { size_t set; for(set=0;set<p->skin_sets;set++) fprintf(f,",\"JOINTS_%zu\":%zu,\"WEIGHTS_%zu\":%zu",set,p->skin_accessor+2*set,set,p->skin_accessor+2*set+1); }
                 fprintf(f,"},\"mode\":%u,\"material\":%zu,\"extras\":{\"source_map\":{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"count\":%zu,\"stride\":12,\"component_type\":\"uint32\",\"byte_order\":\"little\",\"fields\":[\"polygon\",\"corner\",\"point\"],\"null_index\":4294967295}}}",p->mode,p->material,p->map_offset,p->count*12,p->count);
             }
             fputs("]}",f);
         }
         fputc(']',f);
+    }
+    if(doc->rig&&doc->rig->weighted) {
+        fprintf(f,",\n\"skins\":[{\"inverseBindMatrices\":%zu,\"skeleton\":0,\"joints\":[0",doc->bind_accessor);
+        for(i=0;i<doc->rig->joints.n;i++) fprintf(f,",%zu",i+1);
+        fputs("],\"extras\":{\"joint_zero\":\"identity object anchor for otherwise unweighted vertices\",\"weights\":\"normalized explicit WGHT maps; all positive influences retained\",\"pose\":\"native rest\"}}]",f);
     }
     if(doc->bytes) {
         fprintf(f,",\n\"buffers\":[{\"byteLength\":%zu,\"uri\":",doc->bytes); buffer_uri(f,name); fputs("}],\n\"bufferViews\":[",f);
@@ -307,24 +386,36 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
             const GPrimitive *p=&doc->primitives.v[i]; if(i) fputc(',',f);
             fprintf(f,"{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"byteStride\":%u,\"target\":34962}",p->offset,p->count*p->stride,p->stride);
         }
+        for(i=0;i<doc->primitives.n;i++) {
+            const GPrimitive *p=&doc->primitives.v[i]; size_t set;
+            for(set=0;set<p->skin_sets;set++) fprintf(f,",{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"byteStride\":24,\"target\":34962}",p->skin_offset+set*p->count*24,p->count*24);
+        }
+        if(doc->rig&&doc->rig->weighted) fprintf(f,",{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu}",doc->bind_offset,(doc->rig->joints.n+1)*64);
         fputs("],\n\"accessors\":[",f);
         for(i=0;i<doc->primitives.n;i++) {
             const GPrimitive *p=&doc->primitives.v[i]; if(i) fputc(',',f);
             accessor(f,i,0,p->count,3,p->low,p->high);
             if(p->mode==4) { fputc(',',f); accessor(f,i,12,p->count,3,NULL,NULL); }
             if(p->uv) { fputc(',',f); accessor(f,i,24,p->count,2,NULL,NULL); }
+            { size_t set; for(set=0;set<p->skin_sets;set++) {
+                size_t view=doc->primitives.n+p->skin_view+set;
+                fprintf(f,",{\"bufferView\":%zu,\"byteOffset\":0,\"componentType\":5123,\"count\":%zu,\"type\":\"VEC4\"},",view,p->count);
+                accessor(f,view,8,p->count,4,NULL,NULL);
+            } }
         }
+        if(doc->rig&&doc->rig->weighted) fprintf(f,",{\"bufferView\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"MAT4\"}",doc->primitives.n+doc->skin_views,doc->rig->joints.n+1);
         fputc(']',f);
     }
     fputs("\n}\n",f);
 }
-static int write_document(const char *dir,const char *name,const LWPackage *package,const LWOptions *opts,int scene,size_t asset,LWGltfStats *stats,LWError *e) {
+static int write_document(const char *dir,const char *name,const LWPackage *package,const LWOptions *opts,int scene,size_t asset,const LWRig *rig,LWGltfStats *stats,LWError *e) {
     GDocument doc={0}; char *bin=NULL,*json=NULL; FILE *f=NULL; size_t i; int ok=0;
-    doc.package=package; doc.options=opts; doc.stats=stats;
+    doc.package=package; doc.options=opts; doc.stats=stats; doc.rig=rig;
     bin=lw_named_path(dir,name,".bin"); json=lw_named_path(dir,name,".gltf");
     if(!bin||!json) { lw_error(e,0,"allocation","out of memory"); goto done; }
     doc.bin=lw_fopen(bin,"wb"); if(!doc.bin) { lw_error(e,0,"glTF","cannot create %s",bin); goto done; }
-    if(scene) { if(!scene_nodes(&doc,e)) goto done; }
+    if(rig) { if(!rig_nodes(&doc,e)) goto done; }
+    else if(scene) { if(!scene_nodes(&doc,e)) goto done; }
     else {
         GNode node={0}; node.parent=SIZE_MAX; lw_identity(node.matrix);
         if(!mesh_index(&doc,asset,LW_NONE,&node.mesh,e)||!LW_ADD(doc.nodes,node,e)) goto done;
@@ -345,8 +436,29 @@ done:
 int lw_write_gltf(const char *dir,const LWPackage *p,const LWOptions *opts,LWGltfStats *stats,LWError *e) {
     char *gltf=lw_join(dir,"gltf"); double *matrices=NULL; size_t i,j,bad=SIZE_MAX; LWError local={0}; int ok=0;
     if(!gltf) return lw_error(e,0,"allocation","out of memory");
-    for(i=0;i<p->objects.n;i++) if(!write_document(gltf,p->names.v[i],p,opts,0,i,stats,e)) goto done;
+    for(i=0;i<p->objects.n;i++) if(!write_document(gltf,p->names.v[i],p,opts,0,i,NULL,stats,e)) goto done;
     if(!p->is_scene) { ok=1; goto done; }
+    stats->rigs=calloc(1,sizeof *stats->rigs);
+    if(!stats->rigs) { lw_error(e,0,"allocation","out of memory"); goto done; }
+    for(i=0;i<p->scene.nodes.n;i++) if(p->scene.nodes.v[i].asset!=SIZE_MAX) {
+        LWRig rig={0}; LWRigExport result={0}; LWError rig_error={0}; int built;
+        for(j=0;j<p->scene.nodes.n;j++) if(p->scene.nodes.v[j].bone.owner==p->scene.nodes.v[i].id) break;
+        if(j==p->scene.nodes.n) continue;
+        result.owner=i; built=lw_build_rig(p,i,&rig,&rig_error);
+        for(j=0;j<p->scene.nodes.n;j++) if(p->scene.nodes.v[j].bone.owner==p->scene.nodes.v[i].id) result.bones++;
+        result.sets=rig.influence_sets; result.weighted=rig.weighted;
+        result.missing_maps=rig.missing_maps; result.procedural_bones=rig.procedural_bones; result.unweighted_points=rig.unweighted_points;
+        snprintf(result.issue,sizeof result.issue,"%s",built?rig.issue:rig_error.message);
+        if(built) {
+            size_t length=strlen(p->scene_name)+48; result.name=malloc(length);
+            if(!result.name) { lw_free_rig(&rig); lw_error(e,0,"allocation","out of memory"); goto done; }
+            snprintf(result.name,length,"%s.rig-%08x",p->scene_name,p->scene.nodes.v[i].id);
+            result.written=write_document(gltf,result.name,p,opts,1,rig.asset,&rig,stats,e);
+            if(!result.written) { free(result.name); lw_free_rig(&rig); goto done; }
+        } else if(!strcmp(rig_error.context,"allocation")) { lw_free_rig(&rig); *e=rig_error; goto done; }
+        lw_free_rig(&rig);
+        if(!LW_ADD(*stats->rigs,result,e)) { free(result.name); goto done; }
+    }
     for(i=0;i<p->scene.nodes.n;i++) for(j=0;j<p->scene.nodes.v[i].channels.n;j++) if(p->scene.nodes.v[i].channels.v[j].keys.n>1) stats->animated_channels++;
     matrices=calloc(p->scene.nodes.n?p->scene.nodes.n:1,16*sizeof *matrices);
     if(!matrices) { lw_error(e,0,"allocation","out of memory"); goto done; }
@@ -365,7 +477,7 @@ int lw_write_gltf(const char *dir,const LWPackage *p,const LWOptions *opts,LWGlt
             }
         }
     }
-    if(!write_document(gltf,p->scene_name,p,opts,1,0,stats,e)) goto done;
+    if(!write_document(gltf,p->scene_name,p,opts,1,0,NULL,stats,e)) goto done;
     stats->geometry.scene_written=1; ok=1;
 done:
     free(matrices); free(gltf); return ok;

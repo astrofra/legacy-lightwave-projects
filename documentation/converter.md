@@ -1,4 +1,4 @@
-# LWS/LWO converter in C — v0.4.1
+# LWS/LWO converter in C — v0.5.0
 
 Status as of 11 September 2026. This milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
@@ -53,7 +53,7 @@ a rendering approximation, and the scope is recorded in every package.
 | LWOB | PNTS, SRFS, POLS with signed surface numbers and detail polygons, PCHS, a SURF subset and image references |
 | LWO2 | LAYR, PNTS/POLS blocks, TAGS/PTAG, VMAP/VMAD of any dimension and type, a SURF/CLIP subset |
 | PST_ | Preserved preset wrapper and LWO2/LWOB object nested in PDAT |
-| LWSC 1/3 | Objects, nulls, light/camera/bone IDs, parents, pivots, motion channels and keys, plugin blocks |
+| LWSC 1/3 | Objects, nulls, light/camera/bone IDs, parents, pivots, motion channels and keys, bone rest poses and weight-map assignments, native rig parameters, plugin blocks |
 
 IFF bounds, sizes, point indices and geometry floating-point values are checked.
 Invalid map/assignment indices are preserved and counted. Non-finite map values
@@ -395,6 +395,11 @@ at seams and keeps source polygon data independent from render geometry.
 The initial writer uses non-indexed primitives; no vertex deduplication, native
 smoothing, tangents or subdivision evaluation is claimed.
 
+Subdivision baking is deliberately excluded from the glTF backend. Native
+PCHS/PTCH types, original polygons and subdivision maps remain in LWIR;
+scene `SubPatchLevel` and `SubdivisionOrder` now also appear in ordered
+`rig_parameters`. Future editable subdivision belongs to the Blender backend.
+
 `--uv-map` shares the OBJ resolver, including VMAD precedence and native block
 scope. The glTF derivative stores `(u, 1-v)`. A source face missing any selected
 UV value goes into a primitive without `TEXCOORD_0`; zero UVs are not invented.
@@ -450,8 +455,10 @@ document; repeated instances can therefore make OBJ and glTF totals differ.
 
 ## Validation performed
 
-For v0.4.1, all 75 regression tests pass in Release and MSVC AddressSanitizer
-(36 converter, 12 batch, 8 glTF, 12 texture and 7 scene-evaluation tests).
+For v0.5.0, all 83 regression tests pass in Release and MSVC AddressSanitizer
+(36 converter, 12 batch, 8 glTF, 12 texture, 7 scene-evaluation and 8 skin tests).
+Separate rest rigs, their native bindings and the focused Smila results are
+described in the [skinning profile and QA report](skin-and-smila-qa.md).
 All seven `butterfly-tank` scenes now export; all ten published glTF files pass
 Khronos validation, and all seven scene imports in Blender match their OBJ
 geometry. See the [focused QA report](butterfly-tank-qa.md).

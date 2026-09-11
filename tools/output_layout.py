@@ -196,6 +196,10 @@ class ProjectOutput:
             manifest.update(scene_obj=relative(obj, ir), scene_mtl=relative(obj.with_suffix(".mtl"), ir))
         if manifest["scene_gltf"]:
             manifest["scene_gltf"], manifest["scene_gltf_bin"] = self.publish_gltf(package, manifest["scene_gltf"], manifest["scene_gltf_bin"], name, ir)
+        for rig in manifest.get("gltf_rigs", []):
+            if rig["gltf"]:
+                rig_name = self.names.get(source_key(manifest["input"])+f":rig:{rig['owner_item']:08x}", name+f".rig-{rig['owner_item']:08x}")
+                rig["gltf"], rig["gltf_bin"] = self.publish_gltf(package, rig["gltf"], rig["gltf_bin"], rig_name, ir)
         manifest_path = ir / "manifest.json"
         if manifest_path.exists():
             raise FileExistsError(f"Conversion manifest already exists: {manifest_path}")

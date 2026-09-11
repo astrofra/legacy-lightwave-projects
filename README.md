@@ -38,6 +38,14 @@ declared envelope key counts while retaining the original data and a warning.
 A bounded mirrored-bank `LW_Follower` preview unblocks the seven
 [`butterfly-tank` scenes](documentation/butterfly-tank-qa.md).
 
+Since v0.5.0, scene IR includes bone rest poses, weight-map assignments and native
+influence settings. Separate `*.rig-<item ID>.gltf` files export object-local rest
+skeletons and, for explicit normalized map-only bindings, standard glTF skins
+with all positive influences. Procedural bone influences remain unevaluated;
+the [Smila QA report](documentation/skin-and-smila-qa.md) describes that limitation.
+Subdivision is never baked into glTF: patch control cages and native IR settings
+are retained for a future Blender backend.
+
 Scene clip maps are preserved explicitly on their owning instances, with image
 roles, native parameter trees and source byte ranges. Object dissolve remains a
 separate attribute. The IR supports future target interpretation: MTL `map_d`

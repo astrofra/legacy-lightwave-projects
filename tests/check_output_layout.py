@@ -71,6 +71,9 @@ def check(run):
             pairs = [(a["gltf"], a["gltf_bin"]) for a in manifest["assets"]]
             if manifest["scene_gltf"]:
                 pairs.append((manifest["scene_gltf"], manifest["scene_gltf_bin"]))
+            rigs = [r for r in manifest.get("gltf_rigs", []) if r["gltf"]]
+            pairs.extend((r["gltf"], r["gltf_bin"]) for r in rigs)
+            assert {linked(run, uri, project) for uri in record.get("rig_gltf", [])} == {linked(manifest_path.parent, r["gltf"], project) for r in rigs}
             for uri, binary in pairs:
                 path = linked(manifest_path.parent, uri, project)
                 bin_path = linked(manifest_path.parent, binary, project)

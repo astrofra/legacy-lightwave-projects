@@ -131,6 +131,7 @@ def convert_one(record, number, content, run, converter, options, project_output
         record["gltf"] = (published.parent / gltf_uri).resolve().relative_to(run).as_posix() if gltf_uri else None
         record["scene_obj_issue"] = manifest.get("scene_obj_issue", "")
         record["scene_gltf_issue"] = manifest.get("scene_gltf_issue", "")
+        record["rig_gltf"] = [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig["gltf"]]
         record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         record.update(status="failed", reason=str(error))

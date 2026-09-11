@@ -1,0 +1,325 @@
+{
+  "date": "2026-09-11",
+  "converter_version": "0.5.0",
+  "converter_sha256": "d918a2ef60966831299be179270c0591eaa4c3348613c230637bb724ad1b16f0",
+  "batch": "output/smila-skin-qa/batch-20260911-120330",
+  "regression_tests": 83,
+  "release_passed": true,
+  "asan_passed": true,
+  "layout": {
+    "batch": "S:\\works\\legacy-lightwave-projects\\output\\smila-skin-qa\\batch-20260911-120330",
+    "layout_version": "0.2",
+    "input_statuses": {
+      "partial": 33,
+      "skipped": 13
+    },
+    "projects": 1,
+    "conversion_manifests": 33,
+    "native_sources_checked": 33,
+    "obj_mtl_pairs_checked": 26,
+    "gltf_buffer_pairs_checked": 35,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "validator": {
+    "input": "S:\\works\\legacy-lightwave-projects\\output\\smila-skin-qa\\batch-20260911-120330",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 35,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "synthetic_skin_validator": {
+    "input": "S:\\works\\legacy-lightwave-projects\\_tmp\\skin-qa-final\\package",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 3,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 3,
+      "numHints": 0
+    },
+    "issue_codes": {
+      "UNUSED_OBJECT": 3
+    },
+    "diagnostics": [
+      {
+        "file": "gltf/rig.lwo.gltf",
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "file": "gltf/rig.lws.gltf",
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+      },
+      {
+        "file": "gltf/rig.lws.rig-10000000.gltf",
+        "code": "UNUSED_OBJECT",
+        "message": "This object may be unused.",
+        "severity": 2,
+        "pointer": "/meshes/0/primitives/0/attributes/TEXCOORD_0"
+      }
+    ],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "synthetic_skin_blender": {
+    "blender_version": "4.2.0",
+    "gltf": "S:\\works\\legacy-lightwave-projects\\_tmp\\skin-qa-final\\package\\gltf\\rig.lws.rig-10000000.gltf",
+    "armatures": 1,
+    "bones": 8,
+    "vertices": 6,
+    "maximum_rest_error": 1.3328003749250113e-07,
+    "maximum_deformation_error": 1.0076022904925708e-08,
+    "passed": true,
+    "scope": "Synthetic explicit normalized weight maps; real armature import and sixth-bone displacement through Blender's evaluated armature modifier. Verifies more than four influences and fixed unweighted vertices; does not qualify LightWave's procedural envelopes."
+  },
+  "scenes": [
+    {
+      "source": "Smilla_IK.lws",
+      "source_sha256": "fda8e0924841cf7bb21bdc8766f0152a6fcd4b825c4f63b043500e2956ded147",
+      "snapshot": true,
+      "snapshot_issue": "",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 30,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 14,
+          "procedural_bones_not_evaluated": 30,
+          "gltf": "../../gltf/Smilla_IK.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/Smilla_IK.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "light_test.lws",
+      "source_sha256": "ba6c2990d894a26275a86d39877e061636302264a7de091d63a6c26811108c99",
+      "snapshot": true,
+      "snapshot_issue": "",
+      "rigs": []
+    },
+    {
+      "source": "smila_export.lws",
+      "source_sha256": "5ed77c146a4a376f2e16a5efb4609ef570c51aaecc51e37ed7327240dee86dc8",
+      "snapshot": false,
+      "snapshot_issue": "transform: node 10000027: unsupported item motion plugin or Follower configuration",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 107,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 75,
+          "gltf": "../../gltf/smila_export.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_export.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "smila_export_converted.lws",
+      "source_sha256": "b69de45c842d43a07945fa295a1afdd77f9a887404ec4e08f437da3a8aeafb7a",
+      "snapshot": true,
+      "snapshot_issue": "",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 107,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 74,
+          "gltf": "../../gltf/smila_export_converted.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_export_converted.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "smila_posing.lws",
+      "source_sha256": "9dad6f5d432a203793e5f723b2546e3ba3e6baac3c1b0782ccc63e188a8d1f1a",
+      "snapshot": false,
+      "snapshot_issue": "transform: node 10000027: unsupported item motion plugin or Follower configuration",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 107,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 75,
+          "gltf": "../../gltf/smila_posing.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_posing.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "smila_posing_02.lws",
+      "source_sha256": "41cb03b02356919b120e08706b28da31bf516f902f20f46b50c17945996a5e37",
+      "snapshot": false,
+      "snapshot_issue": "transform: node 10000027: unsupported item motion plugin or Follower configuration",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 107,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 75,
+          "gltf": "../../gltf/smila_posing_02.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_posing_02.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "smila_posing_toon.lws",
+      "source_sha256": "b402a66f0ca2f606c9fa088b2cfa6c6647511a3a787e6716627596203fd9c5d7",
+      "snapshot": false,
+      "snapshot_issue": "transform: node 10000027: unsupported item motion plugin or Follower configuration",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 107,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 75,
+          "gltf": "../../gltf/smila_posing_toon.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_posing_toon.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "smila_rig.lws",
+      "source_sha256": "c5725e3e01ec536247256c7b85624a95437ce91a2f939204e1b7857d8f982c4e",
+      "snapshot": false,
+      "snapshot_issue": "transform: node 10000027: unsupported item motion plugin or Follower configuration",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 121,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 88,
+          "gltf": "../../gltf/smila_rig.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_rig.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "smila_rig_converted.lws",
+      "source_sha256": "3ae4847e8765235af59c8b8b858a24b894eb17afb15a57d2a3458789cab7499a",
+      "snapshot": false,
+      "snapshot_issue": "transform: node 10000027: unsupported item motion plugin or Follower configuration",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 107,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 75,
+          "gltf": "../../gltf/smila_rig_converted.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_rig_converted.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "smila_run_cycle.lws",
+      "source_sha256": "6342942a1e0d5301da34d0e71b9cea7891255a97fe7f1239d2a2fc2232d97c08",
+      "snapshot": false,
+      "snapshot_issue": "transform: node 10000027: unsupported item motion plugin or Follower configuration",
+      "rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 107,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 75,
+          "gltf": "../../gltf/smila_run_cycle.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/smila_run_cycle.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "tank.lws",
+      "source_sha256": "3175f3bd6b9f9965fee21694fd501696d1c8d6f3ba3570f73a8d11356b8efebb",
+      "snapshot": true,
+      "snapshot_issue": "",
+      "rigs": []
+    },
+    {
+      "source": "tank_baking.lws",
+      "source_sha256": "a525c145ac4d3b15bcb7e47fb77893ff6e928beb0935b45b2a5d40a3beb81e74",
+      "snapshot": true,
+      "snapshot_issue": "",
+      "rigs": []
+    },
+    {
+      "source": "tank_reel.lws",
+      "source_sha256": "85879bb4ff871397c51d112561e3ed8d41537db985d21ebb648c79df25dd4708",
+      "snapshot": true,
+      "snapshot_issue": "",
+      "rigs": []
+    }
+  ]
+}

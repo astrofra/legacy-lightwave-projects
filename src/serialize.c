@@ -149,6 +149,21 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
         fputs(",\"follower\":",f);
         if(n->mirrored_bank_follower) fprintf(f,"{\"source_item\":%u,\"plugin_index\":%zu,\"channel\":5,\"scale\":-1,\"add\":0,\"profile\":\"mirrored-bank-preview\",\"interpretation\":\"same-parent bank-only source; opposite bank at snapshot time; qualified legacy payload, not a general Follower evaluator\"}",n->follower_source,n->follower_plugin);
         else fputs("null",f);
+        fputs(",\"bone\":",f);
+        if(n->bone.owner!=LW_NONE) {
+            const LWBone *b=&n->bone;
+            fprintf(f,"{\"owner_item\":%u,\"active\":%s,\"rest_fields_present\":%u,\"rest_position\":[%.17g,%.17g,%.17g],\"rest_rotation_hpb_degrees\":[%.17g,%.17g,%.17g],\"rest_length\":%.17g,\"weight_map\":",b->owner,b->active?"true":"false",b->present,b->rest_position[0],b->rest_position[1],b->rest_position[2],b->rest_rotation[0],b->rest_rotation[1],b->rest_rotation[2],b->rest_length);
+            lw_json_name(f,b->weight_map);
+            fprintf(f,",\"weight_map_only\":%s,\"normalize\":%s,\"strength\":%.17g,\"scale_strength_by_length\":%s,\"limited_range\":%s,\"range\":[%.17g,%.17g],\"joint_compensation\":[%.17g,%.17g],\"muscle_flex\":[%.17g,%.17g],\"weight_map_status\":",b->weight_map_only?"true":"false",b->normalize?"true":"false",b->strength,b->scale_strength?"true":"false",b->limited_range?"true":"false",b->range[0],b->range[1],b->joint_comp[0],b->joint_comp[1],b->muscle_flex[0],b->muscle_flex[1]);
+            lw_json_string(f,b->weight_map_status); fputc('}',f);
+        } else fputs("null",f);
+        fputs(",\"rig_parameters\":[",f);
+        for(j=0;j<n->rig_parameters.n;j++) {
+            const LWTextureField *field=&n->rig_parameters.v[j]; if(j) fputc(',',f);
+            fputs("{\"name\":",f); lw_json_name(f,field->name); fputs(",\"value\":",f); lw_json_name(f,field->value);
+            fprintf(f,",\"source_offset\":%zu}",field->offset);
+        }
+        fputc(']',f);
         fputs(",\"candidates\":[",f); for(j=0;j<n->candidates.n;j++) { if(j) fputc(',',f); lw_json_string(f,n->candidates.v[j]); }
         fputs("],\"clip_maps\":",f); clip_maps_json(f,n);
         fputs(",\"object_dissolve\":",f);
