@@ -33,6 +33,11 @@ The `orange-juice-signage` example now exports its textured screen, orange skin
 and floor transparency. See the [texture profile](documentation/textures.md)
 for supported channels and the remaining rendering approximations.
 
+Since v0.4.1, scene snapshots also sample TCB curves and tolerate incorrect
+declared envelope key counts while retaining the original data and a warning.
+A bounded mirrored-bank `LW_Follower` preview unblocks the seven
+[`butterfly-tank` scenes](documentation/butterfly-tank-qa.md).
+
 Scene clip maps are preserved explicitly on their owning instances, with image
 roles, native parameter trees and source byte ranges. Object dissolve remains a
 separate attribute. The IR supports future target interpretation: MTL `map_d`

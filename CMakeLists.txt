@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.4.0 LANGUAGES C)
+project(lightwave_preservation VERSION 0.4.1 LANGUAGES C)
 
 option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 if(MSVC AND NOT LWCONVERT_SANITIZE)
@@ -67,6 +67,8 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_gltf.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME texture_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_textures.py" "$<TARGET_FILE:lwconvert>")
+    add_test(NAME scene_evaluation_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_scene_evaluation.py" "$<TARGET_FILE:lwconvert>")
 endif()
 install(TARGETS lwconvert RUNTIME DESTINATION bin)
 install(FILES third_party/README.md DESTINATION bin/licenses)

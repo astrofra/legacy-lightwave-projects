@@ -145,6 +145,10 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
         if(n->asset==SIZE_MAX) fputs("null",f); else fprintf(f,"%zu",n->asset);
         fputs(",\"resolved_path\":",f); if(n->resolved_path) lw_json_string(f,n->resolved_path); else fputs("null",f);
         fputs(",\"resolution\":",f); lw_json_string(f,n->resolution); fputs(",\"issue\":",f); lw_json_string(f,n->issue);
+        fprintf(f,",\"key_count_mismatches\":%zu,\"transform_issue\":",n->key_count_mismatches); lw_json_string(f,n->transform_issue);
+        fputs(",\"follower\":",f);
+        if(n->mirrored_bank_follower) fprintf(f,"{\"source_item\":%u,\"plugin_index\":%zu,\"channel\":5,\"scale\":-1,\"add\":0,\"profile\":\"mirrored-bank-preview\",\"interpretation\":\"same-parent bank-only source; opposite bank at snapshot time; qualified legacy payload, not a general Follower evaluator\"}",n->follower_source,n->follower_plugin);
+        else fputs("null",f);
         fputs(",\"candidates\":[",f); for(j=0;j<n->candidates.n;j++) { if(j) fputc(',',f); lw_json_string(f,n->candidates.v[j]); }
         fputs("],\"clip_maps\":",f); clip_maps_json(f,n);
         fputs(",\"object_dissolve\":",f);
@@ -164,7 +168,7 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
     fputs(",\n\"plugins\":[",f);
     for(i=0;i<s->plugins.n;i++) {
         const LWPlugin *plugin=&s->plugins.v[i]; if(i) fputc(',',f); fputs("{\"name\":",f); lw_json_name(f,plugin->name);
-        fprintf(f,",\"offset\":%zu,\"bytes\":%zu,\"status\":\"preserved-opaque\"}",plugin->offset,plugin->size);
+        fprintf(f,",\"offset\":%zu,\"bytes\":%zu,\"status\":\"%s\"}",plugin->offset,plugin->size,plugin->interpreted?"mirrored-bank-preview":"preserved-opaque");
     }
     fprintf(f,"],\n\"animation_bytes\":%zu,\"opaque_blocks\":%zu,\"unsupported_features\":%zu,\"unparsed_fields\":\"retained verbatim in source.bin, including optics, lights, scalar envelopes and deformation settings\"\n}\n",offset,s->opaque_blocks,s->unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }

@@ -421,7 +421,7 @@ class Converter(unittest.TestCase):
 
     def test_v3_seconds_and_unsupported_spline(self):
         self.write("tri", lwob())
-        for shape, code in [(3, 0), (0, 2)]:
+        for shape, code in [(3, 0), (0, 0), (5, 2)]:
             scene = self.write(f"motion{shape}.lws", "LWSC\n3\nFramesPerSecond 20\nLoadObject tri\n" + motion3(shape=shape))
             out, manifest = self.convert(scene, "--frame", "10", code=code)
             if not code:

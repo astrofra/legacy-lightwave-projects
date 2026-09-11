@@ -104,7 +104,11 @@ static int motion_v3(LWNode *node,const Lines *ls,size_t *i,LWError *e) {
             if(ch->keys.n&&frame.time<=ch->keys.v[ch->keys.n-1].time) return lw_error(e,ls->v[*i].offset,"motion","key times are not strictly increasing");
             LW_TRY(LW_ADD(ch->keys,frame,e));
         }
-        if(ch->keys.n!=nkeys) node->unsupported_transform=1;
+        if(!ch->keys.n) {
+            node->unsupported_transform=1;
+            snprintf(node->transform_issue,sizeof node->transform_issue,"channel %u has no keys",ch->index);
+        }
+        if(ch->keys.n!=nkeys) node->key_count_mismatches++;
         { double b[2]; LW_TRY(numbers(value,b,2,ls->v[*i].offset,e));
           if(b[0]<0||b[0]>5||b[1]<0||b[1]>5||floor(b[0])!=b[0]||floor(b[1])!=b[1]) return lw_error(e,ls->v[*i].offset,"motion","invalid envelope behavior");
           ch->pre=(uint32_t)b[0]; ch->post=(uint32_t)b[1]; }
@@ -112,6 +116,7 @@ static int motion_v3(LWNode *node,const Lines *ls,size_t *i,LWError *e) {
         split(ls->v[*i],&key,&value);
         while(lw_string_is(key,"{")) {
             unsigned depth=1; ch->opaque_modifiers++; node->unsupported_transform=1;
+            snprintf(node->transform_issue,sizeof node->transform_issue,"channel %u has an unsupported envelope modifier",ch->index);
             while(depth) {
                 LW_TRY(next_line(ls,i,e)); split(ls->v[*i],&key,&value);
                 if(lw_string_is(key,"{")) depth++;
@@ -122,6 +127,35 @@ static int motion_v3(LWNode *node,const Lines *ls,size_t *i,LWError *e) {
         if(!lw_string_is(ls->v[*i].text,"}")) return lw_error(e,ls->v[*i].offset,"motion","expected envelope closing brace");
     }
     return 1;
+}
+/* Qualified legacy LW_Follower profile: a sibling's bank mirrored at the same
+   time. The full plugin payload remains archived. This does not claim general
+   Follower, world-space, timing, IK or arbitrary channel-remapping support. */
+static int mirrored_bank_follower(LWNode *node,const Lines *ls,size_t start,size_t end) {
+    LWError local={0}; double id[2]; size_t i;
+    if(end-start!=13||node->mirrored_bank_follower) return 0;
+    if(!numbers(unquote(ls->v[start+1].text),id,2,ls->v[start+1].offset,&local)||id[0]<1||id[0]>UINT32_MAX||floor(id[0])!=id[0]||id[1]!=1) return 0;
+    for(i=2;i<=3;i++) {
+        LWString key,value; Line line={unquote(ls->v[start+i].text),ls->v[start+i].offset}; split(line,&key,&value);
+        if(i==2) {
+            double channels[10]; size_t j;
+            if(!lw_string_is(key,"Channels")||!numbers(value,channels,10,line.offset,&local)||channels[0]!=32) return 0;
+            for(j=0;j<9;j++) if(channels[j+1]!=(j==5?5:0)) return 0;
+        } else {
+            char text[256],tail; double delay,random,path; unsigned flags; int count;
+            if(!lw_string_is(key,"TimeSlip")||value.size>=sizeof text) return 0;
+            memcpy(text,value.data,value.size); text[value.size]=0;
+            count=sscanf(text,"%lf Randomize %lf PathSlip %lf %u %c",&delay,&random,&path,&flags,&tail);
+            if(count!=4||delay!=0||random!=0||path!=0||flags!=1) return 0;
+        }
+    }
+    for(i=0;i<9;i++) {
+        LWString value=unquote(ls->v[start+4+i].text); char text[256],tail; double scale,add;
+        if(value.size>=sizeof text) return 0;
+        memcpy(text,value.data,value.size); text[value.size]=0;
+        if(sscanf(text,"Scale %lf Add %lf %c",&scale,&add,&tail)!=2||scale!=(i==5?-1:1)||add!=0) return 0;
+    }
+    node->follower_source=(uint32_t)id[0]; node->mirrored_bank_follower=1; return 1;
 }
 static int add_node(LWScene *s,uint32_t id,Line line,LWString name,size_t *current,LWError *e) {
     LWNode n={0}; n.id=id; n.parent=LW_NONE; n.layer=LW_NONE; n.name=unquote(name);
@@ -206,13 +240,26 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
         }
         if(lw_string_is(key,"Plugin")) {
             size_t start=i; unsigned depth=1; LWPlugin plugin={0}; plugin.name=value; plugin.offset=ls->v[i].offset;
-            if(current!=SIZE_MAX&&value.size>=17&&!memcmp(value.data,"ItemMotionHandler",17)) s->nodes.v[current].unsupported_transform=1;
             while(depth) {
                 LW_TRY(next_line(ls,&i,e)); split(ls->v[i],&key,&value);
                 if(lw_string_is(key,"Plugin")) depth++;
                 else if(lw_string_is(key,"EndPlugin")) depth--;
             }
             plugin.size=ls->v[i].offset+ls->v[i].text.size-ls->v[start].offset;
+            if(current!=SIZE_MAX&&plugin.name.size>=17&&!memcmp(plugin.name.data,"ItemMotionHandler",17)) {
+                LWNode *owner=&s->nodes.v[current];
+                int enabled=1;
+                if(i+1<ls->n) {
+                    LWString next_key,next_value; split(ls->v[i+1],&next_key,&next_value);
+                    if(lw_string_is(next_key,"PluginEnabled")&&!lw_string_is(next_value,"1")) enabled=0;
+                }
+                if(enabled&&lw_string_is(plugin.name,"ItemMotionHandler 1 LW_Follower")&&mirrored_bank_follower(owner,ls,start,i)) {
+                    owner->follower_plugin=s->plugins.n; plugin.interpreted=1;
+                } else {
+                    owner->unsupported_transform=1;
+                    snprintf(owner->transform_issue,sizeof owner->transform_issue,"unsupported item motion plugin or Follower configuration");
+                }
+            }
             LW_TRY(LW_ADD(s->plugins,plugin,e)); continue;
         }
         if(lw_string_is(key,"{")) {
@@ -321,17 +368,38 @@ void lw_scene_summary(FILE *f,const LWScene *s) {
     fprintf(f,"{\"kind\":\"scene\",\"version\":%u,\"sha256\":\"%s\",\"nodes\":%zu,\"object_loads\":%zu,\"bones\":%zu,\"keys\":%zu,\"plugins\":%zu,\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g}\n",s->version,s->source.sha256,s->nodes.n,objects,bones,keys,s->plugins.n,s->first_frame,s->last_frame,s->fps);
 }
 
-/* Deliberately bounded first evaluator: exact keys, constant, linear, stepped.
-   Spline keys remain intact in LWIR. Unsupported sampling refuses scene OBJ. */
+/* Span tangents are expressed in the current span's normalized time, with
+   neighboring key times correcting the Kochanek-Bartels tangent weights. */
+static int spline_tangents(const LWChannel *c,size_t right,double *out,double *in) {
+    const LWKey *a=&c->keys.v[right-1],*b=&c->keys.v[right];
+    double delta=b->value-a->value,span=b->time-a->time;
+    double t=a->parameters[0],continuity=a->parameters[1],bias=a->parameters[2];
+    if(a->shape==0) {
+        double before=(1-t)*(1+continuity)*(1+bias),after=(1-t)*(1-continuity)*(1-bias);
+        *out=right>1?span/(b->time-c->keys.v[right-2].time)*(before*(a->value-c->keys.v[right-2].value)+after*delta):after*delta;
+    } else if(a->shape==3) *out=right>1?span/(b->time-c->keys.v[right-2].time)*(b->value-c->keys.v[right-2].value):delta;
+    else if(a->shape==4) *out=0;
+    else return 0;
+    t=b->parameters[0]; continuity=b->parameters[1]; bias=b->parameters[2];
+    {
+        double before=(1-t)*(1-continuity)*(1+bias),after=(1-t)*(1+continuity)*(1-bias);
+        *in=right+1<c->keys.n?span/(c->keys.v[right+1].time-a->time)*(after*(c->keys.v[right+1].value-b->value)+before*delta):before*delta;
+    }
+    return isfinite(*out)&&isfinite(*in)&&isfinite(span)&&isfinite(delta);
+}
+/* Exact keys, constant, linear, stepped and TCB spans. Native keys/parameters
+   stay intact in LWIR; unsupported shapes still refuse a scene snapshot. */
 int lw_channel_value(const LWChannel *c,double time,double *value) {
     size_t i; const LWKey *a,*b;
     if(!c->keys.n) return 0;
     time-=c->offset; a=c->keys.v; b=&c->keys.v[c->keys.n-1];
+    if(!isfinite(time)||c->opaque_modifiers) return 0;
     for(i=0;i<c->keys.n;i++) if(time==c->keys.v[i].time) { *value=c->keys.v[i].value; return 1; }
     if(time<a->time||time>b->time) {
         uint32_t behavior=time<a->time?c->pre:c->post;
         if(behavior==0) { *value=0; return 1; }
         if(behavior==1) { *value=time<a->time?a->value:b->value; return 1; }
+        if(behavior==2&&c->keys.n==1) { *value=a->value; return 1; }
         if(behavior==2&&b->time>a->time) {
             time=a->time+fmod(time-a->time,b->time-a->time);
             if(time<a->time) time+=b->time-a->time;
@@ -344,6 +412,12 @@ int lw_channel_value(const LWChannel *c,double time,double *value) {
         if(time==b->time) { *value=b->value; return 1; }
         if(a->value==b->value && (b->shape==3||b->shape==4)) { *value=a->value; return 1; }
         if(b->shape==4) { *value=a->value; return 1; }
+        if(b->shape==0) {
+            double out,in,u=(time-a->time)/(b->time-a->time),u2=u*u,u3=u2*u;
+            if(!spline_tangents(c,i,&out,&in)) return 0;
+            *value=(2*u3-3*u2+1)*a->value+(u3-2*u2+u)*out+(-2*u3+3*u2)*b->value+(u3-u2)*in;
+            return isfinite(*value);
+        }
         if(b->shape!=3) return 0;
         *value=a->value+(b->value-a->value)*(time-a->time)/(b->time-a->time); return isfinite(*value);
     }
@@ -365,14 +439,31 @@ static void local_matrix(double out[16],const double v[9],const double pivot[3])
     multiply(out,y,x); multiply(out,out,z); multiply(out,out,scale); multiply(out,out,t);
     for(i=0;i<3;i++) out[12+i]+=v[i];
 }
-int lw_scene_node_matrix(const LWScene *s,size_t i,double frame,double m[16],LWError *e) {
-    const LWNode *node=&s->nodes.v[i]; size_t j; double v[9]={0,0,0,0,0,0,1,1,1};
+static int node_values(const LWScene *s,size_t i,double frame,double v[9],LWError *e,unsigned depth) {
+    const LWNode *node=&s->nodes.v[i]; size_t j;
     double time=s->version==1?frame:frame/s->fps;
-    if(node->unsupported_transform) return lw_error(e,node->source_offset,"transform","node %08x requires unsupported pivot/IK/bone evaluation",node->id);
+    if(depth>64) return lw_error(e,node->source_offset,"follower","cyclic or excessively deep follower chain");
+    if(node->unsupported_transform) return lw_error(e,node->source_offset,"transform","node %08x: %s",node->id,node->transform_issue[0]?node->transform_issue:"unsupported pivot/IK/bone evaluation");
+    for(j=0;j<9;j++) v[j]=j<6?0:1;
     for(j=0;j<node->channels.n;j++) {
         const LWChannel *c=&node->channels.v[j];
-        if(c->index<9 && !lw_channel_value(c,time,&v[c->index])) return lw_error(e,node->source_offset,"animation","node %08x channel %u cannot be sampled by the first evaluator",node->id,c->index);
+        if(c->index<9 && !lw_channel_value(c,time,&v[c->index])) return lw_error(e,node->source_offset,"animation","node %08x channel %u: unsupported envelope shape, behavior or modifier",node->id,c->index);
     }
+    if(node->mirrored_bank_follower) {
+        double source[9]; const LWNode *leader;
+        for(j=0;j<s->nodes.n;j++) if(s->nodes.v[j].id==node->follower_source) break;
+        if(j==s->nodes.n) return lw_error(e,node->source_offset,"follower","missing source item %08x",node->follower_source);
+        leader=&s->nodes.v[j];
+        if(leader->parent!=node->parent||memcmp(leader->pivot,node->pivot,sizeof node->pivot)) return lw_error(e,node->source_offset,"follower","mirrored-bank profile requires matching parents and pivots");
+        LW_TRY(node_values(s,j,frame,source,e,depth+1));
+        if(v[3]||v[4]||v[5]||source[3]||source[4]) return lw_error(e,node->source_offset,"follower","mirrored-bank profile requires bank-only source rotation and neutral follower rotation");
+        v[5]=-source[5];
+    }
+    return 1;
+}
+int lw_scene_node_matrix(const LWScene *s,size_t i,double frame,double m[16],LWError *e) {
+    const LWNode *node=&s->nodes.v[i]; size_t j; double v[9];
+    LW_TRY(node_values(s,i,frame,v,e,0));
     if(s->version==1) for(j=3;j<6;j++) v[j]*=0.017453292519943295;
     local_matrix(m,v,node->pivot);
     for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"transform","non-finite matrix");

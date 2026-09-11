@@ -1,0 +1,221 @@
+{
+  "scope": "Unmodified local SDK interp.c float reference versus lwconvert double evaluator; 500 synthetic TCB curves and 257 samples per supported native channel over each scene render interval. This does not execute LightWave Layout, ScreamerNet or Follower.",
+  "reference_sha256": {
+    "_tmp/_extern/LightWave/LW9/SDK/sample/Layout/ChannelFilter/envelope/interp.c": "5c59edbff41595b1551eee943cecf5c4ebd5d936e89a44bf29767dbc639b94e0",
+    "_tmp/_extern/LightWave/LW9/SDK/sample/Layout/ChannelFilter/envelope/envelope.h": "566a3a493614cfaa1be33887e0b03f2bbc421880343877180a7e717b455da31f",
+    "build/Release/lwconvert_core.lib": "70b9ff7177a9724b1ac6becb1b2c9f9bb6fd9600a0682c75a78f06409d3bf0e5",
+    "_tmp/sdk-envelope-qa/probe.c": "c2ba8faf4dce5cf61bbd0b625ab0e9eb739bca5fba3a639f254456b56ec28122"
+  },
+  "results": [
+    {
+      "case": "synthetic TCB; dyadic inputs; reset, constant and repeat",
+      "samples": 512000,
+      "unsupported": 0,
+      "maximum_absolute_difference": 1.0300389031936419e-05,
+      "maximum_difference_over_channel_scale": 6.699440020771654e-07,
+      "worst_sample": {
+        "node": 0,
+        "channel": 0,
+        "time": -13.3125,
+        "converter": 2.5468070023148255,
+        "sdk_float": 2.5468173027038574
+      }
+    },
+    {
+      "case": "content\\butterfly-tank\\01.lws",
+      "samples": 33153,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.010841327673764112,
+      "maximum_difference_over_channel_scale": 0.008497433778699616,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 0.5729166666666666,
+        "converter": -0.04125571348610413,
+        "sdk_float": -0.05209704115986824
+      }
+    },
+    {
+      "case": "same scene, float-quantized inputs",
+      "samples": 33153,
+      "unsupported": 0,
+      "maximum_absolute_difference": 9.664080696783484e-05,
+      "maximum_difference_over_channel_scale": 7.574707389955781e-05,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 0.5729166865348816,
+        "converter": -0.052193681966836075,
+        "sdk_float": -0.05209704115986824
+      }
+    },
+    {
+      "case": "content\\butterfly-tank\\01_butterfly.lws",
+      "samples": 23901,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.010841327673764112,
+      "maximum_difference_over_channel_scale": 0.008497433778699616,
+      "worst_sample": {
+        "node": 268435459,
+        "channel": 5,
+        "time": 0.5729166666666666,
+        "converter": -0.04125571348610413,
+        "sdk_float": -0.05209704115986824
+      }
+    },
+    {
+      "case": "same scene, float-quantized inputs",
+      "samples": 23901,
+      "unsupported": 0,
+      "maximum_absolute_difference": 9.664080696783484e-05,
+      "maximum_difference_over_channel_scale": 7.574707389955781e-05,
+      "worst_sample": {
+        "node": 268435459,
+        "channel": 5,
+        "time": 0.5729166865348816,
+        "converter": -0.052193681966836075,
+        "sdk_float": -0.05209704115986824
+      }
+    },
+    {
+      "case": "content\\butterfly-tank\\02.lws",
+      "samples": 35466,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.011617356045453664,
+      "maximum_difference_over_channel_scale": 0.009105684898604612,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 5.755208333333333,
+        "converter": 0.6520855958296944,
+        "sdk_float": 0.6404682397842407
+      }
+    },
+    {
+      "case": "same scene, float-quantized inputs",
+      "samples": 35466,
+      "unsupported": 0,
+      "maximum_absolute_difference": 9.664080696783484e-05,
+      "maximum_difference_over_channel_scale": 7.574707389955781e-05,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 0.5729166865348816,
+        "converter": -0.052193681966836075,
+        "sdk_float": -0.05209704115986824
+      }
+    },
+    {
+      "case": "content\\butterfly-tank\\02_butterfly.lws",
+      "samples": 33153,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.011617356045453664,
+      "maximum_difference_over_channel_scale": 0.009105684898604612,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 5.755208333333333,
+        "converter": 0.6520855958296944,
+        "sdk_float": 0.6404682397842407
+      }
+    },
+    {
+      "case": "same scene, float-quantized inputs",
+      "samples": 33153,
+      "unsupported": 0,
+      "maximum_absolute_difference": 9.664080696783484e-05,
+      "maximum_difference_over_channel_scale": 7.574707389955781e-05,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 0.5729166865348816,
+        "converter": -0.052193681966836075,
+        "sdk_float": -0.05209704115986824
+      }
+    },
+    {
+      "case": "content\\butterfly-tank\\02_grass.lws",
+      "samples": 33153,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.011617356045453664,
+      "maximum_difference_over_channel_scale": 0.009105684898604612,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 5.755208333333333,
+        "converter": 0.6520855958296944,
+        "sdk_float": 0.6404682397842407
+      }
+    },
+    {
+      "case": "same scene, float-quantized inputs",
+      "samples": 33153,
+      "unsupported": 0,
+      "maximum_absolute_difference": 9.664080696783484e-05,
+      "maximum_difference_over_channel_scale": 7.574707389955781e-05,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 0.5729166865348816,
+        "converter": -0.052193681966836075,
+        "sdk_float": -0.05209704115986824
+      }
+    },
+    {
+      "case": "content\\butterfly-tank\\02_NAB.lws",
+      "samples": 35466,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.005859947837992929,
+      "maximum_difference_over_channel_scale": 0.0045930277359369056,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 6.364322916666667,
+        "converter": 0.26017884079377296,
+        "sdk_float": 0.25431889295578003
+      }
+    },
+    {
+      "case": "same scene, float-quantized inputs",
+      "samples": 35466,
+      "unsupported": 0,
+      "maximum_absolute_difference": 6.390294504443617e-05,
+      "maximum_difference_over_channel_scale": 5.008713454029154e-05,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 6.364323139190674,
+        "converter": 0.25438279590082447,
+        "sdk_float": 0.25431889295578003
+      }
+    },
+    {
+      "case": "content\\butterfly-tank\\03.lws",
+      "samples": 29298,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.011565943429251102,
+      "maximum_difference_over_channel_scale": 0.009065387684580891,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 0.5598958333333334,
+        "converter": 0.4714507956001953,
+        "sdk_float": 0.4598848521709442
+      }
+    },
+    {
+      "case": "same scene, float-quantized inputs",
+      "samples": 29298,
+      "unsupported": 0,
+      "maximum_absolute_difference": 0.00010126810269783793,
+      "maximum_difference_over_channel_scale": 7.937394874273158e-05,
+      "worst_sample": {
+        "node": 268435464,
+        "channel": 5,
+        "time": 0.5598958134651184,
+        "converter": 0.45998612027364205,
+        "sdk_float": 0.4598848521709442
+      }
+    }
+  ]
+}

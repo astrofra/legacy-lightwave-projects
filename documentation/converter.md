@@ -1,4 +1,4 @@
-# LWS/LWO converter in C — v0.4.0
+# LWS/LWO converter in C — v0.4.1
 
 Status as of 11 September 2026. This milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
@@ -343,11 +343,23 @@ Tests check translation, heading rotation, pivots, parents and negative scale.
 Nontrivial LWO2 layer pivots/parents block this snapshot until their interactions
 with Layout are qualified.
 
-The evaluator supports exact keys, linear and stepped interpolation, and reset,
-constant and repeat behaviors. TCB/Hermite/Bezier parameters are preserved, but
-sampling within those spans is not implemented. Transforms driven by certain
-plugins, channel modifiers, rotated pivots, bones or IK block the snapshot.
-Cycles and missing parents are also reported.
+The evaluator supports exact keys, linear, stepped and TCB interpolation, and
+reset, constant and repeat behaviors. TCB evaluation uses tension, continuity,
+bias and neighboring key times. A repeated single-key envelope is constant.
+Hermite/Bezier parameters remain preserved without span evaluation. An incorrect
+declared key count produces a warning and a partial package; actual validated,
+strictly ordered keys can still be sampled. The declared count and source bytes
+remain unchanged in the IR.
+
+Transforms driven by channel modifiers, rotated pivots, bones, IK and general
+motion plugins block the snapshot. There is one bounded `LW_Follower` preview
+profile: mirror a sibling's bank at the same time, with no other source rotation
+or follower rotation and matching parents/pivots. Only the exact zero-delay,
+zero-randomization, bank-only legacy payload found in `butterfly-tank` qualifies.
+This approximation is recorded separately from opaque plugins in the IR and
+manifest; the native payload is retained. Other Follower configurations, missing
+sources and dependency cycles remain blocked. See the
+[butterfly-tank QA](butterfly-tank-qa.md) for validation and limitations.
 
 A scene with missing dependencies may produce a partial OBJ snapshot.
 The OBJ shows the base geometry of resolved instances: it does not apply morphs,
@@ -437,6 +449,12 @@ omitted scene nodes. Geometry counters count each stored mesh once per glTF
 document; repeated instances can therefore make OBJ and glTF totals differ.
 
 ## Validation performed
+
+For v0.4.1, all 75 regression tests pass in Release and MSVC AddressSanitizer
+(36 converter, 12 batch, 8 glTF, 12 texture and 7 scene-evaluation tests).
+All seven `butterfly-tank` scenes now export; all ten published glTF files pass
+Khronos validation, and all seven scene imports in Blender match their OBJ
+geometry. See the [focused QA report](butterfly-tank-qa.md).
 
 The glTF-specific profile is described above. Earlier validation
 results remain historical evidence for their named converter versions.

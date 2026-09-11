@@ -158,7 +158,7 @@ static int json_output_path(FILE *f,const char *format,const char *name,const ch
     lw_json_string(f,path); free(path); return 1;
 }
 static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,const LWGltfStats *gltf,int partial,LWError *e) {
-    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0,clip_maps=0,decoded_images=0,png_images=0;
+    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0,clip_maps=0,decoded_images=0,png_images=0,opaque_plugins=0;
     if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
@@ -171,7 +171,13 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
         for(j=0;j<count;j++) { if(refs[j].uri) packaged_images++; else unresolved_images++; if(refs[j].width) decoded_images++; if(refs[j].png_uri) png_images++; }
     }
     for(i=0;i<p->scene.nodes.n;i++) clip_maps+=p->scene.nodes.v[i].clip_maps.n;
+    for(i=0;i<p->scene.plugins.n;i++) opaque_plugins+=!p->scene.plugins.v[i].interpreted;
     fprintf(f,"],\n\"scene_clip_maps_not_evaluated\":%zu,\"clip_map_targets\":{\"obj\":{\"representation\":\"MTL map_d\",\"portable_binary_cutoff\":false,\"status\":\"requires-texture-evaluation\"},\"gltf\":{\"representation\":\"baseColorTexture alpha with alphaMode MASK and alphaCutoff\",\"requires_extension\":false,\"status\":\"requires-texture-evaluation\"},\"blender\":{\"status\":\"deferred\"}}",clip_maps);
+    {
+        size_t mismatches=0,followers=0;
+        for(i=0;i<p->scene.nodes.n;i++) { mismatches+=p->scene.nodes.v[i].key_count_mismatches; followers+=p->scene.nodes.v[i].mirrored_bank_follower!=0; }
+        fprintf(f,",\"scene_envelope_key_count_mismatches\":%zu,\"scene_follower_preview_profiles\":%zu,\"scene_snapshot_evaluator\":\"exact keys, constant, linear, stepped, TCB, repeat; qualified mirrored-bank Follower preview; original keys and plugins retained\"",mismatches,followers);
+    }
     fprintf(f,",\n\"image_references_packaged\":%zu,\"image_references_unresolved\":%zu,\"image_references_decoded\":%zu,\"image_references_converted_to_png\":%zu,\"image_resolution_scope\":\"owner directory and descendants; image filename extensions; exact filename before alternative extension; unique best suffix; original bytes in owning IR/textures; ILBM decoded to PNG with original retained\",\n\"assets\":[",packaged_images,unresolved_images,decoded_images,png_images);
     for(i=0;i<p->objects.n;i++) {
         const LWObject *o=&p->objects.v[i]; size_t bindings=0,not_exported=0,k; if(i) fputc(',',f);
@@ -206,7 +212,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fprintf(f,",\n\"frame\":%.17g,\"unresolved_object_instances\":%zu,\"skipped_obj_primitives\":%zu,\"exported_patch_cages\":%zu,\"exported_curve_control_polylines\":%zu,\"unmapped_uv_corners\":%zu,\n\"obj_coordinates\":\"right-handed Y-up; source Z reflected; winding adjusted for transform determinant\",\"uv_map\":",opts->frame,p->unresolved,stats->skipped,stats->cages,stats->control_curves,stats->uv_missing);
     if(opts->uv_map) lw_json_string(f,opts->uv_map); else fputs("null",f);
     fprintf(f,",\n\"obj_triangulated_faces\":%zu,\"obj_triangles\":%zu,\"obj_bridged_hole_faces\":%zu,\"obj_triangulation_failures\":%zu,\"obj_nonplanar_faces\":%zu,\"obj_removed_duplicate_corners\":%zu,\"obj_triangulation\":\"projected ear clipping of FACE boundaries, including paired reverse-edge hole bridges; source corners and native LWIR polygons preserved\"",stats->triangulated_faces,stats->triangles,stats->bridged_faces,stats->triangulation_failures,stats->nonplanar_faces,stats->removed_corners);
-    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 static base geometry; LWOB planar/spherical image maps and PNG derivatives; approximate materials; no subdivision evaluation, native normals/smoothing, rig/deformation evaluation or Blender backend yet\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",p->scene.plugins.n,p->scene.unsupported_features);
+    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 static base geometry; LWOB planar/spherical image maps and PNG derivatives; approximate materials; no subdivision evaluation, native normals/smoothing, rig/deformation evaluation or Blender backend yet\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",opaque_plugins,p->scene.unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 failed:
     fclose(f); free(path); return 0;
@@ -241,7 +247,7 @@ int lw_convert(const LWOptions *opts,LWError *e) {
         for(k=0;k<o->materials.n;k++) if(o->materials.v[k].source.size) partial=1;
     }
     if(p.is_scene) {
-        for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform||p.scene.nodes.v[i].clip_maps.n||p.scene.nodes.v[i].object_dissolve.size) partial=1;
+        for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform||p.scene.nodes.v[i].key_count_mismatches||p.scene.nodes.v[i].clip_maps.n||p.scene.nodes.v[i].object_dissolve.size) partial=1;
         dir=lw_join(assets,p.scene_name); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
         if(!lw_mkdir(dir,e)||!lw_package_images(dir,p.scene.source.path,p.scene.images.v,p.scene.images.n,e)||!lw_write_scene(dir,&p.scene,e)) goto done;
         if(p.scene.images.n) partial=1;
