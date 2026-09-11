@@ -1,0 +1,464 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-09-11",
+  "converter_version": "0.6.0",
+  "profile": "lightwave-evaluated-cage-0.1",
+  "batch": "output/smila-animation-qa/batch-20260911-124905",
+  "command": "python -X utf8 tools/batch_convert.py --content content/smila-by-moebius --output-root output/smila-animation-qa --converter bin/win64/lwconvert.exe --lightwave-root _tmp/_extern/LightWave/LW9.6 --animation-start 0 --animation-end 25",
+  "batch_status": "partial",
+  "source_scene": {
+    "path": "content/smila-by-moebius/smila_run_cycle.lws",
+    "sha256": "6342942a1e0d5301da34d0e71b9cea7891255a97fe7f1239d2a2fc2232d97c08",
+    "bytes": 244527,
+    "uri": "source.bin"
+  },
+  "source_multikey_channels": [
+    {
+      "node_id": 1075052544,
+      "node_name": "L_Thigh",
+      "channel_index": 3,
+      "keys": [
+        {
+          "time_seconds": 0.0,
+          "value_radians": 0.0,
+          "shape": 0
+        },
+        {
+          "time_seconds": 0.60000002,
+          "value_radians": -0.034906581,
+          "shape": 0
+        }
+      ]
+    },
+    {
+      "node_id": 1075052544,
+      "node_name": "L_Thigh",
+      "channel_index": 4,
+      "keys": [
+        {
+          "time_seconds": 0.0,
+          "value_radians": -1.3723465,
+          "shape": 0
+        },
+        {
+          "time_seconds": 0.60000002,
+          "value_radians": -1.1129853,
+          "shape": 0
+        }
+      ]
+    },
+    {
+      "node_id": 1075052544,
+      "node_name": "L_Thigh",
+      "channel_index": 5,
+      "keys": [
+        {
+          "time_seconds": 0.0,
+          "value_radians": 0.0,
+          "shape": 0
+        },
+        {
+          "time_seconds": 0.60000002,
+          "value_radians": 0.0,
+          "shape": 0
+        }
+      ]
+    }
+  ],
+  "source_motionmixer": {
+    "actor_state": 0,
+    "actor_motion_count": 0,
+    "track_count": 3,
+    "track_motion_count": 0
+  },
+  "animated_derivatives": [
+    {
+      "scene": "smila_rig.lws",
+      "owner_item": 268435456,
+      "samples": 26,
+      "first_frame": 0,
+      "last_frame": 25,
+      "duration_seconds": 1.0,
+      "animated_bones": 0,
+      "morph_targets": 25,
+      "source_points": 2026,
+      "maximum_local_vertex_displacement": 0.0,
+      "profile": "lightwave-evaluated-cage-0.1",
+      "capture_sha256": "4560c9fca0e447ece9ad985d928bc2cd221cec33fd8c1b671bae80ecff2e0779",
+      "gltf": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_rig.lws.anim-10000000.gltf",
+      "gltf_sha256": "4e22f250abe3527d200c800075cf294d292a3c6649e002b61768aa2fa8c67635",
+      "binary": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_rig.lws.anim-10000000.bin",
+      "binary_sha256": "e8161b39673a785029decbbbabfd9153d2ca9b6a71b83c74f203f9ec681a90e6",
+      "binary_bytes": 7197412,
+      "animation_channels": 1,
+      "bone_nodes": 121,
+      "native_polygons": 2101,
+      "captured_owner_name_hex": "736d696c615f726967",
+      "capture_manifest": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/IR/smila_rig.lws/evaluated-animation/capture.json",
+      "host": {
+        "path": "_tmp/_extern/LightWave/LW9.6/Programs/lwsn.exe",
+        "sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+        "banner": "LightWave AMD64 ScreamerNet Module (Build 1539)"
+      },
+      "modules": [
+        {
+          "class": "ImageFilterHandler",
+          "name": "LWConvertCapture",
+          "path": "bin/win64/lw_capture.p",
+          "sha256": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "LW_Expression",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/chanexpress.p",
+          "sha256": "3b114ccaea18cdc1ef9b3e7de57c0c47336acf0f43d803f97e422942f64e683b"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "MM_MotionDriver",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+          "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "SimpleOrientConstraints",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/simpleconstraints.p",
+          "sha256": "0e9d807a0316cf70ebe409b936b261387fa2856c5d50da90a6f08ed259afe495"
+        },
+        {
+          "class": "MasterHandler",
+          "name": "MotionMixer",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+          "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+        }
+      ],
+      "reported_resource_issues": []
+    },
+    {
+      "scene": "smila_rig_converted.lws",
+      "owner_item": 268435456,
+      "samples": 26,
+      "first_frame": 0,
+      "last_frame": 25,
+      "duration_seconds": 1.0,
+      "animated_bones": 84,
+      "morph_targets": 25,
+      "source_points": 2432,
+      "maximum_local_vertex_displacement": 0.9171372225469482,
+      "profile": "lightwave-evaluated-cage-0.1",
+      "capture_sha256": "7a2212456444577d4f26e80a55ea9218971859235d8c6dcbde8370cd874e0852",
+      "gltf": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_rig_converted.lws.anim-10000000.gltf",
+      "gltf_sha256": "083d91eac8fc66687544746a9195b86d192c7bfd9b1535a66a4b5b828152b055",
+      "binary": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_rig_converted.lws.anim-10000000.bin",
+      "binary_sha256": "dea61940f3dcc18913cbe29ce5e05c8a617b99e6bf7bfc850ca718bc9a9cc9f6",
+      "binary_bytes": 8527100,
+      "animation_channels": 203,
+      "bone_nodes": 107,
+      "native_polygons": 2445,
+      "captured_owner_name_hex": "736d696c615f7269675f3032",
+      "capture_manifest": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/IR/smila_rig_converted.lws/evaluated-animation/capture.json",
+      "host": {
+        "path": "_tmp/_extern/LightWave/LW9.6/Programs/lwsn.exe",
+        "sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+        "banner": "LightWave AMD64 ScreamerNet Module (Build 1539)"
+      },
+      "modules": [
+        {
+          "class": "ImageFilterHandler",
+          "name": "LWConvertCapture",
+          "path": "bin/win64/lw_capture.p",
+          "sha256": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "LW_Expression",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/chanexpress.p",
+          "sha256": "3b114ccaea18cdc1ef9b3e7de57c0c47336acf0f43d803f97e422942f64e683b"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "MM_MotionDriver",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+          "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "SimpleOrientConstraints",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/simpleconstraints.p",
+          "sha256": "0e9d807a0316cf70ebe409b936b261387fa2856c5d50da90a6f08ed259afe495"
+        },
+        {
+          "class": "MasterHandler",
+          "name": "MotionMixer",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+          "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+        }
+      ],
+      "reported_resource_issues": [
+        "Can't find \"smila/maps/hair.psd\".Can't find \"smila/maps/thin_hair.psd\".Can't find \"smila/maps/clothes.psd\".Loading plug-in",
+        "Can't find \"common/128back.tif\".Loading plug-in"
+      ]
+    },
+    {
+      "scene": "smila_run_cycle.lws",
+      "owner_item": 268435456,
+      "samples": 26,
+      "first_frame": 0,
+      "last_frame": 25,
+      "duration_seconds": 1.0,
+      "animated_bones": 14,
+      "morph_targets": 25,
+      "source_points": 2432,
+      "maximum_local_vertex_displacement": 9.960808425525413e-05,
+      "profile": "lightwave-evaluated-cage-0.1",
+      "capture_sha256": "33568c576ea321b37411d3e596ca99c3f2aa9c11b7ab59f870813061b138f6e6",
+      "gltf": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_run_cycle.lws.anim-10000000.gltf",
+      "gltf_sha256": "cdb63233b0c376614b8494d0db5b6f8e30a57d9c2613dbeeedaec897d1ab9886",
+      "binary": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_run_cycle.lws.anim-10000000.bin",
+      "binary_sha256": "94191c369350bdc5ed4e87506c5f43e3f64c31c192ac81713d4cdc6baa851e6d",
+      "binary_bytes": 8468652,
+      "animation_channels": 35,
+      "bone_nodes": 107,
+      "native_polygons": 2445,
+      "captured_owner_name_hex": "736d696c615f7269675f3032",
+      "capture_manifest": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/IR/smila_run_cycle.lws/evaluated-animation/capture.json",
+      "host": {
+        "path": "_tmp/_extern/LightWave/LW9.6/Programs/lwsn.exe",
+        "sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+        "banner": "LightWave AMD64 ScreamerNet Module (Build 1539)"
+      },
+      "modules": [
+        {
+          "class": "ImageFilterHandler",
+          "name": "LWConvertCapture",
+          "path": "bin/win64/lw_capture.p",
+          "sha256": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "LW_Expression",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/chanexpress.p",
+          "sha256": "3b114ccaea18cdc1ef9b3e7de57c0c47336acf0f43d803f97e422942f64e683b"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "MM_MotionDriver",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+          "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "SimpleOrientConstraints",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/simpleconstraints.p",
+          "sha256": "0e9d807a0316cf70ebe409b936b261387fa2856c5d50da90a6f08ed259afe495"
+        },
+        {
+          "class": "MasterHandler",
+          "name": "MotionMixer",
+          "path": "_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+          "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+        }
+      ],
+      "reported_resource_issues": [
+        "Can't find \"smila/maps/hair.psd\".Can't find \"smila/maps/thin_hair.psd\".Can't find \"smila/maps/clothes.psd\".Loading plug-in",
+        "Can't find \"smila/maps/solalpha.tif\".Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+        "Can't find \"I:fra/3D/mocaps/rotoscoping/side_0000.jpg\".Loading plug-in"
+      ]
+    }
+  ],
+  "blocked_native_animations": [
+    {
+      "scene": "smila_export.lws",
+      "issue": "Native animation plugin is not qualified: MasterHandler LW_LScriptCommander"
+    },
+    {
+      "scene": "smila_export_converted.lws",
+      "issue": "Native animation plugin is not qualified: MasterHandler LW_LScriptCommander"
+    },
+    {
+      "scene": "smila_posing.lws",
+      "issue": "Native animation plugin is not qualified: MasterHandler LW_LScriptCommander"
+    },
+    {
+      "scene": "smila_posing_02.lws",
+      "issue": "Native animation plugin is not qualified: MasterHandler LW_LScriptCommander"
+    },
+    {
+      "scene": "smila_posing_toon.lws",
+      "issue": "Native animation plugin is not qualified: MasterHandler LW_LScriptCommander"
+    },
+    {
+      "scene": "Smilla_IK.lws",
+      "issue": "Native animation plugin is not qualified: MasterHandler .SpreadsheetStandardBanks"
+    }
+  ],
+  "regression": {
+    "Release": {
+      "passed": true,
+      "suites": 7,
+      "tests": 91,
+      "per_suite": {
+        "converter": 36,
+        "batch": 12,
+        "gltf": 8,
+        "textures": 12,
+        "scene_evaluation": 7,
+        "skin": 8,
+        "animation": 8
+      },
+      "log_sha256": "47f1a359f7ee28ec3508b83b4255e0b62968e0663c2f72f95a43b812fa470f1b"
+    },
+    "RelWithDebInfo-ASAN": {
+      "passed": true,
+      "suites": 7,
+      "tests": 91,
+      "per_suite": {
+        "converter": 36,
+        "batch": 12,
+        "gltf": 8,
+        "textures": 12,
+        "scene_evaluation": 7,
+        "skin": 8,
+        "animation": 8
+      },
+      "log_sha256": "bb91912dba0c620a180acb06cd59e9a6b774eca7d4c1120451817e5a9232bbe5"
+    }
+  },
+  "validator": {
+    "input": "output/smila-animation-qa/batch-20260911-124905",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 38,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "publication": {
+    "batch": "output/smila-animation-qa/batch-20260911-124905",
+    "layout_version": "0.2",
+    "input_statuses": {
+      "partial": 33,
+      "skipped": 13
+    },
+    "projects": 1,
+    "conversion_manifests": 33,
+    "native_sources_checked": 33,
+    "obj_mtl_pairs_checked": 26,
+    "gltf_buffer_pairs_checked": 38,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "blender": [
+    {
+      "blender_version": "4.2.0",
+      "gltf": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_run_cycle.lws.anim-10000000.gltf",
+      "passed": true,
+      "frames": [
+        {
+          "source_frame": 0,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 5.005306756778839e-09,
+          "maximum_bone_matrix_error": 7.748603820800781e-07,
+          "matching_tolerance": 1.4872472330000001e-05
+        },
+        {
+          "source_frame": 5,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 5.005306756778839e-09,
+          "maximum_bone_matrix_error": 7.748603820800781e-07,
+          "matching_tolerance": 1.4872472330000001e-05
+        },
+        {
+          "source_frame": 15,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 5.005306756778839e-09,
+          "maximum_bone_matrix_error": 7.748603820800781e-07,
+          "matching_tolerance": 1.4872472330000001e-05
+        },
+        {
+          "source_frame": 25,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 5.005306756778839e-09,
+          "maximum_bone_matrix_error": 7.748603820800781e-07,
+          "matching_tolerance": 1.4872472330000001e-05
+        }
+      ],
+      "scope": "Blender evaluated shape-key mesh triangles and bone node world matrices compared with captured LightWave output, after coordinate conversion. Original subdivision remains disabled. Validates sampled poses, not interpolation between captures or original-version rendering fidelity."
+    },
+    {
+      "blender_version": "4.2.0",
+      "gltf": "output/smila-animation-qa/batch-20260911-124905/packages/smila-by-moebius/gltf/smila_rig_converted.lws.anim-10000000.gltf",
+      "passed": true,
+      "frames": [
+        {
+          "source_frame": 0,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 4.999532876029212e-09,
+          "maximum_bone_matrix_error": 8.642673492431641e-07,
+          "matching_tolerance": 1.61327728304e-05
+        },
+        {
+          "source_frame": 5,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 1.5622094045063165e-08,
+          "maximum_bone_matrix_error": 9.5367431640625e-07,
+          "matching_tolerance": 1.4626757619e-05
+        },
+        {
+          "source_frame": 15,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 3.0901960721256385e-08,
+          "maximum_bone_matrix_error": 1.1324882507324219e-06,
+          "matching_tolerance": 1.2217516249e-05
+        },
+        {
+          "source_frame": 25,
+          "triangles": 4414,
+          "bones": 107,
+          "maximum_vertex_error": 3.0901960721256385e-08,
+          "maximum_bone_matrix_error": 1.1324882507324219e-06,
+          "matching_tolerance": 1.2217516249e-05
+        }
+      ],
+      "scope": "Blender evaluated shape-key mesh triangles and bone node world matrices compared with captured LightWave output, after coordinate conversion. Original subdivision remains disabled. Validates sampled poses, not interpolation between captures or original-version rendering fidelity."
+    }
+  ],
+  "staged_binaries": [
+    {
+      "uri": "bin/win64/lwconvert.exe",
+      "bytes": 462848,
+      "sha256": "d53d9bc9d88833666d9a26cc29b2d82a20e6d432647d03d16ea64ecbcd2859fe",
+      "matches_release_build": true
+    },
+    {
+      "uri": "bin/win64/lw_capture.p",
+      "bytes": 154624,
+      "sha256": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18",
+      "matches_release_build": true
+    }
+  ],
+  "limitations": [
+    "Sampled native bone TRS and morph-target mesh deformation; no recovered procedural skin weights.",
+    "All source cage point identities and polygon boundaries checked; native subdivision explicitly disabled in working copies.",
+    "Agreement established at sampled frames against LightWave 9.6 AMD64 build 1539, not between-frame or original-authoring-version rendering fidelity.",
+    "Three exported sample sequences, including one static sequence. Six other rigged scenes blocked by unqualified native master plugins.",
+    "Appearance image and FPrime load issues retained in native logs. Cameras, lights and standalone non-rig animation are outside this profile."
+  ]
+}

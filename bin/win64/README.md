@@ -19,3 +19,20 @@ alongside the corresponding source changes.
 
 The `licenses/` directory is refreshed by the same build. Keep it alongside the
 executable when redistributing: libilbm and stb retain their MIT attribution.
+
+`lw_capture.p` is the optional native animation capture helper. It is loaded by
+the user's LightWave 9.6 x64 ScreamerNet installation, through
+`tools/export_lightwave_animation.py` or the batch option `--lightwave-root`.
+It is not needed for ordinary C conversion or for viewing exported animations.
+The helper uses the NewTek LightWave SDK API; SDK headers, LightWave executables
+and NewTek plugins are not included here.
+
+To rebuild and stage the helper as well, configure the SDK path before building:
+
+```powershell
+cmake -S . -B build -DLWCONVERT_LIGHTWAVE_SDK=S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9/SDK
+cmake --build build --config Release
+```
+
+See the [animation guide](../../documentation/smila-animation-qa.md) and
+[capture helper source](../../tools/lightwave_capture/capture.c).

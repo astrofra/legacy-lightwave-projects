@@ -15,7 +15,7 @@ concave outlines and bridged holes. Native polygons remain in LWIR. See the
 Since v0.3.0, every conversion also writes `gltf/<source filename>.gltf` and its
 `.bin`. The first glTF profile exports static geometry, flat triangle normals,
 material approximations and UVs. Scene snapshots
-retain geometry instances and their parent transforms at `--frame`. Animation,
+retain geometry instances and their parent transforms at `--frame`. In that profile, animation,
 native smoothing, cameras, lights and deformations are not
 exported. The manifest records the supported subset and any blocked snapshot.
 
@@ -45,6 +45,16 @@ with all positive influences. Procedural bone influences remain unevaluated;
 the [Smila QA report](documentation/skin-and-smila-qa.md) describes that limitation.
 Subdivision is never baked into glTF: patch control cages and native IR settings
 are retained for a future Blender backend.
+
+Since v0.6.0, an optional native LightWave evaluation exports rig animation as
+separate `*.anim-<item ID>.gltf` files. Bone nodes receive TRS tracks; sampled
+morph targets reproduce the evaluated cage deformation without inventing skin
+weights or adding subdivision. This requires Python 3, the included
+`bin/win64/lw_capture.p` helper and an installed LightWave 9.6 x64 runtime when
+converting. Viewing the resulting glTF needs no LightWave installation.
+The C executable alone still exports snapshots and rest rigs. See the
+[Smila animation example and QA](documentation/smila-animation-qa.md) for usage,
+preserved IR, supported plugins and the distinction from editable skinning.
 
 Scene clip maps are preserved explicitly on their owning instances, with image
 roles, native parameter trees and source byte ranges. Object dissolve remains a
@@ -166,6 +176,9 @@ not count as failures. Interrupted runs return **130** and record pending files.
 
 # Use a specific binary or override the snapshot frame for all scenes.
 .\convert_content.bat --converter build/Debug/lwconvert.exe --frame 1
+
+# Evaluate Smila's rig animation with the supplied historical runtime.
+.\convert_content.bat --content content/smila-by-moebius --lightwave-root _tmp/_extern/LightWave/LW9.6 --animation-start 0 --animation-end 25
 ```
 
 On Windows, the default binary is `bin/win64/lwconvert.exe`, falling back to the

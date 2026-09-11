@@ -1,9 +1,12 @@
-# LWS/LWO converter in C — v0.5.0
+# LWS/LWO converter in C — v0.6.0
 
 Status as of 11 September 2026. This milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
 structures and produces OBJ/MTL and glTF 2.0 files. The `.blend` backend remains
-to be implemented.
+to be implemented. Optional native evaluated animation uses the Python wrapper
+and an external LightWave runtime, as described in the
+[Smila animation profile](smila-animation-qa.md); the C executable alone does not
+evaluate native animation plugins.
 
 ## Commands
 
@@ -438,6 +441,15 @@ snapshot may return exit code zero despite having source animation, because
 the profile explicitly targets one frame. Missing dependencies and geometry
 omissions/approximations still contribute to the existing partial status.
 
+The optional `lightwave-evaluated-cage-0.1` profile adds separate animated rig
+derivatives, listed in `gltf_animations`. It samples final LightWave bone poses
+into TRS tracks and final cage deformation into morph targets. It retains source
+point correspondence and rejects topology changes; subdivision stays disabled.
+Captures, evaluation overrides and hashes are published alongside native scene
+IR under `evaluated-animation/`, referenced by `evaluated_animation`. The raw
+`animation.bin`, plugin trees and source bytes remain the archival representation.
+See [native animation export and its limits](smila-animation-qa.md).
+
 Root and mesh `extras` retain source SHA-256 identities. Material extras include
 source surface indices and hashes; nodes retain original scene indices/IDs.
 Numeric source asset indices describe the original C extraction context;
@@ -455,8 +467,11 @@ document; repeated instances can therefore make OBJ and glTF totals differ.
 
 ## Validation performed
 
-For v0.5.0, all 83 regression tests pass in Release and MSVC AddressSanitizer
-(36 converter, 12 batch, 8 glTF, 12 texture, 7 scene-evaluation and 8 skin tests).
+For v0.6.0, all 91 regression tests pass in Release and MSVC AddressSanitizer
+(36 converter, 12 batch, 8 glTF, 12 texture, 7 scene-evaluation, 8 skin and
+8 animation tests). The native Smila animation QA adds Khronos validation of
+38 glTF files and comparisons against LightWave captures after import into
+Blender. See the [animation QA report](smila-animation-qa.md).
 Separate rest rigs, their native bindings and the focused Smila results are
 described in the [skinning profile and QA report](skin-and-smila-qa.md).
 All seven `butterfly-tank` scenes now export; all ten published glTF files pass
@@ -594,7 +609,8 @@ Native field descriptions come from the archived NewTek SDK:
 supplement this documentation, particularly layer numbering, presets and
 envelopes with inconsistent declared key counts.
 
-The proposed next steps are to evaluate animation curves, native smoothing and
+The proposed next steps are to extend independent animation evaluation and
+editable skinning, native smoothing and
 additional texture projections and shader semantics, extend the glTF profile, and add the Python adapter for
 `.blend`. The latter will run
 in a background Blender process; no custom addon is required. All three outputs

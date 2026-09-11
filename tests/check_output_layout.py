@@ -27,6 +27,13 @@ def check(run):
         manifest_path = linked(run, record["manifest"], project)
         linked(run, record["log"], run)
         manifest = json.loads(manifest_path.read_text("utf-8"))
+        if manifest.get("evaluated_animation"):
+            capture_path = linked(manifest_path.parent, manifest["evaluated_animation"]["uri"], project)
+            assert hashlib.sha256(capture_path.read_bytes()).hexdigest() == manifest["evaluated_animation"]["sha256"]
+            capture = json.loads(capture_path.read_text("utf-8"))
+            for frame in capture["frames"]:
+                raw = linked(capture_path.parent, frame["uri"], project)
+                assert hashlib.sha256(raw.read_bytes()).hexdigest() == frame["sha256"]
         projects.setdefault(project, set()).add(manifest_path)
         assert manifest["status"] == ("partial" if record["status"] == "partial" else "converted-supported-subset")
         uris = [asset["uri"] for asset in manifest["assets"]]
@@ -73,6 +80,9 @@ def check(run):
                 pairs.append((manifest["scene_gltf"], manifest["scene_gltf_bin"]))
             rigs = [r for r in manifest.get("gltf_rigs", []) if r["gltf"]]
             pairs.extend((r["gltf"], r["gltf_bin"]) for r in rigs)
+            animations = manifest.get("gltf_animations", [])
+            pairs.extend((a["gltf"], a["gltf_bin"]) for a in animations)
+            assert {linked(run, uri, project) for uri in record.get("animation_gltf", [])} == {linked(manifest_path.parent, a["gltf"], project) for a in animations}
             assert {linked(run, uri, project) for uri in record.get("rig_gltf", [])} == {linked(manifest_path.parent, r["gltf"], project) for r in rigs}
             for uri, binary in pairs:
                 path = linked(manifest_path.parent, uri, project)

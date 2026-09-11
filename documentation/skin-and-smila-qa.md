@@ -1,5 +1,10 @@
 # Native bone bindings and glTF rest rigs — v0.5.0
 
+This report describes the v0.5.0 rest-rig milestone. The later
+[v0.6.0 animation profile](smila-animation-qa.md) captures evaluated LightWave
+deformation as morph targets and bone poses as TRS tracks; it does not recover
+editable procedural skin weights.
+
 The previous writer exported static meshes without bones or skin weights.
 Scene IR now exposes rest poses, bone-to-object ownership, weight-map names
 and native influence settings. A separate glTF rest rig transfers explicit

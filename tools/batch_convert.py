@@ -123,6 +123,18 @@ def convert_one(record, number, content, run, converter, options, project_output
         expected = "partial" if result.returncode == 2 else "converted-supported-subset"
         if manifest.get("status") != expected:
             raise ValueError("Converter exit code and manifest status disagree")
+        if getattr(options,"lightwave_root",None) and manifest.get("scene"):
+            from export_lightwave_animation import evaluate_package
+            try:
+                evaluate_package(package, options.lightwave_root, options.capture_plugin, options.animation_start, options.animation_end, options.animation_step, options.timeout)
+                manifest = json.loads((package / "manifest.json").read_text("utf-8"))
+            except (OSError, ValueError, KeyError, subprocess.TimeoutExpired) as error:
+                manifest = json.loads((package / "manifest.json").read_text("utf-8"))
+                manifest["gltf_animation_issue"] = str(error)
+                record["animation_issue"] = str(error)
+                manifest["status"] = "partial"
+                record["return_code"] = result.returncode = 2
+                (package / "manifest.json").write_text(json.dumps(manifest,ensure_ascii=False)+"\n",encoding="utf-8")
         published = project_output.publish(package, manifest)
         record.update(status="partial" if result.returncode == 2 else "converted", manifest=published.relative_to(run).as_posix())
         obj_uri = manifest["scene_obj"] if manifest["scene"] else manifest["assets"][0]["obj"]
@@ -132,6 +144,7 @@ def convert_one(record, number, content, run, converter, options, project_output
         record["scene_obj_issue"] = manifest.get("scene_obj_issue", "")
         record["scene_gltf_issue"] = manifest.get("scene_gltf_issue", "")
         record["rig_gltf"] = [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig["gltf"]]
+        record["animation_gltf"] = [(published.parent / animation["gltf"]).resolve().relative_to(run).as_posix() for animation in manifest.get("gltf_animations", [])]
         record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         record.update(status="failed", reason=str(error))
@@ -158,6 +171,11 @@ def main(argv=None):
     parser.add_argument("--timeout", type=float, default=120, help="Maximum seconds per conversion (default: 120)")
     parser.add_argument("--frame", type=float, help="Override the snapshot frame for every scene")
     parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
+    parser.add_argument("--lightwave-root",type=Path,help="Opt in to native evaluated rig animation using this installed LightWave root")
+    parser.add_argument("--capture-plugin",type=Path,help="Native animation capture plugin (default: bin/win64/lw_capture.p)")
+    parser.add_argument("--animation-start",type=int,help="First native animation frame (default: scene preview start)")
+    parser.add_argument("--animation-end",type=int,help="Last native animation frame (default: scene preview end)")
+    parser.add_argument("--animation-step",type=int,default=1,help="Native animation sampling step in frames")
     parser.add_argument("--map", action="append", default=[], metavar="PREFIX=DIRECTORY", help="Explicit historical path mapping passed to every conversion")
     options = parser.parse_args(argv)
     content, output = options.content.resolve(), options.output_root.resolve()
@@ -169,6 +187,10 @@ def main(argv=None):
         parser.error("--timeout must be a positive finite number")
     if options.frame is not None and not math.isfinite(options.frame):
         parser.error("--frame must be finite")
+    if options.animation_step<=0:
+        parser.error("--animation-step must be positive")
+    if not options.lightwave_root and (options.capture_plugin or options.animation_start is not None or options.animation_end is not None or options.animation_step!=1):
+        parser.error("Native animation options require --lightwave-root")
     converter = options.converter.resolve() if options.converter else find_converter()
     if not options.dry_run and (converter is None or not converter.is_file()):
         parser.error("Converter not found. Build it first: cmake --build build --config Release (see README.md), or use --converter")
@@ -183,7 +205,12 @@ def main(argv=None):
     run = new_run(output, datetime.now().strftime("batch-%Y%m%d-%H%M%S"))
     (run / "logs").mkdir()
     projects = prepare_projects(eligible, content, run)
-    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout}, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 static geometry. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
+    report_options = {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout,
+                      "lightwave_root": str(options.lightwave_root.resolve()) if options.lightwave_root else None,
+                      "capture_plugin": str(options.capture_plugin.resolve()) if options.capture_plugin else None,
+                      "animation_start": options.animation_start, "animation_end": options.animation_end,
+                      "animation_step": options.animation_step}
+    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": report_options, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 static geometry, with optional external LightWave evaluated rig animation. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
     write_report(run, report)
     print(f"Output: {run}", flush=True)
     interrupted = False

@@ -189,6 +189,12 @@ class ProjectOutput:
         if manifest["scene"]:
             scene = package_file(package, manifest["scene"])
             copy_ir(package, scene, ir, ("scene.json", "animation.bin", "source.bin"))
+            if manifest.get("evaluated_animation"):
+                capture = package_file(package, manifest["evaluated_animation"]["uri"])
+                if capture.parent != scene.parent/"evaluated-animation":
+                    raise ValueError("Unexpected native animation capture directory")
+                shutil.copytree(capture.parent, ir/"evaluated-animation")
+                manifest["evaluated_animation"]["uri"] = "evaluated-animation/capture.json"
             manifest["scene"] = "scene.json"
         if manifest["scene_obj"]:
             obj = self.directory / "obj" / (name + ".obj")
@@ -200,6 +206,9 @@ class ProjectOutput:
             if rig["gltf"]:
                 rig_name = self.names.get(source_key(manifest["input"])+f":rig:{rig['owner_item']:08x}", name+f".rig-{rig['owner_item']:08x}")
                 rig["gltf"], rig["gltf_bin"] = self.publish_gltf(package, rig["gltf"], rig["gltf_bin"], rig_name, ir)
+        for animation in manifest.get("gltf_animations", []):
+            animation_name = self.names.get(source_key(manifest["input"])+f":animation:{animation['owner_item']:08x}", name+f".anim-{animation['owner_item']:08x}")
+            animation["gltf"], animation["gltf_bin"] = self.publish_gltf(package, animation["gltf"], animation["gltf_bin"], animation_name, ir)
         manifest_path = ir / "manifest.json"
         if manifest_path.exists():
             raise FileExistsError(f"Conversion manifest already exists: {manifest_path}")

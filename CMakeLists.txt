@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.5.0 LANGUAGES C)
+project(lightwave_preservation VERSION 0.6.0 LANGUAGES C)
 
 option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
+set(LWCONVERT_LIGHTWAVE_SDK "" CACHE PATH "Optional installed LightWave SDK for the native animation capture plugin")
 if(MSVC AND NOT LWCONVERT_SANITIZE)
     # Ship Release as one executable, without the Visual C++ runtime DLLs.
     set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>$<$<NOT:$<CONFIG:Release>>:DLL>")
@@ -54,6 +55,20 @@ if(WIN32 AND CMAKE_C_COMPILER_ARCHITECTURE_ID STREQUAL "x64" AND NOT LWCONVERT_S
         VERBATIM)
 endif()
 include(CTest)
+if(MSVC AND LWCONVERT_LIGHTWAVE_SDK AND NOT LWCONVERT_SANITIZE)
+    add_library(lw_capture MODULE tools/lightwave_capture/capture.c)
+    target_include_directories(lw_capture PRIVATE "${LWCONVERT_LIGHTWAVE_SDK}/include")
+    target_compile_definitions(lw_capture PRIVATE _MSWIN _CRT_SECURE_NO_WARNINGS)
+    target_compile_options(lw_capture PRIVATE /W4 /WX /utf-8)
+    set_target_properties(lw_capture PROPERTIES SUFFIX .p PREFIX "" MSVC_RUNTIME_LIBRARY MultiThreaded)
+    if(CMAKE_C_COMPILER_ARCHITECTURE_ID STREQUAL "x64")
+        add_custom_target(stage_capture_win64 ALL
+            COMMAND "${CMAKE_COMMAND}" "-DCONFIG=$<CONFIG>" "-DSOURCE=$<TARGET_FILE:lw_capture>"
+                "-DDESTINATION=${PROJECT_SOURCE_DIR}/bin/win64"
+                -P "${PROJECT_SOURCE_DIR}/cmake/StageCapture.cmake"
+            DEPENDS lw_capture VERBATIM)
+    endif()
+endif()
 if(BUILD_TESTING)
     find_package(Python3 COMPONENTS Interpreter REQUIRED)
     add_executable(triangulation_probe tests/triangulation_probe.c)
@@ -71,6 +86,8 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_scene_evaluation.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME skin_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_skin.py" "$<TARGET_FILE:lwconvert>")
+    add_test(NAME animation_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_animation.py" "$<TARGET_FILE:lwconvert>")
 endif()
 install(TARGETS lwconvert RUNTIME DESTINATION bin)
 install(FILES third_party/README.md DESTINATION bin/licenses)
