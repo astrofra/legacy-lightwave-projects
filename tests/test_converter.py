@@ -198,6 +198,113 @@ class Converter(unittest.TestCase):
         self.assertEqual(scene.read_bytes()[refs[0]["source_offset"]:][:len(refs[0]["path"]["text"])].decode(), refs[0]["path"]["text"])
         self.assertEqual(self.object_data(out, manifest)[1]["image_references"][0]["resolution"], "missing")
 
+    def test_clip_map_preserves_instance_role_and_native_parameter_tree(self):
+        self.write("mask.jpg", b"mask")
+        self.write("mesh.lwo", lwob())
+        clip = '''ClipMaps
+{ TextureBlock
+  { Texture
+    { ImageMap
+      "layer one"
+      Enable 1
+      Negative 1
+      { Opacity
+        0
+        0.75
+        0
+      }
+    }
+    { TextureMap
+      { Center
+        0 5.9 1.727119
+        0
+      }
+      Coordinates 0
+      RefObject "(none)"
+    }
+    Projection 0
+    Axis 2
+    { Image
+      { Clip
+        { Still
+          "old:mask.psd"
+        }
+      }
+    }
+    FutureSetting "keep these bytes"
+  }
+  { Texture
+    { Procedural
+      Enable 0
+      Negative 0
+      Type "unimplemented"
+    }
+  }
+}'''
+        raw = "LWSC\n3\nLoadObjectLayer 1 mesh.lwo\n" + clip + "\nObjectDissolve 0.5\nLoadObjectLayer 1 mesh.lwo\n{ Clip\n{ Still\n\"old:mask.psd\"\n}\n}\n"
+        scene = self.write("clip.lws", raw)
+        out, manifest = self.convert(scene, code=2)
+        path = out / manifest["scene"]
+        data = json.loads(path.read_text("utf-8"))
+        first, second = data["nodes"]
+        self.assertEqual(first["asset_index"], second["asset_index"])
+        self.assertEqual(second["clip_maps"], [])
+        self.assertIsNone(second["object_dissolve"])
+        self.assertEqual(first["object_dissolve"]["native_statement"]["text"], "ObjectDissolve 0.5")
+        preserved = first["clip_maps"][0]
+        self.assertEqual(preserved["scope"], "object-instance")
+        self.assertEqual(preserved["coverage"], {"mode": "binary-cutout", "cutoff": None, "polarity": "not-evaluated"})
+        self.assertEqual(preserved["image_references"], [0])
+        self.assertEqual([ref["role"] for ref in data["image_references"]], ["clip-map", "unspecified"])
+        native = preserved["native_source"]
+        archived = (path.parent / native["uri"]).read_bytes()
+        self.assertEqual(archived, scene.read_bytes())
+        self.assertEqual(archived[native["offset"]:native["offset"] + native["bytes"]], clip.encode())
+        fields = preserved["parameters"]
+        names = [field["name"]["text"] if field["name"] else None for field in fields]
+        negatives = [field for field in fields if field["name"] and field["name"]["text"] == "Negative"]
+        self.assertEqual([field["value"]["text"] for field in negatives], ["1", "0"])
+        self.assertEqual([names[field["parent"]] for field in negatives], ["ImageMap", "Procedural"])
+        center = names.index("Center")
+        self.assertEqual(fields[center + 1]["parent"], center)
+        self.assertEqual(fields[center + 1]["value"]["text"], "0 5.9 1.727119")
+        self.assertEqual(fields[names.index("FutureSetting")]["value"]["text"], '"keep these bytes"')
+        for index, field in enumerate(fields):
+            if field["parent"] is not None:
+                self.assertLess(field["parent"], index)
+                self.assertTrue(fields[field["parent"]]["block"])
+        self.assertEqual(manifest["scene_clip_maps_not_evaluated"], 1)
+        self.assertFalse(manifest["clip_map_targets"]["gltf"]["requires_extension"])
+
+    def test_legacy_clip_map_and_animated_dissolve_preserved(self):
+        self.write("dora_mask.JPG", b"mask")
+        self.write("mesh.lwo", lwob())
+        clip = "ClipMap Planar Image Map\nTextureImage E:\\Perso\\dora maar\\dora_mask.JPG\nTextureFlags 4\nTextureAxis 2\nTextureSize 3.98 3.98 1\nTextureValue 0.500000"
+        dissolve = "ObjectDissolve (envelope)\n{ Envelope\n2\nKey 0 0 3 0 0 0 0 0 0\nKey 0.5 1 3 0 0 0 0 0 0\nBehaviors 1 1\n}"
+        scene = self.write("legacy.lws", "LWSC\n1\nLoadObject mesh.lwo\n" + clip + "\nShadowOptions 7\n" + dissolve + "\nLoadObject mesh.lwo\n")
+        out, manifest = self.convert(scene, code=2)
+        data = json.loads((out / manifest["scene"]).read_text("utf-8"))
+        preserved = data["nodes"][0]["clip_maps"][0]
+        self.assertEqual(preserved["declaration"]["text"], "Planar Image Map")
+        self.assertEqual(preserved["parameters"][-1]["name"]["text"], "TextureValue")
+        self.assertEqual(preserved["parameters"][-1]["value"]["text"], "0.500000")
+        self.assertIsNone(preserved["coverage"]["cutoff"])
+        self.assertEqual(data["nodes"][0]["object_dissolve"]["native_statement"]["text"], dissolve)
+        self.assertEqual(data["nodes"][1]["clip_maps"], [])
+        self.assertEqual(data["image_references"][0]["role"], "clip-map")
+        native = preserved["native_source"]
+        self.assertEqual(scene.read_bytes()[native["offset"]:native["offset"] + native["bytes"]], clip.encode())
+
+    def test_procedural_clip_map_without_images_is_reported(self):
+        scene = self.write("procedural.lws", "LWSC\n3\nAddNullObject owner\nClipMaps\n{ TextureBlock\n{ Texture\n{ Procedural\nType Checkerboard\n}\n}\n}\n")
+        out, manifest = self.convert(scene, code=2)
+        self.assertEqual(manifest["scene_clip_maps_not_evaluated"], 1)
+        data = json.loads((out / manifest["scene"]).read_text("utf-8"))
+        self.assertEqual(data["nodes"][0]["clip_maps"][0]["image_references"], [])
+        for tail in ("ClipMaps\n{ TextureBlock\n", "ClipMaps\n{ Unexpected\n}\n"):
+            malformed = self.write("malformed.lws", "LWSC\n3\nAddNullObject owner\n" + tail)
+            self.run_cli("inspect", malformed, code=1)
+
     def test_lwob_binary_hash_encoding_winding(self):
         raw = lwob(chunk("XTRA", b"abc"))
         path = self.write("élément sans extension", raw)

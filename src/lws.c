@@ -129,16 +129,70 @@ static int add_node(LWScene *s,uint32_t id,Line line,LWString name,size_t *curre
     snprintf(n.resolution,sizeof n.resolution,"not-evaluated");
     LW_TRY(LW_ADD(s->nodes,n,e)); *current=s->nodes.n-1; return 1;
 }
-static int still_image(LWScene *s,const Lines *ls,size_t i,LWError *e) {
-    LWString key,value; LWImageReference ref={0};
+static int scene_image(LWScene *s,LWString path,LWClipMap *clip,LWError *e) {
+    LWImageReference ref={0};
+    ref.path=unquote(path); ref.clip=LW_NONE; ref.role=clip?"clip-map":NULL;
+    ref.offset=(size_t)(ref.path.data-s->source.data);
+    if(!ref.path.size||lw_string_is(ref.path,"(none)")||lw_string_is(ref.path,"<none>")) return 1;
+    LW_TRY(LW_ADD(s->images,ref,e));
+    return !clip||LW_ADD(clip->images,s->images.n-1,e);
+}
+static int still_image(LWScene *s,const Lines *ls,size_t i,LWClipMap *clip,LWError *e) {
+    LWString key,value;
     split(ls->v[i],&key,&value);
     if(!lw_string_is(key,"{")||!lw_string_is(value,"Still")||i+2>=ls->n) return 1;
     split(ls->v[i+2],&key,&value);
     if(!lw_string_is(key,"}")) return 1;
-    ref.path=unquote(ls->v[i+1].text); ref.clip=LW_NONE;
-    ref.offset=(size_t)(ref.path.data-s->source.data);
-    if(!ref.path.size||lw_string_is(ref.path,"(none)")||lw_string_is(ref.path,"<none>")) return 1;
-    return LW_ADD(s->images,ref,e);
+    return scene_image(s,ls->v[i+1].text,clip,e);
+}
+static int texture_field(LWClipMap *clip,Line line,size_t parent,int block,LWError *e) {
+    LWTextureField field={0}; LWString key,value;
+    split(line,&key,&value); field.parent=parent; field.offset=line.offset; field.block=block;
+    if(block) { line.text=value; split(line,&key,&value); }
+    if(key.size&&(isalpha(key.data[0])||key.data[0]=='_')) { field.name=key; field.value=value; }
+    else field.value=line.text;
+    return LW_ADD(clip->fields,field,e);
+}
+static int texture_block(LWScene *s,const Lines *ls,size_t *i,LWClipMap *clip,LWError *e) {
+    size_t parents[128],depth=0;
+    do {
+        LWString key,value; split(ls->v[*i],&key,&value);
+        if(lw_string_is(key,"}")) {
+            if(!depth) return lw_error(e,ls->v[*i].offset,"texture","unexpected closing brace");
+            depth--;
+        } else {
+            int block=lw_string_is(key,"{");
+            if(clip) LW_TRY(texture_field(clip,ls->v[*i],depth?parents[depth-1]:SIZE_MAX,block,e));
+            if(block) {
+                if(depth==128) return lw_error(e,ls->v[*i].offset,"texture","block nesting exceeds 128");
+                parents[depth++]=clip?clip->fields.n-1:0;
+                LW_TRY(still_image(s,ls,*i,clip,e));
+            }
+        }
+        if(depth) LW_TRY(next_line(ls,i,e));
+    } while(depth);
+    return 1;
+}
+static int clip_map(LWScene *s,const Lines *ls,size_t *i,size_t owner,int modern,LWError *e) {
+    LWClipMap map={0},*clip; LWNode *node; LWString key,value;
+    if(owner==SIZE_MAX||(s->nodes.v[owner].id>>28)!=1) return lw_error(e,ls->v[*i].offset,"clip-map","missing object owner");
+    node=&s->nodes.v[owner]; map.offset=ls->v[*i].offset;
+    split(ls->v[*i],&key,&map.declaration);
+    LW_TRY(LW_ADD(node->clip_maps,map,e)); clip=&node->clip_maps.v[node->clip_maps.n-1];
+    if(modern) {
+        LW_TRY(next_line(ls,i,e)); split(ls->v[*i],&key,&value);
+        if(!lw_string_is(key,"{")||!lw_string_is(value,"TextureBlock")) return lw_error(e,ls->v[*i].offset,"clip-map","expected TextureBlock");
+        LW_TRY(texture_block(s,ls,i,clip,e));
+    } else {
+        while(*i+1<ls->n) {
+            split(ls->v[*i+1],&key,&value);
+            if(key.size<7||memcmp(key.data,"Texture",7)) break;
+            ++*i; LW_TRY(texture_field(clip,ls->v[*i],SIZE_MAX,0,e));
+            if(lw_string_is(key,"TextureImage")) LW_TRY(scene_image(s,value,clip,e));
+        }
+    }
+    clip->size=ls->v[*i].offset+ls->v[*i].text.size-clip->offset;
+    return 1;
 }
 static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
     size_t i,current=SIZE_MAX; uint32_t object_count=0,light_count=0,camera_count=0,bone_count=0;
@@ -147,6 +201,9 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
     if(s->version!=1&&s->version!=3) return lw_error(e,ls->v[1].offset,"LWS","only LWSC versions 1 and 3 are supported");
     for(i=2;i<ls->n;i++) {
         LWString key,value; LWNode *node; split(ls->v[i],&key,&value);
+        if(lw_string_is(key,"ClipMaps")||lw_string_is(key,"ClipMap")) {
+            LW_TRY(clip_map(s,ls,&i,current,lw_string_is(key,"ClipMaps"),e)); continue;
+        }
         if(lw_string_is(key,"Plugin")) {
             size_t start=i; unsigned depth=1; LWPlugin plugin={0}; plugin.name=value; plugin.offset=ls->v[i].offset;
             if(current!=SIZE_MAX&&value.size>=17&&!memcmp(value.data,"ItemMotionHandler",17)) s->nodes.v[current].unsupported_transform=1;
@@ -159,13 +216,7 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             LW_TRY(LW_ADD(s->plugins,plugin,e)); continue;
         }
         if(lw_string_is(key,"{")) {
-            unsigned depth=1;
-            LW_TRY(still_image(s,ls,i,e));
-            while(depth) {
-                LW_TRY(next_line(ls,&i,e)); split(ls->v[i],&key,&value);
-                if(lw_string_is(key,"{")) { depth++; LW_TRY(still_image(s,ls,i,e)); }
-                else if(lw_string_is(key,"}")) depth--;
-            }
+            LW_TRY(texture_block(s,ls,&i,NULL,e));
             s->opaque_blocks++; continue;
         }
         if(lw_string_is(key,"LoadObject")||lw_string_is(key,"LoadObjectLayer")||lw_string_is(key,"AddNullObject")) {
@@ -192,6 +243,18 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
         }
         if(lw_string_is(key,"CameraMotion")&&current==SIZE_MAX) LW_TRY(add_node(s,0x30000000|camera_count++,ls->v[i],lw_string("Camera"),&current,e));
         node=current==SIZE_MAX?NULL:&s->nodes.v[current];
+        if(node&&lw_string_is(key,"ObjectDissolve")) {
+            size_t start=ls->v[i].offset;
+            if(i+1<ls->n) {
+                LWString next_key,next_value; split(ls->v[i+1],&next_key,&next_value);
+                if(lw_string_is(next_key,"{")&&lw_string_is(next_value,"Envelope")) {
+                    ++i; LW_TRY(texture_block(s,ls,&i,NULL,e));
+                }
+            }
+            node->object_dissolve.data=s->source.data+start;
+            node->object_dissolve.size=ls->v[i].offset+ls->v[i].text.size-start;
+            continue;
+        }
         if(lw_string_is(key,"FirstFrame")) LW_TRY(numbers(value,&s->first_frame,1,ls->v[i].offset,e));
         else if(lw_string_is(key,"LastFrame")) LW_TRY(numbers(value,&s->last_frame,1,ls->v[i].offset,e));
         else if(lw_string_is(key,"FramesPerSecond")) LW_TRY(numbers(value,&s->fps,1,ls->v[i].offset,e));
@@ -242,6 +305,8 @@ void lw_free_scene(LWScene *s) {
         LWNode *n=&s->nodes.v[i];
         for(j=0;j<n->channels.n;j++) LW_FREE(n->channels.v[j].keys);
         for(j=0;j<n->candidates.n;j++) free(n->candidates.v[j]);
+        for(j=0;j<n->clip_maps.n;j++) { LW_FREE(n->clip_maps.v[j].fields); LW_FREE(n->clip_maps.v[j].images); }
+        LW_FREE(n->clip_maps);
         LW_FREE(n->candidates); LW_FREE(n->channels); free(n->resolved_path);
     }
     for(i=0;i<s->images.n;i++) lw_free_image(&s->images.v[i]);

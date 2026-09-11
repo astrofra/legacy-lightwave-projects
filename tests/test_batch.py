@@ -112,7 +112,7 @@ class BatchTests(unittest.TestCase):
         self.source("project/mesh.lwo", object_bytes())
         still = '{ Clip\n{ Still\n"I:old/signe.psd"\n}\n}\n'
         for name in ("01.lws", "02.lws"):
-            self.source("project/" + name, ("LWSC\n1\nLoadObject mesh.lwo\n" + still + still).encode())
+            self.source("project/" + name, ("LWSC\n1\nLoadObject mesh.lwo\nClipMaps\n{ TextureBlock\n" + still + still + "}\n").encode())
         self.source("project/signe.jpg", b"jpeg bytes")
         self.run_batch(code=2)
         report_path = self.reports()[0]
@@ -123,6 +123,8 @@ class BatchTests(unittest.TestCase):
             directory = (report_path.parent / record["manifest"]).parent
             data = json.loads((directory / "scene.json").read_text("utf-8"))
             ref = data["image_references"][0]
+            self.assertEqual(data["nodes"][0]["clip_maps"][0]["image_references"], [0, 1])
+            self.assertEqual(ref["role"], "clip-map")
             self.assertEqual(ref["resolution"], "unique-image-stem")
             self.assertEqual((directory / ref["uri"]).read_bytes(), b"jpeg bytes")
             self.assertEqual(len(list((directory / "textures").iterdir())), 1)

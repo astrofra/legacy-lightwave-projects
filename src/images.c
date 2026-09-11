@@ -139,6 +139,7 @@ void lw_json_images(FILE *f,const LWImageReference *refs,size_t count) {
         const LWImageReference *ref=&refs[i];
         if(i) fputc(',',f);
         fputs("{\"path\":",f); lw_json_name(f,ref->path);
+        fputs(",\"role\":",f); lw_json_string(f,ref->role?ref->role:"unspecified");
         fprintf(f,",\"source_offset\":%zu,\"clip\":",ref->offset);
         if(ref->clip==LW_NONE) fputs("null",f); else fprintf(f,"%u",ref->clip);
         fputs(",\"status\":\"not-evaluated\",\"resolution\":",f);

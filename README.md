@@ -27,6 +27,12 @@ matches prefer PSD, TGA, PNG, JPEG, JPG, GIF, TIFF, then other image formats;
 remaining ambiguities are reported. Applying those images to OBJ/glTF materials
 remains unimplemented.
 
+Scene clip maps are preserved explicitly on their owning instances, with image
+roles, native parameter trees and source byte ranges. Object dissolve remains a
+separate attribute. The IR supports future target interpretation: MTL `map_d`
+for opacity, or core glTF 2.0 `MASK` plus a baked base-color alpha texture; Blender
+is deferred. See [clip-map semantics and target limits](documentation/converter.md#clip-maps-and-target-interpretation).
+
 Build on Windows with CMake and Visual Studio 2022:
 
 ```powershell

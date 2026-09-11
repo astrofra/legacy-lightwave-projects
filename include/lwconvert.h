@@ -38,6 +38,7 @@ typedef struct {
 } LWMaterial;
 typedef struct {
     LWString path;
+    const char *role;
     size_t offset;
     uint32_t clip;
     char *resolved_path, *uri;
@@ -66,12 +67,27 @@ typedef struct LWObject {
 
 typedef struct { double time, value, parameters[6]; uint32_t shape; } LWKey;
 typedef struct { uint32_t index, pre, post, declared_keys; size_t opaque_modifiers; double offset; LW_ARRAY(LWKey) keys; } LWChannel;
+/* Ordered native parameter tree; numeric text and unknown fields stay lossless. */
+typedef struct {
+    LWString name, value;
+    size_t parent, offset;
+    int block;
+} LWTextureField;
+typedef struct {
+    LWString declaration;
+    size_t offset, size;
+    LW_ARRAY(LWTextureField) fields;
+    LW_ARRAY(size_t) images; /* Indices into the owning scene's images. */
+} LWClipMap;
+
 typedef struct {
     uint32_t id, parent, layer; /* Scene layer request is one-based; LW_NONE = whole object. */
     LWString name, object_path;
     size_t source_offset;
     double pivot[3], pivot_rotation[3];
     LW_ARRAY(LWChannel) channels;
+    LW_ARRAY(LWClipMap) clip_maps;
+    LWString object_dissolve; /* Complete statement and optional envelope. */
     int unsupported_transform;
     size_t asset;
     char *resolved_path;

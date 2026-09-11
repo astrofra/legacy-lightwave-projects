@@ -158,7 +158,7 @@ static int json_output_path(FILE *f,const char *format,const char *name,const ch
     lw_json_string(f,path); free(path); return 1;
 }
 static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,const LWGltfStats *gltf,int partial,LWError *e) {
-    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0;
+    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0,clip_maps=0;
     if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
@@ -170,7 +170,9 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
         size_t count=i<p->objects.n?p->objects.v[i].images.n:p->scene.images.n;
         for(j=0;j<count;j++) { if(refs[j].uri) packaged_images++; else unresolved_images++; }
     }
-    fprintf(f,"],\n\"image_references_packaged\":%zu,\"image_references_unresolved\":%zu,\"image_resolution_scope\":\"owner directory and descendants; image filename extensions; exact filename before alternative extension; unique best suffix; original image bytes copied into owning IR/textures; no texture evaluation or material bindings\",\n\"assets\":[",packaged_images,unresolved_images);
+    for(i=0;i<p->scene.nodes.n;i++) clip_maps+=p->scene.nodes.v[i].clip_maps.n;
+    fprintf(f,"],\n\"scene_clip_maps_not_evaluated\":%zu,\"clip_map_targets\":{\"obj\":{\"representation\":\"MTL map_d\",\"portable_binary_cutoff\":false,\"status\":\"requires-texture-evaluation\"},\"gltf\":{\"representation\":\"baseColorTexture alpha with alphaMode MASK and alphaCutoff\",\"requires_extension\":false,\"status\":\"requires-texture-evaluation\"},\"blender\":{\"status\":\"deferred\"}}",clip_maps);
+    fprintf(f,",\n\"image_references_packaged\":%zu,\"image_references_unresolved\":%zu,\"image_resolution_scope\":\"owner directory and descendants; image filename extensions; exact filename before alternative extension; unique best suffix; original image bytes copied into owning IR/textures; no texture evaluation or material bindings\",\n\"assets\":[",packaged_images,unresolved_images);
     for(i=0;i<p->objects.n;i++) {
         const LWObject *o=&p->objects.v[i]; if(i) fputc(',',f);
         fprintf(f,"{\"index\":%zu,\"id\":\"%s\",\"name\":",i,o->source.sha256); lw_json_string(f,p->names.v[i]);
@@ -234,7 +236,7 @@ int lw_convert(const LWOptions *opts,LWError *e) {
         for(k=0;k<o->materials.n;k++) if(o->materials.v[k].source.size) partial=1;
     }
     if(p.is_scene) {
-        for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform) partial=1;
+        for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform||p.scene.nodes.v[i].clip_maps.n||p.scene.nodes.v[i].object_dissolve.size) partial=1;
         dir=lw_join(assets,p.scene_name); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
         if(!lw_mkdir(dir,e)||!lw_package_images(dir,p.scene.source.path,p.scene.images.v,p.scene.images.n,e)||!lw_write_scene(dir,&p.scene,e)) goto done;
         if(p.scene.images.n) partial=1;

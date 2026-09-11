@@ -101,9 +101,10 @@ Resolved objects are deduplicated by path, then by SHA-256.
 ## Image reference resolution
 
 Object `STIL` (LWO2), `TIMG`/`RIMG` (LWOB), and scene multiline `{ Still ... }`
-references are resolved automatically. Scene references are extracted even from
-nested opaque texture blocks; plugin payloads remain opaque. Other scene image
-syntaxes and image sequences are not interpreted by this resolver.
+references are resolved automatically, as are legacy `TextureImage` references
+inside `ClipMap` declarations. Scene references are extracted even from nested
+opaque texture blocks; plugin payloads remain opaque. Other scene image syntaxes
+and image sequences are not interpreted by this resolver.
 
 The search is limited to the directory containing the owning source and its
 descendants. An object's images use that object's directory, including when the
@@ -141,6 +142,58 @@ resolves to the local `signe.jpg`. This reference belongs to a `ClipMaps` block:
 the JPEG is preserved and linked in IR, while evaluating that clip mask remains
 outside the current static-geometry export profile. Original LWS/LWO bytes and
 their archived `source.bin` copies are unchanged.
+
+## Clip maps and target interpretation
+
+Scene nodes now expose `clip_maps`, bound to the **object instance**, including
+when several nodes share one deduplicated object asset. Both `ClipMaps` followed
+by a `TextureBlock` and legacy `ClipMap` followed by `Texture...` statements are
+preserved. Image references used there have `role: "clip-map"`; their indices in
+the scene's `image_references` array are listed on the corresponding clip map.
+Procedural maps without images are retained too.
+
+Each map records `coverage.mode: "binary-cutout"`, its native declaration, an
+exact `source.bin` byte range and an ordered `parameters` tree. Each parameter
+has a `parent` index (null at the root), `block`, `name`, `value` and source offset.
+Values retain their original text/bytes. This preserves layer boundaries,
+Enable/Negative, projection/axis, coordinate transforms, wrapping, opacity
+envelopes and unknown settings without flattening repeated parameters.
+The normalized `coverage.cutoff` stays null and `polarity` stays `not-evaluated`:
+neither a source threshold nor black/white polarity is inferred from a filename,
+legacy `TextureValue`, or glTF's default. Original native values remain available.
+
+`object_dissolve` is retained independently as its complete native statement and
+optional envelope. For example, `aliens@newtek/01.lws` has both a clip map and
+`ObjectDissolve 0.5` on the same instance. The two effects must not be collapsed
+into one assumed alpha-test setting.
+
+The target mapping is documented in each manifest's `clip_map_targets`:
+
+| Target | Representation after texture evaluation | Limit |
+| --- | --- | --- |
+| OBJ/MTL | Bake a grayscale opacity image and bind it with `map_d`; combine with scalar opacity as appropriate. | MTL defines dissolve mapping, but no portable binary cutoff/depth-write setting. A binary image alone cannot enforce the importing renderer's alpha-test mode. |
+| glTF 2.0 | Bake coverage into `baseColorTexture` alpha and use `alphaMode: "MASK"` with an explicit `alphaCutoff`. | No extension is required. The core material has no separate opacity texture; masking and partial transparency require an explicit policy when both are present. |
+| Blender | Deferred. | Native clip-map semantics and parameters remain available in IR. |
+
+For glTF, `MASK` discards pixels below the threshold and writes depth for retained
+pixels; it avoids the mesh sorting needed by typical blended transparency.
+The alpha input belongs to the base color, so a grayscale JPEG cannot simply be
+bound as an independent mask: evaluate its native sampling, projection, polarity
+and layer stack, then produce an alpha-bearing image such as PNG (and bake UVs
+where required). If coverage has already been baked to alpha values 0/1, a target
+cutoff of 0.5 separates them; that is an export choice, not a recovered LightWave
+threshold. An instance-specific clip map can also require material/mesh variants
+instead of reusing an unmodified material shared by several instances.
+
+This change preserves the semantics and records target capabilities. Texture
+evaluation, baking and rendered OBJ/glTF mask bindings remain unimplemented;
+`scene_clip_maps_not_evaluated` reports their count and keeps such conversions
+partial. Exporters do not emit a misleading `MASK` or `map_d` without an evaluated
+texture and its mapping.
+
+References: [LightWave object clip mapping](https://docs.lightwave3d.com/lw2020/reference/layout/object-properties/render-tab.html),
+[glTF 2.0 alpha coverage](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#alpha-coverage),
+and the [original Alias/Wavefront MTL specification, archived by Paul Bourke](https://www.paulbourke.net/dataformats/mtl/).
 
 ## Output layout 0.2 and LWIR 0.1
 

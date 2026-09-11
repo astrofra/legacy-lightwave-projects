@@ -88,6 +88,28 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
     fprintf(f,"],\n\"buffer_bytes\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"non_finite_map_values\":%zu,\"material_scope\":\"scalar subset; complete source SURF/CLIP bytes retained\"\n}\n",offset,o->invalid_map_references,o->missing_materials,o->non_finite_map_values);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 }
+static void clip_maps_json(FILE *f,const LWNode *node) {
+    size_t i,j; fputc('[',f);
+    for(i=0;i<node->clip_maps.n;i++) {
+        const LWClipMap *clip=&node->clip_maps.v[i];
+        if(i) fputc(',',f);
+        fputs("{\"scope\":\"object-instance\",\"coverage\":{\"mode\":\"binary-cutout\",\"cutoff\":null,\"polarity\":\"not-evaluated\"},\"status\":\"preserved-not-evaluated\",\"declaration\":",f);
+        lw_json_name(f,clip->declaration);
+        fprintf(f,",\"native_source\":{\"uri\":\"source.bin\",\"offset\":%zu,\"bytes\":%zu},\"image_references\":[",clip->offset,clip->size);
+        for(j=0;j<clip->images.n;j++) { if(j) fputc(',',f); fprintf(f,"%zu",clip->images.v[j]); }
+        fputs("],\"parameters\":[",f);
+        for(j=0;j<clip->fields.n;j++) {
+            const LWTextureField *field=&clip->fields.v[j];
+            if(j) fputc(',',f);
+            fputs("{\"parent\":",f); if(field->parent==SIZE_MAX) fputs("null",f); else fprintf(f,"%zu",field->parent);
+            fprintf(f,",\"block\":%s,\"source_offset\":%zu,\"name\":",field->block?"true":"false",field->offset);
+            if(field->name.size) lw_json_name(f,field->name); else fputs("null",f);
+            fputs(",\"value\":",f); lw_json_name(f,field->value); fputc('}',f);
+        }
+        fputs("]}",f);
+    }
+    fputc(']',f);
+}
 int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
     char *path=lw_join(dir,"animation.bin"); FILE *f; size_t i,j,k,offset=0;
     if(!path) return lw_error(e,0,"allocation","out of memory");
@@ -115,7 +137,13 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
         fputs(",\"resolved_path\":",f); if(n->resolved_path) lw_json_string(f,n->resolved_path); else fputs("null",f);
         fputs(",\"resolution\":",f); lw_json_string(f,n->resolution); fputs(",\"issue\":",f); lw_json_string(f,n->issue);
         fputs(",\"candidates\":[",f); for(j=0;j<n->candidates.n;j++) { if(j) fputc(',',f); lw_json_string(f,n->candidates.v[j]); }
-        fputs("],\"channels\":[",f);
+        fputs("],\"clip_maps\":",f); clip_maps_json(f,n);
+        fputs(",\"object_dissolve\":",f);
+        if(n->object_dissolve.size) {
+            fputs("{\"status\":\"preserved-not-evaluated\",\"native_statement\":",f); lw_json_name(f,n->object_dissolve);
+            fprintf(f,",\"source_offset\":%zu}",(size_t)(n->object_dissolve.data-s->source.data));
+        } else fputs("null",f);
+        fputs(",\"channels\":[",f);
         for(j=0;j<n->channels.n;j++) {
             const LWChannel *c=&n->channels.v[j]; if(j) fputc(',',f);
             fprintf(f,"{\"index\":%u,\"pre\":%u,\"post\":%u,\"declared_keys\":%u,\"opaque_modifiers\":%zu,\"time_offset\":%.17g,\"keys\":",c->index,c->pre,c->post,c->declared_keys,c->opaque_modifiers,c->offset);
