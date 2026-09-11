@@ -8,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from urllib.parse import unquote
 
 EXE = str(Path(sys.argv.pop(1)).resolve())
 U16 = lambda n: struct.pack(">H", n)
@@ -310,6 +311,9 @@ class Converter(unittest.TestCase):
         path = self.write("élément sans extension", raw)
         out, manifest = self.convert(path)
         directory, obj = self.object_data(out, manifest)
+        self.assertEqual(manifest["assets"][0]["name"], "élément_sans_extension.lwo")
+        self.assertEqual(manifest["assets"][0]["obj"], "obj/élément_sans_extension.lwo.obj")
+        self.assertEqual(manifest["assets"][0]["gltf"], "gltf/élément_sans_extension.lwo.gltf")
         self.assertEqual((directory / "source.bin").read_bytes(), raw)
         self.assertEqual(path.read_bytes(), raw)
         self.assertEqual(obj["source"]["sha256"], hashlib.sha256(raw).hexdigest())
@@ -350,6 +354,41 @@ class Converter(unittest.TestCase):
         for planned in ("blender",):
             self.assertEqual(manifest["formats"][planned], "not-implemented")
             self.assertEqual(list((out / planned).iterdir()), [])
+
+    def test_extensionless_scene_objects_and_inferred_name_collisions(self):
+        sources = [self.write("a/mesh", lwob()),
+                   self.write("b/mesh.lwo", lwob(chunk("XTRA", b"second"))),
+                   self.write("c/mesh.lwo-2", lwob(chunk("XTRA", b"third"))),
+                   self.write("d/modern", form("LWO2", layer(0)))]
+        scene = self.write("mesh", "LWSC\n1\n" + "".join(
+            f"LoadObject {path.relative_to(self.root).as_posix()}\n" for path in sources))
+        originals = {path: path.read_bytes() for path in sources + [scene]}
+        out, manifest = self.convert(scene)
+        self.assertEqual([a["name"] for a in manifest["assets"]],
+                         ["mesh.lwo", "mesh.lwo-3", "mesh.lwo-2", "modern.lwo"])
+        self.assertEqual(manifest["scene"], "IR/mesh.lws/scene.json")
+        self.assertEqual(manifest["scene_obj"], "obj/mesh.lws.obj")
+        self.assertEqual(manifest["scene_gltf"], "gltf/mesh.lws.gltf")
+        self.assertEqual((out / "IR/mesh.lws/source.bin").read_bytes(), originals[scene])
+        native = json.loads((out / manifest["scene"]).read_text("utf-8"))
+        self.assertEqual(native["nodes"][0]["object_path"]["text"], "a/mesh")
+        for asset in manifest["assets"]:
+            name = asset["name"]
+            self.assertEqual(asset["uri"], f"IR/{name}/object.json")
+            self.assertEqual(asset["obj"], f"obj/{name}.obj")
+            self.assertEqual(asset["gltf"], f"gltf/{name}.gltf")
+            self.assertEqual((out / f"IR/{name}/source.bin").read_bytes(), originals[Path(asset["source_path"])])
+        for path in (out / "gltf").glob("*.gltf"):
+            data = json.loads(path.read_text("utf-8"))
+            for buffer in data["buffers"]:
+                binary = path.parent / unquote(buffer["uri"])
+                self.assertEqual(binary, path.with_suffix(".bin"))
+                self.assertEqual(binary.stat().st_size, buffer["byteLength"])
+        for path in (out / "obj").glob("*.obj"):
+            self.assertIn(f"mtllib {path.with_suffix('.mtl').name}\n", path.read_text("utf-8"))
+            self.assertTrue(path.with_suffix(".mtl").is_file())
+        for path, raw in originals.items():
+            self.assertEqual(path.read_bytes(), raw)
 
     def test_lwo2_vmad_seam(self):
         maps = chunk("VMAP", b"TXUV" + U16(2) + s0("uv") + b"".join(vx(i)+F32(i/2, 0) for i in range(3)))
@@ -457,10 +496,13 @@ class Converter(unittest.TestCase):
 
     def test_surface_preset(self):
         raw = form("PST_", chunk("NAME", b"preset"), chunk("PDAT", form("LWO2", chunk("SURF", s0("mat")+s0("")))))
-        out, manifest = self.convert(self.write("preset.srf", raw))
-        directory, obj = self.object_data(out, manifest)
-        self.assertEqual(obj["positions"]["count"], 0)
-        self.assertEqual((directory / "source.bin").read_bytes(), raw)
+        for name in ("preset.srf", "preset"):
+            with self.subTest(name=name):
+                out, manifest = self.convert(self.write(name, raw))
+                directory, obj = self.object_data(out, manifest)
+                self.assertEqual(manifest["assets"][0]["name"], name)
+                self.assertEqual(obj["positions"]["count"], 0)
+                self.assertEqual((directory / "source.bin").read_bytes(), raw)
 
     def test_malformed_inputs_fail_with_offset(self):
         cases = [b"", lwob()[:-1], form("LWO2", chunk("PNTS", b"123")), form("LWO2", chunk("PNTS", F32(float("nan"),0,0))), lwob(poly=U16(1)+U16(99)+U16(1)), form("LWOB", chunk("SRFS", b"unterminated")), b"LWSC\n3\nPlugin x\n", b"LWSC\n1\nLoadObject tri\nObjectMotion\n9\n1\n"]

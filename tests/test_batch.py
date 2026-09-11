@@ -144,6 +144,11 @@ class BatchTests(unittest.TestCase):
         scene = next(r for r in report["files"] if r["source"].endswith("scene.lws"))
         self.assertEqual(Path(scene["content_root"]), a.parent)
         self.assertEqual(scene["obj"], "packages/project_A/obj/scene.lws.obj")
+        mesh = next(r for r in report["files"] if r["source"] == "project A/mesh ! é")
+        self.assertEqual(mesh["obj"], "packages/project_A/obj/mesh_!_é.lwo.obj")
+        self.assertEqual(mesh["gltf"], "packages/project_A/gltf/mesh_!_é.lwo.gltf")
+        preset = next(r for r in report["files"] if r["source"] == "project A/surface")
+        self.assertEqual(preset["obj"], "packages/project_A/obj/surface.obj")
         self.check_published_files(report_path)
         for path, checksum in before.items():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), checksum)
@@ -212,6 +217,28 @@ class BatchTests(unittest.TestCase):
         self.assertEqual((ir / "mesh.lwo/source.bin").read_bytes(), object_bytes())
         self.assertEqual((ir / "mesh.lwo-2/source.bin").read_bytes(), object_bytes(7))
         self.assertEqual(len(list(ir.glob("*/object.json"))), 2)
+
+    def test_extensionless_scenes_and_mapped_object_collisions(self):
+        self.source("project/a/mesh", object_bytes())
+        self.source("project/b/mesh.lwo", object_bytes(1))
+        self.source("project/c/mesh.lwo-2", object_bytes(2))
+        external = self.base / "external"
+        external.mkdir()
+        (external / "mesh").write_bytes(object_bytes(3))
+        scene = b"LWSC\n1\nLoadObject a/mesh\nLoadObject b/mesh.lwo\nLoadObject c/mesh.lwo-2\nLoadObject outside:mesh\n"
+        self.source("project/mesh", scene)
+        self.source("project/mesh.lws", scene)
+        self.run_batch("--map", f"outside:={external}")
+        report_path = self.reports()[0]
+        self.check_published_files(report_path)
+        package = report_path.parent / "packages/project"
+        names = {"mesh.lwo", "mesh.lwo-3", "mesh.lwo-2", "mesh.lwo-4", "mesh.lws", "mesh.lws-2"}
+        self.assertEqual({p.stem for p in (package / "obj").glob("*.obj")}, names)
+        self.assertEqual({p.stem for p in (package / "gltf").glob("*.gltf")}, names)
+        self.assertEqual((package / "IR/mesh.lwo/source.bin").read_bytes(), object_bytes())
+        self.assertEqual((package / "IR/mesh.lwo-4/source.bin").read_bytes(), object_bytes(3))
+        self.assertEqual((package / "IR/mesh.lws/source.bin").read_bytes(), scene)
+        self.assertEqual(len(list((package / "IR").glob("*/object.json"))), 4)
 
     def test_errors_do_not_abort_other_files(self):
         self.source("project/a-bad.lws", b"LWSC\n99\n")

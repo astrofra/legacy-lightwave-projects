@@ -190,7 +190,14 @@ packages/lake-scenery/
 ```
 
 Since v0.2.0, each project groups outputs by format. Names retain the original
-extension, such as `Tour_Toit.lwo.obj`; duplicate basenames receive `-2`, `-3`,
+extension, such as `Tour_Toit.lwo.obj`. For extensionless Amiga sources, the
+detected signature supplies `.lwo` for LWOB/LWO2 objects and `.lws` for LWSC
+scenes: `Station1` becomes `Station1.lwo.obj` / `Station1.lwo.gltf`, while
+`NastyStation` becomes `NastyStation.lws.obj` / `NastyStation.lws.gltf`.
+The same name identifies the MTL, binary buffers and IR directory. Source files
+and scene references stay unchanged; existing extensions and PST_ preset names
+are preserved. This applies to direct conversion and batches alike.
+Duplicate basenames, including collisions with an inferred extension, receive `-2`, `-3`,
 etc. Spaces and characters unsuitable for OBJ material-library references become
 underscores; accents are preserved. SHA-256 hashes remain in metadata rather
 than directory names. Scene dependencies already published in the same project

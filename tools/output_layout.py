@@ -18,6 +18,21 @@ def output_name(name):
     return name
 
 
+def source_output_name(source):
+    """Match the C writer's inferred extensions for Amiga objects and scenes."""
+    source = Path(source)
+    name = output_name(source.name)
+    if name.rfind(".") > 0:
+        return name
+    with source.open("rb") as stream:
+        header = stream.read(12)
+    if header[:4] == b"LWSC":
+        return name + ".lws"
+    if header[:4] == b"FORM" and header[8:12] in (b"LWOB", b"LWO2"):
+        return name + ".lwo"
+    return name
+
+
 class Names:
     """Reserve natural names before allocating suffixes, including on Windows."""
     def __init__(self, natural_names=()):
@@ -127,7 +142,8 @@ class ProjectOutput:
     def __init__(self, directory, sources):
         self.directory = directory
         ordered = sorted(sources, key=lambda path: str(path))
-        self.names = Names(output_name(path.name) for path in ordered)
+        self.bases = {source_key(path): source_output_name(path) for path in ordered}
+        self.names = Names(self.bases.values())
         for path in ordered:
             self.name_for(path)
         self.assets = {}
@@ -135,7 +151,10 @@ class ProjectOutput:
         self.initialized = False
 
     def name_for(self, source):
-        return self.names.get(source_key(source), output_name(Path(source).name))
+        key = source_key(source)
+        if key not in self.bases:
+            self.bases[key] = source_output_name(source)
+        return self.names.get(key, self.bases[key])
 
     def initialize(self):
         if not self.initialized:

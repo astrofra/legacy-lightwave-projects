@@ -207,7 +207,14 @@ and the [original Alias/Wavefront MTL specification, archived by Paul Bourke](ht
 ## Output layout 0.2 and LWIR 0.1
 
 A direct `lwconvert convert` call creates the following layout. The original
-filename, including its extension when present, identifies each output:
+filename identifies each output. Existing extensions are preserved; extensionless
+LWOB/LWO2 objects gain `.lwo` and LWSC scenes gain `.lws` in output names, based
+on their signatures. For example, the Amiga object `Station1` produces
+`Station1.lwo.obj` and `Station1.lwo.gltf`, while scene `NastyStation` produces
+`NastyStation.lws.obj` and `NastyStation.lws.gltf`. MTL files, binary buffers and
+IR directories use the same inferred name. Original files, their archived bytes
+and scene object references are unchanged. PST_ presets retain their names.
+The batch publisher applies the same rule, including for mapped dependencies.
 
 ```text
 manifest.json
@@ -242,12 +249,13 @@ when publishing files. Copy the whole project directory to retain the shared
 IR dependencies. Each glTF scene embeds its required geometry in its own `.bin`
 and can be copied independently with that binary file.
 
-Names preserve accents and the source extension. ASCII whitespace, control
+Names preserve accents and any existing source extension. ASCII whitespace, control
 characters, `#` and Windows-invalid filename characters become `_`, trailing
 dots are removed, and Windows device names receive a leading `_`. These rules
 keep each OBJ material-library filename a single token. Duplicate output names
 receive numeric suffixes (`mesh.lwo-2.obj`, etc.), with case-insensitive collision
-checks. Natural names are reserved before suffix allocation, so a source already
+checks, including collisions introduced by inferred extensions. Natural names
+are reserved before suffix allocation, so a source already
 named `mesh.lwo-2` keeps that name. The batch allocates names in sorted source
 path order; direct scene conversion follows the collected asset order. A later
 mapped dependency is allocated when first encountered. Names are deterministic

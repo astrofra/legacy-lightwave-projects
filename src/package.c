@@ -125,10 +125,29 @@ static int collect(LWPackage *p,const LWOptions *opts,LWError *e) {
     }
     return 1;
 }
+static char *source_output_name(const LWSource *source) {
+    char *name=lw_output_name(source->path),*extended;
+    const char *dot,*extension=NULL; size_t n;
+    if(!name) return NULL;
+    dot=strrchr(name,'.');
+    if(dot&&dot!=name) return name;
+    /* Amiga filenames need no extension. Infer only actual objects/scenes;
+       a PST_ wrapper containing an object is still a surface preset. */
+    if(source->size>=4&&!memcmp(source->data,"LWSC",4)) extension=".lws";
+    else if(source->size>=12&&!memcmp(source->data,"FORM",4)&&
+            (!memcmp(source->data+8,"LWOB",4)||!memcmp(source->data+8,"LWO2",4))) extension=".lwo";
+    if(!extension) return name;
+    n=strlen(name);
+    if(n>SIZE_MAX-5) { free(name); return NULL; }
+    extended=realloc(name,n+5);
+    if(!extended) { free(name); return NULL; }
+    memcpy(extended+n,extension,5);
+    return extended;
+}
 static int assign_names(LWPackage *p,LWError *e) {
     LWPaths bases={0}; size_t i,j; int ok=0;
     for(i=0;i<p->objects.n+(p->is_scene?1:0);i++) {
-        char *name=lw_output_name(i<p->objects.n?p->objects.v[i].source.path:p->scene.source.path);
+        char *name=source_output_name(i<p->objects.n?&p->objects.v[i].source:&p->scene.source);
         if(!name) { lw_error(e,0,"allocation","out of memory"); goto done; }
         if(!LW_ADD(bases,name,e)) { free(name); goto done; }
     }
