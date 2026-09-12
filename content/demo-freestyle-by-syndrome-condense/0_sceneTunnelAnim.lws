@@ -1,0 +1,279 @@
+LWSC
+1
+
+FirstFrame 450
+LastFrame 1000
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 510
+PreviewFrameStep 1
+FramesPerSecond 21.000000
+
+LoadObject D:\FreeStyle\GIRL-tete.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0.975 0.275 0 66.9 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+PivotPoint 0 0.975 0.275
+ParentObject 2
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\GIRL-corpsPART.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  4
+  0 0.7550015 -134.3451 -180.0999 -90.90005 0 1 1 1
+  0 0 0 0 0
+  0 0.9900017 53.3099 -180.0999 -90.90005 0 1 1 1
+  400 1 0 0 0
+  -0.03500001 0.9900017 62.77993 -180.0999 -90.90005 0 1 1 1
+  428 0 0 0 0
+  17.73008 0.9900017 63.16163 -82.19993 -90.90005 0 1 1 1
+  450 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+PivotPoint 0 0.6749998 0.3
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\GIRL-BrasDroit.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.2 0.9699998 0.295 179.9 20.3 31.89998 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 8
+PivotPoint -0.2 0.9699998 0.295
+ParentObject 2
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\GIRL-BrasGauche.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.195 0.98 0.29 -178.6 21.7 -30.5 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 8
+PivotPoint 0.2 0.975 0.29
+ParentObject 2
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\GIRL-avantBrasGauche.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.265 0.695 0.29 0 0.1 14.1 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+PivotPoint 0.265 0.695 0.29
+ParentObject 4
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\GIRL-avantBrasDroit.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.265 0.695 0.295 -0.3 0.2 -12.2 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+PivotPoint -0.265 0.695 0.295
+ParentObject 3
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\GIRL-jambedroite.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -0.2 0.3950001 0.3 10.7 -24.5 -0.1 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+PivotPoint -0.2 0.3950001 0.3
+ParentObject 2
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\GIRL-jambegauche.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0.1899999 0.4 0.3 0 -23.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+PivotPoint 0.1899999 0.4 0.3
+ParentObject 2
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\Droitezarb2.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -0.7799951 1.27 -41.51002 0 0 0 64.58002 64.58002 146.7061
+  0 0 0 0 0
+  -0.9742247 1.27 -41.45831 0 0 0 64.58002 64.58002 146.7061
+  450 0 0 0 0
+EndBehavior 1
+LockedChannels 192
+PivotPoint -8.009995 -7.636845e-008 2.979999
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\logoplan.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -0.3160664 1.505 67.91527 7.9 0 0 40.832 40.832 40.832
+  0 0 0 0 0
+  -2.741065 -0.07499978 64.92533 0 0 0 40.832 40.832 40.832
+  450 0 0 0 0
+EndBehavior 1
+PivotPoint -8.020044 -0.01500001 2.993025
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\Droitezarbeffect.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -0.1650014 0.6800005 -40.68504 0 0 0 350 350 146.9741
+  0 0 0 0 0
+  -0.1650014 0.6800005 -36.15004 0 0 720 350 350 146.9741
+  500 1 0 0 0
+EndBehavior 1
+LockedChannels 283
+PivotPoint -8.000001 -0.009999998 2.989999
+ShadowOptions 7
+
+LoadObject D:\FreeStyle\Emit_[SPARK_0].lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -0.025 0.3749999 0 0 0 2 2 2
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 2
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0 0.6199994 53.15001 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 1
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  17
+  -0.001137048 0.7747801 -4.669618 180.7 0 0 1 1 1
+  0 0 0 0 0
+  0.08886287 0.7747801 -23.2146 180.7 0 0 1 1 1
+  30 0 0 0 0
+  0.343863 0.7747801 -48.0796 180.7 0 0 1 1 1
+  60 0 0 0 0
+  0.153863 0.7747801 -68.5296 180.7 0 0 1 1 1
+  90 0 0 0 0
+  0.09386315 -0.1002199 -79.60956 180.7 -18.70001 0 1 1 1
+  108 0 0 0 0
+  0.09386315 0.7747801 -79.6446 360.1001 0 0 1 1 1
+  128 0 0 0 0
+  0.06179911 0.6447802 -66.51451 360.1001 0 0 1 1 1
+  147 0 0 0 0
+  -0.3276663 0.4347804 -54.75884 360.1001 0 0 1 1 1
+  168 0 0 0 0
+  -0.4754859 0.4347804 -44.92357 484.8 -31.4 0 1 1 1
+  187 0 0 0 0
+  -0.8304858 0.4347804 -28.95857 484.8 -31.4 0 1 1 1
+  221 0 0 0 0
+  0.04638697 0.4347804 -19.0412 369.2 -5.399988 0 1 1 1
+  257 0 0 0 0
+  0.387909 0.4347804 -13.0234 369.2 -5.399988 0 1 1 1
+  279 0 0 0 0
+  0.6634871 0.4347804 -6.067986 369.2 -5.399988 0 1 1 1
+  327 0 0 0 0
+  0.7352731 0.4347804 1.411754 369.2 -5.399988 0 1 1 1
+  363 0 0 0 0
+  0.2489079 0.4347804 18.04852 369.2 -5.399988 0 1 1 1
+  400 0 0 0 0
+  -0.3133507 0.4347804 36.71858 369.2 -5.399988 0 1 1 1
+  436 0 0 0 0
+  -1.357766 0.4347804 54.41319 360 0 0 1 1 1
+  450 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ZoomFactor 1.126000
+Resolution 0
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+FullSceneParamEval 0
+
+ViewMode 5
+ViewAimpoint -0.165001 -0.935000 -88.110062
+ViewDirection -0.422369 -0.054105 0.000000
+ViewZoomFactor 0.355164
+GridNumber 40
+GridSize 1.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
