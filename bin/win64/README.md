@@ -27,6 +27,11 @@ It is not needed for ordinary C conversion or for viewing exported animations.
 The helper uses the NewTek LightWave SDK API; SDK headers, LightWave executables
 and NewTek plugins are not included here.
 
+Since converter v0.8.0 the helper writes capture protocol 2, adding evaluated
+world normals per polygon corner. Rebuild it together with the converter.
+Protocol 1 captures remain readable, but smoothed animation needs a new capture
+to export faithful normals. Source files and earlier captures remain intact.
+
 To rebuild and stage the helper as well, configure the SDK path before building:
 
 ```powershell

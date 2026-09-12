@@ -54,7 +54,7 @@ static GVertex vertex(const LWObject *o,uint32_t polygon,uint32_t corner,const L
     if(uv) { v.uv[0]=uv[index].u; v.uv[1]=(float)(1.0-uv[index].v); }
     return v;
 }
-static int triangle(GGroup *g,const LWObject *o,uint32_t polygon,const uint32_t corners[3],const LWUV *uv,LWError *e) {
+static int triangle(GGroup *g,const LWObject *o,uint32_t polygon,const uint32_t corners[3],const LWUV *uv,const LWNormals *normals,LWError *e) {
     GVertex v[3]; double a[3],b[3],n[3],length; size_t i,j;
     for(i=0;i<3;i++) v[i]=vertex(o,polygon,corners[2-i],uv);
     for(i=0;i<3;i++) { a[i]=(double)v[1].p[i]-v[0].p[i]; b[i]=(double)v[2].p[i]-v[0].p[i]; }
@@ -62,16 +62,19 @@ static int triangle(GGroup *g,const LWObject *o,uint32_t polygon,const uint32_t 
     length=sqrt(n[0]*n[0]+n[1]*n[1]+n[2]*n[2]);
     if(!length||!isfinite(length)) return lw_error(e,0,"glTF","triangulator returned a degenerate triangle");
     for(i=0;i<3;i++) {
-        for(j=0;j<3;j++) v[i].n[j]=(float)(n[j]/length);
+        const LWNormal *source=&normals->corners[o->primitives.v[polygon].first+corners[2-i]];
+        for(j=0;j<3;j++) v[i].n[j]=source->valid?source->v[j]*(j==2?-1.f:1.f):(float)(n[j]/length);
         if(!LW_ADD(g->vertices,v[i],e)) return 0;
     }
     return 1;
 }
 static int derive(GDocument *doc,size_t asset,uint32_t request,GGroups *groups,LWError *e) {
     const LWObject *o=&doc->package->objects.v[asset]; LWExportStats *s=&doc->stats->geometry;
-    LWUV *uv=NULL; unsigned char *used=calloc(o->positions.n/3+1,1); size_t i,j; int ok=0;
+    LWUV *uv=NULL; LWNormals normals={0}; unsigned char *used=calloc(o->positions.n/3+1,1); size_t i,j; int ok=0;
     if(!used) return lw_error(e,0,"allocation","out of memory");
     uv=doc->options->uv_map?lw_corner_uvs(o,doc->options->uv_map,e):lw_texture_uvs(o,e); if(!uv) goto done;
+    if(!lw_corner_normals(o,&normals,e)) goto done;
+    s->normal_issues+=normals.issues;
     for(i=0;i<o->primitives.n;i++) {
         const LWPrimitive *p=&o->primitives.v[i]; GGroup *g; int has_uv=doc->options->uv_map||(p->material<o->materials.n&&o->materials.v[p->material].textured);
         int curve=p->type==LW_TAG('C','U','R','V'),face=p->type==LW_TAG('F','A','C','E');
@@ -87,7 +90,7 @@ static int derive(GDocument *doc,size_t asset,uint32_t request,GGroups *groups,L
             if(has_uv) for(j=0;j<p->count;j++) if(!uv[p->first+j].valid) { has_uv=0; s->uv_missing++; }
             g=group(groups,p->material,4,has_uv,e);
             if(!g) { lw_free_triangulation(&t); goto done; }
-            for(j=0;j<t.corners.n;j+=3) if(!triangle(g,o,(uint32_t)i,t.corners.v+j,has_uv?uv:NULL,e)) { lw_free_triangulation(&t); goto done; }
+            for(j=0;j<t.corners.n;j+=3) if(!triangle(g,o,(uint32_t)i,t.corners.v+j,has_uv?uv:NULL,&normals,e)) { lw_free_triangulation(&t); goto done; }
             for(j=0;j<t.corners.n;j++) used[o->indices.v[p->first+t.corners.v[j]]]=1;
             s->triangles+=t.corners.n/3; s->triangulated_faces+=p->count>3;
             s->bridged_faces+=t.bridges!=0; s->nonplanar_faces+=t.nonplanar!=0; s->removed_corners+=t.removed_corners;
@@ -121,7 +124,7 @@ static int derive(GDocument *doc,size_t asset,uint32_t request,GGroups *groups,L
     for(i=0;i<o->chunks.n;i++) if(o->chunks.v[i].tag==LW_TAG('C','R','V','S')) s->skipped++;
     ok=1;
 done:
-    free(uv); free(used); return ok;
+    free(uv); free(used); lw_free_normals(&normals); return ok;
 }
 static int texture_index(GDocument *doc,const char *uri,size_t *index,LWError *e) {
     size_t i; *index=SIZE_MAX; if(!uri) return 1;
@@ -399,7 +402,8 @@ static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
     if(m) fprintf(f,"%u",entry->index); else fputs("null",f);
     fprintf(f,",\"source_sha256\":\"%s\",\"source_sidedness\":%u",o->source.sha256,m?m->side:1);
     fputs(",\"native_texture_bindings\":",f); lw_json_textures(f,o,entry->index);
-    fputs(",\"interpretation\":\"color/diffuse/emission/opacity approximation; neutral rough dielectric; compatible LWOB image projections; height bump and environment reflection preserved in IR; no native smoothing\"}}",f);
+    fprintf(f,",\"source_smoothing_angle_radians\":%.9g,\"effective_smoothing_angle_radians\":%.9g",m?m->smoothing:0,lw_smoothing_angle(o,entry->index,NULL,NULL));
+    fputs(",\"interpretation\":\"color/diffuse/emission/opacity approximation; neutral rough dielectric; compatible LWOB image projections; height bump and environment reflection preserved in IR; source-corner normals carry smoothing\"}}",f);
 }
 static void buffer_uri(FILE *f,const char *name) {
     const unsigned char *p=(const unsigned char *)name;
@@ -440,6 +444,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
         lw_json_string(f,doc->rig->issue);
     }
     if(!doc->rig) fprintf(f,",\"snapshot_frame\":%.17g",doc->options->frame);
+    fputs(",\"normal_profile\":\"source-corner-normals-0.1\",\"normals\":\"unique NORM map per point block with VMAD precedence, otherwise unit polygon normals averaged by owner SMAN and SMGP among smoothing-enabled faces; angle cuts retained at source corners\"",f);
     if(scene&&!doc->rig&&doc->stats->animation_issue[0]) { fputs(",\"animation_issue\":",f); lw_json_string(f,doc->stats->animation_issue); }
     fprintf(f,",\"coordinates\":\"right-handed Y-up; source Z reflected\",\"uv_conversion\":\"u, 1-v\",\"animation\":\"%s\",\"subdivision\":\"control cage retained; never baked\",\"textures\":\"LWOB compatible planar/spherical image maps; repeat sampling; PNG derivatives; approximate scalar channels\"},\n\"scene\":0,\"scenes\":[{\"name\":",doc->animation.n?"sampled local object/parent TRS":doc->rig?"not-exported; native rest pose":"none; static pose"); lw_json_string(f,name);
     for(i=0;i<doc->nodes.n;i++) if(doc->nodes.v[i].parent==SIZE_MAX) {

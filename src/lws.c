@@ -37,6 +37,41 @@ static int integer(LWString s,uint32_t *value,size_t off,LWError *e) {
     if(x<0||x>UINT32_MAX||floor(x)!=x) return lw_error(e,off,"LWS","expected an unsigned integer");
     *value=(uint32_t)x; return 1;
 }
+static int rotation_controller(LWString key) {
+    return lw_string_is(key,"HController")||lw_string_is(key,"PController")||lw_string_is(key,"BController");
+}
+static int ik_parameter(LWString key) {
+    return rotation_controller(key)||lw_string_is(key,"GoalObject")||lw_string_is(key,"GoalStrength")||
+        lw_string_is(key,"FullTimeIK")||lw_string_is(key,"IKAnchor")||lw_string_is(key,"MatchGoalOrientation")||
+        lw_string_is(key,"HLimits")||lw_string_is(key,"PLimits")||lw_string_is(key,"BLimits")||
+        lw_string_is(key,"HJointStiffness")||lw_string_is(key,"PJointStiffness")||lw_string_is(key,"BJointStiffness");
+}
+static int preserve_ik_parameter(LWScene *scene,LWNode *node,LWString key,LWString value,size_t offset,LWError *e) {
+    LWTextureField field={0}; LWError numeric_error={0}; uint32_t mode=0; const char *issue=NULL;
+    field.name=key; field.value=value; field.parent=SIZE_MAX; field.offset=offset;
+    LW_TRY(LW_ADD(node->rig_parameters,field,e));
+    if(rotation_controller(key)) {
+        if(!integer(value,&mode,offset,&numeric_error)) issue="malformed rotation controller";
+        else if(mode) {
+            /* NewTek lwrender.h: 0 keyframes, 1 targeting, 2 velocity,
+               3 inverse kinematics, 4 path alignment. None are raw keys. */
+            issue=mode==3?"requires native inverse-kinematics evaluation":"requires unsupported motion-controller evaluation";
+        }
+    } else if(lw_string_is(key,"GoalObject")) issue="requires native inverse-kinematics goal evaluation";
+    else if(lw_string_is(key,"FullTimeIK")) {
+        if(!integer(value,&mode,offset,&numeric_error)||mode>1) issue="malformed FullTimeIK flag";
+        else if(mode) issue="requires native inverse-kinematics evaluation";
+    } else if(lw_string_is(key,"HJointStiffness")||lw_string_is(key,"PJointStiffness")||lw_string_is(key,"BJointStiffness")) {
+        double stiffness;
+        if(!numbers(value,&stiffness,1,offset,&numeric_error)) issue="malformed joint stiffness; possible concatenated scene statements";
+    }
+    if(issue) {
+        scene->unsupported_features++; node->unsupported_transform=1;
+        if(!node->transform_issue[0]) snprintf(node->transform_issue,sizeof node->transform_issue,
+            "%.*s %.*s: %s",(int)key.size,(const char *)key.data,(int)(value.size<48?value.size:48),(const char *)value.data,issue);
+    }
+    return 1;
+}
 static int next_line(const Lines *ls,size_t *i,LWError *e) {
     if(*i+1>=ls->n) return lw_error(e,ls->v[*i].offset,"LWS","truncated block");
     ++*i; return 1;
@@ -164,6 +199,13 @@ static int add_node(LWScene *s,uint32_t id,Line line,LWString name,size_t *curre
     n.asset=SIZE_MAX; n.source_offset=line.offset;
     snprintf(n.resolution,sizeof n.resolution,"not-evaluated");
     LW_TRY(LW_ADD(s->nodes,n,e)); *current=s->nodes.n-1; return 1;
+}
+static uint32_t motion_kind(LWString key) {
+    if(lw_string_is(key,"ObjectMotion")) return 1;
+    if(lw_string_is(key,"LightMotion")) return 2;
+    if(lw_string_is(key,"CameraMotion")) return 3;
+    if(lw_string_is(key,"BoneMotion")) return 4;
+    return 0;
 }
 static int scene_image(LWScene *s,LWString path,LWClipMap *clip,LWError *e) {
     LWImageReference ref={0};
@@ -293,8 +335,20 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             s->nodes.v[current].parent=s->nodes.v[current].bone.owner;
             s->nodes.v[current].unsupported_transform=1; s->unsupported_features++; continue;
         }
-        if(lw_string_is(key,"CameraMotion")&&current==SIZE_MAX) LW_TRY(add_node(s,0x30000000|camera_count++,ls->v[i],lw_string("Camera"),&current,e));
+        if(lw_string_is(key,"CameraMotion")&&(s->version==1||current==SIZE_MAX)) {
+            /* LWSC 1 has an implicit camera. CameraMotion usually follows the
+               lights, while ShowCamera is a visibility setting near EOF.
+               Select its own node, never the preceding object's/light's keys. */
+            if(!camera_count) LW_TRY(add_node(s,0x30000000|camera_count++,ls->v[i],lw_string("Camera"),&current,e));
+            else if(s->version==1) {
+                size_t camera;
+                for(camera=0;camera<s->nodes.n;camera++) if(s->nodes.v[camera].id==0x30000000) { current=camera; break; }
+            }
+        }
         node=current==SIZE_MAX?NULL:&s->nodes.v[current];
+        if(node&&ik_parameter(key)) {
+            LW_TRY(preserve_ik_parameter(s,node,key,value,ls->v[i].offset,e)); continue;
+        }
         if(node&&((key.size>=4&&!memcmp(key.data,"Bone",4)&&!lw_string_is(key,"BoneMotion")&&!lw_string_is(key,"BoneName"))||
            lw_string_is(key,"ScaleBoneStrength")||lw_string_is(key,"FasterBones")||lw_string_is(key,"UseBonesFrom")||
            lw_string_is(key,"SubdivisionOrder")||lw_string_is(key,"SubPatchLevel"))) {
@@ -334,7 +388,8 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
         if(lw_string_is(key,"FirstFrame")) LW_TRY(numbers(value,&s->first_frame,1,ls->v[i].offset,e));
         else if(lw_string_is(key,"LastFrame")) LW_TRY(numbers(value,&s->last_frame,1,ls->v[i].offset,e));
         else if(lw_string_is(key,"FramesPerSecond")) LW_TRY(numbers(value,&s->fps,1,ls->v[i].offset,e));
-        else if(node&&(lw_string_is(key,"ObjectMotion")||lw_string_is(key,"LightMotion")||lw_string_is(key,"CameraMotion")||lw_string_is(key,"BoneMotion"))) {
+        else if(motion_kind(key)) {
+            if(!node||(node->id>>28)!=motion_kind(key)) return lw_error(e,ls->v[i].offset,"motion","motion block has no matching item owner");
             LW_TRY(s->version==1?motion_v1(node,ls,&i,e):motion_v3(node,ls,&i,e));
         } else if(node&&(lw_string_is(key,"LightName")||lw_string_is(key,"CameraName")||lw_string_is(key,"BoneName"))) node->name=unquote(value);
         else if(node&&(lw_string_is(key,"PivotPoint")||lw_string_is(key,"PivotPosition"))) LW_TRY(numbers(value,node->pivot,3,ls->v[i].offset,e));
@@ -349,8 +404,8 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             memcpy(buffer,value.data,value.size); buffer[value.size]=0; errno=0; parent=strtoul(buffer,&end,16);
             if(*end||errno||parent>UINT32_MAX) return lw_error(e,ls->v[i].offset,"parent","invalid hexadecimal item ID");
             node->parent=parent?(uint32_t)parent:LW_NONE;
-        } else if(lw_string_is(key,"FullTimeIK")||lw_string_is(key,"GoalObject")||lw_string_is(key,"MorphTarget")||lw_string_is(key,"DisplacementMap")||lw_string_is(key,"DisplacementMaps")) {
-            s->unsupported_features++; if(node&&(lw_string_is(key,"FullTimeIK")||lw_string_is(key,"GoalObject"))) node->unsupported_transform=1;
+        } else if(lw_string_is(key,"MorphTarget")||lw_string_is(key,"DisplacementMap")||lw_string_is(key,"DisplacementMaps")) {
+            s->unsupported_features++;
         }
     }
     if(s->fps<=0) return lw_error(e,0,"LWS","FramesPerSecond must be positive");

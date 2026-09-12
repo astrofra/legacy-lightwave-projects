@@ -62,8 +62,9 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
     for(i=0;i<o->tags.n;i++) { if(i) fputc(',',f); lw_json_name(f,o->tags.v[i]); }
     fputs("],\n\"tag_assignments\":[",f);
     for(i=0;i<o->assignments.n;i++) {
-        LWTagAssignment a=o->assignments.v[i]; if(i) fputc(',',f);
-        fprintf(f,"{\"type\":%u,\"polygon_block\":%u,\"polygon\":%u,\"tag\":%u}",a.type,a.block,a.polygon,a.tag);
+        LWTagAssignment a=o->assignments.v[i]; char type[5]; if(i) fputc(',',f); lw_tag_text(a.type,type);
+        fprintf(f,"{\"type\":%u,\"type_name\":",a.type); lw_json_string(f,type);
+        fprintf(f,",\"polygon_block\":%u,\"polygon\":%u,\"tag\":%u}",a.block,a.polygon,a.tag);
     }
     fputs("],\n\"materials\":[",f);
     for(i=0;i<o->materials.n;i++) {
@@ -71,6 +72,10 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
         fputs("{\"name\":",f); lw_json_name(f,m->name); fputs(",\"source_name\":",f); lw_json_name(f,m->source);
         fprintf(f,",\"color\":[%.9g,%.9g,%.9g],\"diffuse\":%.9g,\"specular\":%.9g,\"luminosity\":%.9g,\"transparency\":%.9g,\"smoothing_angle\":%.9g,\"flags\":%u,\"side\":%u,\"present_fields\":%u,\"float_fields\":%u,\"textures\":",m->color[0],m->color[1],m->color[2],m->diffuse,m->specular,m->luminosity,m->transparency,m->smoothing,m->flags,m->side,m->present,m->float_fields);
         lw_json_textures(f,o,(uint32_t)i);
+        {
+            const char *origin; int issue=0; float angle=lw_smoothing_angle(o,(uint32_t)i,&origin,&issue);
+            fprintf(f,",\"smoothing\":{\"angle_unit\":\"radians\",\"angle_present\":%s,\"enabled\":%s,\"effective_angle\":%.9g,\"origin\":\"%s\",\"inheritance_issue\":%s}",m->present&32?"true":"false",angle>0?"true":"false",angle,origin,issue?"true":"false");
+        }
         fputs(",\"derived_maps\":{",f);
         {
             const char *keys[]={"base_color","opacity","emissive","specular","bump"};
@@ -94,7 +99,14 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
         LWChunk c=o->chunks.v[i]; char tag[5]; lw_tag_text(c.tag,tag); if(i) fputc(',',f);
         fputs("{\"tag\":",f); lw_json_string(f,tag); fprintf(f,",\"offset\":%zu,\"payload_bytes\":%zu,\"status\":\"%s\"}",c.offset,c.size,c.status);
     }
-    fprintf(f,"],\n\"buffer_bytes\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"non_finite_map_values\":%zu,\"material_scope\":\"scalar subset and LWOB texture bindings; native projections and source SURF/CLIP bytes retained; derived PNG maps use a repeat sampler and approximate scalar interpolation; height bump exported to OBJ only\"\n}\n",offset,o->invalid_map_references,o->missing_materials,o->non_finite_map_values);
+    fputc(']',f);
+    {
+        LWNormals normals={0};
+        if(!lw_corner_normals(o,&normals,e)) { fclose(f); free(path); return 0; }
+        fprintf(f,",\n\"shading\":{\"profile\":\"source-corner-normals-0.1\",\"normal_maps\":\"NORM vectors retained in maps/geometry.bin; unique name per point block; VMAD overrides VMAP; normalized only in derivatives\",\"generated_normals\":\"equal-weight unit polygon normals sharing source points; owner surface angle; neighbours must enable smoothing; SMGP boundaries; no coordinate welding\",\"unassigned_smoothing_group\":\"separate implicit group\",\"explicit_corners\":%zu,\"smoothed_corners\":%zu,\"issues\":%zu,\"polygon_normal_fallbacks\":%zu}",normals.explicit_corners,normals.smoothed_corners,normals.issues,normals.polygon_fallbacks);
+        lw_free_normals(&normals);
+    }
+    fprintf(f,",\n\"buffer_bytes\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"non_finite_map_values\":%zu,\"material_scope\":\"scalar subset and LWOB texture bindings; native projections and source SURF/CLIP bytes retained; derived PNG maps use a repeat sampler and approximate scalar interpolation; height bump exported to OBJ only\"\n}\n",offset,o->invalid_map_references,o->missing_materials,o->non_finite_map_values);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 }
 static void clip_maps_json(FILE *f,const LWNode *node) {

@@ -74,6 +74,7 @@ int lw_prepare_textures(const char *,const char *,LWObject *,const LWOptions *,L
 void lw_json_textures(FILE *,const LWObject *,uint32_t);
 typedef struct {
     size_t skipped, cages, control_curves, uv_missing;
+    size_t normal_issues;
     size_t triangulated_faces, triangles, bridged_faces, triangulation_failures, nonplanar_faces, removed_corners;
     int scene_written; char scene_issue[256];
 } LWExportStats;
@@ -89,6 +90,17 @@ int lw_write_obj(const char *, const LWPackage *, const LWOptions *, LWExportSta
 typedef struct { float u,v; unsigned char valid; } LWUV;
 LWUV *lw_texture_uvs(const LWObject *,LWError *);
 LWUV *lw_corner_uvs(const LWObject *,const char *,LWError *);
+
+typedef struct { float v[3]; unsigned char valid,explicit_value,smoothed; } LWNormal;
+typedef struct {
+    LWNormal *corners;
+    uint32_t *groups;
+    size_t explicit_corners,smoothed_corners,issues,polygon_fallbacks;
+} LWNormals;
+float lw_smoothing_angle(const LWObject *,uint32_t,const char **,int *);
+int lw_corner_normals(const LWObject *,LWNormals *,LWError *);
+void lw_free_normals(LWNormals *);
+int lw_transform_normal(const double [16],const float [3],double [3]);
 typedef struct {
     LWExportStats geometry;
     size_t files,points,lines,materials,animated_channels,omitted_nodes,unsupported_sidedness;

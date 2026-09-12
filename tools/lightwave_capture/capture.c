@@ -17,7 +17,7 @@ static void destroy(LWInstance instance) { free(instance); }
 static LWError copy(LWInstance instance,LWInstance from) { (void)instance; (void)from; return NULL; }
 static LWError load(LWInstance instance,const LWLoadState *state) { (void)instance; (void)state; return NULL; }
 static LWError save(LWInstance instance,const LWSaveState *state) { (void)instance; (void)state; return NULL; }
-static const char *description(LWInstance instance) { (void)instance; return "LWConvert native animation capture 1"; }
+static const char *description(LWInstance instance) { (void)instance; return "LWConvert native animation capture 2"; }
 static unsigned int flags(LWInstance instance) { (void)instance; return 0; }
 
 typedef struct { FILE *file; LWMeshInfoID mesh; size_t points,polygons; } Capture;
@@ -33,7 +33,14 @@ static size_t capture_polygon(void *data,LWPolID id) {
     Capture *capture=data; int i,count=capture->mesh->polSize(capture->mesh,id);
     fprintf(capture->file,"Q %lu %d",(unsigned long)capture->mesh->polType(capture->mesh,id),count);
     for(i=0;i<count;i++) fprintf(capture->file," %llx",(unsigned long long)(uintptr_t)capture->mesh->polVertex(capture->mesh,id,i));
-    fputc('\n',capture->file); capture->polygons++; return 0;
+    fputc('\n',capture->file);
+    for(i=0;i<count&&count>=3;i++) {
+        LWPntID point=capture->mesh->polVertex(capture->mesh,id,i); LWFVector world;
+        if(capture->mesh->pntOtherNormal(capture->mesh,id,point,world))
+            fprintf(capture->file,"V %zu %d %llx %.9g %.9g %.9g\n",capture->polygons,i,
+                (unsigned long long)(uintptr_t)point,world[0],world[1],world[2]);
+    }
+    capture->polygons++; return 0;
 }
 static void capture_item(FILE *file,LWItemInfo *info,LWItemID id,LWTime time) {
     const int parameters[]={LWIP_RIGHT,LWIP_UP,LWIP_FORWARD,LWIP_W_POSITION};
@@ -58,7 +65,7 @@ static void process(LWInstance instance,const LWFilterAccess *access) {
     if(!directory||!info||!objects) return;
     if(snprintf(path,sizeof path,"%s/frame-%06d.txt",directory,access->frame)>=(int)sizeof path) return;
     file=fopen(path,"wb"); if(!file) return;
-    fprintf(file,"LWCONVERT_CAPTURE 1 %d %.17g %.17g\n",access->frame,access->start,access->end);
+    fprintf(file,"LWCONVERT_CAPTURE 2 %d %.17g %.17g\n",access->frame,access->start,access->end);
     for(id=info->first(LWI_OBJECT,NULL);id;id=info->next(id)) {
         LWMeshInfoID mesh; int display=0,render=0;
         capture_item(file,info,id,access->start); items++;

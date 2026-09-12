@@ -31,12 +31,14 @@ static void materials(FILE *f,const LWObject *o,size_t asset) {
         fputc('\n',f);
     }
 }
-static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t request,const double m[16],const char *uv_name,size_t *vertex_base,size_t *uv_base,LWExportStats *stats,LWError *e) {
+static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t request,const double m[16],const char *uv_name,size_t *vertex_base,size_t *uv_base,size_t *normal_base,LWExportStats *stats,LWError *e) {
     size_t i,j,k,count=o->positions.n/3; size_t *vertices=calloc(count+1,sizeof *vertices);
-    unsigned char *used=calloc(count+1,1); LWUV *uv=NULL; int ok=0;
+    unsigned char *used=calloc(count+1,1); LWUV *uv=NULL; LWNormals normals={0}; int ok=0;
     double determinant=m[0]*(m[5]*m[10]-m[9]*m[6])-m[4]*(m[1]*m[10]-m[9]*m[2])+m[8]*(m[1]*m[6]-m[5]*m[2]);
     if(!vertices||!used) { lw_error(e,0,"allocation","out of memory"); goto done; }
     uv=uv_name?lw_corner_uvs(o,uv_name,e):lw_texture_uvs(o,e); if(!uv) goto done;
+    if(!lw_corner_normals(o,&normals,e)) goto done;
+    stats->normal_issues+=normals.issues;
     fprintf(f,"o instance_%zu_asset_%zu\n",instance,asset);
     for(i=0;i<o->point_blocks.n;i++) {
         const LWPointBlock *pb=&o->point_blocks.v[i];
@@ -52,6 +54,7 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
         const LWPrimitive *p=&o->primitives.v[i]; const LWPolygonBlock *block=&o->polygon_blocks.v[p->block];
         int repeated=0,has_uv=uv_name||(p->material<o->materials.n&&o->materials.v[p->material].textured),is_curve=p->type==LW_TAG('C','U','R','V'); size_t first_uv=*uv_base+1;
         int triangulated=p->type==LW_TAG('F','A','C','E')&&p->count>=3;
+        int has_normals=p->count>=3&&!is_curve; size_t first_normal=*normal_base+1;
         LWTriangulation triangles={0};
         if(!selected(o,block->layer,request)) continue;
         for(j=0;j<p->count;j++) for(k=0;k<j;k++) if(o->indices.v[p->first+j]==o->indices.v[p->first+k]) repeated=1;
@@ -75,16 +78,36 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
         if(has_uv) for(j=0;j<p->count;j++) if(!uv[p->first+j].valid) { has_uv=0; stats->uv_missing++; }
         if(p->count<3||is_curve) has_uv=0;
         if(has_uv) for(j=0;j<p->count;j++) { fprintf(f,"vt %.9g %.9g\n",uv[p->first+j].u,uv[p->first+j].v); ++*uv_base; }
+        if(has_normals) for(j=0;j<p->count;j++) if(!normals.corners[p->first+j].valid) { has_normals=0; stats->normal_issues++; break; }
+        if(has_normals) for(j=0;j<p->count;j++) {
+            double n[3];
+            if(!lw_transform_normal(m,normals.corners[p->first+j].v,n)) {
+                lw_error(e,0,"OBJ normals","singular or non-finite normal transform"); lw_free_triangulation(&triangles); goto done;
+            }
+            fprintf(f,"vn %.17g %.17g %.17g\n",n[0],n[1],n[2]); ++*normal_base;
+        }
         fprintf(f,"g instance_%zu_layer_%u\n",instance,o->layers.v[block->layer].id);
         if(p->material!=LW_NONE) fprintf(f,"usemtl a%zu_m%u\n",asset,p->material); else fprintf(f,"usemtl a%zu_default\n",asset);
         fprintf(f,"# source_primitive %zu\n",i);
+        if(has_normals) {
+            int smooth=lw_smoothing_angle(o,p->material,NULL,NULL)>0;
+            for(j=0;j<p->count;j++) smooth|=normals.corners[p->first+j].explicit_value!=0;
+            /* OBJ's single s number cannot encode every angle-based corner
+               discontinuity. Explicit vn values carry the authoritative shading. */
+            if(smooth) fprintf(f,"s %llu\n",normals.groups[i]==LW_NONE?1ULL:(unsigned long long)normals.groups[i]+2);
+            else fputs("s off\n",f);
+            if(normals.groups[i]!=LW_NONE) fprintf(f,"# source_smoothing_group_tag %u\n",normals.groups[i]);
+        }
         if(triangulated) {
             for(k=0;k<triangles.corners.n;k+=3) {
                 fputc('f',f);
                 for(j=0;j<3;j++) {
                     size_t corner=triangles.corners.v[k+(determinant>0?2-j:j)];
                     uint32_t point=o->indices.v[p->first+corner];
-                    fprintf(f," %zu",vertices[point]); if(has_uv) fprintf(f,"/%zu",first_uv+corner); used[point]=1;
+                    fprintf(f," %zu",vertices[point]);
+                    if(has_uv) fprintf(f,"/%zu",first_uv+corner); else if(has_normals) fputc('/',f);
+                    if(has_normals) fprintf(f,"/%zu",first_normal+corner);
+                    used[point]=1;
                 }
                 fputc('\n',f);
             }
@@ -95,7 +118,10 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
                 /* Reflection C=diag(1,1,-1) changes the determinant sign. */
                 size_t corner=p->count>=3&&!is_curve&&determinant>0?p->count-1-j:j;
                 uint32_t point=o->indices.v[p->first+corner];
-                fprintf(f," %zu",vertices[point]); if(has_uv) fprintf(f,"/%zu",first_uv+corner); used[point]=1;
+                fprintf(f," %zu",vertices[point]);
+                if(has_uv) fprintf(f,"/%zu",first_uv+corner); else if(has_normals) fputc('/',f);
+                if(has_normals) fprintf(f,"/%zu",first_normal+corner);
+                used[point]=1;
             }
             fputc('\n',f);
         }
@@ -105,10 +131,10 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
     for(i=0;i<o->chunks.n;i++) if(o->chunks.v[i].tag==LW_TAG('C','R','V','S')) { fputs("# CRVS preserved in source.bin; not interpreted\n",f); stats->skipped++; }
     ok=1;
 done:
-    free(uv); free(vertices); free(used); return ok;
+    free(uv); free(vertices); free(used); lw_free_normals(&normals); return ok;
 }
 int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExportStats *stats,LWError *e) {
-    size_t i,j,v=0,vt=0,bad=SIZE_MAX; double identity[16],*matrices=NULL; FILE *f=NULL,*mtl=NULL; char *obj_dir=NULL; int ok=0; LWError local={0};
+    size_t i,j,v=0,vt=0,vn=0,bad=SIZE_MAX; double identity[16],*matrices=NULL; FILE *f=NULL,*mtl=NULL; char *obj_dir=NULL; int ok=0; LWError local={0};
     lw_identity(identity); obj_dir=lw_join(dir,"obj");
     if(!obj_dir) return lw_error(e,0,"allocation","out of memory");
     for(i=0;i<p->objects.n;i++) {
@@ -116,8 +142,8 @@ int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExpo
         materials(mtl,&p->objects.v[i],i);
         { int closed=lw_close(mtl,"materials.mtl",e); mtl=NULL; if(!closed) goto done; }
         f=create_file(obj_dir,p->names.v[i],".obj",e); if(!f) goto done;
-        fprintf(f,"# lwconvert: FACE polygons triangulated; patches are control cages\nmtllib %s.mtl\n",p->names.v[i]); v=vt=0;
-        if(!mesh(f,&p->objects.v[i],i,0,LW_NONE,identity,opts->uv_map,&v,&vt,stats,e)) goto done;
+        fprintf(f,"# lwconvert: FACE polygons triangulated; patches are control cages\n# source-corner-normals-0.1: explicit vn preserve angle cuts; s preserves native group partitions\nmtllib %s.mtl\n",p->names.v[i]); v=vt=vn=0;
+        if(!mesh(f,&p->objects.v[i],i,0,LW_NONE,identity,opts->uv_map,&v,&vt,&vn,stats,e)) goto done;
         { int closed=lw_close(f,"mesh.obj",e); f=NULL; if(!closed) goto done; }
     }
     if(!p->is_scene) { ok=1; goto done; }
@@ -129,6 +155,12 @@ int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExpo
     for(i=0;i<p->scene.nodes.n;i++) {
         const LWNode *n=&p->scene.nodes.v[i];
         if(n->asset==SIZE_MAX) continue;
+        {
+            const float normal[3]={0,0,1}; double transformed[3];
+            if(!lw_transform_normal(matrices+16*i,normal,transformed)) {
+                snprintf(stats->scene_issue,sizeof stats->scene_issue,"singular normal transform; instance %zu",i); ok=1; goto done;
+            }
+        }
         for(j=0;j<p->objects.v[n->asset].layers.n;j++) {
             const LWLayer *layer=&p->objects.v[n->asset].layers.v[j];
             if(selected(&p->objects.v[n->asset],(uint32_t)j,n->layer)&&(layer->pivot[0]||layer->pivot[1]||layer->pivot[2]||layer->parent!=LW_NONE)) {
@@ -140,10 +172,10 @@ int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExpo
     for(i=0;i<p->objects.n;i++) materials(mtl,&p->objects.v[i],i);
     { int closed=lw_close(mtl,"scene.mtl",e); mtl=NULL; if(!closed) goto done; }
     f=create_file(obj_dir,p->scene_name,".obj",e); if(!f) goto done;
-    fprintf(f,"# base geometry snapshot, frame %.17g; see conversion manifest\nmtllib %s.mtl\n",opts->frame,p->scene_name); v=vt=0;
+    fprintf(f,"# base geometry snapshot, frame %.17g; see conversion manifest\nmtllib %s.mtl\n",opts->frame,p->scene_name); v=vt=vn=0;
     for(i=0;i<p->scene.nodes.n;i++) {
         const LWNode *n=&p->scene.nodes.v[i];
-        if(n->asset!=SIZE_MAX&&!mesh(f,&p->objects.v[n->asset],n->asset,i,n->layer,matrices+16*i,opts->uv_map,&v,&vt,stats,e)) goto done;
+        if(n->asset!=SIZE_MAX&&!mesh(f,&p->objects.v[n->asset],n->asset,i,n->layer,matrices+16*i,opts->uv_map,&v,&vt,&vn,stats,e)) goto done;
     }
     { int closed=lw_close(f,"scene.obj",e); f=NULL; if(!closed) goto done; }
     stats->scene_written=1; ok=1;

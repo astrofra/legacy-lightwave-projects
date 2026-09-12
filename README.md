@@ -75,11 +75,20 @@ concave outlines and bridged holes. Native polygons remain in LWIR. See the
 [van triangulation diagnosis](documentation/van-triangulation.md) for an example.
 
 Since v0.3.0, every conversion also writes `gltf/<source filename>.gltf` and its
-`.bin`. The first glTF profile exports static geometry, flat triangle normals,
-material approximations and UVs. Scene snapshots
-retain geometry instances and their parent transforms at `--frame`. In that profile, animation,
-native smoothing, cameras, lights and deformations are not
-exported. The manifest records the supported subset and any blocked snapshot.
+`.bin`. It exports base geometry, material approximations and UVs. Scene snapshots
+retain geometry instances and their parent transforms at `--frame`.
+The manifest records the supported subset and any blocked snapshot.
+
+Since v0.8.0, both glTF and OBJ export source-corner normals, including smoothing
+angles, native smoothing groups and unambiguous `NORM` vertex maps. OBJ writes
+`vn` and `s`; glTF writes `NORMAL`. Raw shading parameters remain in LWIR.
+Native evaluated animations also capture corner normals and export their morph
+deltas. See the [normal preservation profile and QA](documentation/normals-qa.md).
+
+Since v0.8.1, LWSC 1 scenes with an implicit camera correctly assign
+`CameraMotion` to that camera when it follows the lights. This fixes the four
+extensionless Amiga scenes in `aminet-atmobjs`; see the
+[diagnosis and remaining archive dependencies](documentation/aminet-atmobjs-qa.md).
 
 Since v0.7.0, scene glTF files also contain an animation clip for changing object
 and parent transforms, sampled once per source frame across the scene playback
@@ -90,6 +99,16 @@ with its `.bin`: individual object glTF files have no scene motion.
 `--frame` still chooses the OBJ snapshot and the glTF pose before playback.
 Unsupported animation is reported in `gltf_animation_issue` with partial status.
 See [scene animation and its sampling limits](documentation/converter.md#scene-transform-animation).
+IK-driven rigid assemblies can use the optional native LightWave fallback:
+`python tools/batch_convert.py --content content/carrot_driven_robot --lightwave-root _tmp/_extern/LightWave/LW9.6`.
+This now produces the assembled, animated `robot.lws.gltf` and
+`robot_night.lws.gltf`; see the [carrot robot export and QA](documentation/carrot-robot-qa.md).
+
+The [IK feasibility study and roadmap](documentation/lightwave-ik-oracle-feasibility.md)
+describe how to use LightWave as a research oracle toward an independent C solver,
+with measured baselines and acceptance criteria. That solver is not implemented yet.
+The [Redline corpus inventory](documentation/redline-animation-corpus.md) adds
+FK, IK and morph cases, with a separate roadmap for named morph targets and weights.
 
 Image references now resolve within the owning LWS/LWO directory and its
 descendants, including an alternative image extension when the filename stem
