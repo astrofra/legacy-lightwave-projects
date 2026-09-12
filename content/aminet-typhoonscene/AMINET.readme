@@ -1,0 +1,40 @@
+Short:        2 Hawker Typhoons and 1 Heinkel 219 "Uhu"
+Author:       Kris Elsen
+Uploader:     Kris Elsen ping be
+Type:         pix/3dobj
+Architecture: generic
+
+Scenefile for Typhoon&Uhu series of tracings.
+To use this file: extract this file to the place you want and make an
+assign to it as LW:
+
+Example: Extract typhoon.lha to ram:
+Directory typhoon with subdirs objects,textures and scenes will be created.
+
+type assign lw: ram:typhoon and that is it!
+Start Lightwave and load lw:scenes/land213+air and all should load.
+
+This scene has textures for Typhoon but not for Heinkel 219.
+I was also experimenting with the creation of landscapes in Lightwave.
+This object is also included.
+For a rendering made with this scenefile look at Typhoon9.jpg in
+pix/trace
+I hope you enjoy this scene. If so please let me know. I am also interested
+in tips and tricks in the use of Lightwave so if you know one send it to me. 
+
+
+
+      \\\\\  /////////
+       \\\\\/////////
+       //////////\\\\
+      ///////////\\\\\
+      |    Kris Elsen     |
+      |    Hooghuis 52    |
+      |   3221 Nieuwrode  |
+      |      Belgium      |
+      | Kris.Elsen@ping.be|
+      |                   |
+      |     ! SUPPORT !   |
+      |     !  AMIGA  !   |
+      #####################
+ 

@@ -1,0 +1,2566 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 1
+FrameStep 1
+
+LoadObject 3D:Objects/Space/Raider_Mutterschiff
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  1
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  3
+  2.900001 4.900002 0.250000 180.000000 0.0 29.999998 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  2.900001 4.900002 0.250000 180.000000 0.0 29.999998 0.900000 0.900000 0.900000
+  110 1 0.0 1.0 0.0
+  2.900001 4.900002 -45.250000 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  3
+  0.0 4.100001 -0.200000 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  0.0 4.100001 -0.200000 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  42 1 0.0 1.0 0.0
+  0.0 4.100001 -68.300018 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  3
+  0.0 2.650002 -0.600000 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  0.0 2.650000 -0.600000 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  30 1 0.0 1.0 0.0
+  0.0 2.650002 -68.437462 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -2.850000 4.900003 0.250000 180.000000 0.0 -29.999998 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -2.850000 4.900003 0.250000 180.000000 0.0 -29.999998 0.900000 0.900000 0.900000
+  90 1 0.0 1.0 0.0
+  -2.850000 4.900003 -39.727779 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  130 0 0.0 0.0 0.0
+  -2.850000 4.900003 -64.000000 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  5.650001 0.000003 0.250000 180.000000 0.0 90.000000 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  5.650001 0.000003 0.250000 180.000000 0.0 90.000000 0.900000 0.900000 0.900000
+  103 1 0.0 1.0 0.0
+  5.650001 0.000003 -49.616993 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  143 0 0.0 0.0 0.0
+  5.650001 0.000003 -59.249996 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  4.950000 2.850003 0.250000 180.000000 0.0 59.999996 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  4.950000 2.850003 0.250000 180.000000 0.0 59.999996 0.900000 0.900000 0.900000
+  80 1 0.0 1.0 0.0
+  4.950000 2.850003 -33.924458 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  120 0 0.0 0.0 0.0
+  4.950000 2.850003 -66.049988 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  3.600000 2.000000 -0.200000 180.000000 0.0 59.999996 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  3.600000 2.000000 -0.200000 180.000000 0.0 59.999996 0.900000 0.900000 0.900000
+  51 1 0.0 1.0 0.0
+  3.600000 2.000000 -24.356976 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  91 0 0.0 0.0 0.0
+  3.600000 2.000000 -68.199997 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  4.950003 -2.849998 0.250000 180.000000 0.0 119.999992 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  4.950003 -2.849998 0.250000 180.000000 0.0 119.999992 0.900000 0.900000 0.900000
+  95 1 0.0 1.0 0.0
+  4.950003 -2.849998 -43.790970 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  135 0 0.0 0.0 0.0
+  4.950003 -2.849998 -63.300007 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  3.550000 -2.100000 -0.200000 180.000000 0.0 119.999992 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  3.550000 -2.100000 -0.200000 180.000000 0.0 119.999992 0.900000 0.900000 0.900000
+  65 1 0.0 1.0 0.0
+  3.550000 -2.100000 -28.086107 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  105 0 0.0 0.0 0.0
+  3.550000 -2.100000 -67.650002 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  2.300002 -1.349998 -0.600000 180.000000 0.0 119.999992 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  2.300002 -1.349998 -0.600000 180.000000 0.0 119.999992 0.900000 0.900000 0.900000
+  34 1 0.0 1.0 0.0
+  2.300002 -1.349998 -21.331047 179.999985 0.0 0.0 0.900000 0.900000 0.900000
+  74 0 0.0 0.0 0.0
+  2.300002 -1.349998 -70.250008 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  3
+  0.000003 -5.649998 0.250000 180.000000 0.0 180.000000 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  0.000003 -5.649998 0.250000 180.000000 0.0 180.000000 0.900000 0.900000 0.900000
+  120 1 0.0 1.0 0.0
+  0.000003 -5.649998 -21.900002 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  0.000003 -4.099997 -0.200000 180.000000 0.0 180.000000 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  0.000003 -4.099997 -0.200000 180.000000 0.0 180.000000 0.900000 0.900000 0.900000
+  46 1 0.0 1.0 0.0
+  0.000003 -4.099997 -23.146519 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  86 0 0.0 0.0 0.0
+  0.000003 -4.099997 -67.700005 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  2.750003 -4.949997 0.250000 180.000000 0.0 150.000000 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  2.750003 -4.949997 0.250000 180.000000 0.0 150.000000 0.900000 0.900000 0.900000
+  85 1 0.0 1.0 0.0
+  2.750003 -4.949997 -36.284187 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  125 0 0.0 0.0 0.0
+  2.750003 -4.949997 -64.550003 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  3
+  0.0 5.650002 0.250000 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  0.0 5.650002 0.250000 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  115 1 0.0 1.0 0.0
+  0.0 5.650002 -33.350002 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -2.799999 -4.899998 0.250000 180.000000 0.0 -150.000000 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -2.799999 -4.899998 0.250000 180.000000 0.0 -150.000000 0.900000 0.900000 0.900000
+  73 1 0.0 1.0 0.0
+  -2.799999 -4.899998 -30.574934 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  113 0 0.0 0.0 0.0
+  -2.799999 -4.899998 -66.599983 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -3.550000 2.050000 -0.200000 180.000000 0.0 -59.999996 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -3.550000 2.050000 -0.200000 180.000000 0.0 -59.999996 0.900000 0.900000 0.900000
+  58 1 0.0 1.0 0.0
+  -3.550000 2.050000 -25.979702 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  98 0 0.0 0.0 0.0
+  -3.550000 2.050000 -67.850037 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -4.950000 2.850002 0.250000 180.000000 0.0 -59.999996 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -4.950000 2.850002 0.250000 180.000000 0.0 -59.999996 0.900000 0.900000 0.900000
+  109 1 0.0 1.0 0.0
+  -4.950000 2.850002 -49.435833 -180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  149 0 0.0 0.0 0.0
+  -4.950000 2.850002 -50.700005 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -5.649999 0.000002 0.250000 180.000000 0.0 -90.000000 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -5.649999 0.000002 0.250000 180.000000 0.0 -90.000000 0.900000 0.900000 0.900000
+  107 1 0.0 1.0 0.0
+  -5.649999 0.000002 -51.754848 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  147 0 0.0 0.0 0.0
+  -5.649999 0.000002 -55.849998 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -2.299999 -1.349998 -0.600000 180.000000 0.0 -119.999992 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -2.299999 -1.349998 -0.600000 180.000000 0.0 -119.999992 0.900000 0.900000 0.900000
+  39 1 0.0 1.0 0.0
+  -2.299999 -1.349998 -23.077465 179.999985 0.0 0.0 0.900000 0.900000 0.900000
+  79 0 0.0 0.0 0.0
+  -2.299999 -1.349998 -70.400017 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -4.899999 -2.899998 0.250000 180.000000 0.0 -119.999992 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -4.899999 -2.899998 0.250000 180.000000 0.0 -119.999992 0.900000 0.900000 0.900000
+  98 1 0.0 1.0 0.0
+  -4.899999 -2.899998 -46.265549 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  138 0 0.0 0.0 0.0
+  -4.899999 -2.899998 -62.399986 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  4
+  -3.550000 -2.050000 -0.200000 180.000000 0.0 -119.999992 0.900000 0.900000 0.900000
+  0 0 0.0 0.0 0.0
+  -3.550000 -2.050000 -0.200000 180.000000 0.0 -119.999992 0.900000 0.900000 0.900000
+  69 1 0.0 1.0 0.0
+  -3.528219 -2.050000 -29.343388 180.000000 0.0 0.0 0.900000 0.900000 0.900000
+  109 0 0.0 0.0 0.0
+  -3.500000 -2.050000 -67.099998 180.000000 0.0 -45.000000 0.900000 0.900000 0.900000
+  150 1 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 3
+PathAlignment 1
+LookAheadFrames 150
+ParentObject 25
+ShadowOptions 7
+
+LoadObject 3D:Objects/Space/RandomStars2
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  1
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ShadowOptions 7
+
+AddNullObject NullObject
+ShowObject 0
+ObjectMotion (unnamed)
+  9
+  3
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  68 1 0.0 0.0 0.0
+  7.281200 0.0 -66.985245 0.0 0.0 0.0 1.0 1.0 1.0
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject DH1:3D/Toaster/3D/Objects/Space/Raider_Mutterschiff_Ring
+ShowObject 4
+ObjectMotion (unnamed)
+  9
+  2
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+  0.0 0.0 0.0 0.0 0.0 -45.000000 1.0 1.0 1.0
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 24
+ParentObject 1
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.040000
+
+EnableShadowMaps 0
+AddLight
+LightName sonne
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  14.299603 9.049999 -15.812357 59.999996 29.999998 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 255
+LgtIntensity 0.850000
+LightType 0
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 0.930000 -0.350000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 5
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 0.930000 0.050000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 0.930000 0.450000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 0.930000 0.850000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 0.930000 -0.350000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 0.930000 0.050000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 0.930000 0.450000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 0.930000 0.850000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 -0.920000 -0.350000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 5
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 -0.920000 0.050000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 -0.920000 0.450000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.650001 -0.920000 0.850000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 -0.920000 -0.350000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 -0.920000 0.050000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 -0.920000 0.450000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.649999 -0.920000 0.850000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  5
+  0.750000
+  0 1 0.0 0.0 0.0
+  0.750000
+  14 1 0.0 0.0 0.0
+  0.0
+  20 1 0.0 0.0 0.0
+  0.0
+  34 1 0.0 0.0 0.0
+  0.750000
+  40 1 0.0 0.0 0.0
+EndBehavior 2
+FlareNominalDistance 2.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName antrieb
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.000001 0.030000 7.750001 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+ParentObject 1
+LightColor 89 0 0
+LgtIntensity 10.000000
+LightType 1
+Falloff 13.000000
+LensFlare 1
+FlareIntensity 1.000000
+FlareNominalDistance 22.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 513
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 2
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  107 1 0.0 0.0 0.0
+  0.750000
+  110 0 0.0 0.0 0.0
+  0.750000
+  113 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 2
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  107 1 0.0 0.0 0.0
+  0.750000
+  110 0 0.0 0.0 0.0
+  0.750000
+  113 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 3
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  39 1 0.0 0.0 0.0
+  0.750000
+  42 0 0.0 0.0 0.0
+  0.750000
+  45 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 3
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  39 1 0.0 0.0 0.0
+  0.750000
+  42 0 0.0 0.0 0.0
+  0.750000
+  45 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 4
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  27 1 0.0 0.0 0.0
+  0.750000
+  30 0 0.0 0.0 0.0
+  0.750000
+  33 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 4
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  27 1 0.0 0.0 0.0
+  0.750000
+  30 0 0.0 0.0 0.0
+  0.750000
+  33 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 5
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  87 1 0.0 0.0 0.0
+  0.750000
+  90 0 0.0 0.0 0.0
+  0.750000
+  93 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 5
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  87 1 0.0 0.0 0.0
+  0.750000
+  90 0 0.0 0.0 0.0
+  0.750000
+  93 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 6
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  100 1 0.0 0.0 0.0
+  0.750000
+  103 0 0.0 0.0 0.0
+  0.750000
+  106 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 6
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  100 1 0.0 0.0 0.0
+  0.750000
+  103 0 0.0 0.0 0.0
+  0.750000
+  106 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 7
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  77 1 0.0 0.0 0.0
+  0.750000
+  80 0 0.0 0.0 0.0
+  0.750000
+  83 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 7
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  77 1 0.0 0.0 0.0
+  0.750000
+  80 0 0.0 0.0 0.0
+  0.750000
+  83 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 8
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  48 1 0.0 0.0 0.0
+  0.750000
+  51 0 0.0 0.0 0.0
+  0.750000
+  54 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 8
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  48 1 0.0 0.0 0.0
+  0.750000
+  51 0 0.0 0.0 0.0
+  0.750000
+  54 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 9
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  92 1 0.0 0.0 0.0
+  0.750000
+  95 0 0.0 0.0 0.0
+  0.750000
+  98 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 9
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  92 1 0.0 0.0 0.0
+  0.750000
+  95 0 0.0 0.0 0.0
+  0.750000
+  98 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 10
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  62 1 0.0 0.0 0.0
+  0.750000
+  65 0 0.0 0.0 0.0
+  0.750000
+  68 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 10
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  62 1 0.0 0.0 0.0
+  0.750000
+  65 0 0.0 0.0 0.0
+  0.750000
+  68 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 11
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  31 1 0.0 0.0 0.0
+  0.750000
+  34 0 0.0 0.0 0.0
+  0.750000
+  37 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 11
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  31 1 0.0 0.0 0.0
+  0.750000
+  34 0 0.0 0.0 0.0
+  0.750000
+  37 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 12
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  117 1 0.0 0.0 0.0
+  0.750000
+  120 0 0.0 0.0 0.0
+  0.750000
+  123 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 12
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  117 1 0.0 0.0 0.0
+  0.750000
+  120 0 0.0 0.0 0.0
+  0.750000
+  123 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 13
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  43 1 0.0 0.0 0.0
+  0.750000
+  46 0 0.0 0.0 0.0
+  0.750000
+  49 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 13
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  43 1 0.0 0.0 0.0
+  0.750000
+  46 0 0.0 0.0 0.0
+  0.750000
+  49 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 14
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  82 1 0.0 0.0 0.0
+  0.750000
+  85 0 0.0 0.0 0.0
+  0.750000
+  88 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 14
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  82 1 0.0 0.0 0.0
+  0.750000
+  85 0 0.0 0.0 0.0
+  0.750000
+  88 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 15
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  112 1 0.0 0.0 0.0
+  0.750000
+  115 0 0.0 0.0 0.0
+  0.750000
+  118 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 15
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  112 1 0.0 0.0 0.0
+  0.750000
+  115 0 0.0 0.0 0.0
+  0.750000
+  118 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 16
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  70 1 0.0 0.0 0.0
+  0.750000
+  73 0 0.0 0.0 0.0
+  0.750000
+  76 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 16
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  70 1 0.0 0.0 0.0
+  0.750000
+  73 0 0.0 0.0 0.0
+  0.750000
+  76 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 17
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  55 1 0.0 0.0 0.0
+  0.750000
+  58 0 0.0 0.0 0.0
+  0.750000
+  61 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 17
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  55 1 0.0 0.0 0.0
+  0.750000
+  58 0 0.0 0.0 0.0
+  0.750000
+  61 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 18
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  106 1 0.0 0.0 0.0
+  0.750000
+  109 0 0.0 0.0 0.0
+  0.750000
+  112 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 18
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  106 1 0.0 0.0 0.0
+  0.760000
+  109 0 0.0 0.0 0.0
+  0.760000
+  112 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 19
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  104 1 0.0 0.0 0.0
+  0.750000
+  107 0 0.0 0.0 0.0
+  0.750000
+  110 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 19
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  104 1 0.0 0.0 0.0
+  0.750000
+  107 0 0.0 0.0 0.0
+  0.750000
+  110 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 20
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  36 1 0.0 0.0 0.0
+  0.750000
+  39 0 0.0 0.0 0.0
+  0.750000
+  42 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 21
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  95 1 0.0 0.0 0.0
+  0.750000
+  98 0 0.0 0.0 0.0
+  0.750000
+  101 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 21
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  95 1 0.0 0.0 0.0
+  0.750000
+  98 0 0.0 0.0 0.0
+  0.750000
+  101 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 20
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  36 1 0.0 0.0 0.0
+  0.750000
+  39 0 0.0 0.0 0.0
+  0.750000
+  42 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  -0.349998 -0.020001 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 6
+ParentObject 22
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  66 1 0.0 0.0 0.0
+  0.750000
+  69 0 0.0 0.0 0.0
+  0.750000
+  72 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName triebwerk_glühen
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.350000 -0.020000 -0.600000 0.0 0.0 0.0 0.0 0.0 0.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LockedChannels 8
+ParentObject 22
+LightColor 168 50 0
+LgtIntensity 0.000000
+LightType 1
+Falloff 0.000000
+LensFlare 1
+FlareIntensity (envelope)
+  1
+  4
+  0.0
+  0 0 0.0 0.0 0.0
+  0.0
+  66 1 0.0 0.0 0.0
+  0.750000
+  69 0 0.0 0.0 0.0
+  0.750000
+  72 0 0.0 0.0 0.0
+EndBehavior 1
+FlareNominalDistance 8.000000
+FlareDissolve 0.000000
+LensFlareFade 6
+LensFlareOptions 545
+ShadowCasting 1
+
+AddLight
+LightName einflug
+ShowLight 0
+LightMotion (unnamed)
+  9
+  1
+  0.0 0.0 0.0 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 0.0 0.0 0.0
+EndBehavior 1
+LightColor 80 0 0
+LgtIntensity 2.500000
+LightType 1
+Falloff 0.800000
+ShadowCasting 1
+
+ShowCamera 1
+CameraMotion (unnamed)
+  9
+  3
+  6.891684 -2.294701 -10.339622 0.0 0.0 0.0 1.0 1.0 1.0
+  0 0 -1.0 0.0 0.0
+  11.823586 -2.294701 -17.326689 0.0 0.0 0.0 1.0 1.0 1.0
+  75 0 0.0 0.0 0.0
+  4.948046 -3.844701 13.977634 0.0 0.0 0.0 1.0 1.0 1.0
+  150 0 0.0 0.0 0.0
+EndBehavior 1
+TargetObject 24
+ZoomFactor 3.200000
+RenderMode 2
+RayTraceEffects 1
+Resolution 1
+Overscan 1
+PixelAspectRatio 3
+SegmentMemory 2200000
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 24
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+DataOverlayLabel Raider_Mutterschiff
+SaveRGBImagesPrefix DH1:T/raider.
+RGBImageFormat 2
+
+ViewMode 5
+ViewAimpoint -1.700000 0.000000 -7.450013
+ViewDirection -0.066322 -0.268781 0.000000
+ViewZoomFactor 0.124859
+LayoutGrid 4
+GridSize 5.000000
+ShowMotionPath 0
+ShowSafeAreas 0
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0

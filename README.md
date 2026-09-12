@@ -11,26 +11,52 @@ With Python 3 and [7-Zip](https://www.7-zip.org/) installed, run:
 
 The script reads `documentation/aminet.json`, downloads each record's
 `download_url`, verifies `archive_bytes` and `sha256`, and extracts the LHA into
-`content/<archive name without extension>/`, preserving its internal folders.
-For example, `JumpingBall.lha` becomes `content/JumpingBall/`.
+`content/aminet-<archive name without extension>/`, preserving its internal folders.
+For example, `JumpingBall.lha` becomes `content/aminet-JumpingBall/`.
+The `aminet-` prefix distinguishes downloaded packages from personal archives.
+It applies only to each package's top-level folder, including with `--output`.
 7-Zip is detected in `PATH` and the usual Windows installation directories;
 use `--seven-zip "C:\Program Files\7-Zip\7z.exe"` to select it explicitly.
 
-Verified downloads are cached in `_tmp/aminet/archives/`. Existing destination
-folders are skipped without modifying their contents. A failed extraction never
-publishes a partial destination, and a failed package does not stop the others.
-The exit code is 1 if any package fails, otherwise 0.
+Verified downloads are cached in `_tmp/aminet/archives/`. Each extracted folder
+also receives `README.aminet.md` with the Aminet package/download URLs, archive
+size and SHA-256 from the manifest, notice URL, retrieval time in UTC and notice
+checksum. `AMINET.readme` is an exact copy of Aminet's separate `.readme`,
+preserving its encoding and line endings. Bundled README files stay intact.
 
-The currently supplied manifest is truncated inside its fifth record. Its five
-complete download headers can be processed explicitly with:
+Existing destination folders are not re-extracted; rerunning the same command
+adds missing provenance, including to folders downloaded with the older script.
+Complete provenance is reused without another notice request. Conflicting files
+are reported and never overwritten. If the notice cannot be downloaded, the
+extracted archive stays available and a rerun retries the missing documentation.
+The metadata date records notice retrieval, not the original download date.
+
+A failed extraction never publishes a partial destination, and a failed package
+does not stop the others. The exit code is 1 if any package or notice fails,
+otherwise 0. Optional record fields `notice_url` (package page) and `readme_url`
+override the URLs normally derived from `download_url`.
+
+Entries with `container_member` describe an archive inside another archive with
+the same `download_url`. The outer archive is processed first, then the local
+member is checked against the inner entry's size and SHA-256 and extracted into
+a sibling folder beside that member. For example, the two RunningLegs entries
+produce `content/aminet-RunningLegs/RunningLegs.lha` and
+`content/aminet-RunningLegs/RunningLegs/Left_Leg.lwo`. The annotated `archive` label is
+not used as a filename. Inner provenance identifies the container, its checksum
+and member path; the online notice belongs to the outer Aminet package.
+
+The current manifest contains 11 downloadable archives and one inner archive.
+Double-click `download_aminet.bat` or run it without arguments. The launcher also
+enables recovery if a future manifest is cut off: only complete download headers
+can be recovered, and a warning reports that the catalog may be incomplete.
+When invoking the Python script directly, enable that fallback explicitly:
 
 ```powershell
-.\download_aminet.bat --recover-truncated-manifest
+python tools/download_aminet.py --recover-truncated-manifest
 ```
 
-This prints a warning and leaves the source JSON untouched. Only five archive
-URLs are present; the header's count of 32 inspected archives is not a download
-list. Replace the manifest with the complete JSON to retrieve further packages.
+The source JSON is left untouched. The header's inspected-archive count is not
+a download list; only entries actually present in `records` are processed.
 
 Use `--list` to preview the URLs and destinations. `--manifest`, `--output` and
 `--cache` accept alternative paths. Defaults are relative to the repository,
@@ -54,6 +80,16 @@ material approximations and UVs. Scene snapshots
 retain geometry instances and their parent transforms at `--frame`. In that profile, animation,
 native smoothing, cameras, lights and deformations are not
 exported. The manifest records the supported subset and any blocked snapshot.
+
+Since v0.7.0, scene glTF files also contain an animation clip for changing object
+and parent transforms, sampled once per source frame across the scene playback
+range. Translation, quaternion rotation, signed scale and pivot offsets are
+exported automatically by the C converter and the batch launcher; no installed
+LightWave runtime is needed for these movements. Open the scene glTF together
+with its `.bin`: individual object glTF files have no scene motion.
+`--frame` still chooses the OBJ snapshot and the glTF pose before playback.
+Unsupported animation is reported in `gltf_animation_issue` with partial status.
+See [scene animation and its sampling limits](documentation/converter.md#scene-transform-animation).
 
 Image references now resolve within the owning LWS/LWO directory and its
 descendants, including an alternative image extension when the filename stem
@@ -88,7 +124,7 @@ morph targets reproduce the evaluated cage deformation without inventing skin
 weights or adding subdivision. This requires Python 3, the included
 `bin/win64/lw_capture.p` helper and an installed LightWave 9.6 x64 runtime when
 converting. Viewing the resulting glTF needs no LightWave installation.
-The C executable alone still exports snapshots and rest rigs. See the
+The C executable exports object/parent motion, snapshots and rest rigs. See the
 [Smila animation example and QA](documentation/smila-animation-qa.md) for usage,
 preserved IR, supported plugins and the distinction from editable skinning.
 

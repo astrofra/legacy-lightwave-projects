@@ -92,6 +92,8 @@ LWUV *lw_corner_uvs(const LWObject *,const char *,LWError *);
 typedef struct {
     LWExportStats geometry;
     size_t files,points,lines,materials,animated_channels,omitted_nodes,unsupported_sidedness;
+    size_t animation_channels,animation_samples;
+    char animation_issue[256];
     struct LWRigExports *rigs;
 } LWGltfStats;
 int lw_write_gltf(const char *,const LWPackage *,const LWOptions *,LWGltfStats *,LWError *);
@@ -100,6 +102,7 @@ int lw_close(FILE *, const char *, LWError *);
 void lw_identity(double [16]);
 int lw_scene_matrices(const LWScene *, double, double *, size_t *, LWError *);
 int lw_scene_node_matrix(const LWScene *,size_t,double,double [16],LWError *);
+int lw_scene_node_trs(const LWScene *,size_t,double,double [10],LWError *);
 int lw_bone_rest_matrix(const LWNode *,double [16],LWError *);
 
 typedef struct { size_t source,parent; double local[16],world[16],inverse_bind[16]; } LWRigJoint;

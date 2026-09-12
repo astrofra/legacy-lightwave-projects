@@ -1,0 +1,17 @@
+This object was created by Heiko Proefrock and is released into the
+public domain.  This are ugly (?) objects from the sf-serie Babylon 5.
+Three objects are included:
+* the mainship from the Raiders
+  raider_mutterschiff
+  raider_mutterschiff_ring
+* the fighters
+  raider
+* a new randomstars-objects
+ randomstars2
+with motions and envelopes for all objects and lights.
+Only one texture is in use: generic.panels distributed with LightWave 3D
+Version 3.5.
+
+Have fun with it.
+
+

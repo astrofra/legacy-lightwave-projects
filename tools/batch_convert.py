@@ -169,7 +169,7 @@ def main(argv=None):
     parser.add_argument("--converter", type=Path, help="Converter executable (Windows default: bin/win64/lwconvert.exe, then local builds)")
     parser.add_argument("--dry-run", action="store_true", help="List supported files and counts without creating output or invoking the converter")
     parser.add_argument("--timeout", type=float, default=120, help="Maximum seconds per conversion (default: 120)")
-    parser.add_argument("--frame", type=float, help="Override the snapshot frame for every scene")
+    parser.add_argument("--frame", type=float, help="Override the OBJ snapshot and initial glTF pose; scene clips keep their playback range")
     parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
     parser.add_argument("--lightwave-root",type=Path,help="Opt in to native evaluated rig animation using this installed LightWave root")
     parser.add_argument("--capture-plugin",type=Path,help="Native animation capture plugin (default: bin/win64/lw_capture.p)")
@@ -210,7 +210,7 @@ def main(argv=None):
                       "capture_plugin": str(options.capture_plugin.resolve()) if options.capture_plugin else None,
                       "animation_start": options.animation_start, "animation_end": options.animation_end,
                       "animation_step": options.animation_step}
-    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": report_options, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 static geometry, with optional external LightWave evaluated rig animation. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
+    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": report_options, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 geometry with sampled scene transform animation, plus optional external LightWave evaluated rig animation. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
     write_report(run, report)
     print(f"Output: {run}", flush=True)
     interrupted = False

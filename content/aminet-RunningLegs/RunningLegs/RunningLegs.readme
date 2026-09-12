@@ -1,0 +1,20 @@
+Short    : Small example of using bones in LW
+Author   : David Erman <tb96der@student.hk-r.se>
+Uploader : David Erman <tb96der@student.hk-r.se>
+Version  : 
+Type     : gfx/3dobj
+
+LhA V1.50r - Copyright (c) 1991,92 Stefan Boberg. Not for commercial use.
+Registered to David Erman
+
+Listing of archive 'RunningLegs.lha':
+Original  Packed Ratio    Date     Time    Name
+-------- ------- ----- --------- --------  -------------
+   20302   11016 45.7% 16-Mar-97 00:33:06  Left_Leg.lwo
+   20304   10832 46.6% 16-Mar-97 00:58:06  Right_Leg.lwo
+    5366    1243 76.8% 16-Mar-97 01:50:56  MyLeg.scn
+  279734  170683 38.9% 16-Mar-97 11:27:18  Running.anim
+-------- ------- ----- --------- --------
+  325706  193774 40.5% 16-Mar-97 11:37:26   4 files
+
+Operation successful.

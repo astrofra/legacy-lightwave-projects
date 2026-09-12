@@ -1,0 +1,36 @@
+Short:        Earth and moon objects and scene for LW
+Author:       TH2A@mic.Fr (Thierry Sillis)
+Uploader:     TH2A mic Fr (Thierry Sillis)
+Type:         pix/3dobj
+Architecture: generic
+
+This is a complete scene for rendering earth and moon under lightwave
+All objects, except Actualstars which is part of Lightwave package, are included.
+All pictures are also included, but i'm not the author !
+i wish to thank's the real authors of these pictures but i don't know who they are!
+
+and excuse me for my good english ;)
+
+If you do download this archive then please send mail and tell me what you think !
+Thank's :)
+
+
+
+============================= Archive contents =============================
+
+Listing of archive 'Earth.lha':
+Original  Packed Ratio    Date     Time    Name
+-------- ------- ----- --------- --------  -------------
+    1233     596 51.6% 27-Oct-97 17:51:26  Earth.info
+   62986   53370 15.2% 24-Mar-95 01:38:46 +CLOUDS.IFF
+  142300   55839 60.7% 27-Oct-97 18:02:04 +Earth.lwo
+    2886    1060 63.2% 27-Oct-97 18:02:26 +Earth.scn
+ 2322840 2052437 11.6% 09-Apr-97 07:49:54 +Earth_1440_720.iff
+ 1089122  831438 23.6% 10-Oct-97 14:08:50 +EarthBump.iff
+ 1984960  649454 67.2% 04-Oct-97 16:06:12 +moon.iff
+   47502   18819 60.3% 27-Oct-97 18:01:54 +Moon.lwo
+   50449   50449  0.0% 19-Oct-97 20:39:06  Earth1.jpg
+-------- ------- ----- --------- --------
+ 5704278 3713462 34.9% 27-Oct-97 18:19:20   9 files
+
+Operation successful.

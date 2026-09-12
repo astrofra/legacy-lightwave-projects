@@ -499,6 +499,20 @@ int lw_scene_node_matrix(const LWScene *s,size_t i,double frame,double m[16],LWE
     for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"transform","non-finite matrix");
     return 1;
 }
+int lw_scene_node_trs(const LWScene *s,size_t i,double frame,double trs[10],LWError *e) {
+    double v[9],m[16],ch,sh,cp,sp,cb,sb; size_t j;
+    LW_TRY(node_values(s,i,frame,v,e,0));
+    if(s->version==1) for(j=3;j<6;j++) v[j]*=0.017453292519943295;
+    local_matrix(m,v,s->nodes.v[i].pivot);
+    /* qHeading * qPitch * qBank; keep native signed/zero scales. Translation
+       includes the animated pivot offset, exactly as in the matrix evaluator. */
+    ch=cos(v[3]/2); sh=sin(v[3]/2); cp=cos(v[4]/2); sp=sin(v[4]/2); cb=cos(v[5]/2); sb=sin(v[5]/2);
+    for(j=0;j<3;j++) { trs[j]=m[12+j]; trs[7+j]=v[6+j]; }
+    trs[3]=ch*sp*cb+sh*cp*sb; trs[4]=sh*cp*cb-ch*sp*sb;
+    trs[5]=ch*cp*sb-sh*sp*cb; trs[6]=ch*cp*cb+sh*sp*sb;
+    for(j=0;j<10;j++) if(!isfinite(trs[j])) return lw_error(e,0,"animation","non-finite TRS");
+    return 1;
+}
 int lw_bone_rest_matrix(const LWNode *node,double m[16],LWError *e) {
     double v[9]={0,0,0,0,0,0,1,1,1},pivot[3]={0}; size_t j;
     int rotated=node->pivot_rotation[0]||node->pivot_rotation[1]||node->pivot_rotation[2];

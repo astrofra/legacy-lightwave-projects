@@ -378,7 +378,7 @@ deformations, visibility masks, dissolves or render effects. Manifest counters
 describe omissions and approximations across all generated OBJ files, including
 individual objects and the scene.
 
-## glTF 2.0 static geometry profile
+## glTF 2.0 geometry and scene animation
 
 The direct C writer consumes native objects and the shared triangulator/UV
 resolver. It does not parse OBJ or invoke Blender. Output is `.gltf` JSON with
@@ -441,13 +441,44 @@ matrix. Only transforms supported by the existing evaluator are exported;
 unsupported interpolation, parent chains or layer pivot semantics block the
 scene snapshot while individual object glTF files remain available.
 
-The declared `static-base-geometry-0.1` profile contains no animation channels,
-cameras, light definitions, skins, morph targets or deformation evaluation.
-`gltf_animated_channels_not_exported` records source channels with multiple keys.
-Geometry-unrelated scene nodes are omitted and counted. A supported static
-snapshot may return exit code zero despite having source animation, because
-the profile explicitly targets one frame. Missing dependencies and geometry
-omissions/approximations still contribute to the existing partial status.
+### Scene transform animation
+
+Since v0.7.0, changing object and parent transforms produce one standard glTF
+animation clip directly in the scene's `.gltf`/`.bin` pair, with profile
+`sampled-scene-transforms-0.1`. Individual object exports and genuinely constant
+scenes retain `static-base-geometry-0.1`. The C executable and batch launcher
+export this clip automatically, without an installed LightWave runtime.
+
+The exporter samples local translation, quaternion rotation and signed scale
+once per source-frame interval, including the final frame. It evaluates the
+same supported linear/TCB/repeat/Follower transformations as the OBJ snapshot,
+incorporates pivot offsets, retains the hierarchy and supports negative or zero
+scale. Animated nodes use TRS properties instead of a glTF `matrix`. Quaternion
+signs remain continuous across samples. All times start at zero seconds, with
+the source frame rate controlling playback speed. The clip records its source
+first/last frame, frame rate and sample count in `extras`.
+
+The scene's `FirstFrame`/`LastFrame` define playback. If that range is absent or
+non-increasing, exported nodes' key times define the range instead. `--frame`
+selects the OBJ snapshot and initial glTF pose, without shortening the clip.
+Between samples, glTF uses linear translation/scale and quaternion slerp. Curves
+and step transitions are therefore approximated between source frames; motion
+faster than that sampling interval is not preserved faithfully. Native keys and
+original bytes remain intact in LWIR. Exports are limited to 100,000 frame
+intervals and 64 MiB of transform samples per scene.
+
+`gltf_animation_channels` and `gltf_animation_samples` report the generated
+tracks and shared timeline. `gltf_animated_channels_not_exported` counts remaining
+source channels with multiple keys, including omitted cameras/lights/bones.
+An unsupported transform envelope or sampling limit retains an available static
+snapshot, writes `gltf_animation_issue` and returns partial status (2).
+The glTF animation specification is documented by
+[Khronos](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#animations).
+
+This profile animates object placement, not vertex deformation, materials,
+cameras or light definitions. Native bone/IK/morph/plugin deformation still
+requires the separate evaluated-animation workflow below. Missing dependencies
+and geometry omissions/approximations retain their existing partial status.
 
 The optional `lightwave-evaluated-cage-0.1` profile adds separate animated rig
 derivatives, listed in `gltf_animations`. It samples final LightWave bone poses

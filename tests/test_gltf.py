@@ -1,5 +1,6 @@
 """Decode actual glTF buffers and compare geometry, provenance, UVs and poses."""
 from collections import Counter
+import copy
 import json
 import math
 from pathlib import Path
@@ -24,7 +25,7 @@ def load(path):
 def values(data, buffers, index):
     a = data["accessors"][index]
     view = data["bufferViews"][a["bufferView"]]
-    components = {"VEC2":2, "VEC3":3}[a["type"]]
+    components = {"SCALAR":1, "VEC2":2, "VEC3":3, "VEC4":4}[a["type"]]
     assert a["componentType"] == 5126 and a["count"] > 0
     start, stride = view.get("byteOffset", 0) + a.get("byteOffset", 0), view.get("byteStride", components * 4)
     assert start % 4 == 0 and stride % 4 == 0
@@ -47,16 +48,36 @@ def multiply(a, b):
     return [sum(a[4*k+row]*b[4*column+k] for k in range(4)) for column in range(4) for row in range(4)]
 
 
+def node_matrix(node):
+    if "matrix" in node:
+        return node["matrix"]
+    x,y,z,w = node.get("rotation", [0,0,0,1])
+    sx,sy,sz = node.get("scale", [1,1,1])
+    tx,ty,tz = node.get("translation", [0,0,0])
+    return [(1-2*(y*y+z*z))*sx, 2*(x*y+z*w)*sx, 2*(x*z-y*w)*sx, 0,
+            2*(x*y-z*w)*sy, (1-2*(x*x+z*z))*sy, 2*(y*z+x*w)*sy, 0,
+            2*(x*z+y*w)*sz, 2*(y*z-x*w)*sz, (1-2*(x*x+y*y))*sz, 0,
+            tx,ty,tz,1]
+
+
 def world_matrices(data):
     matrices = {}
     identity = [1 if i % 5 == 0 else 0 for i in range(16)]
     def visit(i, parent):
-        matrices[i] = multiply(parent, data["nodes"][i].get("matrix", identity))
+        matrices[i] = multiply(parent, node_matrix(data["nodes"][i]))
         for child in data["nodes"][i].get("children", []):
             visit(child, matrices[i])
     for root in data["scenes"][data["scene"]].get("nodes", []):
         visit(root, identity)
     return matrices
+
+
+def animation_pose(data, buffers, sample):
+    pose = copy.deepcopy(data)
+    for channel in data["animations"][0]["channels"]:
+        sampler = data["animations"][0]["samplers"][channel["sampler"]]
+        pose["nodes"][channel["target"]["node"]][channel["target"]["path"]] = values(data, buffers, sampler["output"])[sample]
+    return pose
 
 
 class GltfTests(unittest.TestCase):
@@ -188,6 +209,90 @@ class GltfTests(unittest.TestCase):
         self.assertIn("cyclic",manifest["scene_gltf_issue"])
         data,buffers=self.exported(out,manifest)
         self.assertEqual(len(data["meshes"]),1)
+
+
+    def test_scene_animation_parent_pivot_rotation_and_signed_scale_match_obj(self):
+        self.write("tri.lwo", lwob())
+        source = "LWSC\n1\nFirstFrame 0\nLastFrame 10\nFramesPerSecond 10\nAddNullObject parent\n"
+        source += motion1([(0,[0,0,0,0,0,0,1,2,1],1), (10,[5,1,2,360,30,40,2,1,3],1)])
+        source += "LoadObject tri.lwo\nParentObject 1\nPivotPoint 1 2 3\n"
+        source += motion1([(0,[1,2,3,10,20,30,-1,1,1],1), (10,[3,4,5,40,50,60,1,2,1],1)])
+        path = self.write("moving", source)
+        out, manifest = self.convert(path)
+        data, buffers = self.exported(out, manifest, scene=True)
+        self.assertEqual(manifest["gltf_animation_channels"], 6)
+        self.assertEqual(manifest["gltf_animation_samples"], 11)
+        self.assertEqual(manifest["gltf_animated_channels_not_exported"], 0)
+        self.assertEqual(manifest["gltf_animation_issue"], "")
+        self.assertEqual(data["extras"]["profile"], "sampled-scene-transforms-0.1")
+        self.assertEqual(len(data["animations"]), 1)
+        for channel in data["animations"][0]["channels"]:
+            sampler = data["animations"][0]["samplers"][channel["sampler"]]
+            self.assertNotIn("matrix", data["nodes"][channel["target"]["node"]])
+            times = values(data, buffers, sampler["input"])
+            self.assertEqual((times[0], times[-1]), ((0,), (1,)))
+            rows = values(data, buffers, sampler["output"])
+            if channel["target"]["path"] == "rotation":
+                for row in rows:
+                    self.assertAlmostEqual(sum(v*v for v in row), 1, places=6)
+                for a,b in zip(rows, rows[1:]):
+                    self.assertGreaterEqual(sum(x*y for x,y in zip(a,b)), 0)
+            if channel["target"] == {"node": 1, "path": "scale"}:
+                self.assertEqual([rows[i][0] for i in (0,5,10)], [-1,0,1])
+        for frame in (0,3,8,10):
+            with self.subTest(frame=frame):
+                pose = animation_pose(data, buffers, frame)
+                actual = []
+                for i,matrix in world_matrices(pose).items():
+                    if "mesh" not in pose["nodes"][i]: continue
+                    for primitive in data["meshes"][pose["nodes"][i]["mesh"]]["primitives"]:
+                        for p in values(data, buffers, primitive["attributes"]["POSITION"]):
+                            actual.append(tuple(sum(matrix[4*k+r]*p[k] for k in range(3))+matrix[12+r] for r in range(3)))
+                snapshot, info = self.convert(path, "--frame", str(frame))
+                expected = [tuple(map(float,line.split()[1:])) for line in (snapshot/info["scene_obj"]).read_text().splitlines() if line.startswith("v ")]
+                for a,b in zip(sorted(actual), sorted(expected)):
+                    self.assertLess(math.dist(a,b), 1e-5)
+                self.assertEqual(len(actual),len(expected))
+        self.assertEqual(path.read_text(), source)
+
+    def test_v3_animation_seconds_tcb_and_playback_range(self):
+        self.write("tri.lwo", lwob())
+        source = ("LWSC\n3\nFirstFrame -12\nLastFrame 12\nFramesPerSecond 24\nLoadObject tri.lwo\n"
+                  "ObjectMotion\nNumChannels 1\nChannel 0\n{ Envelope\n2\n"
+                  "Key 0 -0.5 0 1 0 0 0 0 0\nKey 4 0.5 0 1 0 0 0 0 0\nBehaviors 1 1\n}\n")
+        out, manifest = self.convert(self.write("tcb.lws", source))
+        data, buffers = self.exported(out, manifest, scene=True)
+        clip = data["animations"][0]
+        self.assertEqual(clip["extras"]["samples"], 25)
+        self.assertEqual(clip["extras"]["first_frame"], -12)
+        sampler = clip["samplers"][0]
+        times = values(data, buffers, sampler["input"])
+        self.assertEqual((times[0][0],times[-1][0]), (0,1))
+        translations = values(data, buffers, sampler["output"])
+        for sample in (0,6,12,18,24):
+            u=sample/24
+            self.assertAlmostEqual(translations[sample][0], 4*(3*u*u-2*u*u*u), places=6)
+
+    def test_unsupported_animation_retains_snapshot_and_reports_partial(self):
+        self.write("tri.lwo",lwob())
+        source = ("LWSC\n3\nFirstFrame 0\nLastFrame 2\nFramesPerSecond 1\nLoadObject tri.lwo\n"
+                  "ObjectMotion\nNumChannels 1\nChannel 0\n{ Envelope\n2\n"
+                  "Key 0 0 2 0 0 0 0 0 0\nKey 4 2 2 0 0 0 0 0 0\nBehaviors 1 1\n}\n")
+        out, manifest = self.convert(self.write("bezier.lws", source), code=2)
+        data, _ = self.exported(out, manifest, scene=True)
+        self.assertNotIn("animations", data)
+        self.assertEqual(manifest["gltf_animation_channels"], 0)
+        self.assertIn("unsupported envelope shape",manifest["gltf_animation_issue"])
+        self.assertTrue((out/manifest["scene_obj"]).is_file())
+
+    def test_constant_motion_keys_do_not_invent_an_animation(self):
+        self.write("tri.lwo",lwob())
+        source = "LWSC\n1\nFirstFrame 0\nLastFrame 5\nLoadObject tri.lwo\n"
+        source += motion1([(0,[1,2,3,0,0,0,1,1,1],1), (5,[1,2,3,0,0,0,1,1,1],1)])
+        out, manifest = self.convert(self.write("still.lws",source))
+        data, _ = self.exported(out,manifest,scene=True)
+        self.assertNotIn("animations",data)
+        self.assertEqual(manifest["gltf_animation_channels"],0)
 
 
 if __name__ == "__main__":

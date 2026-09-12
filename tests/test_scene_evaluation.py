@@ -37,7 +37,7 @@ class SceneEvaluationTests(unittest.TestCase):
         scene = self.write("sample.lws","LWSC\n3\nFramesPerSecond 1\nLoadObject tri.lwo\n"+motion(0,keys,behavior=behavior))
         out,manifest = self.convert(scene,"--frame",str(frame))
         data,_ = gltf.load(out/manifest["scene_gltf"])
-        matrix = data['nodes'][0].get('matrix',[1 if i%5==0 else 0 for i in range(16)])
+        matrix = gltf.node_matrix(data['nodes'][0])
         obj = (out/manifest["scene_obj"]).read_text().splitlines()
         x = float(next(line.split()[1] for line in obj if line.startswith("v ")))
         self.assertAlmostEqual(x,matrix[12],places=10)
@@ -84,7 +84,7 @@ class SceneEvaluationTests(unittest.TestCase):
         path=self.write("wings.lws",raw)
         out,m=self.convert(path,"--frame","1",code=2)
         data,_=gltf.load(out/m["scene_gltf"])
-        a,b=data["nodes"][0]["matrix"],data["nodes"][1]["matrix"]
+        a,b=gltf.node_matrix(data["nodes"][0]),gltf.node_matrix(data["nodes"][1])
         self.assertAlmostEqual(a[0],math.sqrt(.5)); self.assertAlmostEqual(a[1],-math.sqrt(.5))
         self.assertAlmostEqual(b[0],a[0]); self.assertAlmostEqual(b[1],-a[1])
         self.assertEqual(data["nodes"][2]["children"],[0,1])

@@ -240,6 +240,25 @@ class BatchTests(unittest.TestCase):
         self.assertEqual((package / "IR/mesh.lws/source.bin").read_bytes(), scene)
         self.assertEqual(len(list((package / "IR").glob("*/object.json"))), 4)
 
+    def test_batch_keeps_scene_animation_and_shared_buffer_links(self):
+        self.source("project/object", object_bytes())
+        scene = ("LWSC\n1\nFirstFrame 0\nLastFrame 10\nFramesPerSecond 5\n"
+                 "LoadObject object\nObjectMotion\n9\n2\n"
+                 "0 0 0 0 0 0 1 1 1\n0 1 0 0 0\n"
+                 "10 0 0 0 0 0 1 1 1\n10 1 0 0 0\nEndBehavior 1\n")
+        self.source("project/moving", scene.encode())
+        self.run_batch()
+        report_path = self.reports()[0]
+        report = self.check_published_files(report_path)
+        record = next(r for r in report["files"] if r["source"] == "project/moving")
+        self.assertEqual(record["gltf"], "packages/project/gltf/moving.lws.gltf")
+        data = json.loads((report_path.parent / record["gltf"]).read_text("utf-8"))
+        self.assertEqual(len(data["animations"]), 1)
+        self.assertEqual(len(data["animations"][0]["channels"]), 3)
+        self.assertEqual(data["buffers"][0]["uri"], "moving.lws.bin")
+        manifest = json.loads((report_path.parent / record["manifest"]).read_text("utf-8"))
+        self.assertEqual(manifest["gltf_animation_samples"], 11)
+
     def test_errors_do_not_abort_other_files(self):
         self.source("project/a-bad.lws", b"LWSC\n99\n")
         self.source("project/b-good", object_bytes())
