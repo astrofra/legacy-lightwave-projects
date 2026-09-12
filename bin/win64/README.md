@@ -64,3 +64,9 @@ Version 0.11.0 adds `--bake-ik auto` (default): a C-only skeletal FK/IK bake,
 with standard animated glTF skins. No LightWave runtime, capture plugin or SDK
 is needed by this path. `--bake-ik off` restores rest rigs. IK is approximate;
 see [scope and Smilla QA](../../documentation/autonomous-ik.md).
+
+Version 0.12.0 binds standard LWO2 UV image layers to OBJ/glTF automatically,
+including CLIP references resolved through alternative image extensions and
+VMAD UV seams. The aircon example now exports color, specular and screen
+emission from its JPG files. Plugin shaders and unsupported layer combinations
+remain explicit preservation-only records. See the [texture profile](../../documentation/textures.md).

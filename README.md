@@ -126,6 +126,12 @@ The `orange-juice-signage` example now exports its textured screen, orange skin
 and floor transparency. See the [texture profile](documentation/textures.md)
 for supported channels and the remaining rendering approximations.
 
+Since v0.12.0, LWO2 UV image layers also bind automatically through
+`BLOK/IMAP` → `CLIP` and the named `TXUV` map, including discontinuous corner UVs.
+For example, `collosus-concept-design/items/aircon` resolves its missing TGA
+references to the existing JPGs and exports color, specular and screen emission.
+Plugin shaders such as `NormalShader` remain preserved and reported.
+
 Since v0.4.1, scene snapshots also sample TCB curves and tolerate incorrect
 declared envelope key counts while retaining the original data and a warning.
 A bounded mirrored-bank `LW_Follower` preview unblocks the seven

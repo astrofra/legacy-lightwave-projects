@@ -1,4 +1,4 @@
-# Texture profile — v0.4.0
+# Texture profile — v0.12.0
 
 The motivating project is `content/orange-juice-signage`. Its scene loads the
 textured LWOB object `oj_tv_mesh_t.lwo`: `screen.iff` supplies the screen's color;
@@ -43,7 +43,7 @@ MIT option. No GPL parser is incorporated. Source licenses remain under
 
 ## IR and material derivation
 
-Each LWOB material has a `textures` array. Records preserve the native channel,
+Each LWOB/LWO2 material has a `textures` array. Records preserve the native channel,
 type, owning image-reference index, source byte range, flags, wrap values, size,
 center, falloff, velocity, texture value, amplitude and repetition counts.
 Native bytes remain in `source.bin`, including unimplemented parameters and
@@ -58,8 +58,8 @@ share one UV set. Color, then diffuse, take precedence when projections differ;
 additional layers or incompatible projections are retained and reported.
 An explicit `--uv-map` disables automatic bindings, avoiding the application of
 a planar image to unrelated UV coordinates. World-space projection, falloff,
-velocity, unsupported projections, procedural evaluation and LWO2 BLOK material
-evaluation remain outside this profile.
+velocity, unsupported projections and procedural evaluation remain outside this
+profile. The LWO2 UV subset is described below.
 
 The preview sampler repeats in both directions with linear filtering. Native
 `TWRP`, antialias and filter flags are retained, but their exact legacy rendering
@@ -91,9 +91,69 @@ buffers and textures needs no source path or IR directory.
 glTF specular factors follow the
 [Khronos extension](https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/KHR_materials_specular);
 the optional extension does not reproduce LightWave glossiness. Materials still
-use the existing rough dielectric approximation and flat triangle normals.
+use the existing rough dielectric approximation and source-corner normals.
 Transparency images are distinct from scene clip maps: the latter remain in
 the IR with binary-cutout semantics and are not evaluated by this change.
+
+## LWO2 UV image layers
+
+Since v0.12.0, `SURF/BLOK` headers and ordinary image attributes are parsed using
+the [LightWave SDK LWO2 specification](../extern/lwsdk-master/html/filefmts/lwo2.html#c_BLOK).
+`IMAP/IMAG` refers to a global `CLIP` index, resolved after the entire FORM has
+been read; it is not an index into the image-reference array. `PROJ 5` selects
+the `TXUV` map named by the block's `VMAP` attribute. Point UVs come from `VMAP`
+and polygon-corner overrides from `VMAD`. glTF flips V once; OBJ retains native V.
+Materials can select different UV maps. No UV command-line option is required.
+
+The IR's `lwo2_block` records ordinal, UV map name, CLIP index, projection,
+enable state, opacity mode/value, envelope presence, reference object,
+coordinate system, rotation, falloff type and shader name. Original block bytes,
+including all envelope indices and plugin payloads, remain in `source.bin`.
+
+The initial export subset accepts one enabled image layer per channel, normal
+blending at 100% opacity, repeat wrapping, static parameters and identity texture
+transforms. The named UV map must cover all corners of the material. Other
+compositing modes, animated parameters, partial/missing UVs, duplicate CLIP IDs,
+procedurals and shaders receive explicit issues; no arbitrary layer is selected.
+An explicit `--uv-map` is compatible only when it names the same native map.
+Channels sharing the same mapping use the derivative pipeline above. Modern
+scalar maps replace the base scalar with mean RGB brightness, weighted by image
+alpha, rather than using LWOB's black-to-`TVAL` rule. Image filtering, alpha
+interpretation and the target BRDF remain preview approximations.
+
+### Aircon regression
+
+`content/collosus-concept-design/items/aircon/aircon.lwo` asks for
+`C:collosus/items/aircon/aircon_diff.tga` and `aircon_spec.tga`. The existing
+resolver already found `aircon_diff.jpg` and `aircon_spec.jpg`; missing LWO2
+material bindings prevented them from reaching the targets. Extension fallback
+scans actual image filenames in the owner's subtree and ranks stem/path matches.
+It does not enumerate path × extension combinations. Original JPG bytes and
+resolution provenance are archived; lossless PNG material derivatives are local
+to the exported OBJ/glTF.
+
+The `aircon_target` material now has color and specular maps. The screen uses the
+same color atlas for emission with native diffuse=0 and luminosity=1. The third
+image (`aircon_norm.tga`, available as JPG) belongs to a private `NormalShader`
+payload with a plugin-local CLIP, not the object's global CLIP table. That shader
+is named and reported as preserved-only; its normal-map behavior is not inferred
+from a filename. `FPrime` likewise remains a preserved shader.
+
+QA batch: `build/aircon-textures-qa/batch-20260912-224012` (kept outside the
+regular output cleanup). The LWO and LWS were converted through
+`convert_content.bat` with no texture options. The LWS also loads `tv_small.lwo`,
+which exercises the same profile. All three glTF files pass Khronos resource
+validation with zero errors/warnings. Published IR/OBJ/glTF links and hashes pass
+the layout checker. Blender 4.2 imports the aircon OBJ and glTF from isolated
+format directories with loaded image nodes, assigned materials and UVs; the
+rendered aircon preview has legible atlas lettering and the cyan screen.
+This validates portable mapping, not equivalence to the original shader.
+See the [recorded checks](diagnostics/aircon-textures-qa.json).
+
+```powershell
+.\convert_content.bat --file collosus-concept-design/items/aircon/aircon.lwo --file collosus-concept-design/items/aircon/aircon.lws --output-root build/aircon-textures-qa
+python -X utf8 tests/check_textures_blender.py --blender "C:/Program Files/Blender Foundation/Blender 4.2/blender.exe" --project build/aircon-textures-qa/batch-20260912-224012/packages/collosus-concept-design --asset items/aircon/aircon.lwo --report build/aircon-blender.json --preview build/aircon-preview.png
+```
 
 ## Validation
 
@@ -101,6 +161,8 @@ the IR with binary-cutout semantics and are not evaluated by this change.
 ByteRun literals/runs/no-ops, EHB, mask planes, transparent indices, malformed
 IFF handling, projection coordinates and spherical seams, native channel scopes,
 opacity inversion, specular binding and portable batch texture publication.
+The LWO2 regressions add actual TGA-to-JPEG fallback, CLIP ordering, UV seams,
+scalar replacement, emission and explicit rejection of unsupported bindings.
 `tests/check_output_layout.py` also validates PNG hashes and material resources.
 Release and MSVC AddressSanitizer run these alongside the existing suites.
 

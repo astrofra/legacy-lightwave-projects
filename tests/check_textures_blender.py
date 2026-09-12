@@ -63,7 +63,7 @@ def worker(args):
                     scene.render.engine='CYCLES'; scene.cycles.samples=16; scene.view_settings.view_transform='Standard'
                     scene.render.resolution_x=900; scene.render.resolution_y=900; scene.render.resolution_percentage=100
                     scene.render.filepath=str(args.preview.resolve()); bpy.ops.render.render(write_still=True)
-    args.report.write_text(json.dumps({"blender_version":bpy.app.version_string,"passed":True,"imports":results,"scope":"Isolated format directories, loaded material texture nodes, UVs and polygon assignments; floor opacity linked. Preview uses diagnostic lighting, not original LightWave shading."},indent=2)+"\n",encoding="utf-8")
+    args.report.write_text(json.dumps({"blender_version":bpy.app.version_string,"passed":True,"imports":results,"scope":"Isolated format directories, loaded material texture nodes, UVs and polygon assignments; opacity checked for the sol.lwo fixture when selected. Preview uses diagnostic lighting, not original LightWave shading."},indent=2)+"\n",encoding="utf-8")
 
 
 def main():

@@ -199,6 +199,21 @@ class TextureTests(unittest.TestCase):
         _,native=self.object_data(out,manifest)
         self.assertIn("base_color",native["materials"][0]["derived_maps"])
 
+    def test_lwo2_invalid_clip_and_partial_uv_are_not_guessed(self):
+        self.write("maps/screen.iff",ilbm([[(255,0,0)]]))
+        clip=chunk("CLIP",struct.pack(">I",17)+chunk("STIL",s0("maps/screen.iff"),True))
+        raw=uv_textured(clips=clip+clip)
+        out,manifest=self.convert(self.write("modern.lwo",raw),code=2)
+        _,native=self.object_data(out,manifest)
+        self.assertIn("ambiguous CLIP",native["materials"][0]["textures"][0]["issue"])
+        incomplete=chunk("VMAP",b"TXUV"+U16(2)+s0("atlas")+vx(0)+F32(0,0))
+        out,manifest=self.convert(self.write("modern.lwo",uv_textured(maps=incomplete)),code=2)
+        _,native=self.object_data(out,manifest)
+        self.assertEqual(native["materials"][0]["derived_maps"],{})
+        self.assertIn("incomplete",native["materials"][0]["textures"][0]["issue"])
+        malformed=uv_textured(imap(extra=chunk("IMAG",b"\xff",True)))
+        self.assertIn("at byte",self.run_cli("inspect",self.write("broken.lwo",malformed),code=1).stderr)
+
     def test_24bit_iff_png_pixels_padding_byte_runs_and_bindings(self):
         rows = [[(255,0,0),(0,255,0),(0,0,255)]*5+[(19,87,143),(1,2,3)],[(0,0,0)]*17]
         for compression in (0,1):

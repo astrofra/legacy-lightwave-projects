@@ -158,7 +158,7 @@ references. `decoded_image` reports dimensions and optional `png_uri`/`png_sha25
 `decode_issue` explains unsupported or malformed images. `status: decoded` means
 raster decoding succeeded, independently of whether the image is used in an
 exported material. `images_not_exported` counts references without a supported
-LWOB binding. Native material `textures` and `derived_maps` describe the
+LWOB or LWO2 UV binding. Native material `textures` and `derived_maps` describe the
 [texture export profile](textures.md).
 
 For example, `I:fra/3D/posts/Aliens@Newtek/signe.psd` in `aliens@newtek/01.lws`
@@ -552,7 +552,7 @@ scope. The glTF derivative stores `(u, 1-v)`. A source face missing any selected
 UV value goes into a primitive without `TEXCOORD_0`; zero UVs are not invented.
 When no explicit map is selected, compatible LWOB planar/spherical image
 projections generate UVs and material bindings as described in the
-[texture profile](textures.md). LWO2 texture blocks remain preserved only.
+[texture profile](textures.md). LWO2 static UV image layers also bind through CLIP indices and named TXUV maps; unsupported projections, layer combinations and plugins remain preserved only.
 
 Material names and surface assignments survive. Base color is clamped
 `color * diffuse`, opacity is clamped `1 - transparency`, and emission is clamped

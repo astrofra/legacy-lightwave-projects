@@ -1,0 +1,183 @@
+{
+  "converter_version": "0.12.0",
+  "batch": "build/aircon-textures-qa/batch-20260912-224012",
+  "source": "content/collosus-concept-design/items/aircon/aircon.lwo",
+  "source_sha256": "72dcdcae4d41e4d5509e329e596514e9e8352ee87853468da49bd92dea038ea9",
+  "resolution": [
+    {
+      "path": {
+        "text": "C:collosus/items/aircon/aircon_spec.tga",
+        "raw_hex": "433a636f6c6c6f7375732f6974656d732f616972636f6e2f616972636f6e5f737065632e746761",
+        "decoding": "utf8"
+      },
+      "role": "unspecified",
+      "source_offset": 25522,
+      "clip": 1,
+      "status": "decoded",
+      "resolution": "unique-image-stem-suffix",
+      "resolved_path": "S:/works/legacy-lightwave-projects/content/collosus-concept-design/items/aircon/aircon_spec.jpg",
+      "uri": "textures/1-aircon_spec.jpg",
+      "sha256": "8fc425baa0a64bffc4a79441eabf33832122977288e4627f00995de813025fe8",
+      "issue": "",
+      "decoded_image": {
+        "width": 512,
+        "height": 512,
+        "channels": "RGBA8",
+        "png_uri": null,
+        "png_sha256": null
+      },
+      "decode_issue": "",
+      "candidates": [
+        "S:/works/legacy-lightwave-projects/content/collosus-concept-design/items/aircon/aircon_spec.jpg"
+      ]
+    },
+    {
+      "path": {
+        "text": "C:collosus/items/aircon/aircon_diff.tga",
+        "raw_hex": "433a636f6c6c6f7375732f6974656d732f616972636f6e2f616972636f6e5f646966662e746761",
+        "decoding": "utf8"
+      },
+      "role": "unspecified",
+      "source_offset": 25580,
+      "clip": 2,
+      "status": "decoded",
+      "resolution": "unique-image-stem-suffix",
+      "resolved_path": "S:/works/legacy-lightwave-projects/content/collosus-concept-design/items/aircon/aircon_diff.jpg",
+      "uri": "textures/2-aircon_diff.jpg",
+      "sha256": "42e67274a46064633b892fc36e139697f388fb08b9b9cdfbe68f5613cfb104f9",
+      "issue": "",
+      "decoded_image": {
+        "width": 512,
+        "height": 512,
+        "channels": "RGBA8",
+        "png_uri": null,
+        "png_sha256": null
+      },
+      "decode_issue": "",
+      "candidates": [
+        "S:/works/legacy-lightwave-projects/content/collosus-concept-design/items/aircon/aircon_diff.jpg"
+      ]
+    }
+  ],
+  "materials": [
+    {
+      "name": "aircon_black_metal",
+      "derived_maps": {},
+      "bindings": [
+        {
+          "type": "SHDR",
+          "channel": "",
+          "image_reference": null,
+          "status": "preserved-only",
+          "issue": "LWO2 procedural, gradient or shader plugin; preserved only",
+          "shader": "FPrime"
+        }
+      ]
+    },
+    {
+      "name": "aircon_target",
+      "derived_maps": {
+        "base_color": "textures/ac59b61c50d1b9dffbbb21dd9487685035b445698c3a2a9505b686a58436ec51.png",
+        "specular": "textures/1890bc604230c604f3a06c5165d3c563c9e68d06638e618ba33918ffd553b56b.png"
+      },
+      "bindings": [
+        {
+          "type": "IMAP",
+          "channel": "COLR",
+          "image_reference": 1,
+          "status": "approximated",
+          "issue": "",
+          "shader": ""
+        },
+        {
+          "type": "IMAP",
+          "channel": "SPEC",
+          "image_reference": 0,
+          "status": "approximated",
+          "issue": "",
+          "shader": ""
+        },
+        {
+          "type": "SHDR",
+          "channel": "",
+          "image_reference": null,
+          "status": "preserved-only",
+          "issue": "LWO2 procedural, gradient or shader plugin; preserved only",
+          "shader": "NormalShader"
+        }
+      ]
+    },
+    {
+      "name": "aircon_target_screen",
+      "derived_maps": {
+        "base_color": "textures/1576d5dc0e1d717935f1ec31cd529a5e69d4639a203eeb013a560d2bd909dc09.png",
+        "emissive": "textures/ac59b61c50d1b9dffbbb21dd9487685035b445698c3a2a9505b686a58436ec51.png"
+      },
+      "bindings": [
+        {
+          "type": "IMAP",
+          "channel": "COLR",
+          "image_reference": 1,
+          "status": "approximated",
+          "issue": "",
+          "shader": ""
+        }
+      ]
+    }
+  ],
+  "khronos": {
+    "input": "S:\\works\\legacy-lightwave-projects\\build\\aircon-textures-qa\\batch-20260912-224012\\packages\\collosus-concept-design\\gltf",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 3,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "layout": {
+    "batch": "S:\\works\\legacy-lightwave-projects\\build\\aircon-textures-qa\\batch-20260912-224012",
+    "layout_version": "0.3",
+    "input_statuses": {
+      "partial": 2
+    },
+    "projects": 1,
+    "conversion_manifests": 2,
+    "native_sources_checked": 3,
+    "obj_mtl_pairs_checked": 3,
+    "gltf_buffer_pairs_checked": 3,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "blender": {
+    "blender_version": "4.2.0",
+    "passed": true,
+    "imports": [
+      {
+        "format": "gltf",
+        "file": "items/aircon/aircon.lwo",
+        "material_count": 3,
+        "loaded_texture_nodes": 4,
+        "portable_import": true
+      },
+      {
+        "format": "obj",
+        "file": "items/aircon/aircon.lwo",
+        "material_count": 3,
+        "loaded_texture_nodes": 4,
+        "portable_import": true
+      }
+    ],
+    "scope": "Isolated format directories, loaded material texture nodes, UVs and polygon assignments; opacity checked for the sol.lwo fixture when selected. Preview uses diagnostic lighting, not original LightWave shading."
+  },
+  "scope": "Standard LWO2 UV bindings, original JPEG archive, PNG derivatives, portable target imports. NormalShader and FPrime preserved only; no original-render fidelity claim."
+}
