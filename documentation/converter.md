@@ -1,6 +1,6 @@
-# LWS/LWO converter in C — v0.6.0
+# LWS/LWO converter in C — v0.8.1
 
-Status as of 11 September 2026. This milestone provides a C17 library and
+Status as of 12 September 2026. This milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
 structures and produces OBJ/MTL and glTF 2.0 files. The `.blend` backend remains
 to be implemented. Optional native evaluated animation uses the Python wrapper
@@ -9,6 +9,10 @@ and an external LightWave runtime, as described in the
 evaluate native animation plugins.
 
 ## Commands
+
+The planned Blender backend will offer [baked IK or native Blender IK](lightwave-ik-oracle-feasibility.md#51-choix-du-mode-ik-pour-blender).
+Native Blender IK prioritizes an editable rig and explicitly permits differences
+from LightWave. These are documented requirements, not current converter options.
 
 Windows build instructions and getting-started examples are in the
 [README](../README.md). MSVC 19.41 x64 was used for Debug, Release and
@@ -72,6 +76,11 @@ are copied verbatim into its IR directory. Supported raster images are decoded,
 with lossless PNG derivatives for ILBM; compatible LWOB image maps are bound to
 exported materials. Missing or unreadable dependencies are reported and are not
 included in the package.
+
+LWSC 1's single implicit camera is created or selected at `CameraMotion`,
+including when the preceding item is a light or object. `ShowCamera` may occur
+before or after the motion without duplicating the camera. Motion blocks are
+checked against their owning item type. See the [Amiga atmobjs QA](aminet-atmobjs-qa.md).
 
 Strings retain their original bytes in `raw_hex`. The `text` field uses UTF-8
 when valid, otherwise an explicitly named Latin-1 hypothesis. Successful path
@@ -320,7 +329,9 @@ PTCH/PCHS are exported as control cages and CURV as control polylines, with
 approximation counters. Bones, unknown primitive types and detail polygons are
 omitted from OBJ and preserved in LWIR. Repeated FACE indices are interpreted
 by the triangulator instead of being rejected outright. Legacy CRVS remain
-opaque. LightWave normals, smoothing and subdivision are not yet evaluated.
+opaque. Source-corner normals now interpret `NORM`, `SMAN`, legacy smoothing
+flags and `SMGP`, as described in the [shading profile](normals-qa.md).
+Subdivision is not evaluated.
 
 The triangulator normalizes and projects each boundary onto its dominant plane,
 clips valid ears, and checks the resulting signed area. It returns source corner
@@ -400,16 +411,40 @@ contours are counted and retained in LWIR. Points, two-point polygons and curve
 control segments use glTF POINTS/LINES modes; loose points are retained. These
 line segments do not evaluate the original curve basis.
 
-Each triangle has three derived vertices and a computed flat normal. Grouping
+Each triangle has three derived vertices with normals computed at source corners
+before triangulation. Grouping
 uses material, primitive mode and UV availability. This avoids merging corners
 at seams and keeps source polygon data independent from render geometry.
-The initial writer uses non-indexed primitives; no vertex deduplication, native
-smoothing, tangents or subdivision evaluation is claimed.
+The writer uses non-indexed primitives; no vertex deduplication, tangents or
+subdivision evaluation is claimed. Explicit normal maps override generated
+smoothing; UV and material splits preserve their source corner normals.
 
 Subdivision baking is deliberately excluded from the glTF backend. Native
 PCHS/PTCH types, original polygons and subdivision maps remain in LWIR;
 scene `SubPatchLevel` and `SubdivisionOrder` now also appear in ordered
 `rig_parameters`. Future editable subdivision belongs to the Blender backend.
+
+`rig_parameters` also preserves native H/P/B controllers, IK goals and strengths,
+IK anchors, full-time IK flags, rotation limits and joint stiffness, with source
+offsets and original value bytes. Non-keyframe rotation controllers explicitly
+block scene evaluation; `H/P/BController 0` and `FullTimeIK 0` do not. Malformed
+joint-stiffness lines remain archived and receive a specific diagnostic rather
+than being rewritten. See the [carrot robot QA](carrot-robot-qa.md).
+
+With `--lightwave-root`, missing scene glTFs can now be assembled from native
+evaluated rigid-object poses, even when there are no bones. This optional
+`lightwave-evaluated-scene-transforms-0.1` profile writes the main scene glTF and
+its TRS animation, retains object/null hierarchy and verifies every sampled cage
+against the native IR. `gltf_evaluated_scene` records sampling and validation;
+`evaluated_animation` links the captures. The original C rejection remains in
+`source_scene_gltf_issue`. Existing supported C scene exports and the separate
+Smila deformation profile keep their respective paths. Camera/light definitions,
+native shaders and an independent C IK solver remain outside this profile.
+
+The [IK oracle feasibility study and roadmap](lightwave-ik-oracle-feasibility.md)
+defines the experiments, evidence and acceptance criteria for replacing native
+IK evaluation with a bounded independent C implementation. The existing native
+export is the reference baseline; the independent solver remains planned.
 
 `--uv-map` shares the OBJ resolver, including VMAD precedence and native block
 scope. The glTF derivative stores `(u, 1-v)`. A source face missing any selected
@@ -649,7 +684,7 @@ supplement this documentation, particularly layer numbering, presets and
 envelopes with inconsistent declared key counts.
 
 The proposed next steps are to extend independent animation evaluation and
-editable skinning, native smoothing and
+editable skinning and
 additional texture projections and shader semantics, extend the glTF profile, and add the Python adapter for
 `.blend`. The latter will run
 in a background Blender process; no custom addon is required. All three outputs

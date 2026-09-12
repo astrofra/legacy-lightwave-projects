@@ -2,6 +2,11 @@
 
 **Revised:** 10 September 2026 (supersedes the 9 September assessment).
 
+**12 September follow-up:** the [IK oracle feasibility study and roadmap](lightwave-ik-oracle-feasibility.md)
+documents the working native animation bridge and the proposed independent IK
+evaluator. The assessment and dataset counts below retain their 10 September scope;
+see the [converter guide](converter.md) for current implementation status.
+
 **Dataset:** current `content/` working tree based on revision `e82c079b667a927a744ea24610fee97534708c43`, including staged `quatuor/` and untracked `collosus-concept-design/`. The inventory hashes, not the revision alone, identify the audited snapshot.
 
 **Deliverable:** refreshed audit and implementation proposal, a successful synthetic background-Blender experiment, and a first C17 extraction/OBJ implementation. Current implementation scope and limits are recorded in the [converter guide](converter.md); production fidelity and the glTF/Blender backends remain unqualified or unimplemented.
@@ -475,6 +480,11 @@ Validate each view's bounds, count/stride relationship and endianness, plus ever
 Do not resolve the entire source model to PBR materials, triangle lists and baked transforms before serialization: that would lose precisely the information this project is intended to preserve.
 
 ### 8.3 Blender without an addon or GUI
+
+**12 September requirement:** the future Blender backend must offer a choice of
+baked IK poses or editable native Blender IK, with solver differences accepted in
+the latter mode. Both use the source-preserving IR; evaluated captures remain
+separate. See the [two-mode contract and Blender milestones](lightwave-ik-oracle-feasibility.md#51-choix-du-mode-ik-pour-blender).
 
 **Recommended integration: an external Python program launches Blender, and Blender executes a regular Python script using `bpy`.** The script is a conversion backend, with no panel, operator registration, installation into user preferences or addon lifecycle. The resulting scene should use ordinary datablocks and native node groups, so opening the `.blend` does not require our code or a custom Python driver.
 

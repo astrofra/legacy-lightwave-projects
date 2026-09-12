@@ -1,0 +1,782 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-09-12",
+  "converter_version": "0.7.0",
+  "scope": "Focused QA and explicit IK diagnostics; assembled scene export remains unsupported.",
+  "command": "python -X utf8 tools/batch_convert.py --content content/carrot_driven_robot --output-root output/carrot-robot-qa",
+  "batch": "output/carrot-robot-qa/batch-20260912-061903",
+  "baseline_batch": "output/carrot-robot-qa-before/batch-20260912-061549",
+  "scenes": [
+    {
+      "source": "content/carrot_driven_robot/robot.lws",
+      "sha256": "9c052d6c9d937f4ceb70003989baff0f8a4a83be0c41988cd6806532dcc08318",
+      "source_preserved": true,
+      "version": 3,
+      "first_frame": 0,
+      "last_frame": 170,
+      "fps": 30,
+      "nodes": 51,
+      "geometry_instances": 23,
+      "bones": 0,
+      "unresolved_object_instances": 0,
+      "scene_obj": null,
+      "scene_gltf": null,
+      "baseline_issue": "transform: node 10000004: unsupported pivot/IK/bone evaluation",
+      "current_issue": "transform: node 10000002: PController 3: requires native inverse-kinematics evaluation",
+      "rejected_nodes": [
+        {
+          "id": "10000002",
+          "name": "carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000003",
+          "name": "carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000004",
+          "name": "carrot_driven_robot/mesh_bot_main_l.lwo",
+          "issue": "GoalObject 17: requires native inverse-kinematics goal evaluation"
+        },
+        {
+          "id": "10000005",
+          "name": "carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "issue": "HJointStiffness 40PController 3: malformed joint stiffness; possible concatenated scene statements"
+        },
+        {
+          "id": "10000006",
+          "name": "carrot_driven_robot/mesh_bot_mollet_l.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000007",
+          "name": "carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000008",
+          "name": "carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000009",
+          "name": "carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "1000000a",
+          "name": "carrot_driven_robot/mesh_bot_main_r.lwo",
+          "issue": "GoalObject 18: requires native inverse-kinematics goal evaluation"
+        },
+        {
+          "id": "1000000b",
+          "name": "carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "issue": "HJointStiffness 40PController 3: malformed joint stiffness; possible concatenated scene statements"
+        },
+        {
+          "id": "1000000c",
+          "name": "carrot_driven_robot/mesh_bot_mollet_r.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "1000000d",
+          "name": "carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000012",
+          "name": "orteil_r",
+          "issue": "GoalObject 15: requires native inverse-kinematics goal evaluation"
+        },
+        {
+          "id": "10000013",
+          "name": "orteil_l",
+          "issue": "GoalObject 16: requires native inverse-kinematics goal evaluation"
+        }
+      ],
+      "native_motion_settings": [
+        {
+          "node_id": "10000001",
+          "node_name": "carrot_driven_robot/mesh_bot_body.lwo",
+          "key": "IKAnchor",
+          "value": "1",
+          "offset": 12932
+        },
+        {
+          "node_id": "10000002",
+          "node_name": "carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 16669
+        },
+        {
+          "node_id": "10000002",
+          "node_name": "carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "key": "PJointStiffness",
+          "value": "30",
+          "offset": 16701
+        },
+        {
+          "node_id": "10000002",
+          "node_name": "carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "key": "BJointStiffness",
+          "value": "40",
+          "offset": 16735
+        },
+        {
+          "node_id": "10000003",
+          "node_name": "carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 20541
+        },
+        {
+          "node_id": "10000003",
+          "node_name": "carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "key": "HJointStiffness",
+          "value": "600PController 3",
+          "offset": 20572
+        },
+        {
+          "node_id": "10000003",
+          "node_name": "carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "key": "PJointStiffness",
+          "value": "10",
+          "offset": 20620
+        },
+        {
+          "node_id": "10000004",
+          "node_name": "carrot_driven_robot/mesh_bot_main_l.lwo",
+          "key": "GoalObject",
+          "value": "17",
+          "offset": 23764
+        },
+        {
+          "node_id": "10000005",
+          "node_name": "carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "key": "HJointStiffness",
+          "value": "40PController 3",
+          "offset": 30858
+        },
+        {
+          "node_id": "10000005",
+          "node_name": "carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "key": "PJointStiffness",
+          "value": "60",
+          "offset": 30913
+        },
+        {
+          "node_id": "10000005",
+          "node_name": "carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "key": "BJointStiffness",
+          "value": "400",
+          "offset": 30947
+        },
+        {
+          "node_id": "10000006",
+          "node_name": "carrot_driven_robot/mesh_bot_mollet_l.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 37600
+        },
+        {
+          "node_id": "10000007",
+          "node_name": "carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 44857
+        },
+        {
+          "node_id": "10000007",
+          "node_name": "carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "key": "HJointStiffness",
+          "value": "50PController 3",
+          "offset": 44887
+        },
+        {
+          "node_id": "10000007",
+          "node_name": "carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "key": "PJointStiffness",
+          "value": "90",
+          "offset": 44936
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 49098
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "PJointStiffness",
+          "value": "30",
+          "offset": 49130
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "BController",
+          "value": "3",
+          "offset": 49150
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "BJointStiffness",
+          "value": "40",
+          "offset": 49180
+        },
+        {
+          "node_id": "10000009",
+          "node_name": "carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 53545
+        },
+        {
+          "node_id": "10000009",
+          "node_name": "carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "key": "HJointStiffness",
+          "value": "600PController 3",
+          "offset": 53576
+        },
+        {
+          "node_id": "10000009",
+          "node_name": "carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "key": "PJointStiffness",
+          "value": "10",
+          "offset": 53624
+        },
+        {
+          "node_id": "1000000a",
+          "node_name": "carrot_driven_robot/mesh_bot_main_r.lwo",
+          "key": "GoalObject",
+          "value": "18",
+          "offset": 57659
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "HJointStiffness",
+          "value": "40PController 3",
+          "offset": 63731
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "PJointStiffness",
+          "value": "60",
+          "offset": 63786
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "BController",
+          "value": "3",
+          "offset": 63806
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "BJointStiffness",
+          "value": "400",
+          "offset": 63836
+        },
+        {
+          "node_id": "1000000c",
+          "node_name": "carrot_driven_robot/mesh_bot_mollet_r.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 69530
+        },
+        {
+          "node_id": "1000000d",
+          "node_name": "carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 76093
+        },
+        {
+          "node_id": "1000000d",
+          "node_name": "carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "key": "HJointStiffness",
+          "value": "50PController 3",
+          "offset": 76122
+        },
+        {
+          "node_id": "1000000d",
+          "node_name": "carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "key": "PJointStiffness",
+          "value": "90",
+          "offset": 76171
+        },
+        {
+          "node_id": "10000012",
+          "node_name": "orteil_r",
+          "key": "GoalObject",
+          "value": "15",
+          "offset": 102781
+        },
+        {
+          "node_id": "10000013",
+          "node_name": "orteil_l",
+          "key": "GoalObject",
+          "value": "16",
+          "offset": 108694
+        }
+      ],
+      "concatenated_lines": [
+        {
+          "line": 807,
+          "text": "HJointStiffness 600PController 3"
+        },
+        {
+          "line": 1189,
+          "text": "HJointStiffness 40PController 3"
+        },
+        {
+          "line": 1681,
+          "text": "HJointStiffness 50PController 3"
+        },
+        {
+          "line": 2022,
+          "text": "HJointStiffness 600PController 3"
+        },
+        {
+          "line": 2404,
+          "text": "HJointStiffness 40PController 3"
+        },
+        {
+          "line": 2843,
+          "text": "HJointStiffness 50PController 3"
+        }
+      ],
+      "plugins": [
+        "MasterHandler 1 .SceneEditorStandardBanks",
+        "MasterHandler 2 SceneEditor",
+        "MasterHandler 3 Fprime",
+        "PixelFilterHandler 1 Dof_Data",
+        "PixelFilterHandler 2 Dof_Render",
+        "ImageFilterHandler 1 Better_Bloom",
+        "ImageFilterHandler 2 LW_HDRExpose",
+        "ImageFilterHandler 3 LW_Virtual_Darkroom2.0"
+      ]
+    },
+    {
+      "source": "content/carrot_driven_robot/robot_night.lws",
+      "sha256": "caa1647f0cc92bba2d1bc8476c2e5f41adfb3f78ff3cad8a862b152ff508b526",
+      "source_preserved": true,
+      "version": 3,
+      "first_frame": 1,
+      "last_frame": 37,
+      "fps": 30,
+      "nodes": 30,
+      "geometry_instances": 15,
+      "bones": 0,
+      "unresolved_object_instances": 0,
+      "scene_obj": null,
+      "scene_gltf": null,
+      "baseline_issue": "transform: node 10000004: unsupported pivot/IK/bone evaluation",
+      "current_issue": "transform: node 10000002: PController 3: requires native inverse-kinematics evaluation",
+      "rejected_nodes": [
+        {
+          "id": "10000002",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000003",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000004",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_main_l.lwo",
+          "issue": "GoalObject 17: requires native inverse-kinematics goal evaluation"
+        },
+        {
+          "id": "10000005",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "issue": "HJointStiffness 40PController 3: malformed joint stiffness; possible concatenated scene statements"
+        },
+        {
+          "id": "10000006",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_mollet_l.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000007",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000008",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000009",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "1000000a",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_main_r.lwo",
+          "issue": "GoalObject 18: requires native inverse-kinematics goal evaluation"
+        },
+        {
+          "id": "1000000b",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "issue": "HJointStiffness 40PController 3: malformed joint stiffness; possible concatenated scene statements"
+        },
+        {
+          "id": "1000000c",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_mollet_r.lwo",
+          "issue": "PController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "1000000d",
+          "name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "issue": "HController 3: requires native inverse-kinematics evaluation"
+        },
+        {
+          "id": "10000012",
+          "name": "orteil_r",
+          "issue": "GoalObject 15: requires native inverse-kinematics goal evaluation"
+        },
+        {
+          "id": "10000013",
+          "name": "orteil_l",
+          "issue": "GoalObject 16: requires native inverse-kinematics goal evaluation"
+        }
+      ],
+      "native_motion_settings": [
+        {
+          "node_id": "10000001",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_body.lwo",
+          "key": "IKAnchor",
+          "value": "1",
+          "offset": 12718
+        },
+        {
+          "node_id": "10000002",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 16222
+        },
+        {
+          "node_id": "10000002",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "key": "PJointStiffness",
+          "value": "30",
+          "offset": 16254
+        },
+        {
+          "node_id": "10000002",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_l.lwo",
+          "key": "BJointStiffness",
+          "value": "40",
+          "offset": 16288
+        },
+        {
+          "node_id": "10000003",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 19861
+        },
+        {
+          "node_id": "10000003",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "key": "HJointStiffness",
+          "value": "600PController 3",
+          "offset": 19892
+        },
+        {
+          "node_id": "10000003",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_l.lwo",
+          "key": "PJointStiffness",
+          "value": "10",
+          "offset": 19940
+        },
+        {
+          "node_id": "10000004",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_main_l.lwo",
+          "key": "GoalObject",
+          "value": "17",
+          "offset": 22851
+        },
+        {
+          "node_id": "10000005",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "key": "HJointStiffness",
+          "value": "40PController 3",
+          "offset": 29712
+        },
+        {
+          "node_id": "10000005",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "key": "PJointStiffness",
+          "value": "60",
+          "offset": 29767
+        },
+        {
+          "node_id": "10000005",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_l.lwo",
+          "key": "BJointStiffness",
+          "value": "400",
+          "offset": 29801
+        },
+        {
+          "node_id": "10000006",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_mollet_l.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 36221
+        },
+        {
+          "node_id": "10000007",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 43245
+        },
+        {
+          "node_id": "10000007",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "key": "HJointStiffness",
+          "value": "50PController 3",
+          "offset": 43275
+        },
+        {
+          "node_id": "10000007",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_l.lwo",
+          "key": "PJointStiffness",
+          "value": "90",
+          "offset": 43324
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 47253
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "PJointStiffness",
+          "value": "30",
+          "offset": 47285
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "BController",
+          "value": "3",
+          "offset": 47305
+        },
+        {
+          "node_id": "10000008",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_bras_r.lwo",
+          "key": "BJointStiffness",
+          "value": "40",
+          "offset": 47335
+        },
+        {
+          "node_id": "10000009",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 51467
+        },
+        {
+          "node_id": "10000009",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "key": "HJointStiffness",
+          "value": "600PController 3",
+          "offset": 51498
+        },
+        {
+          "node_id": "10000009",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_av_bras_r.lwo",
+          "key": "PJointStiffness",
+          "value": "10",
+          "offset": 51546
+        },
+        {
+          "node_id": "1000000a",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_main_r.lwo",
+          "key": "GoalObject",
+          "value": "18",
+          "offset": 55348
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "HJointStiffness",
+          "value": "40PController 3",
+          "offset": 61187
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "PJointStiffness",
+          "value": "60",
+          "offset": 61242
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "BController",
+          "value": "3",
+          "offset": 61262
+        },
+        {
+          "node_id": "1000000b",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_cuisse_r.lwo",
+          "key": "BJointStiffness",
+          "value": "400",
+          "offset": 61292
+        },
+        {
+          "node_id": "1000000c",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_mollet_r.lwo",
+          "key": "PController",
+          "value": "3",
+          "offset": 66753
+        },
+        {
+          "node_id": "1000000d",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "key": "HController",
+          "value": "3",
+          "offset": 73083
+        },
+        {
+          "node_id": "1000000d",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "key": "HJointStiffness",
+          "value": "50PController 3",
+          "offset": 73112
+        },
+        {
+          "node_id": "1000000d",
+          "node_name": "I:fra/3D/demobobine/carrot_driven_robot/mesh_bot_pied_r.lwo",
+          "key": "PJointStiffness",
+          "value": "90",
+          "offset": 73161
+        },
+        {
+          "node_id": "10000012",
+          "node_name": "orteil_r",
+          "key": "GoalObject",
+          "value": "15",
+          "offset": 98506
+        },
+        {
+          "node_id": "10000013",
+          "node_name": "orteil_l",
+          "key": "GoalObject",
+          "value": "16",
+          "offset": 104166
+        }
+      ],
+      "concatenated_lines": [
+        {
+          "line": 774,
+          "text": "HJointStiffness 600PController 3"
+        },
+        {
+          "line": 1134,
+          "text": "HJointStiffness 40PController 3"
+        },
+        {
+          "line": 1604,
+          "text": "HJointStiffness 50PController 3"
+        },
+        {
+          "line": 1923,
+          "text": "HJointStiffness 600PController 3"
+        },
+        {
+          "line": 2283,
+          "text": "HJointStiffness 40PController 3"
+        },
+        {
+          "line": 2700,
+          "text": "HJointStiffness 50PController 3"
+        }
+      ],
+      "plugins": [
+        "MasterHandler 1 .SceneEditorStandardBanks",
+        "MasterHandler 2 SceneEditor",
+        "MasterHandler 3 Fprime",
+        "ImageFilterHandler 1 LW_Virtual_Darkroom2.0"
+      ]
+    }
+  ],
+  "publication": {
+    "batch": "output/carrot-robot-qa/batch-20260912-061903",
+    "layout_version": "0.2",
+    "input_statuses": {
+      "partial": 19
+    },
+    "projects": 1,
+    "conversion_manifests": 19,
+    "native_sources_checked": 19,
+    "obj_mtl_pairs_checked": 17,
+    "gltf_buffer_pairs_checked": 17,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "validator": {
+    "input": "output/carrot-robot-qa/batch-20260912-061903",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 17,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "regression": {
+    "Release": {
+      "passed": true,
+      "tests": 102,
+      "suites": 7,
+      "log_sha256": "718856c702a56af69ef85b2a5b5b920c80375b18265ea67fba374e9f2a5b4617"
+    },
+    "AddressSanitizer": {
+      "passed": true,
+      "tests": 102,
+      "suites": 7,
+      "log_sha256": "a27e1bccb3da6f34a06da363ed65216e39ba5a49134beceedb6e72650b85c22a"
+    }
+  },
+  "binary": {
+    "uri": "bin/win64/lwconvert.exe",
+    "sha256": "8e8a782e8a3180176b2e6818ad5c67b9fcdb290e91ec58a3837882b68dafb0dc",
+    "matches_release": true
+  },
+  "reader_source_sha256": "93e565aa94d7cbf977c1ebce9f5a2b5738a6f692fc2e35228df24d8075707150",
+  "limitations": [
+    "C evaluator does not solve IK between rigid objects.",
+    "Existing native Smila bridge requires bone rigs; these scenes contain none.",
+    "Native interpretation of six concatenated stiffness/controller statements in each scene is not qualified.",
+    "Object validation does not establish native rendering or solved-pose fidelity."
+  ]
+}

@@ -1,0 +1,926 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-09-12",
+  "experiment": "carrot-frame-84-cold-versus-forward",
+  "purpose": "Feasibility evidence for a future independent IK evaluator; not solver qualification.",
+  "source": {
+    "path": "content/carrot_driven_robot/robot.lws",
+    "sha256": "9c052d6c9d937f4ceb70003989baff0f8a4a83be0c41988cd6806532dcc08318",
+    "bytes": 143578
+  },
+  "oracle": {
+    "path": "_tmp/_extern/LightWave/LW9.6/Programs/lwsn.exe",
+    "sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+    "bytes": 2216960,
+    "banner": "LightWave AMD64 ScreamerNet Module (Build 1539)"
+  },
+  "helper": {
+    "path": "bin/win64/lw_capture.p",
+    "sha256": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18",
+    "bytes": 154624
+  },
+  "capture_protocol": "LWCONVERT_CAPTURE 1",
+  "frame": 84,
+  "fps": 30,
+  "time_seconds": 2.8,
+  "protocol": {
+    "reference": "Frame 84 of a single forward native evaluation, frames 0..168 inclusive, step 1.",
+    "trials": "Two new hidden ScreamerNet processes, each evaluating only frame 84; same prepared scene and configuration as the reference.",
+    "argv_template": [
+      "<lwsn.exe>",
+      "-3",
+      "-c<reference evaluated-animation/config>",
+      "-d<reference evaluated-animation>",
+      "<reference evaluated-animation/evaluation.lws>",
+      "84",
+      "84",
+      "1"
+    ],
+    "cwd_template": "<fresh cold-N directory>",
+    "environment_override": {
+      "LWCONVERT_CAPTURE_DIR": "<fresh cold-N directory>"
+    },
+    "preparation": {
+      "working_scene_sha256": "1d1efae88fc66bff7d2722a02e6236a11db035b6ff20754c78df9eaf3eb8dde4",
+      "retained_animation_plugins": [],
+      "overrides": {
+        "SubPatchLevel": "0 0",
+        "FrameSize": "8 8",
+        "ResolutionMultiplier": "1",
+        "Antialiasing": "0",
+        "EnhancedAA": "0",
+        "MotionBlur": "0",
+        "DepthOfField": "0",
+        "Radiosity": "0",
+        "SaveRGB": "0",
+        "SaveAlpha": "0",
+        "RenderThreads": "1"
+      },
+      "notes": "Original IK statements, including concatenated stiffness/controller lines, were retained. Display plugin removals and missing shading/image resources are recorded in the original capture manifest."
+    },
+    "comparison": "Parsed world-matrix components keyed by scene item ID; world points matched by mesh and point enumeration, with equal base positions and polygon index sequences. Runtime point-handle values are not compared."
+  },
+  "reference_evidence": {
+    "qa_report": {
+      "path": "documentation/diagnostics/carrot-robot-native-qa.json",
+      "sha256": "2a1a2ba4aabd66b402efc21a1478c1117f9de9f87cf7d279d095b63e5db992ae",
+      "bytes": 17147
+    },
+    "capture_manifest": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/IR/robot.lws/evaluated-animation/capture.json",
+    "capture_manifest_sha256": "1f64ec247da5fc4b42a631cee18aef1af781d5b58c17d34de00dca7f53093427",
+    "original_probe_report": {
+      "path": "_tmp/carrot-ik-oracle-20260912-064716/report.json",
+      "sha256": "6d1ac7a09a85aaaf49f45c6970431928a50aed6ecf8da74d8b359836967c6f4f",
+      "bytes": 1063
+    },
+    "availability_at_documentation": "The original output batch was removed during documentation. Forward-versus-cold results below are retained from the original probe report, not recomputed here. Both cold captures were still available and were compared again."
+  },
+  "forward_versus_cold_trials": [
+    {
+      "trial": 1,
+      "items": 34,
+      "maximum_world_matrix_difference_from_sequential": 0.0,
+      "maximum_point_difference_from_sequential": 0.0,
+      "changed_items_over_1e-7": {}
+    },
+    {
+      "trial": 2,
+      "items": 34,
+      "maximum_world_matrix_difference_from_sequential": 0.0,
+      "maximum_point_difference_from_sequential": 0.0,
+      "changed_items_over_1e-7": {}
+    }
+  ],
+  "cold_versus_cold_recheck": {
+    "items": 34,
+    "meshes": 23,
+    "points": 6171,
+    "polygons": 6759,
+    "parents_names_base_points_and_polygon_indices_equal": true,
+    "maximum_world_matrix_component_difference": 0.0,
+    "maximum_world_point_component_difference": 0.0
+  },
+  "raw_trials": [
+    {
+      "trial": 1,
+      "capture": {
+        "path": "_tmp/carrot-ik-oracle-20260912-064716/cold-1/frame-000084.txt",
+        "sha256": "5371a1d83472e09ff3f818cd6f267063202b9c618b4b3469f85b51625a840ef3",
+        "bytes": 800908
+      },
+      "log": {
+        "path": "_tmp/carrot-ik-oracle-20260912-064716/cold-1/screamernet.log",
+        "sha256": "ca2f7b379c046633c1bf67b7e49cff2c1f960b13df18d8902c0fd8412850558f",
+        "bytes": 9720
+      }
+    },
+    {
+      "trial": 2,
+      "capture": {
+        "path": "_tmp/carrot-ik-oracle-20260912-064716/cold-2/frame-000084.txt",
+        "sha256": "8b880c16747a0a23fc7ff1e926a5cec664587c578838a0fae36643f43642f875",
+        "bytes": 800908
+      },
+      "log": {
+        "path": "_tmp/carrot-ik-oracle-20260912-064716/cold-2/screamernet.log",
+        "sha256": "ca2f7b379c046633c1bf67b7e49cff2c1f960b13df18d8902c0fd8412850558f",
+        "bytes": 9720
+      }
+    }
+  ],
+  "cold_1_world_poses": {
+    "matrix_layout": "column-major 4x4; LightWave coordinates; translation is transformed local origin, including pivot adjustment",
+    "items": [
+      {
+        "scene_item_id": "10000000",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "6d6573685f626f745f74657465",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          0.0,
+          1.0,
+          0,
+          -0.7722700834274292,
+          0.0,
+          2.3199999928474426,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000001",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6d6573685f626f745f626f6479",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          1.0,
+          0,
+          -0.7722700834274292,
+          0.0,
+          2.3199999928474426,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000002",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "6d6573685f626f745f627261735f6c",
+        "world_matrix": [
+          0.7071068286895752,
+          0.703101396560669,
+          -0.07515610009431839,
+          0,
+          -0.7071067690849304,
+          0.7031014561653137,
+          -0.07515610754489899,
+          0,
+          0.0,
+          0.10628677904605865,
+          0.9943355321884155,
+          0,
+          1.0179209375206,
+          -0.37132776873989026,
+          2.569580026918908,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000003",
+        "parent_scene_item_id": "10000002",
+        "name_hex": "6d6573685f626f745f61765f627261735f6c",
+        "world_matrix": [
+          0.6228017210960388,
+          0.5689432621002197,
+          -0.5370491147041321,
+          0,
+          0.16859669983386993,
+          0.5727068781852722,
+          0.8022356629371643,
+          0,
+          0.7639982104301453,
+          -0.5901784300804138,
+          0.2607608437538147,
+          0,
+          0.5501164648582675,
+          -0.10687550358419529,
+          2.6229594207274083,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000004",
+        "parent_scene_item_id": "10000003",
+        "name_hex": "6d6573685f626f745f6d61696e5f6c",
+        "world_matrix": [
+          0.6228017210960388,
+          0.5689432621002197,
+          -0.5370491147041321,
+          0,
+          0.16859669983386993,
+          0.5727068781852722,
+          0.8022356629371643,
+          0,
+          0.7639982104301453,
+          -0.5901784300804138,
+          0.2607608437538147,
+          0,
+          0.5501164240964083,
+          -0.10687516968534405,
+          2.622959463868886,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000005",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "6d6573685f626f745f6375697373655f6c",
+        "world_matrix": [
+          0.9961933493614197,
+          0.011532852426171303,
+          -0.08640523999929428,
+          0,
+          -0.009531056508421898,
+          0.9996773600578308,
+          0.02354435995221138,
+          0,
+          0.08664889633655548,
+          -0.022631200030446053,
+          0.9959818124771118,
+          0,
+          -0.7890485613891542,
+          -0.001357781992174345,
+          2.3679359598733605,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000006",
+        "parent_scene_item_id": "10000005",
+        "name_hex": "6d6573685f626f745f6d6f6c6c65745f6c",
+        "world_matrix": [
+          0.9961933493614197,
+          0.011532852426171303,
+          -0.08640523999929428,
+          0,
+          -0.01812383346259594,
+          0.9969515800476074,
+          -0.07588830590248108,
+          0,
+          0.08526663482189178,
+          0.07716542482376099,
+          0.9933655261993408,
+          0,
+          -0.8009600107763735,
+          -0.026185797704014302,
+          2.2272909387681197,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000007",
+        "parent_scene_item_id": "10000006",
+        "name_hex": "6d6573685f626f745f706965645f6c",
+        "world_matrix": [
+          0.9961933493614197,
+          0.011532852426171303,
+          -0.08640523999929428,
+          0,
+          -0.01588207297027111,
+          0.9986320734024048,
+          -0.04981803148984909,
+          0,
+          0.0857124999165535,
+          0.0510006807744503,
+          0.9950137138366699,
+          0,
+          -0.7948122554843999,
+          -0.012567599228267334,
+          2.2999880272146487,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000008",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "6d6573685f626f745f627261735f72",
+        "world_matrix": [
+          0.7071068286895752,
+          -0.694410502910614,
+          -0.13339436054229736,
+          0,
+          0.7071067690849304,
+          0.6944105625152588,
+          0.13339437544345856,
+          0,
+          0.0,
+          -0.18864811956882477,
+          0.9820447564125061,
+          0,
+          -2.48038187323246,
+          -0.16489649904888637,
+          1.911813152508131,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000009",
+        "parent_scene_item_id": "10000008",
+        "name_hex": "6d6573685f626f745f61765f627261735f72",
+        "world_matrix": [
+          0.2050555795431137,
+          -0.38191545009613037,
+          0.9011619687080383,
+          0,
+          -0.3281363546848297,
+          0.840614914894104,
+          0.43092143535614014,
+          0,
+          -0.9221056699752808,
+          -0.38406676054000854,
+          0.047052428126335144,
+          0,
+          -2.4799115366530704,
+          0.16360207587084533,
+          3.12244211837163,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000000a",
+        "parent_scene_item_id": "10000009",
+        "name_hex": "6d6573685f626f745f6d61696e5f72",
+        "world_matrix": [
+          0.2050555795431137,
+          -0.38191545009613037,
+          0.9011619687080383,
+          0,
+          -0.3281363546848297,
+          0.840614914894104,
+          0.43092143535614014,
+          0,
+          -0.9221056699752808,
+          -0.38406676054000854,
+          0.047052428126335144,
+          0,
+          -2.4799110992375386,
+          0.1636022225849697,
+          3.122441984594856,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000000b",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "6d6573685f626f745f6375697373655f72",
+        "world_matrix": [
+          0.9999993443489075,
+          -0.0011428373400121927,
+          -5.543082079384476e-05,
+          0,
+          0.0011441808892413974,
+          0.9988251328468323,
+          0.048445820808410645,
+          0,
+          0.0,
+          -0.04844585433602333,
+          0.9988257884979248,
+          0,
+          -0.763719135623882,
+          0.009568236262843241,
+          2.3248975100285802,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000000c",
+        "parent_scene_item_id": "1000000b",
+        "name_hex": "6d6573685f626f745f6d6f6c6c65745f72",
+        "world_matrix": [
+          0.9999993443489075,
+          -0.0011428373400121927,
+          -5.543082079384476e-05,
+          0,
+          0.0011324957013130188,
+          0.9955304265022278,
+          -0.09443365037441254,
+          0,
+          0.0001631053746677935,
+          0.09443353116512299,
+          0.9955310821533203,
+          0,
+          -0.7637683250989912,
+          -0.023686134077941734,
+          2.1226677064320536,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000000d",
+        "parent_scene_item_id": "1000000c",
+        "name_hex": "6d6573685f626f745f706965645f72",
+        "world_matrix": [
+          0.9719119668006897,
+          -0.023319987580180168,
+          -0.23418636620044708,
+          0,
+          0.021926987916231155,
+          0.9997228980064392,
+          -0.008550580590963364,
+          0,
+          0.23432090878486633,
+          0.0031754039227962494,
+          0.9721541404724121,
+          0,
+          -0.7980559134538838,
+          0.006012396974320988,
+          2.242941307164572,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000000e",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "4e756c6c20283129",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          0.0,
+          1.0,
+          0,
+          -1.5539278984069824,
+          -3.4200000762939453,
+          1.068058967590332,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000000f",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "4e756c6c20283229",
+        "world_matrix": [
+          0.9985366463661194,
+          0.0,
+          -0.05407879501581192,
+          0,
+          0.0037723451387137175,
+          0.9975640773773193,
+          0.06965437531471252,
+          0,
+          0.05394706502556801,
+          -0.06975645571947098,
+          0.9961043000221252,
+          0,
+          -0.3442018926143646,
+          -3.4000000953674316,
+          1.022428035736084,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000010",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "4e756c6c20283329",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          0.0,
+          1.0,
+          0,
+          0.4113088846206665,
+          0.9699995517730713,
+          0.8334259986877441,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000011",
+        "parent_scene_item_id": "10000001",
+        "name_hex": "4e756c6c20283429",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          0.0,
+          1.0,
+          0,
+          -1.8272501230239868,
+          0.9999997615814209,
+          0.19139599800109863,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000012",
+        "parent_scene_item_id": "1000000d",
+        "name_hex": "6f727465696c5f72",
+        "world_matrix": [
+          0.9719119668006897,
+          -0.023319987580180168,
+          -0.23418636620044708,
+          0,
+          0.021926987916231155,
+          0.9997228980064392,
+          -0.008550580590963364,
+          0,
+          0.23432090878486633,
+          0.0031754039227962494,
+          0.9721541404724121,
+          0,
+          -1.7734074592590332,
+          -3.30355167388916,
+          1.0693151950836182,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000013",
+        "parent_scene_item_id": "10000007",
+        "name_hex": "6f727465696c5f6c",
+        "world_matrix": [
+          0.9961933493614197,
+          0.011532852426171303,
+          -0.08640523999929428,
+          0,
+          -0.01588207297027111,
+          0.9986320734024048,
+          -0.04981803148984909,
+          0,
+          0.0857124999165535,
+          0.0510006807744503,
+          0.9950137138366699,
+          0,
+          -0.34413206577301025,
+          -3.4039180278778076,
+          1.0179274082183838,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000014",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6f66667365746f6d627265",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          1.0,
+          0,
+          0.0,
+          0.0,
+          -0.879424512386322,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000015",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6d6573685f626f745f627261735f6c2e6c776f20283229",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          1.0,
+          0,
+          0.0,
+          0.0,
+          0.0,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000016",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6d6573685f626f745f6d6f6c6c65745f722e6c776f20283229",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          1.0,
+          0,
+          0.0,
+          0.0,
+          0.0,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000017",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6d6573685f626f745f706965645f722e6c776f20283229",
+        "world_matrix": [
+          1.0,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          1.0,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          1.0,
+          0,
+          0.0,
+          0.0,
+          0.0,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000018",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "626f74",
+        "world_matrix": [
+          1.22823166847229,
+          0.0,
+          0.1704312115907669,
+          0,
+          -0.0,
+          1.2400000095367432,
+          0.0,
+          0,
+          -0.1704312115907669,
+          -0.0,
+          1.22823166847229,
+          0,
+          -0.4878942668437958,
+          -3.3920440673828125,
+          -1.3319731950759888,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000019",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "67726f756e64",
+        "world_matrix": [
+          5.464012622833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          5.464012622833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          5.464012622833252,
+          0,
+          0.0,
+          -3.4353787899017334,
+          0.15138882398605347,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000001a",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f31",
+        "world_matrix": [
+          14.213995933532715,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          14.213995933532715,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          14.213995933532715,
+          0,
+          -6.478463172912598,
+          -3.435117721557617,
+          -1.6090205907821655,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000001b",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f3220283129",
+        "world_matrix": [
+          12.81200122833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          12.81200122833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          12.81200122833252,
+          0,
+          -20.88045310974121,
+          -2.075000047683716,
+          15.735857963562012,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000001c",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f3220283229",
+        "world_matrix": [
+          12.81200122833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          12.81200122833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          12.81200122833252,
+          0,
+          -27.270597457885742,
+          -0.849999725818634,
+          28.653209686279297,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000001d",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f3220283329",
+        "world_matrix": [
+          12.81200122833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          12.81200122833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          12.81200122833252,
+          0,
+          1.4440937042236328,
+          0.0,
+          11.674467086791992,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000001e",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f3220283429",
+        "world_matrix": [
+          12.81200122833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          12.81200122833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          12.81200122833252,
+          0,
+          0.09433173388242722,
+          0.0,
+          7.404350757598877,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "1000001f",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f3220283529",
+        "world_matrix": [
+          12.81200122833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          12.81200122833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          12.81200122833252,
+          0,
+          -11.762849807739258,
+          -2.2749993801116943,
+          49.05571746826172,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000020",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f3220283629",
+        "world_matrix": [
+          12.81200122833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          12.81200122833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          12.81200122833252,
+          0,
+          -11.243640899658203,
+          1.2479722499847412e-07,
+          1.4677424430847168,
+          1
+        ]
+      },
+      {
+        "scene_item_id": "10000021",
+        "parent_scene_item_id": "00000000",
+        "name_hex": "6c696768745f3220283729",
+        "world_matrix": [
+          12.81200122833252,
+          0.0,
+          0.0,
+          0,
+          0.0,
+          12.81200122833252,
+          0.0,
+          0,
+          0.0,
+          -0.0,
+          12.81200122833252,
+          0,
+          -20.07704734802246,
+          5.02500057220459,
+          11.10584545135498,
+          1
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "One frame in one scene, with the same LightWave 9.6 host and prepared scene. Does not establish determinism or history independence in general.",
+    "Zero difference means equality of parsed captured values, not proof of identical internal floating-point state.",
+    "Reverse order, random order, subframes, perturbed goals, different process environments and other LightWave versions were not tested.",
+    "Effective controller, goal, limit and stiffness settings and pre-IK pose were not captured by protocol 1.",
+    "This report archives one observed pose and measurement provenance. It is not yet a self-contained generated-fixture corpus.",
+    "The renderer preparation omits display effects and reports missing shading/image resources; original-authoring-version and rendering equivalence are not established."
+  ]
+}

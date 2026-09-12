@@ -1,0 +1,442 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-09-12",
+  "profile": "lightwave-evaluated-scene-transforms-0.1",
+  "converter_version": "0.7.0",
+  "batch": "output/carrot-robot-native/batch-20260912-063401",
+  "command": "python -X utf8 tools/batch_convert.py --content content/carrot_driven_robot --output-root output/carrot-robot-native --lightwave-root _tmp/_extern/LightWave/LW9.6 --timeout 180",
+  "scenes": [
+    {
+      "scene": "robot.lws",
+      "source_sha256": "9c052d6c9d937f4ceb70003989baff0f8a4a83be0c41988cd6806532dcc08318",
+      "source_preserved": true,
+      "gltf": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/gltf/robot.lws.gltf",
+      "gltf_sha256": "bb0e73b6311bb5a901a31cae76eb45adec192657b4a63d4ea3f9c2fee78dd89a",
+      "gltf_bytes": 65612,
+      "bin": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/gltf/robot.lws.bin",
+      "bin_sha256": "f27086a824b687659d04ba7c326fdaa1d509678596582c1c2600492840324b8e",
+      "bin_bytes": 708072,
+      "native_export": {
+        "profile": "lightwave-evaluated-scene-transforms-0.1",
+        "samples": 169,
+        "first_frame": 0,
+        "last_frame": 168,
+        "duration_seconds": 5.6,
+        "channels": 48,
+        "moving_items": [
+          268435456,
+          268435457,
+          268435458,
+          268435459,
+          268435460,
+          268435461,
+          268435462,
+          268435463,
+          268435464,
+          268435465,
+          268435466,
+          268435467,
+          268435468,
+          268435469,
+          268435470,
+          268435471,
+          268435472,
+          268435473,
+          268435474,
+          268435475
+        ],
+        "meshes": 17,
+        "triangles": 5557,
+        "objects": 34,
+        "geometry_instances": 23,
+        "point_samples_checked": 1042899,
+        "maximum_rigid_point_error": 1.904075894287871e-06,
+        "rigidity_tolerance": "max(1e-6, 5e-7 * sum of absolute affine terms), per coordinate; float32 SDK positions",
+        "capture_sha256": "1f64ec247da5fc4b42a631cee18aef1af781d5b58c17d34de00dca7f53093427",
+        "geometry_assembly_sha256": "b9456b7fd8c298efcfc38d453ed010f2a4fa69297c9b8f7d74b88dbcce14efdf",
+        "geometry_converter_sha256": "8e8a782e8a3180176b2e6818ad5c67b9fcdb290e91ec58a3837882b68dafb0dc"
+      },
+      "original_c_rejection": "transform: node 10000002: PController 3: requires native inverse-kinematics evaluation",
+      "capture": {
+        "uri": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/IR/robot.lws/evaluated-animation/capture.json",
+        "sha256": "1f64ec247da5fc4b42a631cee18aef1af781d5b58c17d34de00dca7f53093427",
+        "host": {
+          "path": "_tmp/_extern/LightWave/LW9.6/Programs/lwsn.exe",
+          "sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+          "banner": "LightWave AMD64 ScreamerNet Module (Build 1539)"
+        },
+        "modules": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LWConvertCapture",
+            "path": "bin/win64/lw_capture.p",
+            "sha256": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18"
+          }
+        ],
+        "removed_display_plugins": [
+          {
+            "class": "MasterHandler",
+            "name": ".SceneEditorStandardBanks"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "SceneEditor"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "Fprime"
+          },
+          {
+            "class": "PixelFilterHandler",
+            "name": "Dof_Data"
+          },
+          {
+            "class": "PixelFilterHandler",
+            "name": "Dof_Render"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "Better_Bloom"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_HDRExpose"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Virtual_Darkroom2.0"
+          }
+        ],
+        "frame_hashes_verified": 169,
+        "reported_resource_issues": [
+          "Can't find \"coincoin/maps/solalpha.tif\".Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+          "Can't find \"common/building_probe.hdr\".Can't find \"I:fra/3D/smila/maps/metal_rust.tif\".Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+          "Can't find \"common/building_probe.hdr\".Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+          "Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+          "Can't load plug-in \"SG_AmbOcc_Exp\".Plug-in Error:  No plug-in of type ShaderHandler found with name SG_AmbOcc_Exp."
+        ]
+      }
+    },
+    {
+      "scene": "robot_night.lws",
+      "source_sha256": "caa1647f0cc92bba2d1bc8476c2e5f41adfb3f78ff3cad8a862b152ff508b526",
+      "source_preserved": true,
+      "gltf": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/gltf/robot_night.lws.gltf",
+      "gltf_sha256": "74843008549795636199332ce17ab66f7b9cbc8008fb4f2707f8e1486fc0a700",
+      "gltf_bytes": 54696,
+      "bin": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/gltf/robot_night.lws.bin",
+      "bin_sha256": "d29720962eac563492d1cbd7df8c76a3c3720a49267ae7f6a3b51f23811fba1e",
+      "bin_bytes": 482712,
+      "native_export": {
+        "profile": "lightwave-evaluated-scene-transforms-0.1",
+        "samples": 169,
+        "first_frame": 0,
+        "last_frame": 168,
+        "duration_seconds": 5.6,
+        "channels": 48,
+        "moving_items": [
+          268435456,
+          268435457,
+          268435458,
+          268435459,
+          268435460,
+          268435461,
+          268435462,
+          268435463,
+          268435464,
+          268435465,
+          268435466,
+          268435467,
+          268435468,
+          268435469,
+          268435470,
+          268435471,
+          268435472,
+          268435473,
+          268435474,
+          268435475
+        ],
+        "meshes": 15,
+        "triangles": 3473,
+        "objects": 26,
+        "geometry_instances": 15,
+        "point_samples_checked": 537251,
+        "maximum_rigid_point_error": 3.6633936018048985e-07,
+        "rigidity_tolerance": "max(1e-6, 5e-7 * sum of absolute affine terms), per coordinate; float32 SDK positions",
+        "capture_sha256": "3fad9eaf471abb5e7ae7a357c80603b38cbbcec64182c76aade19b5c193e14e2",
+        "geometry_assembly_sha256": "a98eea38944450d9f73328ecaadcd80122b991501a54b25433211b837bb16f2d",
+        "geometry_converter_sha256": "8e8a782e8a3180176b2e6818ad5c67b9fcdb290e91ec58a3837882b68dafb0dc"
+      },
+      "original_c_rejection": "transform: node 10000002: PController 3: requires native inverse-kinematics evaluation",
+      "capture": {
+        "uri": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/IR/robot_night.lws/evaluated-animation/capture.json",
+        "sha256": "3fad9eaf471abb5e7ae7a357c80603b38cbbcec64182c76aade19b5c193e14e2",
+        "host": {
+          "path": "_tmp/_extern/LightWave/LW9.6/Programs/lwsn.exe",
+          "sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+          "banner": "LightWave AMD64 ScreamerNet Module (Build 1539)"
+        },
+        "modules": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LWConvertCapture",
+            "path": "bin/win64/lw_capture.p",
+            "sha256": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18"
+          }
+        ],
+        "removed_display_plugins": [
+          {
+            "class": "MasterHandler",
+            "name": ".SceneEditorStandardBanks"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "SceneEditor"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "Fprime"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Virtual_Darkroom2.0"
+          }
+        ],
+        "frame_hashes_verified": 169,
+        "reported_resource_issues": [
+          "Can't find \"coincoin/maps/solalpha.tif\".Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+          "Can't find \"common/building_probe.hdr\".Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+          "Can't load plug-in \"FPrime\".Plug-in Error:  No plug-in of type ShaderHandler found with name FPrime.",
+          "Can't load plug-in \"SG_AmbOcc_Exp\".Plug-in Error:  No plug-in of type ShaderHandler found with name SG_AmbOcc_Exp."
+        ]
+      }
+    }
+  ],
+  "validator": {
+    "input": "output/carrot-robot-native/batch-20260912-063401",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 19,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "publication": {
+    "batch": "output/carrot-robot-native/batch-20260912-063401",
+    "layout_version": "0.2",
+    "input_statuses": {
+      "partial": 19
+    },
+    "projects": 1,
+    "conversion_manifests": 19,
+    "native_sources_checked": 19,
+    "obj_mtl_pairs_checked": 17,
+    "gltf_buffer_pairs_checked": 19,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "blender": [
+    {
+      "gltf": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/gltf/robot.lws.gltf",
+      "blender_version": "4.2.0",
+      "passed": true,
+      "moving_items": [
+        268435457,
+        268435456,
+        268435458,
+        268435459,
+        268435460,
+        268435461,
+        268435462,
+        268435463,
+        268435475,
+        268435464,
+        268435465,
+        268435466,
+        268435467,
+        268435468,
+        268435469,
+        268435474,
+        268435470,
+        268435471,
+        268435472,
+        268435473
+      ],
+      "frames": [
+        {
+          "source_frame": 0,
+          "triangles": 9163,
+          "object_nodes": 34,
+          "maximum_vertex_error": 3.770019296484742e-06,
+          "maximum_matrix_error": 2.384185791015625e-07,
+          "matching_tolerance": 0.000662130681
+        },
+        {
+          "source_frame": 42,
+          "triangles": 9163,
+          "object_nodes": 34,
+          "maximum_vertex_error": 3.770019296484742e-06,
+          "maximum_matrix_error": 5.960464477539062e-07,
+          "matching_tolerance": 0.000662130681
+        },
+        {
+          "source_frame": 84,
+          "triangles": 9163,
+          "object_nodes": 34,
+          "maximum_vertex_error": 3.770019296484742e-06,
+          "maximum_matrix_error": 4.76837158203125e-07,
+          "matching_tolerance": 0.000662130681
+        },
+        {
+          "source_frame": 126,
+          "triangles": 9163,
+          "object_nodes": 34,
+          "maximum_vertex_error": 3.770019296484742e-06,
+          "maximum_matrix_error": 4.76837158203125e-07,
+          "matching_tolerance": 0.000662130681
+        },
+        {
+          "source_frame": 168,
+          "triangles": 9163,
+          "object_nodes": 34,
+          "maximum_vertex_error": 3.770019296484742e-06,
+          "maximum_matrix_error": 7.152557373046875e-07,
+          "matching_tolerance": 0.000662130681
+        }
+      ],
+      "scope": "Blender glTF world triangles and all exported object/null world matrices compared with captured LightWave evaluation at sample frames; no subdivision. Does not establish native material/rendering or between-sample equivalence."
+    },
+    {
+      "gltf": "output/carrot-robot-native/batch-20260912-063401/packages/carrot_driven_robot/gltf/robot_night.lws.gltf",
+      "blender_version": "4.2.0",
+      "passed": true,
+      "moving_items": [
+        268435457,
+        268435456,
+        268435458,
+        268435459,
+        268435460,
+        268435461,
+        268435462,
+        268435463,
+        268435475,
+        268435464,
+        268435465,
+        268435466,
+        268435467,
+        268435468,
+        268435469,
+        268435474,
+        268435470,
+        268435471,
+        268435472,
+        268435473
+      ],
+      "frames": [
+        {
+          "source_frame": 0,
+          "triangles": 3473,
+          "object_nodes": 26,
+          "maximum_vertex_error": 7.264155639577924e-07,
+          "maximum_matrix_error": 2.384185791015625e-07,
+          "matching_tolerance": 0.00011358199590000001
+        },
+        {
+          "source_frame": 42,
+          "triangles": 3473,
+          "object_nodes": 26,
+          "maximum_vertex_error": 6.751291405660287e-07,
+          "maximum_matrix_error": 5.960464477539062e-07,
+          "matching_tolerance": 0.00011358199590000001
+        },
+        {
+          "source_frame": 84,
+          "triangles": 3473,
+          "object_nodes": 26,
+          "maximum_vertex_error": 6.568047486361001e-07,
+          "maximum_matrix_error": 4.76837158203125e-07,
+          "matching_tolerance": 0.00011358199590000001
+        },
+        {
+          "source_frame": 126,
+          "triangles": 3473,
+          "object_nodes": 26,
+          "maximum_vertex_error": 5.844595953339251e-07,
+          "maximum_matrix_error": 4.76837158203125e-07,
+          "matching_tolerance": 0.00011358199590000001
+        },
+        {
+          "source_frame": 168,
+          "triangles": 3473,
+          "object_nodes": 26,
+          "maximum_vertex_error": 7.682589951589027e-07,
+          "maximum_matrix_error": 7.152557373046875e-07,
+          "matching_tolerance": 0.00011358199590000001
+        }
+      ],
+      "scope": "Blender glTF world triangles and all exported object/null world matrices compared with captured LightWave evaluation at sample frames; no subdivision. Does not establish native material/rendering or between-sample equivalence."
+    }
+  ],
+  "regression": {
+    "Release": {
+      "passed": true,
+      "tests": 105,
+      "suites": 7,
+      "suite_counts": [
+        37,
+        14,
+        12,
+        12,
+        11,
+        8,
+        11
+      ],
+      "log_sha256": "98a13e5b7957782954017c5512794dc6ee62355b50085aa3176de5c804ea7aec",
+      "animation_suite_rechecked_after_hierarchy_guard": true
+    },
+    "AddressSanitizer": {
+      "passed": true,
+      "tests": 105,
+      "suites": 7,
+      "suite_counts": [
+        37,
+        14,
+        12,
+        12,
+        11,
+        8,
+        11
+      ],
+      "log_sha256": "f337bb8312223eb56234e3e7691f43554e8952847c0990c2cb1985885f3cc23b",
+      "animation_suite_rechecked_after_hierarchy_guard": true
+    }
+  },
+  "implementation_sha256": {
+    "tools/lightwave_scene.py": "443801ff76cfec4ef08f097ab285d37a30a0bff7127cf7fe4c41190896cebc9b",
+    "tools/export_lightwave_animation.py": "3d40310a449be8c23f48c2d825cdb2426ae985f2458d87066c04ef5027a64f89",
+    "tools/batch_convert.py": "a5892e5cc1b1b6acd76f44a33c9a4d2fae03b2869e77e43740b74cf4a8541b06",
+    "tools/lightwave_animation.py": "3db411cac900b2905151c28f3612efa84ef694dc596ed4f7362e709657a3266f",
+    "tests/check_native_scene_blender.py": "e1b879b4089bf59f9d02a1e2f52a85a115a980018d512d6f39f0757d6743747d"
+  },
+  "staged_binary_sha256": {
+    "bin/win64/lwconvert.exe": "8e8a782e8a3180176b2e6818ad5c67b9fcdb290e91ec58a3837882b68dafb0dc",
+    "bin/win64/lw_capture.p": "9b0e0bede2fcb9297179e30013314d3e56812e46fa29723608821e3b779a5a18"
+  },
+  "limitations": [
+    "Native LightWave runtime required for conversion, not playback. Default C-only conversion still does not solve IK.",
+    "Scene transforms and cage geometry verified, not native shaders, lighting, optics or postprocessing.",
+    "Source concatenated statements preserved and evaluated by LightWave 9.6 AMD64 build 1539; original-authoring-version equivalence not established.",
+    "TRS interpolation between captures follows glTF; validation compares captured frames.",
+    "OBJ scene snapshots remain unavailable through the independent C evaluator."
+  ]
+}

@@ -1,0 +1,6088 @@
+{
+  "date": "2026-09-12",
+  "batch": "output\\aminet-atmobjs-qa\\batch-20260912-102906",
+  "batch_counts": {
+    "converted": 1,
+    "partial": 13,
+    "skipped": 4
+  },
+  "sources": [
+    {
+      "source": "NastyStation",
+      "source_sha256": "a50ed303c25665e1c246706294f24678bc9859943e2379168e5a5696da70132b",
+      "status": "partial",
+      "source_preserved": true,
+      "manifest": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\IR\\NastyStation.lws\\manifest.json",
+      "obj": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\obj\\NastyStation.lws.obj",
+      "gltf": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\gltf\\NastyStation.lws.gltf",
+      "gltf_sha256": "5deabed6eab1edff62a176ad6023215be81708bf16a64cc3910422ebb6a745c0",
+      "obj_sha256": "fd5d6891e9aac20c05cb2c86b54b6240649937f60cc8ecceb329ee374c76558e",
+      "unresolved_object_instances": 2,
+      "animation_channels": 3,
+      "animation_samples": 201,
+      "camera": {
+        "item_id": 805306368,
+        "channels": 9,
+        "keyframes": 8,
+        "verified_channel_keys": 72,
+        "source_offset": 3669
+      },
+      "missing_references": {
+        "": 7,
+        "Objects/Space/ActualStars": 1,
+        "Objects/Space/Planet": 1
+      },
+      "rest_rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 5,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 5,
+          "gltf": "../../gltf/NastyStation.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/NastyStation.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    },
+    {
+      "source": "PassMountains",
+      "source_sha256": "89ca59d4a31c46f8e1aae95efe060ea6ce77634485d3725349259228cdabb22b",
+      "status": "partial",
+      "source_preserved": true,
+      "manifest": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\IR\\PassMountains.lws\\manifest.json",
+      "obj": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\obj\\PassMountains.lws.obj",
+      "gltf": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\gltf\\PassMountains.lws.gltf",
+      "gltf_sha256": "1545e064f8aa2efe5f7aea01697f28d1b426e4be49decad153162f29c6998f03",
+      "obj_sha256": "de25d5dae4d492e27b7d68d63fa890e2ed5cc233372c34114213787c9f3d9893",
+      "unresolved_object_instances": 6,
+      "animation_channels": 0,
+      "animation_samples": 0,
+      "camera": {
+        "item_id": 805306368,
+        "channels": 9,
+        "keyframes": 6,
+        "verified_channel_keys": 54,
+        "source_offset": 1984
+      },
+      "missing_references": {
+        "Objects/Space/Spaceship": 6,
+        "": 2
+      },
+      "rest_rigs": []
+    },
+    {
+      "source": "Station1",
+      "source_sha256": "b65eb7737875d8789dc314c90418acc19aa4ba72b9211a3a9a084b6b1ec61383",
+      "status": "partial",
+      "source_preserved": true,
+      "manifest": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\IR\\Station1.lwo\\manifest.json",
+      "obj": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\obj\\Station1.lwo.obj",
+      "gltf": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\gltf\\Station1.lwo.gltf",
+      "gltf_sha256": "8ec84cab6d450e9db9418047de7c97508318a126700271f03fa68e7db3a2df13",
+      "obj_sha256": "2c0b207a360ad0d6b21a9381ee0be79ea64f4607f0978e68a52a88a8c1d30c34",
+      "unresolved_object_instances": 0,
+      "animation_channels": 0,
+      "animation_samples": 0,
+      "geometry": {
+        "points": 5397,
+        "source_polygons": 5215,
+        "triangles": 10570,
+        "nonplanar_faces": 576,
+        "triangulation_failures": 0,
+        "skipped_primitives": 0,
+        "normal_issues": 0,
+        "textures": [
+          {
+            "index": 0,
+            "channel": "COLR",
+            "type": {
+              "text": "Fractal Noise",
+              "raw_hex": "4672616374616c204e6f697365",
+              "decoding": "utf8"
+            },
+            "source_offset": 127738,
+            "source_bytes": 92,
+            "image_reference": null,
+            "flags": 98,
+            "wrap": [
+              1,
+              1
+            ],
+            "size": [
+              0.100000001,
+              0.100000001,
+              0.100000001
+            ],
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "falloff": [
+              0,
+              0,
+              0
+            ],
+            "velocity": [
+              0.0199999996,
+              0,
+              0
+            ],
+            "value": 1,
+            "amplitude": 1,
+            "tiles": [
+              1,
+              1
+            ],
+            "export_status": "preserved-only",
+            "issue": "procedural or unsupported projection; preserved only"
+          },
+          {
+            "index": 1,
+            "channel": "COLR",
+            "type": {
+              "text": "Dots",
+              "raw_hex": "446f7473",
+              "decoding": "utf8"
+            },
+            "source_offset": 127884,
+            "source_bytes": 58,
+            "image_reference": null,
+            "flags": 98,
+            "wrap": [
+              1,
+              1
+            ],
+            "size": [
+              0.100000001,
+              0.100000001,
+              0.100000001
+            ],
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "falloff": [
+              0,
+              0,
+              0
+            ],
+            "velocity": [
+              0,
+              0,
+              0
+            ],
+            "value": 1,
+            "amplitude": 1,
+            "tiles": [
+              1,
+              1
+            ],
+            "export_status": "preserved-only",
+            "issue": "procedural or unsupported projection; preserved only"
+          }
+        ]
+      }
+    },
+    {
+      "source": "StationChase",
+      "source_sha256": "51c6c59adb2dc6487c8c4aa8091f29799dc526da1b6e9e25782aadae5189459c",
+      "status": "partial",
+      "source_preserved": true,
+      "manifest": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\IR\\StationChase.lws\\manifest.json",
+      "obj": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\obj\\StationChase.lws.obj",
+      "gltf": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\gltf\\StationChase.lws.gltf",
+      "gltf_sha256": "30b0ac9fa7325cc12ec6838a424081a6ca62d6e513f6fb0d2d930dacb3e5ae84",
+      "obj_sha256": "388b1b5b85b612cfce4f2da11716c3e5f678e1ce12a50c59f4cb4e7a886b29ac",
+      "unresolved_object_instances": 7,
+      "animation_channels": 3,
+      "animation_samples": 201,
+      "camera": {
+        "item_id": 805306368,
+        "channels": 9,
+        "keyframes": 12,
+        "verified_channel_keys": 108,
+        "source_offset": 6634
+      },
+      "missing_references": {
+        "Objects/Space/RandomStars": 1,
+        "Objects/Space/SpaceFighter": 3,
+        "objects/NullObject": 3,
+        "": 5
+      },
+      "rest_rigs": []
+    },
+    {
+      "source": "ThingKills",
+      "source_sha256": "392db010ea72be65878c66d175a4798f6ee3a57e5054a87d64a72d6b009b70d4",
+      "status": "partial",
+      "source_preserved": true,
+      "manifest": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\IR\\ThingKills.lws\\manifest.json",
+      "obj": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\obj\\ThingKills.lws.obj",
+      "gltf": "output\\aminet-atmobjs-qa\\batch-20260912-102906\\packages\\aminet-atmobjs\\gltf\\ThingKills.lws.gltf",
+      "gltf_sha256": "34fc5cd0a3511e85e19647f65fcbef097b165aa30e156a1626fc889a135d0de9",
+      "obj_sha256": "678e9a768b1c33655b35e19c64921235366685585c34bed590bf14430bcc0edd",
+      "unresolved_object_instances": 2,
+      "animation_channels": 9,
+      "animation_samples": 101,
+      "camera": {
+        "item_id": 805306368,
+        "channels": 9,
+        "keyframes": 4,
+        "verified_channel_keys": 36,
+        "source_offset": 6417
+      },
+      "missing_references": {
+        "": 10,
+        "objects/Space/RandomStars": 1,
+        "objects/Space/Planet": 1
+      },
+      "rest_rigs": [
+        {
+          "owner_node": 0,
+          "owner_item": 268435456,
+          "bones": 7,
+          "status": "skeleton-only",
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "influence_sets": 0,
+          "unweighted_points_on_object_anchor": 0,
+          "missing_weight_maps": 0,
+          "procedural_bones_not_evaluated": 6,
+          "gltf": "../../gltf/ThingKills.lws.rig-10000000.gltf",
+          "gltf_bin": "../../gltf/ThingKills.lws.rig-10000000.bin",
+          "issue": "procedural bone influences are preserved but not evaluated"
+        }
+      ]
+    }
+  ],
+  "gltf_validation": {
+    "version": "2.0.0-dev.3.10",
+    "files": 16,
+    "errors": 0,
+    "warnings": 0
+  },
+  "converter_version": "0.8.1",
+  "converter_sha256": "efa7af32fb3c275d96dffb54eac4bfe93e8e8885dbd1f2014adf6e09aca470cc",
+  "legacy_scene_scan": {
+    "date": "2026-09-12",
+    "before_binary": {
+      "configuration": "MSVC AddressSanitizer RelWithDebInfo",
+      "sha256": "97dc1c4291660a80a63198e391e26a6dcae8b1edb23c9fa13d8431730139b478"
+    },
+    "after_binary": {
+      "configuration": "MSVC Release",
+      "sha256": "efa7af32fb3c275d96dffb54eac4bfe93e8e8885dbd1f2014adf6e09aca470cc"
+    },
+    "summary": {
+      "scenes": 152,
+      "before_success": 148,
+      "after_success": 152,
+      "fixed": [
+        "aminet-atmobjs/NastyStation",
+        "aminet-atmobjs/PassMountains",
+        "aminet-atmobjs/StationChase",
+        "aminet-atmobjs/ThingKills"
+      ],
+      "regressions": [],
+      "remaining_errors": []
+    },
+    "scenes": [
+      {
+        "source": "aminet-Earth/Earth/Earth.scn",
+        "sha256": "c7f794c3f55807034835333ec51409f3621ebd10af6ba6b9ece40c0d63712d08",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c7f794c3f55807034835333ec51409f3621ebd10af6ba6b9ece40c0d63712d08",
+            "nodes": 8,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 1,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c7f794c3f55807034835333ec51409f3621ebd10af6ba6b9ece40c0d63712d08",
+            "nodes": 8,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 1,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-JumpingBall/JumpingBall/scenes/JumpingBall.scene",
+        "sha256": "53a49a2105d411f2ac482c2c43af9131f1eb7412d0c0c11b9cd01971553497d0",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "53a49a2105d411f2ac482c2c43af9131f1eb7412d0c0c11b9cd01971553497d0",
+            "nodes": 7,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 432,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 70,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "53a49a2105d411f2ac482c2c43af9131f1eb7412d0c0c11b9cd01971553497d0",
+            "nodes": 7,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 432,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 70,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-LW-SHCR/FOM/b5-objects/Shadow/OBJECTS/B5/Shadow.lws",
+        "sha256": "434366f31f56b33b765a543b7bd6849f47abf389e32be166c1c835e2291be318",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "434366f31f56b33b765a543b7bd6849f47abf389e32be166c1c835e2291be318",
+            "nodes": 8,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 153,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 450,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "434366f31f56b33b765a543b7bd6849f47abf389e32be166c1c835e2291be318",
+            "nodes": 8,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 153,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 450,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-Truck_LWProj/truck2/scenes/truck.sc",
+        "sha256": "e89958aacd1e9900f95b9485e844dc572fe4e6ba41d167b49556fc07b7ab9084",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e89958aacd1e9900f95b9485e844dc572fe4e6ba41d167b49556fc07b7ab9084",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 30,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e89958aacd1e9900f95b9485e844dc572fe4e6ba41d167b49556fc07b7ab9084",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 30,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-atmobjs/NastyStation",
+        "sha256": "a50ed303c25665e1c246706294f24678bc9859943e2379168e5a5696da70132b",
+        "before": {
+          "exit_code": 1,
+          "error": "lwconvert: motion at byte 3698: duplicate motion block",
+          "summary": null
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a50ed303c25665e1c246706294f24678bc9859943e2379168e5a5696da70132b",
+            "nodes": 11,
+            "object_loads": 4,
+            "bones": 5,
+            "keys": 261,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 200,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-atmobjs/PassMountains",
+        "sha256": "89ca59d4a31c46f8e1aae95efe060ea6ce77634485d3725349259228cdabb22b",
+        "before": {
+          "exit_code": 1,
+          "error": "lwconvert: motion at byte 2013: duplicate motion block",
+          "summary": null
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "89ca59d4a31c46f8e1aae95efe060ea6ce77634485d3725349259228cdabb22b",
+            "nodes": 10,
+            "object_loads": 8,
+            "bones": 0,
+            "keys": 144,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 70,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-atmobjs/StationChase",
+        "sha256": "51c6c59adb2dc6487c8c4aa8091f29799dc526da1b6e9e25782aadae5189459c",
+        "before": {
+          "exit_code": 1,
+          "error": "lwconvert: motion at byte 6663: duplicate motion block",
+          "summary": null
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "51c6c59adb2dc6487c8c4aa8091f29799dc526da1b6e9e25782aadae5189459c",
+            "nodes": 14,
+            "object_loads": 9,
+            "bones": 0,
+            "keys": 486,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 200,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-atmobjs/ThingKills",
+        "sha256": "392db010ea72be65878c66d175a4798f6ee3a57e5054a87d64a72d6b009b70d4",
+        "before": {
+          "exit_code": 1,
+          "error": "lwconvert: motion at byte 6446: duplicate motion block",
+          "summary": null
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "392db010ea72be65878c66d175a4798f6ee3a57e5054a87d64a72d6b009b70d4",
+            "nodes": 15,
+            "object_loads": 5,
+            "bones": 7,
+            "keys": 459,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 100,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-lw-njump/FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateBlueSF.lws",
+        "sha256": "04b56b1b00e75b2bb27ff272b297a2eb6cd78c2be97ba311fad812dbff9d9aa5",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "04b56b1b00e75b2bb27ff272b297a2eb6cd78c2be97ba311fad812dbff9d9aa5",
+            "nodes": 21,
+            "object_loads": 8,
+            "bones": 0,
+            "keys": 657,
+            "plugins": 0,
+            "first_frame": 18,
+            "last_frame": 290,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "04b56b1b00e75b2bb27ff272b297a2eb6cd78c2be97ba311fad812dbff9d9aa5",
+            "nodes": 21,
+            "object_loads": 8,
+            "bones": 0,
+            "keys": 657,
+            "plugins": 0,
+            "first_frame": 18,
+            "last_frame": 290,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-lw-njump/FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NGateYellowSF.lws",
+        "sha256": "d962ad0cc1fa60987b1283820b48f26d59d04c23e610dc53f0d3dead8d0cbaa0",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d962ad0cc1fa60987b1283820b48f26d59d04c23e610dc53f0d3dead8d0cbaa0",
+            "nodes": 21,
+            "object_loads": 8,
+            "bones": 0,
+            "keys": 657,
+            "plugins": 0,
+            "first_frame": 219,
+            "last_frame": 290,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d962ad0cc1fa60987b1283820b48f26d59d04c23e610dc53f0d3dead8d0cbaa0",
+            "nodes": 21,
+            "object_loads": 8,
+            "bones": 0,
+            "keys": 657,
+            "plugins": 0,
+            "first_frame": 219,
+            "last_frame": 290,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-lw-njump/FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NarnJumpgateBlue.lws",
+        "sha256": "955b9038ea654eeeca26d33729c14a2cf99335a1aa62fffae1553223c384c47f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "955b9038ea654eeeca26d33729c14a2cf99335a1aa62fffae1553223c384c47f",
+            "nodes": 20,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 621,
+            "plugins": 0,
+            "first_frame": 18,
+            "last_frame": 290,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "955b9038ea654eeeca26d33729c14a2cf99335a1aa62fffae1553223c384c47f",
+            "nodes": 20,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 621,
+            "plugins": 0,
+            "first_frame": 18,
+            "last_frame": 290,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-lw-njump/FOM/b5-objects/NarnJumpgate/OBJECTS/SPACE/NarnJumpgate/NarnJumpgateYellow.lws",
+        "sha256": "f5c495f0278c5ac1d8651072b9e9a556556d371281dfd0fe6964ffafdbe4270d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "f5c495f0278c5ac1d8651072b9e9a556556d371281dfd0fe6964ffafdbe4270d",
+            "nodes": 20,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 621,
+            "plugins": 0,
+            "first_frame": 110,
+            "last_frame": 290,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "f5c495f0278c5ac1d8651072b9e9a556556d371281dfd0fe6964ffafdbe4270d",
+            "nodes": 20,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 621,
+            "plugins": 0,
+            "first_frame": 110,
+            "last_frame": 290,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-lw-vofi/FOM/b5-objects/NEWTEK/OBJECTS/Spaceships/TVorlon/TVorlonExample.lws",
+        "sha256": "6075aefc4d64ed44bf8d2d1c46f453897491603d44a1fba1a625260818dab4c5",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6075aefc4d64ed44bf8d2d1c46f453897491603d44a1fba1a625260818dab4c5",
+            "nodes": 8,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 180,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6075aefc4d64ed44bf8d2d1c46f453897491603d44a1fba1a625260818dab4c5",
+            "nodes": 8,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 180,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-newtons/scene.1",
+        "sha256": "7620127b4b55e0a369aa2d8aa5ae97467035a1cffa090f9a4cacea2210f5fde4",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7620127b4b55e0a369aa2d8aa5ae97467035a1cffa090f9a4cacea2210f5fde4",
+            "nodes": 13,
+            "object_loads": 11,
+            "bones": 0,
+            "keys": 171,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7620127b4b55e0a369aa2d8aa5ae97467035a1cffa090f9a4cacea2210f5fde4",
+            "nodes": 13,
+            "object_loads": 11,
+            "bones": 0,
+            "keys": 171,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-newtons/scene.2",
+        "sha256": "093addb4a1a26a08c7e49d2264a3ee8d0e040d564dec20596f3c6fe43e134f6d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "093addb4a1a26a08c7e49d2264a3ee8d0e040d564dec20596f3c6fe43e134f6d",
+            "nodes": 14,
+            "object_loads": 11,
+            "bones": 0,
+            "keys": 234,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "093addb4a1a26a08c7e49d2264a3ee8d0e040d564dec20596f3c6fe43e134f6d",
+            "nodes": 14,
+            "object_loads": 11,
+            "bones": 0,
+            "keys": 234,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-newtons/scene.3",
+        "sha256": "56acf80a4171bf243c12eb450d5fc54fcd7f9c6ad371b07659aee8946f6845d5",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "56acf80a4171bf243c12eb450d5fc54fcd7f9c6ad371b07659aee8946f6845d5",
+            "nodes": 15,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "56acf80a4171bf243c12eb450d5fc54fcd7f9c6ad371b07659aee8946f6845d5",
+            "nodes": 15,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-newtons/scene.pic",
+        "sha256": "8af70f8113df8b15b64eed1f6afb1a71200beeb460a01f0b7ef87ae6ec4096fb",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8af70f8113df8b15b64eed1f6afb1a71200beeb460a01f0b7ef87ae6ec4096fb",
+            "nodes": 19,
+            "object_loads": 16,
+            "bones": 0,
+            "keys": 225,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8af70f8113df8b15b64eed1f6afb1a71200beeb460a01f0b7ef87ae6ec4096fb",
+            "nodes": 19,
+            "object_loads": 16,
+            "bones": 0,
+            "keys": 225,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-raider/scenes/Raider_Mutterschiff",
+        "sha256": "ebf8c0b0333eba805560ed9a44f723d5c5dc8cae405c3d3871175cb43a2aea21",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "ebf8c0b0333eba805560ed9a44f723d5c5dc8cae405c3d3871175cb43a2aea21",
+            "nodes": 87,
+            "object_loads": 24,
+            "bones": 0,
+            "keys": 1350,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 1,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "ebf8c0b0333eba805560ed9a44f723d5c5dc8cae405c3d3871175cb43a2aea21",
+            "nodes": 87,
+            "object_loads": 24,
+            "bones": 0,
+            "keys": 1350,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 1,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "aminet-typhoonscene/typhoon/scenes/land213+air",
+        "sha256": "d801cb04467415819a3729d60ec81689733619ccdacd072856b8c4d83bebcf6f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d801cb04467415819a3729d60ec81689733619ccdacd072856b8c4d83bebcf6f",
+            "nodes": 31,
+            "object_loads": 29,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 30,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d801cb04467415819a3729d60ec81689733619ccdacd072856b8c4d83bebcf6f",
+            "nodes": 31,
+            "object_loads": 29,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 30,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "berlin-250/scene_church.lws",
+        "sha256": "c193f819f22d973c555c8de648ecf0c72263839e76250b2fcff28591059f2bec",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c193f819f22d973c555c8de648ecf0c72263839e76250b2fcff28591059f2bec",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c193f819f22d973c555c8de648ecf0c72263839e76250b2fcff28591059f2bec",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "berlin-250/scene_mite.lws",
+        "sha256": "2003ab7367b0261ad15abc5009d8f74a201e2d00386797898a7d6794212e1630",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2003ab7367b0261ad15abc5009d8f74a201e2d00386797898a7d6794212e1630",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2003ab7367b0261ad15abc5009d8f74a201e2d00386797898a7d6794212e1630",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/bords.lws",
+        "sha256": "4b6f615cd4bd826f76fb8b4ad866953d525e9f6cd4cbbc4643a33c04c5f7bcc1",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4b6f615cd4bd826f76fb8b4ad866953d525e9f6cd4cbbc4643a33c04c5f7bcc1",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 504,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4b6f615cd4bd826f76fb8b4ad866953d525e9f6cd4cbbc4643a33c04c5f7bcc1",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 504,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/factory/isle5.lws",
+        "sha256": "0c73eb9573f0775b3cf85d023d7e5dedb2ba7c7526fbb7d203c4f343ff917a06",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0c73eb9573f0775b3cf85d023d7e5dedb2ba7c7526fbb7d203c4f343ff917a06",
+            "nodes": 21,
+            "object_loads": 13,
+            "bones": 0,
+            "keys": 351,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 41,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0c73eb9573f0775b3cf85d023d7e5dedb2ba7c7526fbb7d203c4f343ff917a06",
+            "nodes": 21,
+            "object_loads": 13,
+            "bones": 0,
+            "keys": 351,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 41,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/hall/flash_hall_1.lws",
+        "sha256": "9d4ac4718765fbedb4a9dc1cbce3d34da4e1963d91465a0ad266fd7ed6c3460b",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9d4ac4718765fbedb4a9dc1cbce3d34da4e1963d91465a0ad266fd7ed6c3460b",
+            "nodes": 17,
+            "object_loads": 9,
+            "bones": 0,
+            "keys": 162,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9d4ac4718765fbedb4a9dc1cbce3d34da4e1963d91465a0ad266fd7ed6c3460b",
+            "nodes": 17,
+            "object_loads": 9,
+            "bones": 0,
+            "keys": 162,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/lostag/lost_agent.lws",
+        "sha256": "d2ed68db6801b15cdf3be2977dd3418e25f3c1c0edc4833a76e95dcc5c22ae7e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d2ed68db6801b15cdf3be2977dd3418e25f3c1c0edc4833a76e95dcc5c22ae7e",
+            "nodes": 34,
+            "object_loads": 26,
+            "bones": 0,
+            "keys": 333,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 1,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d2ed68db6801b15cdf3be2977dd3418e25f3c1c0edc4833a76e95dcc5c22ae7e",
+            "nodes": 34,
+            "object_loads": 26,
+            "bones": 0,
+            "keys": 333,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 1,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/mib/fadout_plan2.lws",
+        "sha256": "5bada3bf10d51ef70d8c944a07642ca6a937116c976dc09b7d4eaa188b513e82",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5bada3bf10d51ef70d8c944a07642ca6a937116c976dc09b7d4eaa188b513e82",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5bada3bf10d51ef70d8c944a07642ca6a937116c976dc09b7d4eaa188b513e82",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/mib/loopin_walkin_malone_gun.lws",
+        "sha256": "688fbb32d1e052105bb42f7ab739aaef545cdf556ecf80a851c4dcf8ed0c438b",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "688fbb32d1e052105bb42f7ab739aaef545cdf556ecf80a851c4dcf8ed0c438b",
+            "nodes": 22,
+            "object_loads": 18,
+            "bones": 0,
+            "keys": 1188,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 28,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "688fbb32d1e052105bb42f7ab739aaef545cdf556ecf80a851c4dcf8ed0c438b",
+            "nodes": 22,
+            "object_loads": 18,
+            "bones": 0,
+            "keys": 1188,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 28,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/mib/science.lws",
+        "sha256": "b22ad531074cb89fbeb99ae4e1f99e7b0d4680504974eca1d5db2d7588821b22",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "b22ad531074cb89fbeb99ae4e1f99e7b0d4680504974eca1d5db2d7588821b22",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "b22ad531074cb89fbeb99ae4e1f99e7b0d4680504974eca1d5db2d7588821b22",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/mib/science_2.lws",
+        "sha256": "5c027eab07a4e50ef251b83f79336f702fe2987c14f56314170170fd59014ac3",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5c027eab07a4e50ef251b83f79336f702fe2987c14f56314170170fd59014ac3",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5c027eab07a4e50ef251b83f79336f702fe2987c14f56314170170fd59014ac3",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/mib/science_plan1.lws",
+        "sha256": "eb90eece99c96c1596a1ce2f9b7021c8480957a8f5b412d8911dc4d2f3d31e87",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "eb90eece99c96c1596a1ce2f9b7021c8480957a8f5b412d8911dc4d2f3d31e87",
+            "nodes": 60,
+            "object_loads": 37,
+            "bones": 0,
+            "keys": 603,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 4,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "eb90eece99c96c1596a1ce2f9b7021c8480957a8f5b412d8911dc4d2f3d31e87",
+            "nodes": 60,
+            "object_loads": 37,
+            "bones": 0,
+            "keys": 603,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 4,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/mib/science_plan2.lws",
+        "sha256": "069da6e65778ff28978e95f7194c634553da71ca4ddc992145d5b5970bfe41ca",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "069da6e65778ff28978e95f7194c634553da71ca4ddc992145d5b5970bfe41ca",
+            "nodes": 59,
+            "object_loads": 37,
+            "bones": 0,
+            "keys": 585,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 6,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "069da6e65778ff28978e95f7194c634553da71ca4ddc992145d5b5970bfe41ca",
+            "nodes": 59,
+            "object_loads": 37,
+            "bones": 0,
+            "keys": 585,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 6,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/mib/travback2.lws",
+        "sha256": "5d50a5ad6eedcd03c4cbc5db9134c8e3c82ef4c9e32e9c4a36dcfe1846d781f3",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5d50a5ad6eedcd03c4cbc5db9134c8e3c82ef4c9e32e9c4a36dcfe1846d781f3",
+            "nodes": 57,
+            "object_loads": 39,
+            "bones": 0,
+            "keys": 756,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 40,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5d50a5ad6eedcd03c4cbc5db9134c8e3c82ef4c9e32e9c4a36dcfe1846d781f3",
+            "nodes": 57,
+            "object_loads": 39,
+            "bones": 0,
+            "keys": 756,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 40,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/planet/noinv.lws",
+        "sha256": "dc980fdd9b93bf9a3147448c7bb99f326c1a1ea34eb8c6f1191c96f6b3f3cd98",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "dc980fdd9b93bf9a3147448c7bb99f326c1a1ea34eb8c6f1191c96f6b3f3cd98",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "dc980fdd9b93bf9a3147448c7bb99f326c1a1ea34eb8c6f1191c96f6b3f3cd98",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/planet/planet.lws",
+        "sha256": "0405243e868a263f2093fcb71712940c7e7adb22832e6facaf79a66695aa6ae4",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0405243e868a263f2093fcb71712940c7e7adb22832e6facaf79a66695aa6ae4",
+            "nodes": 34,
+            "object_loads": 30,
+            "bones": 0,
+            "keys": 342,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 100,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0405243e868a263f2093fcb71712940c7e7adb22832e6facaf79a66695aa6ae4",
+            "nodes": 34,
+            "object_loads": 30,
+            "bones": 0,
+            "keys": 342,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 100,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/fade.lws",
+        "sha256": "9233ab8af0187632ce990344014509f1bc6a01180fc659ed14d0f859001d2547",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9233ab8af0187632ce990344014509f1bc6a01180fc659ed14d0f859001d2547",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9233ab8af0187632ce990344014509f1bc6a01180fc659ed14d0f859001d2547",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/fade02.lws",
+        "sha256": "71b89604192c8765eb68e4452d95ec38c9b7acb4e995a10b112f2ecdb2926af1",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "71b89604192c8765eb68e4452d95ec38c9b7acb4e995a10b112f2ecdb2926af1",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "71b89604192c8765eb68e4452d95ec38c9b7acb4e995a10b112f2ecdb2926af1",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/fadeisle.lws",
+        "sha256": "5dd5a7d8f79b73dd38bb43daaece395d033fe2133d2d1d2af81eeb06a96df19e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5dd5a7d8f79b73dd38bb43daaece395d033fe2133d2d1d2af81eeb06a96df19e",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5dd5a7d8f79b73dd38bb43daaece395d033fe2133d2d1d2af81eeb06a96df19e",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/noufo.lws",
+        "sha256": "4589d499bf6f415d4e5fe59da05364937fd87c1ad6ad87ecacbd3e35dfdc9d3f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4589d499bf6f415d4e5fe59da05364937fd87c1ad6ad87ecacbd3e35dfdc9d3f",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4589d499bf6f415d4e5fe59da05364937fd87c1ad6ad87ecacbd3e35dfdc9d3f",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/photos.lws",
+        "sha256": "bf75ff72524f1f7f9faaa9104a81bf114bd658bfe885f36aec2318e8fd22f801",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bf75ff72524f1f7f9faaa9104a81bf114bd658bfe885f36aec2318e8fd22f801",
+            "nodes": 9,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bf75ff72524f1f7f9faaa9104a81bf114bd658bfe885f36aec2318e8fd22f801",
+            "nodes": 9,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/secretagent.lws",
+        "sha256": "09fa7c07d6a6119ca32a6461fb71c8fc907f9688641aec87b6b079cb3b1d3750",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "09fa7c07d6a6119ca32a6461fb71c8fc907f9688641aec87b6b079cb3b1d3750",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "09fa7c07d6a6119ca32a6461fb71c8fc907f9688641aec87b6b079cb3b1d3750",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/skinner.lws",
+        "sha256": "d18de1fded7516728313a347a9d409442d653f6fad90ce9e3146b2b58c9fab37",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d18de1fded7516728313a347a9d409442d653f6fad90ce9e3146b2b58c9fab37",
+            "nodes": 17,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 225,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 46,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d18de1fded7516728313a347a9d409442d653f6fad90ce9e3146b2b58c9fab37",
+            "nodes": 17,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 225,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 46,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/titleflash.lws",
+        "sha256": "3bff02d1129c3f68dbdc2923adb6426731fd5fec0155cb8f15a78797f7fe426a",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3bff02d1129c3f68dbdc2923adb6426731fd5fec0155cb8f15a78797f7fe426a",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3bff02d1129c3f68dbdc2923adb6426731fd5fec0155cb8f15a78797f7fe426a",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/titles/zetitle.lws",
+        "sha256": "cb772aad15c43d288ef5f0e4dc82e49dcc7e5005dd5f9227a1504eb2f0c2b0d7",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cb772aad15c43d288ef5f0e4dc82e49dcc7e5005dd5f9227a1504eb2f0c2b0d7",
+            "nodes": 14,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 585,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cb772aad15c43d288ef5f0e4dc82e49dcc7e5005dd5f9227a1504eb2f0c2b0d7",
+            "nodes": 14,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 585,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/ufoland/ufoland.lws",
+        "sha256": "e84b1b197e6822fd808786e9d955987ad0195ce4a1bbc55a3887ca636da34453",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e84b1b197e6822fd808786e9d955987ad0195ce4a1bbc55a3887ca636da34453",
+            "nodes": 23,
+            "object_loads": 19,
+            "bones": 0,
+            "keys": 360,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e84b1b197e6822fd808786e9d955987ad0195ce4a1bbc55a3887ca636da34453",
+            "nodes": 23,
+            "object_loads": 19,
+            "bones": 0,
+            "keys": 360,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-couloir-14/vnoize.lws",
+        "sha256": "e53695c51419a0595b9647d2035bf42a975a4811e55451d2862d4df09b8f4c05",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e53695c51419a0595b9647d2035bf42a975a4811e55451d2862d4df09b8f4c05",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e53695c51419a0595b9647d2035bf42a975a4811e55451d2862d4df09b8f4c05",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/0_sceneTunnelAnim.lws",
+        "sha256": "41016953acf8ad41101c700f6d52dd2e5a272340ff8d3d383d915eb0d916a824",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "41016953acf8ad41101c700f6d52dd2e5a272340ff8d3d383d915eb0d916a824",
+            "nodes": 15,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 333,
+            "plugins": 0,
+            "first_frame": 450,
+            "last_frame": 1000,
+            "fps": 21
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "41016953acf8ad41101c700f6d52dd2e5a272340ff8d3d383d915eb0d916a824",
+            "nodes": 15,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 333,
+            "plugins": 0,
+            "first_frame": 450,
+            "last_frame": 1000,
+            "fps": 21
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/1_ZomBie.lws",
+        "sha256": "6a0e954700a0f84a047ec0fb9757cf91a2ec47b6166c8054bc2e21b67948e97f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6a0e954700a0f84a047ec0fb9757cf91a2ec47b6166c8054bc2e21b67948e97f",
+            "nodes": 43,
+            "object_loads": 38,
+            "bones": 0,
+            "keys": 2529,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6a0e954700a0f84a047ec0fb9757cf91a2ec47b6166c8054bc2e21b67948e97f",
+            "nodes": 43,
+            "object_loads": 38,
+            "bones": 0,
+            "keys": 2529,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/2_LogoFREESTYLE.lws",
+        "sha256": "f3f8d4c62b19dff54a2278cf6bc19446289d6ae84d900a63badfbb31bba4a699",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "f3f8d4c62b19dff54a2278cf6bc19446289d6ae84d900a63badfbb31bba4a699",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "f3f8d4c62b19dff54a2278cf6bc19446289d6ae84d900a63badfbb31bba4a699",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/3_Colline.lws",
+        "sha256": "6ac3d8672c117afa21d9120e56403746fbeee3d580ba9c61ac920dd70237c211",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6ac3d8672c117afa21d9120e56403746fbeee3d580ba9c61ac920dd70237c211",
+            "nodes": 33,
+            "object_loads": 28,
+            "bones": 0,
+            "keys": 1467,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6ac3d8672c117afa21d9120e56403746fbeee3d580ba9c61ac920dd70237c211",
+            "nodes": 33,
+            "object_loads": 28,
+            "bones": 0,
+            "keys": 1467,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/4_SceneChampi.lws",
+        "sha256": "5d4798cb6e0e5f48f84d7e8bbcc0b69b230fa39083025848807db759ad6de8e8",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5d4798cb6e0e5f48f84d7e8bbcc0b69b230fa39083025848807db759ad6de8e8",
+            "nodes": 49,
+            "object_loads": 44,
+            "bones": 0,
+            "keys": 21222,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 45
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5d4798cb6e0e5f48f84d7e8bbcc0b69b230fa39083025848807db759ad6de8e8",
+            "nodes": 49,
+            "object_loads": 44,
+            "bones": 0,
+            "keys": 21222,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 45
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/55_ToTheManor.lws",
+        "sha256": "8083c9db0ce5ba3418c4227f7530ded0b2f06b3dfa422df9193e845454180125",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8083c9db0ce5ba3418c4227f7530ded0b2f06b3dfa422df9193e845454180125",
+            "nodes": 35,
+            "object_loads": 31,
+            "bones": 0,
+            "keys": 1719,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 180,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8083c9db0ce5ba3418c4227f7530ded0b2f06b3dfa422df9193e845454180125",
+            "nodes": 35,
+            "object_loads": 31,
+            "bones": 0,
+            "keys": 1719,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 180,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/5_ChampiGIRLgfx.lws",
+        "sha256": "7ba16a7a4b4d6915ba5c4050f1d901fd2359e1b9b74f89c189bc80507b2d214b",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7ba16a7a4b4d6915ba5c4050f1d901fd2359e1b9b74f89c189bc80507b2d214b",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7ba16a7a4b4d6915ba5c4050f1d901fd2359e1b9b74f89c189bc80507b2d214b",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/6_HOUSEofTHEkitCH.lws",
+        "sha256": "2e1508d4f8047cf8c709ef482a213dcefbcefc7d54ddd0d22ad42877827ca31d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2e1508d4f8047cf8c709ef482a213dcefbcefc7d54ddd0d22ad42877827ca31d",
+            "nodes": 25,
+            "object_loads": 21,
+            "bones": 0,
+            "keys": 3762,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2e1508d4f8047cf8c709ef482a213dcefbcefc7d54ddd0d22ad42877827ca31d",
+            "nodes": 25,
+            "object_loads": 21,
+            "bones": 0,
+            "keys": 3762,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/7_TheTRAP!.lws",
+        "sha256": "38a724b795b305d2dc81c59069b455e8315d6d4f0894d9ee4b5e77c7dbce05c3",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "38a724b795b305d2dc81c59069b455e8315d6d4f0894d9ee4b5e77c7dbce05c3",
+            "nodes": 28,
+            "object_loads": 25,
+            "bones": 0,
+            "keys": 1899,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "38a724b795b305d2dc81c59069b455e8315d6d4f0894d9ee4b5e77c7dbce05c3",
+            "nodes": 28,
+            "object_loads": 25,
+            "bones": 0,
+            "keys": 1899,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/8_Wgon.lws",
+        "sha256": "a81ecb3c9427009df8a9da7da53241fc71250289527e5a03835a2e310d5fe927",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a81ecb3c9427009df8a9da7da53241fc71250289527e5a03835a2e310d5fe927",
+            "nodes": 36,
+            "object_loads": 27,
+            "bones": 0,
+            "keys": 738,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a81ecb3c9427009df8a9da7da53241fc71250289527e5a03835a2e310d5fe927",
+            "nodes": 36,
+            "object_loads": 27,
+            "bones": 0,
+            "keys": 738,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "demo-freestyle-by-syndrome-condense/9_SyndromeFINAL.lws",
+        "sha256": "cd02c189cf77e4d2c84834f2023da31dc8c5a3d7c352bf9d4703e5642b6b40d7",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cd02c189cf77e4d2c84834f2023da31dc8c5a3d7c352bf9d4703e5642b6b40d7",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cd02c189cf77e4d2c84834f2023da31dc8c5a3d7c352bf9d4703e5642b6b40d7",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "dora-maar/dora&picasso.lws",
+        "sha256": "00b5855e783fefa6f2908933c9113fd228016d15b5e0598c097a13299cbd5bd2",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "00b5855e783fefa6f2908933c9113fd228016d15b5e0598c097a13299cbd5bd2",
+            "nodes": 8,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "00b5855e783fefa6f2908933c9113fd228016d15b5e0598c097a13299cbd5bd2",
+            "nodes": 8,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "eddy-the-anchoralien/editestmap.lws",
+        "sha256": "2406aecac6f22aa61571bc317ac631dd4bf94cf8f9b82291031ad6f7a5b7e58b",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2406aecac6f22aa61571bc317ac631dd4bf94cf8f9b82291031ad6f7a5b7e58b",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 2,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2406aecac6f22aa61571bc317ac631dd4bf94cf8f9b82291031ad6f7a5b7e58b",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 2,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "eddy-the-anchoralien/mapdroit.lws",
+        "sha256": "d502f6bfe2dc2f4c96e6cc3bf23db240350b97778f3301a8ccb4d81ecac8d15e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d502f6bfe2dc2f4c96e6cc3bf23db240350b97778f3301a8ccb4d81ecac8d15e",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d502f6bfe2dc2f4c96e6cc3bf23db240350b97778f3301a8ccb4d81ecac8d15e",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/Guywok.lws",
+        "sha256": "e6add62a4cda4da3d3a7bded5ba6665b7789132a9cf8cef7c40131d116b0186c",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e6add62a4cda4da3d3a7bded5ba6665b7789132a9cf8cef7c40131d116b0186c",
+            "nodes": 46,
+            "object_loads": 35,
+            "bones": 0,
+            "keys": 1332,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 65,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e6add62a4cda4da3d3a7bded5ba6665b7789132a9cf8cef7c40131d116b0186c",
+            "nodes": 46,
+            "object_loads": 35,
+            "bones": 0,
+            "keys": 1332,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 65,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/archefranz.lws",
+        "sha256": "c7a7e8e955e05118e85f42693a301d293f15b576e41fb4c307de0e74ffc8b4da",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c7a7e8e955e05118e85f42693a301d293f15b576e41fb4c307de0e74ffc8b4da",
+            "nodes": 85,
+            "object_loads": 52,
+            "bones": 0,
+            "keys": 3429,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 150,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c7a7e8e955e05118e85f42693a301d293f15b576e41fb4c307de0e74ffc8b4da",
+            "nodes": 85,
+            "object_loads": 52,
+            "bones": 0,
+            "keys": 3429,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 150,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/arches radiosit\u201a.lws",
+        "sha256": "fa46f6774732833cbc6ceee65d48ea0be745cef6ee63f22543a5cc52279aad3f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fa46f6774732833cbc6ceee65d48ea0be745cef6ee63f22543a5cc52279aad3f",
+            "nodes": 11,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 117,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fa46f6774732833cbc6ceee65d48ea0be745cef6ee63f22543a5cc52279aad3f",
+            "nodes": 11,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 117,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/arches.lws",
+        "sha256": "33b65d9a9270dd9e114048be26e2e95e1d44f6cc5e2b6fe7b804fb9e2c2b172e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "33b65d9a9270dd9e114048be26e2e95e1d44f6cc5e2b6fe7b804fb9e2c2b172e",
+            "nodes": 40,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 378,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "33b65d9a9270dd9e114048be26e2e95e1d44f6cc5e2b6fe7b804fb9e2c2b172e",
+            "nodes": 40,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 378,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/arches_eglise.lws",
+        "sha256": "fa709ce9b3470116eece14c95efd667f7aebee9e9c64dc267e415682e8bab6af",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fa709ce9b3470116eece14c95efd667f7aebee9e9c64dc267e415682e8bab6af",
+            "nodes": 41,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 378,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fa709ce9b3470116eece14c95efd667f7aebee9e9c64dc267e415682e8bab6af",
+            "nodes": 41,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 378,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/archesnull.lws",
+        "sha256": "3e438289b807e0367e2117c149f9fc825e6144f996530e65b869cc8b0aceae79",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3e438289b807e0367e2117c149f9fc825e6144f996530e65b869cc8b0aceae79",
+            "nodes": 42,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 396,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3e438289b807e0367e2117c149f9fc825e6144f996530e65b869cc8b0aceae79",
+            "nodes": 42,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 396,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/franz.lws",
+        "sha256": "7f99002f5f28a6d158febb073e7b316bdd11bac9108e326a7e022bcf594fec92",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7f99002f5f28a6d158febb073e7b316bdd11bac9108e326a7e022bcf594fec92",
+            "nodes": 46,
+            "object_loads": 35,
+            "bones": 0,
+            "keys": 1386,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 65,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7f99002f5f28a6d158febb073e7b316bdd11bac9108e326a7e022bcf594fec92",
+            "nodes": 46,
+            "object_loads": 35,
+            "bones": 0,
+            "keys": 1386,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 65,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/l.arches_eglise.lws",
+        "sha256": "a2d3ba02f66af21db4b3be05882e9da6b0e23c0d147c05ac6929f0b2a673b10e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a2d3ba02f66af21db4b3be05882e9da6b0e23c0d147c05ac6929f0b2a673b10e",
+            "nodes": 26,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 252,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a2d3ba02f66af21db4b3be05882e9da6b0e23c0d147c05ac6929f0b2a673b10e",
+            "nodes": 26,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 252,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/scarabscene.lws",
+        "sha256": "0c312b5e86e24d9ed6d1ae2c64557e312a55fc2adb68fca1ffde4bcb0421fa36",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0c312b5e86e24d9ed6d1ae2c64557e312a55fc2adb68fca1ffde4bcb0421fa36",
+            "nodes": 12,
+            "object_loads": 4,
+            "bones": 2,
+            "keys": 135,
+            "plugins": 0,
+            "first_frame": 8,
+            "last_frame": 150,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0c312b5e86e24d9ed6d1ae2c64557e312a55fc2adb68fca1ffde4bcb0421fa36",
+            "nodes": 12,
+            "object_loads": 4,
+            "bones": 2,
+            "keys": 135,
+            "plugins": 0,
+            "first_frame": 8,
+            "last_frame": 150,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/scarabscensplotche.lws",
+        "sha256": "895e0bb7c28fba4f1704b2cd1abaec7baed076501bea8c8d2012b4bf0aa2fa8b",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "895e0bb7c28fba4f1704b2cd1abaec7baed076501bea8c8d2012b4bf0aa2fa8b",
+            "nodes": 13,
+            "object_loads": 5,
+            "bones": 2,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 150,
+            "last_frame": 150,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "895e0bb7c28fba4f1704b2cd1abaec7baed076501bea8c8d2012b4bf0aa2fa8b",
+            "nodes": 13,
+            "object_loads": 5,
+            "bones": 2,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 150,
+            "last_frame": 150,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/tga2avi.lws",
+        "sha256": "930e633d9a36e4a71d016744a5e1310a20117e5b4a1625be2daaa06ccb9ef91c",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "930e633d9a36e4a71d016744a5e1310a20117e5b4a1625be2daaa06ccb9ef91c",
+            "nodes": 2,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 18,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 150,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "930e633d9a36e4a71d016744a5e1310a20117e5b4a1625be2daaa06ccb9ef91c",
+            "nodes": 2,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 18,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 150,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "film-kafka-3d-student-works/src/tga2avi2.lws",
+        "sha256": "8f8a8789c5bff764ed3f1c621868ace2641bb8f27674124f7598d2e67dd2ddfa",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8f8a8789c5bff764ed3f1c621868ace2641bb8f27674124f7598d2e67dd2ddfa",
+            "nodes": 2,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 18,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 150,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8f8a8789c5bff764ed3f1c621868ace2641bb8f27674124f7598d2e67dd2ddfa",
+            "nodes": 2,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 18,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 150,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "gate-array-robot-head/robo.lws",
+        "sha256": "81d7d213688362502d426c0731ff03a6c7e846db37a201a077f4325dbc63f210",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "81d7d213688362502d426c0731ff03a6c7e846db37a201a077f4325dbc63f210",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 100,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "81d7d213688362502d426c0731ff03a6c7e846db37a201a077f4325dbc63f210",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 100,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "just-another-amiga-story/500.lws",
+        "sha256": "001f6d8bd44a81d4168e69f9c139ddd20b06085d598add17d3f8a59cc15db379",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "001f6d8bd44a81d4168e69f9c139ddd20b06085d598add17d3f8a59cc15db379",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "001f6d8bd44a81d4168e69f9c139ddd20b06085d598add17d3f8a59cc15db379",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "just-another-amiga-story/ttt.lws",
+        "sha256": "bdd91ca785147f2310b3dde99891a61a8a3077934bc3d78df8b131aa11e7d59f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bdd91ca785147f2310b3dde99891a61a8a3077934bc3d78df8b131aa11e7d59f",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bdd91ca785147f2310b3dde99891a61a8a3077934bc3d78df8b131aa11e7d59f",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "lake-scenery/Lacustre.2.lws",
+        "sha256": "2dbe73a37071efcd134195c0929c35cf2487f6bcede1d2e2d2f71d095ea3c384",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2dbe73a37071efcd134195c0929c35cf2487f6bcede1d2e2d2f71d095ea3c384",
+            "nodes": 23,
+            "object_loads": 16,
+            "bones": 0,
+            "keys": 207,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 100,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2dbe73a37071efcd134195c0929c35cf2487f6bcede1d2e2d2f71d095ea3c384",
+            "nodes": 23,
+            "object_loads": 16,
+            "bones": 0,
+            "keys": 207,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 100,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "lake-scenery/Lacustre.lws",
+        "sha256": "cbe824764a5db505be05f667a6148f4af146b7f0af9cf5272107969b13bceb78",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cbe824764a5db505be05f667a6148f4af146b7f0af9cf5272107969b13bceb78",
+            "nodes": 22,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cbe824764a5db505be05f667a6148f4af146b7f0af9cf5272107969b13bceb78",
+            "nodes": 22,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "long-road-student-project/la route est longue.lws",
+        "sha256": "ca8e981eea44c46af74d650b160198cf7f6aa30abd1c5ae267e77cf627bde597",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "ca8e981eea44c46af74d650b160198cf7f6aa30abd1c5ae267e77cf627bde597",
+            "nodes": 18,
+            "object_loads": 9,
+            "bones": 0,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "ca8e981eea44c46af74d650b160198cf7f6aa30abd1c5ae267e77cf627bde597",
+            "nodes": 18,
+            "object_loads": 9,
+            "bones": 0,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "mandarine-000-lw5/lw5/aaa.lws",
+        "sha256": "89840807b3c7cfd2d4cb62942155a29d33d31e558b0ae9822e4f72a425fcc3bb",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "89840807b3c7cfd2d4cb62942155a29d33d31e558b0ae9822e4f72a425fcc3bb",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "89840807b3c7cfd2d4cb62942155a29d33d31e558b0ae9822e4f72a425fcc3bb",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "mandarine-000-lw5/template/compute_kenet_lights.lws",
+        "sha256": "3b9ad45d664dc1547e59c2ba9c84c3c2677c570c94fa7657bc1cf7f584e305e5",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3b9ad45d664dc1547e59c2ba9c84c3c2677c570c94fa7657bc1cf7f584e305e5",
+            "nodes": 12,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 108,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3b9ad45d664dc1547e59c2ba9c84c3c2677c570c94fa7657bc1cf7f584e305e5",
+            "nodes": 12,
+            "object_loads": 7,
+            "bones": 0,
+            "keys": 108,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/_puebloSwarm.lws",
+        "sha256": "686856ff420a52d8d1217f0ad3a103ce39c60c9c9817ee1634f43a6fe4104075",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "686856ff420a52d8d1217f0ad3a103ce39c60c9c9817ee1634f43a6fe4104075",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "686856ff420a52d8d1217f0ad3a103ce39c60c9c9817ee1634f43a6fe4104075",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/basile.lws",
+        "sha256": "57fb4976727edad6a3cc86d2a97a95952d9c1902ea44a06f4b00277a08a78419",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "57fb4976727edad6a3cc86d2a97a95952d9c1902ea44a06f4b00277a08a78419",
+            "nodes": 22,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "57fb4976727edad6a3cc86d2a97a95952d9c1902ea44a06f4b00277a08a78419",
+            "nodes": 22,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/basileLoloop.lws",
+        "sha256": "bf914d27051ef3fcadb6ed05b637b1d0bbcf5691c129a7e88f90150643c52097",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bf914d27051ef3fcadb6ed05b637b1d0bbcf5691c129a7e88f90150643c52097",
+            "nodes": 25,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 2817,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bf914d27051ef3fcadb6ed05b637b1d0bbcf5691c129a7e88f90150643c52097",
+            "nodes": 25,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 2817,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/basileSanim3.lws",
+        "sha256": "5b536094b4534ae21de9a3eacabb8c2df18461b6721e9046fb13a2992c11d201",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5b536094b4534ae21de9a3eacabb8c2df18461b6721e9046fb13a2992c11d201",
+            "nodes": 146,
+            "object_loads": 92,
+            "bones": 0,
+            "keys": 16722,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5b536094b4534ae21de9a3eacabb8c2df18461b6721e9046fb13a2992c11d201",
+            "nodes": 146,
+            "object_loads": 92,
+            "bones": 0,
+            "keys": 16722,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/basileanim.lws",
+        "sha256": "52cd5ba1603a0496c0f5045052d290bea7723b2eda7144af0707f908e6b881a1",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "52cd5ba1603a0496c0f5045052d290bea7723b2eda7144af0707f908e6b881a1",
+            "nodes": 23,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 2457,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 75,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "52cd5ba1603a0496c0f5045052d290bea7723b2eda7144af0707f908e6b881a1",
+            "nodes": 23,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 2457,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 75,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/basileanim2.lws",
+        "sha256": "90b088c38c57071fc843c080a1729ef4077265bb833a01e0230e338c958be464",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "90b088c38c57071fc843c080a1729ef4077265bb833a01e0230e338c958be464",
+            "nodes": 27,
+            "object_loads": 16,
+            "bones": 0,
+            "keys": 2835,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "90b088c38c57071fc843c080a1729ef4077265bb833a01e0230e338c958be464",
+            "nodes": 27,
+            "object_loads": 16,
+            "bones": 0,
+            "keys": 2835,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/basileloop.lws",
+        "sha256": "28ad29190b7c2590ffa3fe9b492dc863199850485cfec74aa03b1f72ccfd836d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "28ad29190b7c2590ffa3fe9b492dc863199850485cfec74aa03b1f72ccfd836d",
+            "nodes": 25,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 2817,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "28ad29190b7c2590ffa3fe9b492dc863199850485cfec74aa03b1f72ccfd836d",
+            "nodes": 25,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 2817,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 37,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/blured_reflexions/cube.lws",
+        "sha256": "46e8ce1708b116082d458aa324851146c2fed749354242023b4542a67b3ec89f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "46e8ce1708b116082d458aa324851146c2fed749354242023b4542a67b3ec89f",
+            "nodes": 6,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "46e8ce1708b116082d458aa324851146c2fed749354242023b4542a67b3ec89f",
+            "nodes": 6,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/blured_reflexions/cube2.lws",
+        "sha256": "6c2a83084538f4b4d2fc48665bb700206c11949145435d585c9dbed9ab170527",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6c2a83084538f4b4d2fc48665bb700206c11949145435d585c9dbed9ab170527",
+            "nodes": 7,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 81,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6c2a83084538f4b4d2fc48665bb700206c11949145435d585c9dbed9ab170527",
+            "nodes": 7,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 81,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/blured_reflexions/cube_back.lws",
+        "sha256": "4e710a79b000c4d6a5e71ed043be1bfa48fd9d415cb3d474f49ef28e8bc715b9",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4e710a79b000c4d6a5e71ed043be1bfa48fd9d415cb3d474f49ef28e8bc715b9",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4e710a79b000c4d6a5e71ed043be1bfa48fd9d415cb3d474f49ef28e8bc715b9",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 27,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/blured_reflexions/cube_forth.lws",
+        "sha256": "08aca9550f2b3ff2daeab5a2cc16d68a9246d40a34e4544e069cb198fa82480e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "08aca9550f2b3ff2daeab5a2cc16d68a9246d40a34e4544e069cb198fa82480e",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "08aca9550f2b3ff2daeab5a2cc16d68a9246d40a34e4544e069cb198fa82480e",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/bus.lws",
+        "sha256": "d99d0f774c0d55142351a8eef53b428600e59b93edbf389d0e06f9477566da0e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d99d0f774c0d55142351a8eef53b428600e59b93edbf389d0e06f9477566da0e",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d99d0f774c0d55142351a8eef53b428600e59b93edbf389d0e06f9477566da0e",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/cab.lws",
+        "sha256": "cc931e783c77dde8a17c76909d89252fba18483955736af671c9b458f1a63657",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cc931e783c77dde8a17c76909d89252fba18483955736af671c9b458f1a63657",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 12,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cc931e783c77dde8a17c76909d89252fba18483955736af671c9b458f1a63657",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 12,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/comet1.lws",
+        "sha256": "4ed463d3fc3f088d630774f10fa726780cb40cf83097c53449e86db5e0f45f8c",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4ed463d3fc3f088d630774f10fa726780cb40cf83097c53449e86db5e0f45f8c",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4ed463d3fc3f088d630774f10fa726780cb40cf83097c53449e86db5e0f45f8c",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/edi.lws",
+        "sha256": "3075f944e3450a08b4c5b0816bed941b4f8d409e120897a1a3e0e2fe6e8e7cb3",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3075f944e3450a08b4c5b0816bed941b4f8d409e120897a1a3e0e2fe6e8e7cb3",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "3075f944e3450a08b4c5b0816bed941b4f8d409e120897a1a3e0e2fe6e8e7cb3",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/gus.lws",
+        "sha256": "5b961bddd22fa6a77d6d3a96e6b07ebe1342b59cfdf06648f562648b2c922e8c",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5b961bddd22fa6a77d6d3a96e6b07ebe1342b59cfdf06648f562648b2c922e8c",
+            "nodes": 22,
+            "object_loads": 18,
+            "bones": 0,
+            "keys": 1485,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 12
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5b961bddd22fa6a77d6d3a96e6b07ebe1342b59cfdf06648f562648b2c922e8c",
+            "nodes": 22,
+            "object_loads": 18,
+            "bones": 0,
+            "keys": 1485,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 12
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/gus2.lws",
+        "sha256": "9afcbf6ada45c0e6e781ec32c7ccd959f35efb16538fd36d356e6062cde52cf8",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9afcbf6ada45c0e6e781ec32c7ccd959f35efb16538fd36d356e6062cde52cf8",
+            "nodes": 20,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 1503,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 100,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9afcbf6ada45c0e6e781ec32c7ccd959f35efb16538fd36d356e6062cde52cf8",
+            "nodes": 20,
+            "object_loads": 17,
+            "bones": 0,
+            "keys": 1503,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 100,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/guz.lws",
+        "sha256": "6639010fe2ed26a37ada04bb5af281e668447a1fdebbcd1c9586251bf5e1c2fe",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6639010fe2ed26a37ada04bb5af281e668447a1fdebbcd1c9586251bf5e1c2fe",
+            "nodes": 18,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 171,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6639010fe2ed26a37ada04bb5af281e668447a1fdebbcd1c9586251bf5e1c2fe",
+            "nodes": 18,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 171,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/guzanim.lws",
+        "sha256": "f5142310d09c10d3c72585c6bf6186c4b73f2676bc1cbb7cb3dbf4ade6633d0c",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "f5142310d09c10d3c72585c6bf6186c4b73f2676bc1cbb7cb3dbf4ade6633d0c",
+            "nodes": 18,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 180,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "f5142310d09c10d3c72585c6bf6186c4b73f2676bc1cbb7cb3dbf4ade6633d0c",
+            "nodes": 18,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 180,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/guzik.lws",
+        "sha256": "7cd3ed8a5632b42c3e06283c49608feb892ed8c84b0a00c7a1c8023e44870dc9",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7cd3ed8a5632b42c3e06283c49608feb892ed8c84b0a00c7a1c8023e44870dc9",
+            "nodes": 21,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 234,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7cd3ed8a5632b42c3e06283c49608feb892ed8c84b0a00c7a1c8023e44870dc9",
+            "nodes": 21,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 234,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/guzik2.lws",
+        "sha256": "90ec8ce8b801a5cec033852c0b47a06e77bef4ee702ecde6dcb09517c7c06cb7",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "90ec8ce8b801a5cec033852c0b47a06e77bef4ee702ecde6dcb09517c7c06cb7",
+            "nodes": 21,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 981,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "90ec8ce8b801a5cec033852c0b47a06e77bef4ee702ecde6dcb09517c7c06cb7",
+            "nodes": 21,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 981,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/hnoize.lws",
+        "sha256": "fc1ba1e8af62f5156557427b0ba577fa07be383f2b0a7d5f023d9d8ad2118a9d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fc1ba1e8af62f5156557427b0ba577fa07be383f2b0a7d5f023d9d8ad2118a9d",
+            "nodes": 10,
+            "object_loads": 6,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fc1ba1e8af62f5156557427b0ba577fa07be383f2b0a7d5f023d9d8ad2118a9d",
+            "nodes": 10,
+            "object_loads": 6,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/lady.lws",
+        "sha256": "426b852d518de98f285a64a1b6e2a58979a88e3068f0deb4aa012bf34d03b67f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "426b852d518de98f285a64a1b6e2a58979a88e3068f0deb4aa012bf34d03b67f",
+            "nodes": 18,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 171,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "426b852d518de98f285a64a1b6e2a58979a88e3068f0deb4aa012bf34d03b67f",
+            "nodes": 18,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 171,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/layer_1.lws",
+        "sha256": "d85cd1cc5b4bf8fb6b2db8110faf99ef9e5b9218f814a9e427cdb1f912fb999f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d85cd1cc5b4bf8fb6b2db8110faf99ef9e5b9218f814a9e427cdb1f912fb999f",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d85cd1cc5b4bf8fb6b2db8110faf99ef9e5b9218f814a9e427cdb1f912fb999f",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/md/mdc05.lws",
+        "sha256": "d312aa7183edacab1d14be8d43447cae6c1629b89ce090fe2c7abf6eef282ee4",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d312aa7183edacab1d14be8d43447cae6c1629b89ce090fe2c7abf6eef282ee4",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 90,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d312aa7183edacab1d14be8d43447cae6c1629b89ce090fe2c7abf6eef282ee4",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 90,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/omni.lws",
+        "sha256": "866a69ee0017bf00dab7e4b1ca4ee5a81fc76397e8ceb9503e017e15b247291b",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "866a69ee0017bf00dab7e4b1ca4ee5a81fc76397e8ceb9503e017e15b247291b",
+            "nodes": 2,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 18,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "866a69ee0017bf00dab7e4b1ca4ee5a81fc76397e8ceb9503e017e15b247291b",
+            "nodes": 2,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 18,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/otta/render.lws",
+        "sha256": "76a2d4c1580cb57196738f7a6b03e10541f96272151d2452a227096cf8c8fae3",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "76a2d4c1580cb57196738f7a6b03e10541f96272151d2452a227096cf8c8fae3",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 2,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "76a2d4c1580cb57196738f7a6b03e10541f96272151d2452a227096cf8c8fae3",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 2,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/otta/render2.lws",
+        "sha256": "8f9bc395cd49c5d381d636a842008771ddd7e2f8851042a2227c74d8c452a2b2",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8f9bc395cd49c5d381d636a842008771ddd7e2f8851042a2227c74d8c452a2b2",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 2,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "8f9bc395cd49c5d381d636a842008771ddd7e2f8851042a2227c74d8c452a2b2",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 2,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/otta/renderfm.lws",
+        "sha256": "265e18806eaed3d934339bdf7f50987e1f9e717aed9cd0580cbb772bde605d01",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "265e18806eaed3d934339bdf7f50987e1f9e717aed9cd0580cbb772bde605d01",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 2,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "265e18806eaed3d934339bdf7f50987e1f9e717aed9cd0580cbb772bde605d01",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 2,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/planet.lws",
+        "sha256": "5efc12f23a8fc046107fd0f5ae36c88652c6d6d8913e2cbcac8a1001bbb536a8",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5efc12f23a8fc046107fd0f5ae36c88652c6d6d8913e2cbcac8a1001bbb536a8",
+            "nodes": 7,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5efc12f23a8fc046107fd0f5ae36c88652c6d6d8913e2cbcac8a1001bbb536a8",
+            "nodes": 7,
+            "object_loads": 5,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/planet_guyz.lws",
+        "sha256": "5013d086bf6a9ebcf41a5f5cb9e267db3534755a7233df8c670b95b9aab28899",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5013d086bf6a9ebcf41a5f5cb9e267db3534755a7233df8c670b95b9aab28899",
+            "nodes": 27,
+            "object_loads": 20,
+            "bones": 0,
+            "keys": 288,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5013d086bf6a9ebcf41a5f5cb9e267db3534755a7233df8c670b95b9aab28899",
+            "nodes": 27,
+            "object_loads": 20,
+            "bones": 0,
+            "keys": 288,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/planet_guyz2.lws",
+        "sha256": "bd075eed0a0c6911b8a080d7c05fb37903531a53b471641b2f7ab3799cae5236",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bd075eed0a0c6911b8a080d7c05fb37903531a53b471641b2f7ab3799cae5236",
+            "nodes": 26,
+            "object_loads": 19,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bd075eed0a0c6911b8a080d7c05fb37903531a53b471641b2f7ab3799cae5236",
+            "nodes": 26,
+            "object_loads": 19,
+            "bones": 0,
+            "keys": 279,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/play_room.lws",
+        "sha256": "a27907c0c4853ddab83eb80ad1cde83fdbde4e18a963d43badf151a22b7309e7",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a27907c0c4853ddab83eb80ad1cde83fdbde4e18a963d43badf151a22b7309e7",
+            "nodes": 27,
+            "object_loads": 23,
+            "bones": 0,
+            "keys": 252,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a27907c0c4853ddab83eb80ad1cde83fdbde4e18a963d43badf151a22b7309e7",
+            "nodes": 27,
+            "object_loads": 23,
+            "bones": 0,
+            "keys": 252,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/play_room_2.lws",
+        "sha256": "68a610181d5af368a3eca40e6dbace37f7ddf4cf6c92a9d343c43d828683c6fe",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "68a610181d5af368a3eca40e6dbace37f7ddf4cf6c92a9d343c43d828683c6fe",
+            "nodes": 27,
+            "object_loads": 23,
+            "bones": 0,
+            "keys": 396,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "68a610181d5af368a3eca40e6dbace37f7ddf4cf6c92a9d343c43d828683c6fe",
+            "nodes": 27,
+            "object_loads": 23,
+            "bones": 0,
+            "keys": 396,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/play_room_3.lws",
+        "sha256": "71a18a15dab2b642d2d963f145f5d15a7f8c28f74eb47ba15ec49b9b3e8c49bd",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "71a18a15dab2b642d2d963f145f5d15a7f8c28f74eb47ba15ec49b9b3e8c49bd",
+            "nodes": 30,
+            "object_loads": 26,
+            "bones": 0,
+            "keys": 450,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "71a18a15dab2b642d2d963f145f5d15a7f8c28f74eb47ba15ec49b9b3e8c49bd",
+            "nodes": 30,
+            "object_loads": 26,
+            "bones": 0,
+            "keys": 450,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/pueblo.lws",
+        "sha256": "9609c9641c9538f174aad6db291598ea92eb9520b813980a7ace7bf345125a2a",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9609c9641c9538f174aad6db291598ea92eb9520b813980a7ace7bf345125a2a",
+            "nodes": 7,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9609c9641c9538f174aad6db291598ea92eb9520b813980a7ace7bf345125a2a",
+            "nodes": 7,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/pueblo2.lws",
+        "sha256": "371f63db6affea89e6b20a98b592a33b8fe7f3b9a85dcef7671eee91c062d7fa",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "371f63db6affea89e6b20a98b592a33b8fe7f3b9a85dcef7671eee91c062d7fa",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "371f63db6affea89e6b20a98b592a33b8fe7f3b9a85dcef7671eee91c062d7fa",
+            "nodes": 6,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/puebloAreal.lws",
+        "sha256": "0373129ced30dc5cab4213c6218c33d19f98a527aa835dd836ecd059019523e6",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0373129ced30dc5cab4213c6218c33d19f98a527aa835dd836ecd059019523e6",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0373129ced30dc5cab4213c6218c33d19f98a527aa835dd836ecd059019523e6",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/puebloPointl.lws",
+        "sha256": "6600dedb522baccaf76f6538fc3dc9e378094d3a5e3d4cf4fb1928175a1af5ca",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6600dedb522baccaf76f6538fc3dc9e378094d3a5e3d4cf4fb1928175a1af5ca",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6600dedb522baccaf76f6538fc3dc9e378094d3a5e3d4cf4fb1928175a1af5ca",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/puebloSwarm.lws",
+        "sha256": "a80a90531aeea29691e8d4574ca45d552f3f2134639d4a0073ca42f5d338271a",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a80a90531aeea29691e8d4574ca45d552f3f2134639d4a0073ca42f5d338271a",
+            "nodes": 57,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 540,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a80a90531aeea29691e8d4574ca45d552f3f2134639d4a0073ca42f5d338271a",
+            "nodes": 57,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 540,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/puebloSwarmriltime.lws",
+        "sha256": "968aa60c0d481bc786e24fa2351a8685844741f77db48e9f5efdb0f470cfdd72",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "968aa60c0d481bc786e24fa2351a8685844741f77db48e9f5efdb0f470cfdd72",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "968aa60c0d481bc786e24fa2351a8685844741f77db48e9f5efdb0f470cfdd72",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/ride2.lws",
+        "sha256": "9c9431ac0748db296a21e529b2c23e6079e5cb761eef6d0fb7e121ac929ab925",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9c9431ac0748db296a21e529b2c23e6079e5cb761eef6d0fb7e121ac929ab925",
+            "nodes": 15,
+            "object_loads": 11,
+            "bones": 0,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9c9431ac0748db296a21e529b2c23e6079e5cb761eef6d0fb7e121ac929ab925",
+            "nodes": 15,
+            "object_loads": 11,
+            "bones": 0,
+            "keys": 189,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/ride3.lws",
+        "sha256": "6743655992234e8fb78aad0d64a2042b90829978b7e414a9045d8aaa5aa18936",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6743655992234e8fb78aad0d64a2042b90829978b7e414a9045d8aaa5aa18936",
+            "nodes": 17,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 234,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6743655992234e8fb78aad0d64a2042b90829978b7e414a9045d8aaa5aa18936",
+            "nodes": 17,
+            "object_loads": 12,
+            "bones": 0,
+            "keys": 234,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/ride4.lws",
+        "sha256": "cce7b92b7e3ff91fecf56bb8844b589f224c7b7d9e0236f7fbbbd676d6edab3e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cce7b92b7e3ff91fecf56bb8844b589f224c7b7d9e0236f7fbbbd676d6edab3e",
+            "nodes": 19,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 315,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 65,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cce7b92b7e3ff91fecf56bb8844b589f224c7b7d9e0236f7fbbbd676d6edab3e",
+            "nodes": 19,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 315,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 65,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/run_gus.lws",
+        "sha256": "9f21ff45de88b90b158cb37b909c2416a84d7e42c1755e6f1c04e8de4f2b7087",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9f21ff45de88b90b158cb37b909c2416a84d7e42c1755e6f1c04e8de4f2b7087",
+            "nodes": 22,
+            "object_loads": 18,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9f21ff45de88b90b158cb37b909c2416a84d7e42c1755e6f1c04e8de4f2b7087",
+            "nodes": 22,
+            "object_loads": 18,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/send/bus.lws",
+        "sha256": "d99d0f774c0d55142351a8eef53b428600e59b93edbf389d0e06f9477566da0e",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d99d0f774c0d55142351a8eef53b428600e59b93edbf389d0e06f9477566da0e",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d99d0f774c0d55142351a8eef53b428600e59b93edbf389d0e06f9477566da0e",
+            "nodes": 4,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/spark2.lws",
+        "sha256": "bf1abb4e9e73f4a94a6de7d4caba7198debbf78468d7b23bc6937769a8af29e4",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bf1abb4e9e73f4a94a6de7d4caba7198debbf78468d7b23bc6937769a8af29e4",
+            "nodes": 7,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "bf1abb4e9e73f4a94a6de7d4caba7198debbf78468d7b23bc6937769a8af29e4",
+            "nodes": 7,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 99,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/sparks.lws",
+        "sha256": "e13e907cb49ccc088a5e994d6a25d8b4a2d9849a67e277a5cdadde9e85aab7fb",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e13e907cb49ccc088a5e994d6a25d8b4a2d9849a67e277a5cdadde9e85aab7fb",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e13e907cb49ccc088a5e994d6a25d8b4a2d9849a67e277a5cdadde9e85aab7fb",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/swarm.lws",
+        "sha256": "7b05ef68c9ebb85892d7f62ada65a5e36b7f4f815a4ad5b5b2cb0801899fbfe1",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7b05ef68c9ebb85892d7f62ada65a5e36b7f4f815a4ad5b5b2cb0801899fbfe1",
+            "nodes": 291,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 2619,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 0,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7b05ef68c9ebb85892d7f62ada65a5e36b7f4f815a4ad5b5b2cb0801899fbfe1",
+            "nodes": 291,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 2619,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 0,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/swarm2.lws",
+        "sha256": "0277268f3fc2246106c9f6f97ff4302eb5c371bca174bd50c604ed5a92e51315",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0277268f3fc2246106c9f6f97ff4302eb5c371bca174bd50c604ed5a92e51315",
+            "nodes": 51,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 459,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 0,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0277268f3fc2246106c9f6f97ff4302eb5c371bca174bd50c604ed5a92e51315",
+            "nodes": 51,
+            "object_loads": 0,
+            "bones": 0,
+            "keys": 459,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 0,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/test/test.lws",
+        "sha256": "770072f3b8ca45203d1b2d54885f0877cc2f8e889a9b98ab846cb7101ac9940b",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "770072f3b8ca45203d1b2d54885f0877cc2f8e889a9b98ab846cb7101ac9940b",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "770072f3b8ca45203d1b2d54885f0877cc2f8e889a9b98ab846cb7101ac9940b",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/testshadow.lws",
+        "sha256": "be33f0cad6aae2640c78481e0bc3780e3492aaed528d99a5330f63bd4b4a40c7",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "be33f0cad6aae2640c78481e0bc3780e3492aaed528d99a5330f63bd4b4a40c7",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "be33f0cad6aae2640c78481e0bc3780e3492aaed528d99a5330f63bd4b4a40c7",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 45,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/thomson/sky.lws",
+        "sha256": "e932a0accf389e0864829ab82101f9cb7821127ea7923b721c9ef24cb3b8a8f9",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e932a0accf389e0864829ab82101f9cb7821127ea7923b721c9ef24cb3b8a8f9",
+            "nodes": 5,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "e932a0accf389e0864829ab82101f9cb7821127ea7923b721c9ef24cb3b8a8f9",
+            "nodes": 5,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/thomson/sky2.lws",
+        "sha256": "7fa350c1edd832f28fdf1698fb01c634782e910e61578017c79b6968fa3488bc",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7fa350c1edd832f28fdf1698fb01c634782e910e61578017c79b6968fa3488bc",
+            "nodes": 12,
+            "object_loads": 10,
+            "bones": 0,
+            "keys": 135,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7fa350c1edd832f28fdf1698fb01c634782e910e61578017c79b6968fa3488bc",
+            "nodes": 12,
+            "object_loads": 10,
+            "bones": 0,
+            "keys": 135,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/ufo.lws",
+        "sha256": "5f716e09df95d5f9305a348cb608a207f26ea6d52dffff14f900fa5f3f48471c",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5f716e09df95d5f9305a348cb608a207f26ea6d52dffff14f900fa5f3f48471c",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 225,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5f716e09df95d5f9305a348cb608a207f26ea6d52dffff14f900fa5f3f48471c",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 225,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "nxng-experiments/vnoize.lws",
+        "sha256": "605f0ca02a3c1166398e2a6b802660479aaed30b21c0335bd1687ed431deafa9",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "605f0ca02a3c1166398e2a6b802660479aaed30b21c0335bd1687ed431deafa9",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "605f0ca02a3c1166398e2a6b802660479aaed30b21c0335bd1687ed431deafa9",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "orange-juice-signage/oj.lws",
+        "sha256": "2bdee48660f71eedf8941e4e4477a5077017380fff6a66466ec276414b53458d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2bdee48660f71eedf8941e4e4477a5077017380fff6a66466ec276414b53458d",
+            "nodes": 8,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "2bdee48660f71eedf8941e4e4477a5077017380fff6a66466ec276414b53458d",
+            "nodes": 8,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "self-portrait-b-and-w/body bones ik.lws",
+        "sha256": "fcf4aacd13f1b1d78fef2871636b7b2294ae6474a4d330103d3fe1b8d395f5e0",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fcf4aacd13f1b1d78fef2871636b7b2294ae6474a4d330103d3fe1b8d395f5e0",
+            "nodes": 33,
+            "object_loads": 3,
+            "bones": 19,
+            "keys": 342,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 5,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "fcf4aacd13f1b1d78fef2871636b7b2294ae6474a4d330103d3fe1b8d395f5e0",
+            "nodes": 33,
+            "object_loads": 3,
+            "bones": 19,
+            "keys": 342,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 5,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "self-portrait-b-and-w/body bones ok.lws",
+        "sha256": "a7ebdf094bb30bd07e87db5644cee2cd57bdda40a0b843196770f8908e8ee81d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a7ebdf094bb30bd07e87db5644cee2cd57bdda40a0b843196770f8908e8ee81d",
+            "nodes": 33,
+            "object_loads": 3,
+            "bones": 19,
+            "keys": 297,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 5,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "a7ebdf094bb30bd07e87db5644cee2cd57bdda40a0b843196770f8908e8ee81d",
+            "nodes": 33,
+            "object_loads": 3,
+            "bones": 19,
+            "keys": 297,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 5,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "self-portrait-b-and-w/body total.lws",
+        "sha256": "cb4e46c64df3c9ee387a191742894b48b6792c797f9bd5b7d3f23c1f12c78031",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cb4e46c64df3c9ee387a191742894b48b6792c797f9bd5b7d3f23c1f12c78031",
+            "nodes": 22,
+            "object_loads": 3,
+            "bones": 17,
+            "keys": 1017,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 5,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "cb4e46c64df3c9ee387a191742894b48b6792c797f9bd5b7d3f23c1f12c78031",
+            "nodes": 22,
+            "object_loads": 3,
+            "bones": 17,
+            "keys": 1017,
+            "plugins": 0,
+            "first_frame": 0,
+            "last_frame": 5,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "self-portrait-b-and-w/test tete.lws",
+        "sha256": "699e8479b770ad93f91dd6c26b4f533edaea07d795d312227f4654e66701b45f",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "699e8479b770ad93f91dd6c26b4f533edaea07d795d312227f4654e66701b45f",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "699e8479b770ad93f91dd6c26b4f533edaea07d795d312227f4654e66701b45f",
+            "nodes": 4,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 63,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      },
+      {
+        "source": "snow-tanks/NEW/scene_blob.lws",
+        "sha256": "7147f627c6227e7d232d64c2c35946b283d5e9cd40b8e2f9bf647f074ae84cee",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7147f627c6227e7d232d64c2c35946b283d5e9cd40b8e2f9bf647f074ae84cee",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "7147f627c6227e7d232d64c2c35946b283d5e9cd40b8e2f9bf647f074ae84cee",
+            "nodes": 3,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 36,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "snow-tanks/NEW/scene_hnoize.lws",
+        "sha256": "6893775e5579b59921f623b19b362c66b7c1be59a4b01085bc0fa28457e65808",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6893775e5579b59921f623b19b362c66b7c1be59a4b01085bc0fa28457e65808",
+            "nodes": 10,
+            "object_loads": 6,
+            "bones": 0,
+            "keys": 387,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "6893775e5579b59921f623b19b362c66b7c1be59a4b01085bc0fa28457e65808",
+            "nodes": 10,
+            "object_loads": 6,
+            "bones": 0,
+            "keys": 387,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "snow-tanks/NEW/scene_volume_spot_combo.lws",
+        "sha256": "de2c661470a8f71b02bc2533dd10fea3d31f4ae356d6b8637ec9b17691963826",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "de2c661470a8f71b02bc2533dd10fea3d31f4ae356d6b8637ec9b17691963826",
+            "nodes": 44,
+            "object_loads": 36,
+            "bones": 0,
+            "keys": 495,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "de2c661470a8f71b02bc2533dd10fea3d31f4ae356d6b8637ec9b17691963826",
+            "nodes": 44,
+            "object_loads": 36,
+            "bones": 0,
+            "keys": 495,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "space-suit-000/METAMATE.LWS",
+        "sha256": "0c34f02c31c5b75c54dc57549fccb64d4582fbd0b14eca9e2b10d2419d45ccdc",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0c34f02c31c5b75c54dc57549fccb64d4582fbd0b14eca9e2b10d2419d45ccdc",
+            "nodes": 16,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 162,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "0c34f02c31c5b75c54dc57549fccb64d4582fbd0b14eca9e2b10d2419d45ccdc",
+            "nodes": 16,
+            "object_loads": 14,
+            "bones": 0,
+            "keys": 162,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "space-suit-000/TESTMETA/TM.LWS",
+        "sha256": "563e9a44feace784b082bb0d18b0cdc49d5e4d1b7b35366a95aab58288145c96",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "563e9a44feace784b082bb0d18b0cdc49d5e4d1b7b35366a95aab58288145c96",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "563e9a44feace784b082bb0d18b0cdc49d5e4d1b7b35366a95aab58288145c96",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "space-suit-000/TESTMETA/TM2.LWS",
+        "sha256": "5a2d113ea22864443ee1a4a247d71f0d384cf19913185ee21c8d14f50353ef34",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5a2d113ea22864443ee1a4a247d71f0d384cf19913185ee21c8d14f50353ef34",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 4,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "5a2d113ea22864443ee1a4a247d71f0d384cf19913185ee21c8d14f50353ef34",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 4,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "space-suit-000/TESTMETA/TM3.LWS",
+        "sha256": "c41fe501bd87f18674abd19b837edf83e6e23b9f4be70c875954504c9f99daab",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c41fe501bd87f18674abd19b837edf83e6e23b9f4be70c875954504c9f99daab",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 4,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "c41fe501bd87f18674abd19b837edf83e6e23b9f4be70c875954504c9f99daab",
+            "nodes": 6,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 4,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "space-suit-000/TESTN&B.LWS",
+        "sha256": "d799deb0b1decd2e63f2265daac138e24d16607a709c46ba3bd867cebf90206d",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d799deb0b1decd2e63f2265daac138e24d16607a709c46ba3bd867cebf90206d",
+            "nodes": 5,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "d799deb0b1decd2e63f2265daac138e24d16607a709c46ba3bd867cebf90206d",
+            "nodes": 5,
+            "object_loads": 1,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "space-suit-000/metamate2.lws",
+        "sha256": "9b799ebcbfc5c8295e259e2a0f6ec18d1068c7d78ce185c68f1acc05748c3e3a",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9b799ebcbfc5c8295e259e2a0f6ec18d1068c7d78ce185c68f1acc05748c3e3a",
+            "nodes": 17,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "9b799ebcbfc5c8295e259e2a0f6ec18d1068c7d78ce185c68f1acc05748c3e3a",
+            "nodes": 17,
+            "object_loads": 15,
+            "bones": 0,
+            "keys": 198,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "the-tempest/lw5/scene.lws",
+        "sha256": "4304d174efe088a527794659faf7dd864df1bad5b4aaab2e29b56081547f2037",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4304d174efe088a527794659faf7dd864df1bad5b4aaab2e29b56081547f2037",
+            "nodes": 13,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 117,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4304d174efe088a527794659faf7dd864df1bad5b4aaab2e29b56081547f2037",
+            "nodes": 13,
+            "object_loads": 4,
+            "bones": 0,
+            "keys": 117,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 50,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "toxic-waste-container/TUBE.LWS",
+        "sha256": "007cdcb81502ffe9ee40d6f54bcc65cebb42a5e85fa8a579bd68aad5a37fe0b7",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "007cdcb81502ffe9ee40d6f54bcc65cebb42a5e85fa8a579bd68aad5a37fe0b7",
+            "nodes": 7,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 36,
+            "fps": 25
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "007cdcb81502ffe9ee40d6f54bcc65cebb42a5e85fa8a579bd68aad5a37fe0b7",
+            "nodes": 7,
+            "object_loads": 3,
+            "bones": 0,
+            "keys": 72,
+            "plugins": 1,
+            "first_frame": 1,
+            "last_frame": 36,
+            "fps": 25
+          }
+        }
+      },
+      {
+        "source": "unidentified_000/ca.lws",
+        "sha256": "4db98475bdb688f3ed3af01d3c55782db09d05043ae8234122d893fdfa7920c4",
+        "before": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4db98475bdb688f3ed3af01d3c55782db09d05043ae8234122d893fdfa7920c4",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        },
+        "after": {
+          "exit_code": 0,
+          "error": "",
+          "summary": {
+            "kind": "scene",
+            "version": 1,
+            "sha256": "4db98475bdb688f3ed3af01d3c55782db09d05043ae8234122d893fdfa7920c4",
+            "nodes": 5,
+            "object_loads": 2,
+            "bones": 0,
+            "keys": 54,
+            "plugins": 0,
+            "first_frame": 1,
+            "last_frame": 60,
+            "fps": 30
+          }
+        }
+      }
+    ]
+  },
+  "modern_scene_scan": {
+    "scenes": 222,
+    "before_success": 222,
+    "after_success": 222,
+    "changed": []
+  },
+  "before": [
+    {
+      "name": "NastyStation",
+      "signature": "4c5753430a310a0a46697273",
+      "sha256": "a50ed303c25665e1c246706294f24678bc9859943e2379168e5a5696da70132b",
+      "exit_code": 1,
+      "stderr": "lwconvert: motion at byte 3698: duplicate motion block\r\n"
+    },
+    {
+      "name": "PassMountains",
+      "signature": "4c5753430a310a0a46697273",
+      "sha256": "89ca59d4a31c46f8e1aae95efe060ea6ce77634485d3725349259228cdabb22b",
+      "exit_code": 1,
+      "stderr": "lwconvert: motion at byte 2013: duplicate motion block\r\n"
+    },
+    {
+      "name": "Station1",
+      "signature": "464f524d0001f3be4c574f42",
+      "sha256": "b65eb7737875d8789dc314c90418acc19aa4ba72b9211a3a9a084b6b1ec61383",
+      "exit_code": 2,
+      "stderr": ""
+    },
+    {
+      "name": "StationChase",
+      "signature": "4c5753430a310a0a46697273",
+      "sha256": "51c6c59adb2dc6487c8c4aa8091f29799dc526da1b6e9e25782aadae5189459c",
+      "exit_code": 1,
+      "stderr": "lwconvert: motion at byte 6663: duplicate motion block\r\n"
+    },
+    {
+      "name": "ThingKills",
+      "signature": "4c5753430a310a0a46697273",
+      "sha256": "392db010ea72be65878c66d175a4798f6ee3a57e5054a87d64a72d6b009b70d4",
+      "exit_code": 1,
+      "stderr": "lwconvert: motion at byte 6446: duplicate motion block\r\n"
+    }
+  ],
+  "regression_tests": {
+    "release": {
+      "tests": 122,
+      "suites": 8,
+      "result": "passed"
+    },
+    "msvc_address_sanitizer": {
+      "tests": 122,
+      "suites": 8,
+      "result": "passed"
+    }
+  },
+  "archive": {
+    "name": "atmobjs.lha",
+    "author": "Alan Mackey",
+    "target": "LightWave 3.0",
+    "archive_sha256": "611b98478dda85e343f889917457a4e9efc1ff03701dd0c13a35f6116746a0d8",
+    "bundled_readme_sha256": "1081ff1434172a2abe2e95121256a83a9cee0c8d251dce0ec9cb47301f146c5a"
+  }
+}
