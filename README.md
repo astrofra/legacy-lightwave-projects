@@ -106,7 +106,9 @@ This now produces the assembled, animated `robot.lws.gltf` and
 
 The [IK feasibility study and roadmap](documentation/lightwave-ik-oracle-feasibility.md)
 describe how to use LightWave as a research oracle toward an independent C solver,
-with measured baselines and acceptance criteria. That solver is not implemented yet.
+with measured baselines and acceptance criteria. Since v0.11.0, a first bounded
+C implementation exports approximate skeletal IK and sampled FK automatically.
+See the [autonomous baking profile and Smilla QA](documentation/autonomous-ik.md).
 The [Redline corpus inventory](documentation/redline-animation-corpus.md) adds
 FK, IK and morph cases, with a separate roadmap for named morph targets and weights.
 
@@ -324,10 +326,14 @@ not count as failures. Interrupted runs return **130** and record pending files.
 .\convert_content.bat --file smila-by-moebius/Smilla_IK.lws --runtime lightwave6 --lightwave-root E:/__very_old_stuff_/archive-stuff_cd/LW6/Programs/LightWave_Support --capture-plugin build-lw6/Release/lw_capture.p --skip-plugin JointMorph --skip-plugin LW_MorphMixer --animation-mode skin --animation-start 0 --animation-end 40
 ```
 
-Without `--lightwave-root`, the batch runs the standalone C converter: it does
-not evaluate skeletal IK animation. Since v0.10.2, the default `--skin-profile auto`
+Without `--lightwave-root`, the batch runs the standalone C converter with
+`--bake-ik auto`: supported skeletal FK/IK is sampled without an installed host.
+`--bake-ik off` restores the rest-rig workflow. A single skinned object is published
+directly as `Smilla_IK.lws.gltf`, with animation, instead of a duplicate rest rig.
+IK remains an approximation; see [scope and QA](documentation/autonomous-ik.md).
+Since v0.10.2, the default `--skin-profile auto`
 chooses the oldest implemented profile for each file: LW6 for LWSC 1/3, LW9.6
-for LWSC 5. Thus Smilla's rest skin is exported without a version option.
+for LWSC 5. Thus Smilla's skin is exported without a version option.
 Native `--runtime auto` follows that choice; an explicit `--runtime` selects the
 matching C profile. No presets are saved or loaded: effective choices are only
 recorded in output manifests and the batch report. `--skip-plugin`

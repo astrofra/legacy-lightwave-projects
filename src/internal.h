@@ -46,15 +46,22 @@ int lw_walk(const char *, LWPaths *, LWError *);
 void lw_free_paths(LWPaths *);
 typedef struct { char *prefix, *destination; } LWRule;
 typedef struct {
+    size_t nodes,samples,goals,recovered_fields,iterations;
+    double first,last,max_goal_error;
+    float *poses; /* sample-major: local TRS[10], world TRS[10], per source node */
+    char issue[256];
+} LWIKBake;
+typedef struct {
     char *input, *output, *root, *uv_map;
     double frame;
-    int frame_set, gltf_all_rigs, legacy_bone_maps, skin_profile_set;
+    int frame_set, gltf_all_rigs, legacy_bone_maps, skin_profile_set, no_bake_ik;
     LW_ARRAY(LWRule) rules;
 } LWOptions;
 typedef struct {
     LW_ARRAY(LWObject) objects;
     LWScene scene;
     int is_scene, legacy_bone_maps;
+    LWIKBake bake;
     LWPaths files;
     LWPaths names;
     char *scene_name;
@@ -122,6 +129,9 @@ int lw_scene_matrices(const LWScene *, double, double *, size_t *, LWError *);
 int lw_scene_node_matrix(const LWScene *,size_t,double,double [16],LWError *);
 int lw_scene_node_trs(const LWScene *,size_t,double,double [10],LWError *);
 int lw_bone_rest_matrix(const LWNode *,double [16],LWError *);
+int lw_bake_ik(const LWScene *,LWIKBake *,LWError *);
+int lw_matrix_trs(const double [16],double [10],LWError *);
+int lw_write_ik_bake(const char *,const LWScene *,const LWIKBake *,LWError *);
 
 typedef struct { size_t source,parent; double local[16],world[16],inverse_bind[16]; } LWRigJoint;
 typedef struct { uint16_t joint; float weight; } LWRigInfluence;
@@ -138,7 +148,7 @@ typedef struct {
 typedef struct {
     size_t owner,bones,sets,unweighted_points,missing_maps,procedural_bones,volume_corrections;
     char *name;
-    int weighted,written,available;
+    int weighted,written,available,animated;
     char issue[256];
 } LWRigExport;
 typedef struct LWRigExports { LWRigExport *v; size_t n,cap; } LWRigExports;

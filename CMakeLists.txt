@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.10.2 LANGUAGES C)
+project(lightwave_preservation VERSION 0.11.0 LANGUAGES C)
 
 option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 set(LWCONVERT_LIGHTWAVE_SDK "" CACHE PATH "Optional installed LightWave SDK for the native animation capture plugin")
@@ -9,7 +9,7 @@ if(MSVC AND NOT LWCONVERT_SANITIZE)
 endif()
 
 add_library(lwconvert_core STATIC
-    src/core.c src/platform.c src/lwo.c src/lws.c src/serialize.c src/package.c src/content.c src/images.c src/raster.c src/textures.c src/obj.c src/triangulate.c src/geometry.c src/normals.c src/skin.c src/gltf.c third_party/libilbm/byterun.c)
+    src/core.c src/platform.c src/lwo.c src/lws.c src/ik.c src/serialize.c src/package.c src/content.c src/images.c src/raster.c src/textures.c src/obj.c src/triangulate.c src/geometry.c src/normals.c src/skin.c src/gltf.c third_party/libilbm/byterun.c)
 add_library(lwconvert_raster STATIC src/stb.c)
 target_include_directories(lwconvert_raster PRIVATE third_party/stb)
 target_include_directories(lwconvert_core PRIVATE third_party/stb third_party/libilbm)
@@ -92,6 +92,8 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_animation.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME normals_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_normals.py" "$<TARGET_FILE:lwconvert>")
+    add_test(NAME autonomous_ik_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_ik.py" "$<TARGET_FILE:lwconvert>")
 endif()
 install(TARGETS lwconvert RUNTIME DESTINATION bin)
 install(FILES third_party/README.md DESTINATION bin/licenses)

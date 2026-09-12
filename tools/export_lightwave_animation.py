@@ -303,7 +303,7 @@ def main():
     parser.add_argument("--map",action="append",default=[])
     args = parser.parse_args()
     command = [str(args.converter.resolve()),"convert",str(args.input.resolve()),"--output",str(args.output.resolve()),"--content-root",str((args.content_root or args.input.parent).resolve())]
-    command += ["--gltf-rigs", "all", "--skin-profile",args.runtime]
+    command += ["--gltf-rigs", "all", "--skin-profile",args.runtime,"--bake-ik","off"]
     if args.uv_map: command += ["--uv-map",args.uv_map]
     for rule in args.map: command += ["--map",rule]
     result = subprocess.run(command,timeout=args.timeout)

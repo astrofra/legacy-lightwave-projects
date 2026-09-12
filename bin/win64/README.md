@@ -59,3 +59,8 @@ LW6 for LWSC 1/3, LW9.6 for LWSC 5. `--skin-profile` can override that policy.
 The batch and native export script use the same choice by default. No project
 presets are saved or loaded; output manifests record the effective profile.
 Native IK still requires a matching installed host and capture helper.
+
+Version 0.11.0 adds `--bake-ik auto` (default): a C-only skeletal FK/IK bake,
+with standard animated glTF skins. No LightWave runtime, capture plugin or SDK
+is needed by this path. `--bake-ik off` restores rest rigs. IK is approximate;
+see [scope and Smilla QA](../../documentation/autonomous-ik.md).

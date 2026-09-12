@@ -1,5 +1,9 @@
 # Smilla: LightWave 6 reference and skeletal glTF — v0.10.0
 
+Since v0.11.0 the default batch also provides [autonomous C baking](autonomous-ik.md)
+and publishes the animated skin as `Smilla_IK.lws.gltf`. The native captures and
+commands below remain the reference for measuring differences from LightWave.
+
 ## Automatic profile selection — v0.10.2
 
 The current source lives at `content/smila-by-moebius/Smilla_IK.lws`.

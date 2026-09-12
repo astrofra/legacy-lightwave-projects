@@ -275,7 +275,14 @@ to `--content` and keeps its project root; it can be repeated or combined with
 `--project`. Referenced objects remain discoverable even when not selected as
 standalone conversions.
 
-Native skeletal animation is opt-in through `--lightwave-root`. Batch options
+Since v0.11.0, `--bake-ik auto` is the default in C and in the batch: a bounded
+autonomous solver samples skeletal FK/IK and exports standard glTF skin animation.
+`--bake-ik off` retains rest rigs. Source keys remain unchanged; calculated poses
+are separate `baked-animation.json` / `.bin` files in the scene IR directory.
+See [the autonomous profile, limits and QA](autonomous-ik.md).
+
+Native skeletal animation is opt-in through `--lightwave-root` and takes precedence
+over autonomous baking. Batch options
 `--runtime`, `--skip-plugin`, `--animation-mode` and `--capture-plugin` now reach
 the same evaluator used by the dedicated native exporter. Since v0.10.2,
 `--skin-profile auto` selects the oldest implemented profile for each file:

@@ -267,10 +267,15 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fputs(",\"scene_gltf_bin\":",f);
     if(gltf->geometry.scene_written) { if(!json_output_path(f,"gltf",p->scene_name,".bin",e)) goto failed; } else fputs("null",f);
     fputs(",\"scene_gltf_issue\":",f); lw_json_string(f,gltf->geometry.scene_issue);
+    fputs(",\"autonomous_animation\":{\"profile\":\"autonomous-hpb-ik-0.1\",\"status\":",f);
+    lw_json_string(f,p->bake.poses?"baked-approximation":opts->no_bake_ik?"disabled":p->bake.issue[0]?"unsupported":"not-needed");
+    fprintf(f,",\"samples\":%zu,\"goals\":%zu,\"maximum_goal_position_error\":%.17g,\"uri\":",p->bake.samples,p->bake.goals,p->bake.max_goal_error);
+    if(p->bake.poses) { if(!json_output_path(f,"IR",p->scene_name,"/baked-animation.json",e)) goto failed; } else fputs("null",f);
+    fputs(",\"issue\":",f); lw_json_string(f,p->bake.issue); fputc('}',f);
     fprintf(f,",\"gltf_rig_policy\":\"%s\",\"gltf_rigs\":[",opts->gltf_all_rigs?"all":"skins");
     if(gltf->rigs) for(i=0;i<gltf->rigs->n;i++) {
         const LWRigExport *rig=&gltf->rigs->v[i]; if(i) fputc(',',f);
-        fprintf(f,"{\"owner_node\":%zu,\"owner_item\":%u,\"bones\":%zu,\"status\":\"%s\",\"export_status\":\"%s\",\"pose\":\"rest; object-local; scene motion and IK not evaluated\",\"influence_sets\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"missing_weight_maps\":%zu,\"procedural_bones_not_evaluated\":%zu,\"procedural_bones_converted\":%zu,\"volume_corrections_omitted\":%zu,\"gltf\":",rig->owner,p->scene.nodes.v[rig->owner].id,rig->bones,rig->available?(rig->weighted?(rig->procedural_bones?"procedural-weight-skin-approximation":"explicit-weight-map-skin"):"skeleton-only"):"blocked",rig->written?"written":rig->available?"omitted-by-policy":"blocked",rig->sets,rig->unweighted_points,rig->missing_maps,rig->weighted?0:rig->procedural_bones,rig->weighted?rig->procedural_bones:0,rig->weighted?rig->volume_corrections:0);
+        fprintf(f,"{\"owner_node\":%zu,\"owner_item\":%u,\"bones\":%zu,\"status\":\"%s\",\"export_status\":\"%s\",\"pose\":\"%s\",\"influence_sets\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"missing_weight_maps\":%zu,\"procedural_bones_not_evaluated\":%zu,\"procedural_bones_converted\":%zu,\"volume_corrections_omitted\":%zu,\"gltf\":",rig->owner,p->scene.nodes.v[rig->owner].id,rig->bones,rig->available?(rig->weighted?(rig->procedural_bones?"procedural-weight-skin-approximation":"explicit-weight-map-skin"):"skeleton-only"):"blocked",rig->written?"written":rig->available?"omitted-by-policy":"blocked",rig->animated?"autonomous animated approximation":"rest; object-local; scene motion and IK not evaluated",rig->sets,rig->unweighted_points,rig->missing_maps,rig->weighted?0:rig->procedural_bones,rig->weighted?rig->procedural_bones:0,rig->weighted?rig->volume_corrections:0);
         if(rig->written) { if(!json_output_path(f,"gltf",rig->name,".gltf",e)) goto failed; } else fputs("null",f);
         fputs(",\"gltf_bin\":",f);
         if(rig->written) { if(!json_output_path(f,"gltf",rig->name,".bin",e)) goto failed; } else fputs("null",f);
@@ -281,13 +286,13 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fputc(']',f);
     fprintf(f,",\"gltf_unsupported_sidedness\":%zu",gltf->unsupported_sidedness);
     fprintf(f,",\"obj_normal_issues\":%zu,\"gltf_normal_issues\":%zu,\"normal_profile\":\"source-corner-normals-0.1\"",stats->normal_issues,gltf->geometry.normal_issues);
-    fprintf(f,",\n\"gltf_files\":%zu,\"gltf_triangles\":%zu,\"gltf_points\":%zu,\"gltf_line_segments\":%zu,\"gltf_skipped_primitives\":%zu,\"gltf_triangulation_failures\":%zu,\"gltf_nonplanar_faces\":%zu,\"gltf_patch_cages\":%zu,\"gltf_curve_control_polylines\":%zu,\"gltf_unmapped_uv_corners\":%zu,\"gltf_removed_duplicate_corners\":%zu,\"gltf_material_approximations\":%zu,\"gltf_animated_channels_not_exported\":%zu,\"gltf_scene_nodes_not_exported\":%zu,\"gltf_profile\":\"static-base-geometry-0.1 plus sampled-scene-transforms-0.1; source Z reflected; source-corner normals with NORM, SMAN and SMGP; UV (u,1-v); rough dielectric materials and compatible LWOB image bindings; geometry with sampled object/parent TRS when animated; cameras, lights and deformation animation are not evaluated\"",gltf->files,gltf->geometry.triangles,gltf->points,gltf->lines,gltf->geometry.skipped,gltf->geometry.triangulation_failures,gltf->geometry.nonplanar_faces,gltf->geometry.cages,gltf->geometry.control_curves,gltf->geometry.uv_missing,gltf->geometry.removed_corners,gltf->materials,gltf->animated_channels,gltf->omitted_nodes);
+    fprintf(f,",\n\"gltf_files\":%zu,\"gltf_triangles\":%zu,\"gltf_points\":%zu,\"gltf_line_segments\":%zu,\"gltf_skipped_primitives\":%zu,\"gltf_triangulation_failures\":%zu,\"gltf_nonplanar_faces\":%zu,\"gltf_patch_cages\":%zu,\"gltf_curve_control_polylines\":%zu,\"gltf_unmapped_uv_corners\":%zu,\"gltf_removed_duplicate_corners\":%zu,\"gltf_material_approximations\":%zu,\"gltf_animated_channels_not_exported\":%zu,\"gltf_scene_nodes_not_exported\":%zu,\"gltf_profile\":\"static-base-geometry-0.1 plus sampled-scene-transforms-0.1; source Z reflected; source-corner normals with NORM, SMAN and SMGP; UV (u,1-v); rough dielectric materials and compatible LWOB image bindings; geometry with sampled object/parent TRS when animated; autonomous-hpb-ik-0.1 exports skeletal FK/IK when supported; cameras and lights are not exported\"",gltf->files,gltf->geometry.triangles,gltf->points,gltf->lines,gltf->geometry.skipped,gltf->geometry.triangulation_failures,gltf->geometry.nonplanar_faces,gltf->geometry.cages,gltf->geometry.control_curves,gltf->geometry.uv_missing,gltf->geometry.removed_corners,gltf->materials,gltf->animated_channels,gltf->omitted_nodes);
     fprintf(f,",\"gltf_animation_channels\":%zu,\"gltf_animation_samples\":%zu,\"gltf_animation_issue\":",gltf->animation_channels,gltf->animation_samples);
     lw_json_string(f,gltf->animation_issue);
     fprintf(f,",\n\"frame\":%.17g,\"unresolved_object_instances\":%zu,\"skipped_obj_primitives\":%zu,\"exported_patch_cages\":%zu,\"exported_curve_control_polylines\":%zu,\"unmapped_uv_corners\":%zu,\n\"obj_coordinates\":\"right-handed Y-up; source Z reflected; winding adjusted for transform determinant\",\"uv_map\":",opts->frame,p->unresolved,stats->skipped,stats->cages,stats->control_curves,stats->uv_missing);
     if(opts->uv_map) lw_json_string(f,opts->uv_map); else fputs("null",f);
     fprintf(f,",\n\"obj_triangulated_faces\":%zu,\"obj_triangles\":%zu,\"obj_bridged_hole_faces\":%zu,\"obj_triangulation_failures\":%zu,\"obj_nonplanar_faces\":%zu,\"obj_removed_duplicate_corners\":%zu,\"obj_triangulation\":\"projected ear clipping of FACE boundaries, including paired reverse-edge hole bridges; source corners and native LWIR polygons preserved\"",stats->triangulated_faces,stats->triangles,stats->bridged_faces,stats->triangulation_failures,stats->nonplanar_faces,stats->removed_corners);
-    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 base geometry plus separate object-local rest rigs with explicit normalized maps or measured procedural weight approximations; LWOB planar/spherical image maps and PNG derivatives; approximate materials; source-corner normals and native smoothing parameters; no baked subdivision, volume corrections, morph or rig animation, or Blender backend in the C executable\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",opaque_plugins,p->scene.unsupported_features);
+    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 base geometry plus separate object-local rest rigs with explicit normalized maps or measured procedural weight approximations; LWOB planar/spherical image maps and PNG derivatives; approximate materials; source-corner normals and native smoothing parameters; autonomous-hpb-ik-0.1 provides approximate skeletal animation; no baked subdivision, volume corrections, morph animation or Blender backend\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",opaque_plugins,p->scene.unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 failed:
     fclose(f); free(path); return 0;
@@ -331,6 +336,19 @@ int lw_convert(const LWOptions *opts,LWError *e) {
         for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform||p.scene.nodes.v[i].key_count_mismatches||p.scene.nodes.v[i].clip_maps.n||p.scene.nodes.v[i].object_dissolve.size) partial=1;
         dir=lw_join(assets,p.scene_name); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
         if(!lw_mkdir(dir,e)||!lw_package_images(dir,p.scene.source.path,p.scene.images.v,p.scene.images.n,e)||!lw_write_scene(dir,&p.scene,e)) goto done;
+        if(!opts->no_bake_ik) {
+            for(i=0;i<p.scene.nodes.n;i++) {
+                size_t k; const LWNode *n=&p.scene.nodes.v[i];
+                if(n->bone.owner!=LW_NONE) break;
+                for(k=0;k<n->rig_parameters.n;k++) if(lw_string_is(n->rig_parameters.v[k].name,"GoalObject")) break;
+                if(k<n->rig_parameters.n) break;
+            }
+            if(i<p.scene.nodes.n) {
+                if(!lw_bake_ik(&p.scene,&p.bake,e)) goto done;
+                if(p.bake.poses&&!lw_write_ik_bake(dir,&p.scene,&p.bake,e)) goto done;
+                if(p.bake.issue[0]||p.bake.goals) partial=1;
+            }
+        }
         if(p.scene.images.n) partial=1;
         free(dir); dir=NULL;
     }
@@ -349,6 +367,7 @@ done:
     free(dir); free(assets); lw_free_gltf_stats(&gltf); lw_free_package(&p); return ok?(partial?2:0):-1;
 }
 void lw_free_package(LWPackage *p) {
+    free(p->bake.poses);
     size_t i; for(i=0;i<p->objects.n;i++) lw_free_object(&p->objects.v[i]);
     LW_FREE(p->objects); lw_free_scene(&p->scene); lw_free_paths(&p->files); lw_free_paths(&p->names); free(p->scene_name);
     free(p->content_search_root); free(p->inferred_content_root); lw_free_paths(&p->content_candidates); LW_FREE(p->content_scores);

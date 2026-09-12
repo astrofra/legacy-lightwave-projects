@@ -16,6 +16,7 @@ static void help(void) {
          "  --uv-map NAME             Export this native TXUV map, including VMAD seams\n"
          "  --gltf-rigs skins|all     Separate rigs: usable skins (default), or also unbound rest skeletons\n"
          "  --skin-profile auto|lightwave6|lightwave96  Missing-map semantics (default: oldest supported for file)\n"
+         "  --bake-ik auto|off        Autonomous skeletal animation (default: auto; approximate IK)\n"
          "Scenes: LWSC 1/3 and partial LWSC 5 (explicit IDs, hierarchy, original keys; see manifest).\n"
          "Output must be outside the content root. Source files are read only.\n"
          "Exit codes: 0 supported subset exported, 1 error, 2 partial export (see manifest).\n"
@@ -49,6 +50,10 @@ static int run(int argc,char **argv) {
         if(!strcmp(name,"--output")&&!opts.output) opts.output=lw_absolute(value);
         else if(!strcmp(name,"--content-root")&&!opts.root) opts.root=lw_absolute(value);
         else if(!strcmp(name,"--uv-map")&&!opts.uv_map) opts.uv_map=lw_dup(value);
+        else if(!strcmp(name,"--bake-ik")) {
+            if(strcmp(value,"auto")&&strcmp(value,"off")) { lw_error(&error,0,"arguments","--bake-ik must be auto or off"); goto done; }
+            opts.no_bake_ik=!strcmp(value,"off");
+        }
         else if(!strcmp(name,"--skin-profile")) {
             if(strcmp(value,"auto")&&strcmp(value,"lightwave96")&&strcmp(value,"lightwave6")) { lw_error(&error,0,"arguments","unknown skin profile"); goto done; }
             opts.skin_profile_set=strcmp(value,"auto")!=0;

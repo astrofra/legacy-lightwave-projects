@@ -50,6 +50,7 @@ static int ik_parameter(LWString key) {
         (key.size>=6&&!memcmp(key.data,"Spline",6))||(key.size>=9&&!memcmp(key.data,"PathAlign",9))||
         lw_string_is(key,"UseIKChainValues")||
         lw_string_is(key,"FullTimeIK")||lw_string_is(key,"IKAnchor")||lw_string_is(key,"MatchGoalOrientation")||
+        lw_string_is(key,"KeepGoalWithinReach")||
         lw_string_is(key,"HLimits")||lw_string_is(key,"PLimits")||lw_string_is(key,"BLimits")||
         lw_string_is(key,"HJointStiffness")||lw_string_is(key,"PJointStiffness")||lw_string_is(key,"BJointStiffness");
 }

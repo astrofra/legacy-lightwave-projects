@@ -106,6 +106,7 @@ def convert_one(record, number, content, run, converter, options, project_output
     # the user's final policy after animation export, including on failure.
     command += ["--gltf-rigs", "all" if options.lightwave_root else options.gltf_rigs]
     command += ["--skin-profile", options.skin_profile]
+    command += ["--bake-ik", "off" if options.lightwave_root else options.bake_ik]
     for option in ("frame", "uv_map"):
         value = getattr(options, option)
         if value is not None:
@@ -146,7 +147,8 @@ def convert_one(record, number, content, run, converter, options, project_output
                 record["return_code"] = result.returncode = 2
                 (package / "manifest.json").write_text(json.dumps(manifest,ensure_ascii=False)+"\n",encoding="utf-8")
         elif manifest.get("scene"):
-            record["native_animation"] = {"status": "not-requested", "reason": "No --lightwave-root; standalone C export does not evaluate skeletal IK animation"}
+            record["native_animation"] = {"status": "not-requested", "reason": "No --lightwave-root; autonomous C animation follows --bake-ik"}
+            record["autonomous_animation"] = manifest.get("autonomous_animation", {})
         published = project_output.publish(package, manifest)
         record.update(status="partial" if result.returncode == 2 else "converted", manifest=published.relative_to(run).as_posix())
         obj_uri = manifest["scene_obj"] if manifest["scene"] else manifest["assets"][0]["obj"]
@@ -157,6 +159,7 @@ def convert_one(record, number, content, run, converter, options, project_output
         record["scene_gltf_issue"] = manifest.get("scene_gltf_issue", "")
         record["rig_gltf"] = [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig["gltf"]]
         record["animation_gltf"] = [(published.parent / animation["gltf"]).resolve().relative_to(run).as_posix() for animation in manifest.get("gltf_animations", [])]
+        record["animation_gltf"] += [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig.get("gltf") and "autonomous animated" in rig.get("pose", "")]
         if manifest.get("gltf_evaluated_scene") and manifest["gltf_evaluated_scene"]["channels"]:
             record["animation_gltf"].append(record["gltf"])
         record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)
@@ -188,6 +191,7 @@ def main(argv=None):
     parser.add_argument("--frame", type=float, help="Override the OBJ snapshot and initial glTF pose; scene clips keep their playback range")
     parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
     parser.add_argument("--gltf-rigs", choices=("skins", "all"), default="skins", help="Separate rigs: usable skins (default), or also unbound rest skeletons")
+    parser.add_argument("--bake-ik", choices=("auto", "off"), default="auto", help="Autonomous C skeletal FK/IK bake (default: auto, approximate IK); explicit native runtime takes precedence")
     parser.add_argument("--lightwave-root",type=Path,help="Evaluate native rigs and missing rigid-object scene assemblies using this installed LightWave root")
     parser.add_argument("--runtime",choices=("auto","lightwave6","lightwave96"),help="Native host profile (default: auto, following each file's C skin profile); LW6 root must directly contain LWSN.exe")
     parser.add_argument("--skin-profile",choices=("auto","lightwave6","lightwave96"),help="C weight semantics (default: oldest supported for each file, or explicitly selected native runtime)")
@@ -244,12 +248,14 @@ def main(argv=None):
         for record in eligible:
             print(f"{record['kind']}: {record['source']}")
         return 1 if any(record["status"] == "failed" for record in records) else 0
-    print(f"Native rig animation: {options.runtime if options.lightwave_root else 'disabled (no --lightwave-root)'}; C skin profile: {options.skin_profile}", flush=True)
+    engine = f"native {options.runtime}" if options.lightwave_root else f"autonomous C ({options.bake_ik}; approximate IK)"
+    print(f"Skeletal animation: {engine}; C skin profile: {options.skin_profile}", flush=True)
     output.mkdir(parents=True, exist_ok=True)
     run = new_run(output, datetime.now().strftime("batch-%Y%m%d-%H%M%S"))
     (run / "logs").mkdir()
     projects = prepare_projects(eligible, content, run, options.gltf_rigs)
     report_options = {"project": options.project, "file": options.file, "gltf_rigs": options.gltf_rigs, "skin_profile": options.skin_profile,
+                      "bake_ik": "off" if options.lightwave_root else options.bake_ik,
                       "runtime": options.runtime if options.lightwave_root else None, "skip_plugin": options.skip_plugin, "animation_mode": options.animation_mode,
                       "frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout,
                       "lightwave_root": str(options.lightwave_root.resolve()) if options.lightwave_root else None,

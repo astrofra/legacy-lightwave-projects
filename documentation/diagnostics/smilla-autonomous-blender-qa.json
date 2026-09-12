@@ -1,0 +1,26 @@
+{
+  "blender_version": "4.2.0",
+  "files": [
+    {
+      "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-191159\\packages\\smila-by-moebius\\IR\\Smilla_IK.lws\\..\\..\\gltf\\Smilla_IK.lws.gltf",
+      "gltf_sha256": "9e6acf58fde95a12e2d46a6abc3af143571c03fd554cfd12143bdcca525d4d56",
+      "bin_sha256": "ce39b895a3afaaf755bbe93764886bf07b5e8e3c9fba592098c207492f0b1df2",
+      "bake_sha256": "95f9eb39a8d5967824f3b198eb5504b02c332e26dbce9a10df93839636ab151c",
+      "frames": 41,
+      "joints": 31,
+      "vertices": 11250,
+      "maximum_playback_error": 8.383144843003275e-07,
+      "rms_playback_error": 1.7620158592906545e-07,
+      "maximum_blender_vertex_movement": 0.7384071827506923,
+      "passed": true,
+      "native_cage_comparison": {
+        "frames": "S:\\works\\legacy-lightwave-projects\\_tmp\\smilla-lw6-skin-06\\IR\\Smilla_IK.lws\\evaluated-animation\\frames",
+        "maximum_vertex_error": 0.32592304285713264,
+        "rms_vertex_error": 0.07717650217368335,
+        "scope": "Difference from native deformed cage, including both IK and weight approximation; no equivalence asserted"
+      }
+    }
+  ],
+  "passed": true,
+  "scope": "Blender evaluated armature vertices at every C sample, compared with independently reconstructed C world poses and exported weights. Verifies glTF skin playback, not equivalence to LightWave; no subdivision added."
+}

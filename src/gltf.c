@@ -18,6 +18,7 @@ typedef struct {
     const LWPackage *package; const LWOptions *options; LWGltfStats *stats;
     FILE *bin; size_t bytes,accessors;
     const LWRig *rig;
+    int autonomous;
     size_t skin_views,bind_offset,bind_accessor;
     LW_ARRAY(GPrimitive) primitives;
     LW_ARRAY(GMesh) meshes;
@@ -218,7 +219,11 @@ static int scene_nodes(GDocument *doc,LWError *e) {
     for(i=0;i<s->nodes.n;i++) if(active[i]) {
         GNode n={0}; const LWNode *source=&s->nodes.v[i]; double m[16];
         n.source=i; n.mesh=n.parent=SIZE_MAX;
-        if(!lw_scene_node_matrix(s,i,doc->options->frame,m,e)) goto done;
+        if(doc->autonomous) {
+            lw_identity(m);
+            for(j=0;j<10;j++) n.trs[j]=doc->package->bake.poses[i*20+j]*((j==2||j==3||j==4)?-1:1);
+            n.animated=1;
+        } else if(!lw_scene_node_matrix(s,i,doc->options->frame,m,e)) goto done;
         /* C M C with C=diag(1,1,-1,1), while geometry already uses C p. */
         for(j=0;j<16;j++) n.matrix[j]=m[j]*((j%4==2)^(j/4==2)?-1:1);
         if(source->asset!=SIZE_MAX&&!mesh_index(doc,source->asset,source->layer,&n.mesh,e)) goto done;
@@ -273,6 +278,46 @@ static void clear_animation(GDocument *doc) {
     size_t i;
     for(i=0;i<doc->animation.n;i++) free(doc->animation.v[i].samples);
     LW_FREE(doc->animation);
+}
+static int baked_animation(GDocument *doc,LWError *e) {
+    const LWIKBake *b=&doc->package->bake; size_t i,j,k,sample;
+    size_t count=doc->rig?doc->rig->joints.n+1:doc->nodes.n;
+    doc->first_frame=b->first; doc->last_frame=b->last; doc->sample_count=b->samples;
+    doc->duration=(float)((b->last-b->first)/doc->package->scene.fps);
+    if((b->samples*10*count+b->samples)*4>UINT32_MAX-doc->bytes)
+        return lw_error(e,0,"animation","skeletal animation exceeds 4 GiB");
+    for(i=0;i<count;i++) {
+        GNode *n=&doc->nodes.v[i]; GAnimation track={0}; track.node=i;
+        track.samples=malloc(b->samples*10*sizeof(float));
+        if(!track.samples) return lw_error(e,0,"allocation","cannot allocate skeletal animation");
+        if(!LW_ADD(doc->animation,track,e)) { free(track.samples); return 0; }
+        for(sample=0;sample<b->samples;sample++) {
+            const float *source=b->poses+(sample*b->nodes+n->source)*20+(doc->rig&&i==0?10:0);
+            float *dest=track.samples+sample*10; double dot=0;
+            for(j=0;j<10;j++) dest[j]=source[j]*((j==2||j==3||j==4)?-1.f:1.f);
+            if(sample) {
+                for(j=3;j<7;j++) dot+=(double)dest[j]*(dest-10)[j];
+                if(dot<0) for(j=3;j<7;j++) dest[j]=-dest[j];
+            }
+        }
+        n->animated=1;
+        for(j=0;j<10;j++) n->trs[j]=track.samples[j];
+    }
+    doc->time_offset=doc->bytes; doc->time_accessor=doc->accessors++;
+    for(sample=0;sample<b->samples;sample++) f32(doc->bin,(float)((fmin(b->first+(double)sample,b->last)-b->first)/doc->package->scene.fps));
+    doc->bytes+=b->samples*4;
+    for(i=0;i<doc->animation.n;i++) {
+        GAnimation *track=&doc->animation.v[i];
+        for(k=0;k<3;k++) {
+            size_t start=k==0?0:k==1?3:7,components=k==1?4:3;
+            track->offset[k]=doc->bytes; track->accessor[k]=doc->accessors++;
+            for(sample=0;sample<b->samples;sample++) for(j=0;j<components;j++) f32(doc->bin,track->samples[10*sample+start+j]);
+            doc->bytes+=b->samples*components*4;
+        }
+    }
+    doc->stats->animation_channels+=3*doc->animation.n; doc->stats->animation_samples=b->samples;
+    if(ferror(doc->bin)) return lw_error(e,0,"animation","cannot write skeletal animation");
+    return 1;
 }
 static int scene_animation(GDocument *doc,LWError *e) {
     const LWScene *scene=&doc->package->scene;
@@ -433,16 +478,16 @@ static void json_animation(FILE *f,const GDocument *doc,const char *name) {
         if(i||j) fputc(',',f);
         fprintf(f,"{\"sampler\":%zu,\"target\":{\"node\":%zu,\"path\":\"%s\"}}",3*i+j,doc->animation.v[i].node,paths[j]);
     }
-    fprintf(f,"],\"extras\":{\"profile\":\"sampled-scene-transforms-0.1\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"sampling\":\"one source-frame interval; LINEAR translation/scale and quaternion slerp between samples; includes pivot offsets; no deformation or material animation\"}}]",doc->first_frame,doc->last_frame,doc->package->scene.fps,doc->sample_count);
+    fprintf(f,"],\"extras\":{\"profile\":\"%s\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"sampling\":\"one source-frame interval; LINEAR translation/scale and quaternion slerp between samples; includes pivot offsets; skeletal TRS when a skin is present; no morph or material animation\"}}]",doc->autonomous?"autonomous-hpb-ik-0.1":"sampled-scene-transforms-0.1",doc->first_frame,doc->last_frame,doc->package->scene.fps,doc->sample_count);
 }
 static void json_document(FILE *f,const GDocument *doc,const char *name,int scene,size_t asset) {
     const LWSource *source=scene?&doc->package->scene.source:&doc->package->objects.v[asset].source;
     size_t i,j; int comma=0;
-    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,doc->rig?"rest-skeleton-0.1":doc->animation.n?"sampled-scene-transforms-0.1":"static-base-geometry-0.1",source->sha256); lw_json_string(f,source->path);
+    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,doc->autonomous?"autonomous-hpb-ik-0.1":doc->rig?"rest-skeleton-0.1":doc->animation.n?"sampled-scene-transforms-0.1":"static-base-geometry-0.1",source->sha256); lw_json_string(f,source->path);
     if(doc->rig) {
-        fprintf(f,",\"pose\":\"native-rest; object-local; no scene animation or IK evaluation\",\"skin_status\":\"%s\",\"missing_map_procedural_fallbacks\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"skin_issue\":",doc->rig->weighted?(doc->rig->procedural_bones?(doc->package->legacy_bone_maps?"lightwave6-procedural-weights-0.1; approximation":"lightwave96-procedural-weights-0.1; approximation"):"explicit-normalized-weight-maps"):"skeleton-only; native influences not evaluated",doc->package->legacy_bone_maps?doc->rig->missing_maps:0,doc->rig->unweighted_points);
+        fprintf(f,",\"pose\":\"%s\",\"skin_status\":\"%s\",\"missing_map_procedural_fallbacks\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"skin_issue\":",doc->autonomous?"sampled autonomous IK/FK; approximation":"native-rest; object-local",doc->rig->weighted?(doc->rig->procedural_bones?(doc->package->legacy_bone_maps?"lightwave6-procedural-weights-0.1; approximation":"lightwave96-procedural-weights-0.1; approximation"):"explicit-normalized-weight-maps"):"skeleton-only; native influences not evaluated",doc->package->legacy_bone_maps?doc->rig->missing_maps:0,doc->rig->unweighted_points);
         lw_json_string(f,doc->rig->issue);
-        if(doc->rig->weighted&&doc->rig->procedural_bones) fprintf(f,",\"skin_approximation\":true,\"volume_corrections_omitted\":%zu,\"skin_limitations\":\"fixed weights derived from the native rest cage; joint compensation and muscle flexing omitted; scene IK and morphs not evaluated\"",doc->rig->volume_corrections);
+        if(doc->rig->weighted&&doc->rig->procedural_bones) fprintf(f,",\"skin_approximation\":true,\"volume_corrections_omitted\":%zu,\"skin_limitations\":\"fixed weights derived from the native rest cage; joint compensation and muscle flexing omitted; morphs not evaluated; IK profile described in animation metadata\"",doc->rig->volume_corrections);
     }
     if(!doc->rig) fprintf(f,",\"snapshot_frame\":%.17g",doc->options->frame);
     fputs(",\"normal_profile\":\"source-corner-normals-0.1\",\"normals\":\"unique NORM map per point block with VMAD precedence, otherwise unit polygon normals averaged by owner SMAN and SMGP among smoothing-enabled faces; angle cuts retained at source corners\"",f);
@@ -528,7 +573,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
     if(doc->rig&&doc->rig->weighted) {
         fprintf(f,",\n\"skins\":[{\"inverseBindMatrices\":%zu,\"skeleton\":0,\"joints\":[0",doc->bind_accessor);
         for(i=0;i<doc->rig->joints.n;i++) fprintf(f,",%zu",i+1);
-        fputs("],\"extras\":{\"joint_zero\":\"identity object anchor for otherwise unweighted vertices\",\"weights\":\"normalized explicit WGHT maps; all positive influences retained\",\"pose\":\"native rest\"}}]",f);
+        fputs("],\"extras\":{\"joint_zero\":\"identity object anchor for otherwise unweighted vertices\",\"weights\":\"normalized explicit or procedural weights; see skin profile\",\"bind_pose\":\"native rest\"}}]",f);
     }
     json_animation(f,doc,name);
     if(doc->bytes) {
@@ -561,7 +606,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
         }
         if(doc->rig&&doc->rig->weighted) fprintf(f,",{\"bufferView\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"MAT4\"}",doc->primitives.n+doc->skin_views,doc->rig->joints.n+1);
         if(doc->animation.n) {
-            size_t view=doc->primitives.n;
+            size_t view=doc->primitives.n+doc->skin_views+(doc->rig&&doc->rig->weighted?1:0);
             if(doc->primitives.n) fputc(',',f);
             fprintf(f,"{\"bufferView\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"SCALAR\",\"min\":[0],\"max\":[%.9g]}",view,doc->sample_count,doc->duration);
             for(i=0;i<doc->animation.n;i++) for(j=0;j<3;j++) { fputc(',',f); accessor(f,++view,0,doc->sample_count,j==1?4:3,NULL,NULL); }
@@ -573,11 +618,12 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
 static int write_document(const char *dir,const char *name,const LWPackage *package,const LWOptions *opts,int scene,size_t asset,const LWRig *rig,LWGltfStats *stats,LWError *e) {
     GDocument doc={0}; char *bin=NULL,*json=NULL; FILE *f=NULL; size_t i; int ok=0;
     doc.package=package; doc.options=opts; doc.stats=stats; doc.rig=rig;
+    doc.autonomous=scene&&package->bake.poses&&(!rig||scene==2);
     bin=lw_named_path(dir,name,".bin"); json=lw_named_path(dir,name,".gltf");
     if(!bin||!json) { lw_error(e,0,"allocation","out of memory"); goto done; }
     doc.bin=lw_fopen(bin,"wb"); if(!doc.bin) { lw_error(e,0,"glTF","cannot create %s",bin); goto done; }
-    if(rig) { if(!rig_nodes(&doc,e)) goto done; }
-    else if(scene) { if(!scene_nodes(&doc,e)||!scene_animation(&doc,e)) goto done; }
+    if(rig) { if(!rig_nodes(&doc,e)||(doc.autonomous&&!baked_animation(&doc,e))) goto done; }
+    else if(scene) { if(!scene_nodes(&doc,e)||!(doc.autonomous?baked_animation(&doc,e):scene_animation(&doc,e))) goto done; }
     else {
         GNode node={0}; node.parent=SIZE_MAX; lw_identity(node.matrix);
         if(!mesh_index(&doc,asset,LW_NONE,&node.mesh,e)||!LW_ADD(doc.nodes,node,e)) goto done;
@@ -597,10 +643,12 @@ done:
     free(bin); free(json); return ok;
 }
 int lw_write_gltf(const char *dir,const LWPackage *p,const LWOptions *opts,LWGltfStats *stats,LWError *e) {
-    char *gltf=lw_join(dir,"gltf"); double *matrices=NULL; size_t i,j,bad=SIZE_MAX; LWError local={0}; int ok=0;
+    char *gltf=lw_join(dir,"gltf"); double *matrices=NULL; size_t i,j,bad=SIZE_MAX,instances=0; LWError local={0}; int ok=0;
     if(!gltf) return lw_error(e,0,"allocation","out of memory");
     for(i=0;i<p->objects.n;i++) if(!write_document(gltf,p->names.v[i],p,opts,0,i,NULL,stats,e)) goto done;
     if(!p->is_scene) { ok=1; goto done; }
+    for(i=0;i<p->scene.nodes.n;i++) if(p->scene.nodes.v[i].asset!=SIZE_MAX) instances++;
+    if(p->bake.issue[0]) snprintf(stats->animation_issue,sizeof stats->animation_issue,"%s",p->bake.issue);
     stats->rigs=calloc(1,sizeof *stats->rigs);
     if(!stats->rigs) { lw_error(e,0,"allocation","out of memory"); goto done; }
     for(i=0;i<p->scene.nodes.n;i++) if(p->scene.nodes.v[i].asset!=SIZE_MAX) {
@@ -617,17 +665,21 @@ int lw_write_gltf(const char *dir,const LWPackage *p,const LWOptions *opts,LWGlt
         if(built&&(rig.weighted||opts->gltf_all_rigs)) {
             size_t length=strlen(p->scene_name)+48; result.name=malloc(length);
             if(!result.name) { lw_free_rig(&rig); lw_error(e,0,"allocation","out of memory"); goto done; }
-            snprintf(result.name,length,"%s.rig-%08x",p->scene_name,p->scene.nodes.v[i].id);
-            result.written=write_document(gltf,result.name,p,opts,1,rig.asset,&rig,stats,e);
+            result.animated=p->bake.poses&&rig.weighted;
+            if(result.animated&&instances==1&&!p->unresolved) snprintf(result.name,length,"%s",p->scene_name);
+            else snprintf(result.name,length,"%s.rig-%08x",p->scene_name,p->scene.nodes.v[i].id);
+            result.written=write_document(gltf,result.name,p,opts,result.animated?2:1,rig.asset,&rig,stats,e);
             if(!result.written) { free(result.name); lw_free_rig(&rig); goto done; }
+            if(result.animated&&instances==1&&!p->unresolved) stats->geometry.scene_written=1;
         } else if(!strcmp(rig_error.context,"allocation")) { lw_free_rig(&rig); *e=rig_error; goto done; }
         lw_free_rig(&rig);
         if(!LW_ADD(*stats->rigs,result,e)) { free(result.name); goto done; }
     }
+    if(stats->geometry.scene_written) { ok=1; goto done; }
     for(i=0;i<p->scene.nodes.n;i++) for(j=0;j<p->scene.nodes.v[i].channels.n;j++) if(p->scene.nodes.v[i].channels.v[j].keys.n>1) stats->animated_channels++;
     matrices=calloc(p->scene.nodes.n?p->scene.nodes.n:1,16*sizeof *matrices);
     if(!matrices) { lw_error(e,0,"allocation","out of memory"); goto done; }
-    if(!lw_scene_matrices(&p->scene,opts->frame,matrices,&bad,&local)) {
+    if(!p->bake.poses&&!lw_scene_matrices(&p->scene,opts->frame,matrices,&bad,&local)) {
         stats->omitted_nodes=p->scene.nodes.n;
         snprintf(stats->geometry.scene_issue,sizeof stats->geometry.scene_issue,"%.40s: %.210s",local.context,local.message); ok=1; goto done;
     }

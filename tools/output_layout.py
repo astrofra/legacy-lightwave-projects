@@ -283,6 +283,14 @@ class ProjectOutput:
         if manifest["scene"]:
             scene = package_file(package, manifest["scene"])
             copy_ir(package, scene, ir, ("scene.json", "animation.bin", "source.bin"))
+            bake = manifest.get("autonomous_animation", {})
+            if bake.get("uri"):
+                bake_path = package_file(package, bake["uri"])
+                if bake_path != scene.parent / "baked-animation.json":
+                    raise ValueError("Unexpected autonomous bake path")
+                copy_file(bake_path, ir / bake_path.name)
+                copy_file(bake_path.with_suffix(".bin"), ir / "baked-animation.bin")
+                bake["uri"] = bake_path.name
             if manifest.get("evaluated_animation"):
                 capture = package_file(package, manifest["evaluated_animation"]["uri"])
                 if capture.parent != scene.parent/"evaluated-animation":
@@ -294,6 +302,7 @@ class ProjectOutput:
             obj = self.directory / "obj" / (name + ".obj")
             copy_obj(package_file(package, manifest["scene_obj"]), package_file(package, manifest["scene_mtl"]), obj)
             manifest.update(scene_obj=relative(obj, ir), scene_mtl=relative(obj.with_suffix(".mtl"), ir))
+        primary_gltf = manifest["scene_gltf"]
         if manifest["scene_gltf"]:
             manifest["scene_gltf"], manifest["scene_gltf_bin"] = self.publish_gltf(package, manifest["scene_gltf"], manifest["scene_gltf_bin"], name, ir)
         for rig in manifest.get("gltf_rigs", []):
@@ -303,8 +312,11 @@ class ProjectOutput:
                 copy_file(source_skin, target_skin)
                 rig["derived_skin"] = target_skin.name
             if rig["gltf"]:
-                rig_name = self.derived_name_for(manifest["input"], f".rig-{rig['owner_item']:08x}")
-                rig["gltf"], rig["gltf_bin"] = self.publish_gltf(package, rig["gltf"], rig["gltf_bin"], rig_name, ir)
+                if rig["gltf"] == primary_gltf:
+                    rig["gltf"], rig["gltf_bin"] = manifest["scene_gltf"], manifest["scene_gltf_bin"]
+                else:
+                    rig_name = self.derived_name_for(manifest["input"], f".rig-{rig['owner_item']:08x}")
+                    rig["gltf"], rig["gltf_bin"] = self.publish_gltf(package, rig["gltf"], rig["gltf_bin"], rig_name, ir)
         for animation in manifest.get("gltf_animations", []):
             animation_name = self.derived_name_for(manifest["input"], f".anim-{animation['owner_item']:08x}")
             animation["gltf"], animation["gltf_bin"] = self.publish_gltf(package, animation["gltf"], animation["gltf_bin"], animation_name, ir)
