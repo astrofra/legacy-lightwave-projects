@@ -11,6 +11,7 @@ import subprocess
 import sys
 
 from lightwave_animation import digest, export_rig, read_capture, write_json
+from output_layout import apply_rig_policy, package_file
 
 REPOSITORY = Path(__file__).resolve().parents[1]
 MODULES = {
@@ -197,6 +198,20 @@ def evaluate_package(package, lightwave, capture_plugin=None, start=None, end=No
         raise
 
 
+def finalize_rig_outputs(package, policy):
+    """Prune only generated rest-rig files from this new direct package."""
+    package = Path(package).resolve()
+    manifest_path = package / "manifest.json"
+    manifest = json.loads(manifest_path.read_text("utf-8"))
+    paths = [package_file(package, uri) for uri in apply_rig_policy(manifest, policy)]
+    if any(path.parent != package / "gltf" or ".rig-" not in path.name or path.suffix not in {".gltf", ".bin"} for path in paths):
+        raise ValueError("Unexpected rest-rig output path")
+    # Publish references first so a failed unlink cannot leave dangling links.
+    write_json(manifest_path, manifest)
+    for path in paths:
+        path.unlink()
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input",type=Path)
@@ -210,14 +225,19 @@ def main():
     parser.add_argument("--frame-step",type=int,default=1)
     parser.add_argument("--timeout",type=float,default=120)
     parser.add_argument("--uv-map")
+    parser.add_argument("--gltf-rigs",choices=("skins","all"),default="skins",help="Keep usable skins, or also unbound rest skeletons")
     parser.add_argument("--map",action="append",default=[])
     args = parser.parse_args()
     command = [str(args.converter.resolve()),"convert",str(args.input.resolve()),"--output",str(args.output.resolve()),"--content-root",str((args.content_root or args.input.parent).resolve())]
+    command += ["--gltf-rigs", "all"]
     if args.uv_map: command += ["--uv-map",args.uv_map]
     for rule in args.map: command += ["--map",rule]
     result = subprocess.run(command,timeout=args.timeout)
     if result.returncode not in (0,2): return result.returncode
-    animations = evaluate_package(args.output,args.lightwave_root,args.capture_plugin,args.start_frame,args.end_frame,args.frame_step,args.timeout,args.converter)
+    try:
+        animations = evaluate_package(args.output,args.lightwave_root,args.capture_plugin,args.start_frame,args.end_frame,args.frame_step,args.timeout,args.converter)
+    finally:
+        finalize_rig_outputs(args.output, args.gltf_rigs)
     print(json.dumps({"output":str(args.output.resolve()),"animations":animations},indent=2))
     return result.returncode
 

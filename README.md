@@ -129,6 +129,15 @@ declared envelope key counts while retaining the original data and a warning.
 A bounded mirrored-bank `LW_Follower` preview unblocks the seven
 [`butterfly-tank` scenes](documentation/butterfly-tank-qa.md).
 
+Since v0.8.2, unbound rest-skeleton glTF copies are **opt-in**. By default,
+`test_anim.lws` and `dialogue01.lws` each produce one scene glTF and its binary,
+without four additional `rig-*` pairs. Original object exports are still shared
+across the project's scenes. Actual skins and native animated derivatives are
+retained. Bones, weight maps, IK and original animation keys remain in the IR;
+manifest entries still explain unsupported skinning. Use `--gltf-rigs all` to
+include unbound rest skeletons for inspection (`skins` is the default).
+See the [Quatuor export simplification QA](documentation/quatuor-gltf-qa.md).
+
 Since v0.5.0, scene IR includes bone rest poses, weight-map assignments and native
 influence settings. Separate `*.rig-<item ID>.gltf` files export object-local rest
 skeletons and, for explicit normalized map-only bindings, standard glTF skins
@@ -252,13 +261,33 @@ scenes: `Station1` becomes `Station1.lwo.obj` / `Station1.lwo.gltf`, while
 The same name identifies the MTL, binary buffers and IR directory. Source files
 and scene references stay unchanged; existing extensions and PST_ preset names
 are preserved. This applies to direct conversion and batches alike.
-Duplicate basenames, including collisions with an inferred extension, receive `-2`, `-3`,
-etc. Spaces and characters unsuitable for OBJ material-library references become
-underscores; accents are preserved. SHA-256 hashes remain in metadata rather
-than directory names. Scene dependencies already published in the same project
-are reused. Each input keeps its conversion manifest under `IR/<source name>/`,
+Batch layout **0.3** retains the source hierarchy beneath each format directory.
+For example, `content/quatuor/work/3d/01.lws` produces
+`packages/quatuor/gltf/work/3d/01.lws.gltf`, `obj/work/3d/01.lws.obj`, and
+`IR/work/3d/01.lws/manifest.json`. The separate root-level `01.lws` keeps its
+own root-level output. Logs follow the same hierarchy. Only directories that
+contain converted files or their dependencies are created; ancillary files and
+empty source directories are not copied. See the [Quatuor QA](documentation/quatuor-hierarchy-qa.md).
+
+Names only need numeric suffixes when they collide within the same output
+directory, including after extension inference or Windows filename cleanup.
+Spaces and characters unsuitable for OBJ references become underscores; accents
+are preserved. Original source directories take precedence over generated file
+names if those would collide. Dependencies outside the project are collected
+under `_external/` within each format, with numeric suffixes for collisions and
+original paths retained in metadata. SHA-256 remains in metadata rather than
+directory names. Scene dependencies already published in the same project are
+reused. Each input has a conversion manifest under `IR/<relative source path>/`,
 and the project manifest indexes these conversions. Loose files directly under
 the content root are grouped under that directory's name.
+
+The publisher updates all manifest links, OBJ material-library references and
+glTF buffer URIs. Textures remain in a local `textures/` folder beside the
+export that uses them, so textures shared across different source directories
+can have multiple identical copies. Copy the whole project directory to retain
+all dependencies, or copy a glTF with its `.bin` and local `textures/` folder.
+Direct `lwconvert convert` calls retain their existing layout 0.2; the hierarchy
+is applied when assembling batch projects.
 
 Existing exports are preserved. The batch continues after individual failures
 and writes an overall report, with per-file logs and links to manifests, OBJ and
@@ -271,6 +300,13 @@ not count as failures. Interrupted runs return **130** and record pending files.
 ```powershell
 # Preview discovery without writing output or running the converter.
 .\convert_content.bat --dry-run
+
+# Convert one project while retaining all its subdirectories under one root.
+.\convert_content.bat --project quatuor
+# --project is repeatable; --content still names the parent collection directory.
+
+# Include optional unbound rest-skeleton glTF copies for inspection.
+.\convert_content.bat --project quatuor --gltf-rigs all
 
 # Use a specific binary or override the snapshot frame for all scenes.
 .\convert_content.bat --converter build/Debug/lwconvert.exe --frame 1
@@ -285,4 +321,5 @@ selection. On other platforms, the default is `build/lwconvert`.
 `--help` lists input/output overrides, the per-file timeout
 (120 seconds by default), and explicit UV-map/path-mapping options. The batch
 uses the current converter's OBJ/MTL, LWIR and glTF outputs; `.blend` files are
-not generated yet. Keep each `.gltf` alongside its `.bin` when copying an export.
+not generated yet. Keep each `.gltf` alongside its `.bin` and referenced textures
+when copying an export.

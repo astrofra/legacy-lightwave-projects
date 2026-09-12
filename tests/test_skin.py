@@ -69,9 +69,9 @@ class SkinTests(unittest.TestCase):
     run_cli = fixtures.Converter.run_cli
     convert = fixtures.Converter.convert
 
-    def rig(self, bones=None, maps=None, extra="", patch=False):
+    def rig(self, bones=None, maps=None, extra="", patch=False, policy="skins"):
         self.write("rig.lwo", object_bytes(maps, patch))
-        out, manifest = self.convert(self.write("rig.lws", scene_bytes(bones, extra)), "--uv-map", "uv", code=2)
+        out, manifest = self.convert(self.write("rig.lws", scene_bytes(bones, extra)), "--uv-map", "uv", "--gltf-rigs", policy, code=2)
         result = manifest["gltf_rigs"][0]
         data, buffers = load(out / result["gltf"]) if result["gltf"] else (None, None)
         return out, manifest, result, data, buffers
@@ -140,11 +140,49 @@ class SkinTests(unittest.TestCase):
         ]
         for bones, maps, issue in cases:
             with self.subTest(issue=issue):
-                _, _, result, data, _ = self.rig(bones, maps)
+                _, _, result, data, _ = self.rig(bones, maps, policy="all")
                 self.assertEqual(result["status"], "skeleton-only")
                 self.assertIn(issue, result["issue"])
                 self.assertNotIn("skins", data)
                 self.assertFalse(any(k.startswith("JOINTS_") for m in data["meshes"] for p in m["primitives"] for k in p["attributes"]))
+
+    def test_unbound_rest_exports_are_optional_without_changing_ir(self):
+        bones = bone(extra="BoneWeightMapOnly 0\n")
+        self.write("rig.lwo", object_bytes())
+        source = self.write("rig.lws", scene_bytes(bones))
+        compact, manifest = self.convert(source, code=2)
+        full, prior = self.convert(source, "--gltf-rigs", "all", code=2)
+        rig = manifest["gltf_rigs"][0]
+        self.assertEqual(manifest["gltf_rig_policy"], "skins")
+        self.assertEqual((rig["status"], rig["export_status"]), ("skeleton-only", "omitted-by-policy"))
+        self.assertIsNone(rig["gltf"])
+        self.assertIsNone(rig["gltf_bin"])
+        self.assertIn("procedural", rig["issue"])
+        self.assertEqual((manifest["gltf_files"], prior["gltf_files"]), (2, 3))
+        self.assertEqual(list((compact / "gltf").glob("*.rig-*")), [])
+        self.assertEqual(len(list((full / "gltf").glob("*.rig-*"))), 2)
+        for path in (compact / "IR").rglob("*"):
+            if path.is_file(): self.assertEqual(path.read_bytes(), (full / path.relative_to(compact)).read_bytes())
+        self.assertEqual((compact / manifest["scene_gltf"]).read_bytes(), (full / prior["scene_gltf"]).read_bytes())
+        self.assertEqual((compact / manifest["scene_gltf_bin"]).read_bytes(), (full / prior["scene_gltf_bin"]).read_bytes())
+        self.run_cli("convert", source, "--output", self.base / "invalid", "--gltf-rigs", "invalid", code=1)
+        self.assertFalse((self.base / "invalid").exists())
+
+    def test_batch_unbound_rig_policy_is_applied_to_published_files(self):
+        self.write("rig.lwo", object_bytes())
+        self.write("rig.lws", scene_bytes(bone(extra="BoneWeightMapOnly 0\n")))
+        batch = Path(__file__).resolve().parents[1] / "tools/batch_convert.py"
+        from check_output_layout import check
+        for policy, count in (("skins", 0), ("all", 1)):
+            output = self.base / policy
+            result = subprocess.run([sys.executable, "-X", "utf8", str(batch), "--content", str(self.root), "--output-root", str(output), "--converter", fixtures.EXE, "--gltf-rigs", policy], capture_output=True, text=True, timeout=60)
+            self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
+            run = next(output.glob("batch-*"))
+            self.assertTrue(check(run)["passed"])
+            report = json.loads((run / "batch-report.json").read_text("utf-8"))
+            record = next(r for r in report["files"] if r["source"].endswith(".lws"))
+            self.assertEqual(len(record["rig_gltf"]), count)
+            self.assertEqual(len(list((run / "packages").rglob("*.rig-*.gltf"))), count)
 
     def test_zeroed_rest_angles_use_recorded_pivot_rotation(self):
         _, _, result, data, buffers = self.rig(bone(extra="PivotRotation 90 0 0\n"))

@@ -213,7 +213,7 @@ References: [LightWave object clip mapping](https://docs.lightwave3d.com/lw2020/
 [glTF 2.0 alpha coverage](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#alpha-coverage),
 and the [original Alias/Wavefront MTL specification, archived by Paul Bourke](https://www.paulbourke.net/dataformats/mtl/).
 
-## Output layout 0.2 and LWIR 0.1
+## Output layouts 0.2 / 0.3 and LWIR 0.1
 
 A direct `lwconvert convert` call creates the following layout. The original
 filename identifies each output. Existing extensions are preserved; extensionless
@@ -250,29 +250,52 @@ blender/                  # Reserved; backend not implemented yet
 
 The batch combines these files under `packages/<project>/`, reusing an object's
 IR, OBJ/MTL and glTF/binary files when the same source path and hash recur in that project.
-It puts each input's conversion manifest in `IR/<source name>/manifest.json` and
-writes an index at the project root. Asset indices remain local to each
+Batch layout **0.3** preserves the source path relative to the project root under
+each format: `work/3d/01.lws` becomes `gltf/work/3d/01.lws.gltf`,
+`obj/work/3d/01.lws.obj` and `IR/work/3d/01.lws/manifest.json`. The top-level
+`01.lws` remains separate without a numeric suffix. Logs use the same path.
+A root index records `source_root` and every conversion's original source path,
+allocated relative `name` and manifest URI. Only directories needed for converted
+files and their dependencies are created; ancillary files, archives and empty
+source directories are not replicated. The reserved Blender directory stays empty.
+
+Use `convert_content.bat --project quatuor` to select one top-level directory
+without changing its project root; repeat `--project` to select several. The
+`--content` directory remains the parent collection. Direct C packages retain
+layout 0.2 and are republished by the Python batch into layout 0.3. Asset indices remain local to each
 conversion, so a scene's node indices refer to that conversion's asset list.
 The batch rewrites manifest URIs, OBJ `mtllib` references and glTF buffer URIs
 when publishing files. Copy the whole project directory to retain the shared
 IR dependencies. Each glTF scene embeds its required geometry in its own `.bin`
-and can be copied independently with that binary file.
+and can be copied independently with that binary file and its referenced local
+`textures/` folder. Rendered texture derivatives are deduplicated within each
+output directory; the same texture may be copied into several source subdirectories.
+IR image copies remain local to their owning IR document.
 
 Names preserve accents and any existing source extension. ASCII whitespace, control
 characters, `#` and Windows-invalid filename characters become `_`, trailing
 dots are removed, and Windows device names receive a leading `_`. These rules
-keep each OBJ material-library filename a single token. Duplicate output names
-receive numeric suffixes (`mesh.lwo-2.obj`, etc.), with case-insensitive collision
+keep each OBJ material-library filename a single token. The batch applies these
+rules to directory components too, preserving directory nesting. Duplicate output
+names within the same directory receive numeric suffixes (`mesh.lwo-2.obj`, etc.), with case-insensitive collision
 checks, including collisions introduced by inferred extensions. Natural names
 are reserved before suffix allocation, so a source already
 named `mesh.lwo-2` keeps that name. The batch allocates names in sorted source
 path order; direct scene conversion follows the collected asset order. A later
-mapped dependency is allocated when first encountered. Names are deterministic
+mapped dependency is allocated when first encountered. Out-of-project dependencies
+have no project-relative path and go under `_external/` in each format, sharing a
+collision namespace there; original source paths remain in asset metadata. This
+namespace receives a suffix itself if an actual source directory uses that name.
+Source directories are allocated before generated filenames, with reservations
+for IR directories, OBJ/MTL, glTF/binary and log names to avoid file/directory
+conflicts. Rig and animation derivatives remain beside their source scene and
+share its local collision namespace. Names are deterministic
 for the same inputs, but may change if the set of colliding inputs changes.
 
 SHA-256 remains the source identity in metadata and is not used as a directory
 name. Native object and scene JSON/binary schemas remain `0.1`; the manifest's
-`layout_version` is `0.2`. Readers must follow URIs rather than assume the old
+`layout_version` is `0.2` for direct packages and `0.3` for batch reports, project
+indexes and published conversion manifests. Readers must follow URIs rather than assume the old
 `assets/<sha256>/` or `scene.obj` paths. Asset entries now include `name` and
 `mtl`, and scenes include `scene_mtl`. Since v0.3.0, assets additionally include
 `gltf` and `gltf_bin`; scenes include `scene_gltf`, `scene_gltf_bin` and
@@ -390,6 +413,25 @@ describe omissions and approximations across all generated OBJ files, including
 individual objects and the scene.
 
 ## glTF 2.0 geometry and scene animation
+
+Since v0.8.2, `--gltf-rigs skins|all` controls separate rest-rig exports in the
+C CLI, batch launcher and native-animation CLI. The default `skins` writes a
+separate rig only when explicit weight-map skinning can be exported. `all` also
+writes the unbound rest skeleton and geometry for inspection. A procedural rig
+still has a manifest entry with `status: skeleton-only`, an explanatory `issue`,
+`export_status: omitted-by-policy`, and null `gltf` / `gltf_bin` URIs. Invalid rigs
+retain `status: blocked`. Written rigs have `export_status: written`.
+`gltf_rig_policy` records the selected policy. Original IR bones, weights,
+controllers and keys are independent of this output selection.
+
+Native animation evaluation obtains all rest rigs as temporary working inputs.
+The final batch publication or direct native-export cleanup removes only the
+unbound rest copies when `skins` is selected, keeping actual skins and animated
+derivatives. This policy also applies when native evaluation fails. Published
+`gltf_files` counts the retained files; if intermediate rest outputs were omitted,
+`gltf_intermediate_files` and `gltf_statistics_scope` explain that the C geometry
+counters include those temporary exports. No procedural skinning implementation
+is implied by this cleanup; see [the Quatuor QA](quatuor-gltf-qa.md).
 
 The direct C writer consumes native objects and the shared triangulator/UV
 resolver. It does not parse OBJ or invoke Blender. Output is `.gltf` JSON with

@@ -1,0 +1,10 @@
+{
+  "validator": "glTF Validator 2.0.0-dev.3.10",
+  "batch": "output\\batch-20260912-132032",
+  "return_code": 0,
+  "files": 84,
+  "errors": 0,
+  "warnings": 0,
+  "infos": 1,
+  "hints": 0
+}

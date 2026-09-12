@@ -14,12 +14,13 @@ static void help(void) {
          "  --map PREFIX=DIRECTORY    Explicit historic path mapping (repeatable)\n"
          "  --frame NUMBER            OBJ/glTF snapshot frame (default: scene FirstFrame)\n"
          "  --uv-map NAME             Export this native TXUV map, including VMAD seams\n"
+         "  --gltf-rigs skins|all     Separate rigs: usable skins (default), or also unbound rest skeletons\n"
          "Output must be outside the content root. Source files are read only.\n"
          "Exit codes: 0 supported subset exported, 1 error, 2 partial export (see manifest).\n"
          "glTF 2.0 exports static base geometry and scalar materials. Blender output is not implemented.");
 }
 static int run(int argc,char **argv) {
-    LWOptions opts={0}; LWError error={0}; int i,result=1; size_t j;
+    LWOptions opts={0}; LWError error={0}; int i,result=1,rigs_set=0; size_t j;
     if(argc==2&&!strcmp(argv[1],"--version")) { puts(LWCONVERT_VERSION); return 0; }
     if(argc<2||(argc==2&&(!strcmp(argv[1],"--help")||!strcmp(argv[1],"-h")))) { help(); return argc<2?1:0; }
     if(argc<3) { help(); return 1; }
@@ -46,6 +47,10 @@ static int run(int argc,char **argv) {
         if(!strcmp(name,"--output")&&!opts.output) opts.output=lw_absolute(value);
         else if(!strcmp(name,"--content-root")&&!opts.root) opts.root=lw_absolute(value);
         else if(!strcmp(name,"--uv-map")&&!opts.uv_map) opts.uv_map=lw_dup(value);
+        else if(!strcmp(name,"--gltf-rigs")&&!rigs_set) {
+            if(strcmp(value,"skins")&&strcmp(value,"all")) { lw_error(&error,0,"arguments","--gltf-rigs must be skins or all"); goto done; }
+            opts.gltf_all_rigs=!strcmp(value,"all"); rigs_set=1;
+        }
         else if(!strcmp(name,"--frame")&&!opts.frame_set) {
             char *end; errno=0; opts.frame=strtod(value,&end);
             if(end==value||*end||errno||!isfinite(opts.frame)) { lw_error(&error,0,"arguments","invalid frame number"); goto done; }

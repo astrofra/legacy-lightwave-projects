@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.8.1 LANGUAGES C)
+project(lightwave_preservation VERSION 0.8.2 LANGUAGES C)
 
 option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 set(LWCONVERT_LIGHTWAVE_SDK "" CACHE PATH "Optional installed LightWave SDK for the native animation capture plugin")

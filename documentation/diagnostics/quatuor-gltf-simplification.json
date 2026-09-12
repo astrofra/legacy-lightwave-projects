@@ -1,0 +1,530 @@
+{
+  "batch": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-140555",
+  "layout_version": "0.3",
+  "input_statuses": {
+    "partial": 56,
+    "skipped": 87,
+    "converted": 7
+  },
+  "projects": 1,
+  "conversion_manifests": 63,
+  "native_sources_checked": 63,
+  "obj_mtl_pairs_checked": 63,
+  "gltf_buffer_pairs_checked": 63,
+  "passed": true,
+  "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity.",
+  "baseline": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-132032",
+  "hierarchy_checked": 63,
+  "duplicate_basenames": {
+    "01.lws": 2,
+    "02.lws": 2,
+    "03.lws": 2,
+    "04.lws": 2,
+    "05.lws": 2,
+    "06.lws": 2,
+    "sol.lwo": 2,
+    "AVallin.lwo": 2,
+    "DLobet.lwo": 2,
+    "JMBerrette.lwo": 2,
+    "JPMartignoni.lwo": 2,
+    "acs.lwo": 2
+  },
+  "unchanged_native_documents": 63,
+  "unchanged_obj_mtl_pairs": 63,
+  "unchanged_gltf_with_buffers": 63,
+  "comparisons": [
+    {
+      "source": "quatuor/01.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/01.lws.gltf",
+      "gltf": "packages/quatuor/gltf/01.lws.gltf"
+    },
+    {
+      "source": "quatuor/02.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/02.lws.gltf",
+      "gltf": "packages/quatuor/gltf/02.lws.gltf"
+    },
+    {
+      "source": "quatuor/03.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/03.lws.gltf",
+      "gltf": "packages/quatuor/gltf/03.lws.gltf"
+    },
+    {
+      "source": "quatuor/04.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/04.lws.gltf",
+      "gltf": "packages/quatuor/gltf/04.lws.gltf"
+    },
+    {
+      "source": "quatuor/05.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/05.lws.gltf",
+      "gltf": "packages/quatuor/gltf/05.lws.gltf"
+    },
+    {
+      "source": "quatuor/06.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/06.lws.gltf",
+      "gltf": "packages/quatuor/gltf/06.lws.gltf"
+    },
+    {
+      "source": "quatuor/Q01.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/Q01.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/Q01.lwo.gltf"
+    },
+    {
+      "source": "quatuor/Q02.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/Q02.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/Q02.lwo.gltf"
+    },
+    {
+      "source": "quatuor/Q03.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/Q03.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/Q03.lwo.gltf"
+    },
+    {
+      "source": "quatuor/Q04.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/Q04.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/Q04.lwo.gltf"
+    },
+    {
+      "source": "quatuor/sol.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/sol.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/sol.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/01.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/01.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/01.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/02.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/02.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/02.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/03.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/03.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/03.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/04.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/04.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/04.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/05.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/05.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/05.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/06.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/06.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/06.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/07.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/07.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/07.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/08.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/08.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/08.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/09.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/09.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/09.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/10.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/10.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/10.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/AVallin.lwo",
+      "status": "converted",
+      "old_gltf": "packages/quatuor/gltf/work/3d/AVallin.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/AVallin.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/DLobet.lwo",
+      "status": "converted",
+      "old_gltf": "packages/quatuor/gltf/work/3d/DLobet.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/DLobet.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/JMBerrette.lwo",
+      "status": "converted",
+      "old_gltf": "packages/quatuor/gltf/work/3d/JMBerrette.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/JMBerrette.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/JPMartignoni.lwo",
+      "status": "converted",
+      "old_gltf": "packages/quatuor/gltf/work/3d/JPMartignoni.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/JPMartignoni.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/acs.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/acs.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/acs.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/acs.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/acs.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/acs.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/acs_1.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/acs_1.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/acs_1.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/acs_2.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/acs_2.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/acs_2.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/acs_3.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/acs_3.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/acs_3.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/acs_4.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/acs_4.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/acs_4.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/cube.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/cube.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/cube.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/curtains.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/curtains.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/curtains.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/dialogue01.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/dialogue01.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/dialogue01.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/dialogue02.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/dialogue02.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/dialogue02.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/dialogue03.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/dialogue03.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/dialogue03.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/dialogue04.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/dialogue04.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/dialogue04.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/head.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/head.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/head.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/lights.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/lights.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/lights.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/skinning.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/skinning.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/skinning.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/sol.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/sol.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/sol.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/sol_dialogue.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/sol_dialogue.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/sol_dialogue.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/subdiv/AVallin.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/subdiv/AVallin.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/subdiv/AVallin.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/subdiv/DLobet.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/subdiv/DLobet.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/subdiv/DLobet.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/subdiv/JMBerrette.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/subdiv/JMBerrette.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/subdiv/JMBerrette.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/subdiv/JPMartignoni.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/subdiv/JPMartignoni.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/subdiv/JPMartignoni.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/template.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/template.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/template.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/template02.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/template02.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/template02.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/template03.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/template03.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/template03.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/test_anim.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/test_anim.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/test_anim.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/violon01.lwo",
+      "status": "converted",
+      "old_gltf": "packages/quatuor/gltf/work/3d/violon01.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/violon01.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/violon02.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/3d/violon02.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/violon02.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/violon03.lwo",
+      "status": "converted",
+      "old_gltf": "packages/quatuor/gltf/work/3d/violon03.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/violon03.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/3d/violon04.lwo",
+      "status": "converted",
+      "old_gltf": "packages/quatuor/gltf/work/3d/violon04.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/3d/violon04.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/aa.srf",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/aa.srf.gltf",
+      "gltf": "packages/quatuor/gltf/work/aa.srf.gltf"
+    },
+    {
+      "source": "quatuor/work/acs.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/acs.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/acs.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/face.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/face.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/face.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/hdri_gen.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/hdri_gen.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/hdri_gen.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/monde_01.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/monde_01.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/monde_01.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/monde_02.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/monde_02.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/monde_02.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/photo.lwo",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/photo.lwo.gltf",
+      "gltf": "packages/quatuor/gltf/work/photo.lwo.gltf"
+    },
+    {
+      "source": "quatuor/work/photo.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/photo.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/photo.lws.gltf"
+    },
+    {
+      "source": "quatuor/work/vd.lws",
+      "status": "partial",
+      "old_gltf": "packages/quatuor/gltf/work/vd.lws.gltf",
+      "gltf": "packages/quatuor/gltf/work/vd.lws.gltf"
+    }
+  ],
+  "omitted_rest_rigs": [
+    {
+      "source": "quatuor/work/3d/acs.lws",
+      "owner_item": 268435456,
+      "bytes": 294318
+    },
+    {
+      "source": "quatuor/work/3d/dialogue01.lws",
+      "owner_item": 268435456,
+      "bytes": 294339
+    },
+    {
+      "source": "quatuor/work/3d/dialogue01.lws",
+      "owner_item": 268435475,
+      "bytes": 295087
+    },
+    {
+      "source": "quatuor/work/3d/dialogue01.lws",
+      "owner_item": 268435494,
+      "bytes": 295102
+    },
+    {
+      "source": "quatuor/work/3d/dialogue01.lws",
+      "owner_item": 268435513,
+      "bytes": 295102
+    },
+    {
+      "source": "quatuor/work/3d/dialogue02.lws",
+      "owner_item": 268435456,
+      "bytes": 294339
+    },
+    {
+      "source": "quatuor/work/3d/dialogue02.lws",
+      "owner_item": 268435475,
+      "bytes": 295087
+    },
+    {
+      "source": "quatuor/work/3d/dialogue02.lws",
+      "owner_item": 268435494,
+      "bytes": 295102
+    },
+    {
+      "source": "quatuor/work/3d/dialogue02.lws",
+      "owner_item": 268435513,
+      "bytes": 295102
+    },
+    {
+      "source": "quatuor/work/3d/dialogue03.lws",
+      "owner_item": 268435456,
+      "bytes": 767813
+    },
+    {
+      "source": "quatuor/work/3d/dialogue03.lws",
+      "owner_item": 268435475,
+      "bytes": 748538
+    },
+    {
+      "source": "quatuor/work/3d/dialogue03.lws",
+      "owner_item": 268435494,
+      "bytes": 747233
+    },
+    {
+      "source": "quatuor/work/3d/dialogue03.lws",
+      "owner_item": 268435513,
+      "bytes": 748741
+    },
+    {
+      "source": "quatuor/work/3d/dialogue04.lws",
+      "owner_item": 268435456,
+      "bytes": 767813
+    },
+    {
+      "source": "quatuor/work/3d/dialogue04.lws",
+      "owner_item": 268435475,
+      "bytes": 748538
+    },
+    {
+      "source": "quatuor/work/3d/dialogue04.lws",
+      "owner_item": 268435494,
+      "bytes": 747233
+    },
+    {
+      "source": "quatuor/work/3d/dialogue04.lws",
+      "owner_item": 268435513,
+      "bytes": 748741
+    },
+    {
+      "source": "quatuor/work/3d/test_anim.lws",
+      "owner_item": 268435456,
+      "bytes": 767810
+    },
+    {
+      "source": "quatuor/work/3d/test_anim.lws",
+      "owner_item": 268435475,
+      "bytes": 748535
+    },
+    {
+      "source": "quatuor/work/3d/test_anim.lws",
+      "owner_item": 268435494,
+      "bytes": 747230
+    },
+    {
+      "source": "quatuor/work/3d/test_anim.lws",
+      "owner_item": 268435513,
+      "bytes": 748738
+    }
+  ],
+  "omitted_rest_rig_bytes": 11690541,
+  "generator_changes": [
+    [
+      "lwconvert 0.8.1",
+      "lwconvert 0.8.2"
+    ]
+  ],
+  "comparison_scope": "Exact source, IR and binary hashes; identical OBJ except mtllib; identical MTL; identical retained glTF JSON except buffer URIs and generator version. Only explicitly omitted skeleton-only exports may disappear. Conversion statuses and source dependencies retained. No new visual-fidelity claim."
+}

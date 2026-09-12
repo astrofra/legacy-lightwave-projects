@@ -1,0 +1,16 @@
+{
+  "batch": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-132032",
+  "layout_version": "0.3",
+  "input_statuses": {
+    "partial": 56,
+    "skipped": 87,
+    "converted": 7
+  },
+  "projects": 1,
+  "conversion_manifests": 63,
+  "native_sources_checked": 63,
+  "obj_mtl_pairs_checked": 63,
+  "gltf_buffer_pairs_checked": 84,
+  "passed": true,
+  "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+}

@@ -3,6 +3,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 import struct
 import subprocess
 import sys
@@ -14,7 +15,7 @@ EXE = str(Path(sys.argv.pop(1)).resolve())
 REPOSITORY = Path(__file__).resolve().parents[1]
 BATCH = REPOSITORY / "tools/batch_convert.py"
 sys.path.insert(0, str(REPOSITORY / "tools"))
-from output_layout import new_run
+from output_layout import new_run, output_name
 
 
 def form(kind, payload):
@@ -65,6 +66,9 @@ class BatchTests(unittest.TestCase):
             manifest_path = run / record["manifest"]
             manifest = json.loads(manifest_path.read_text("utf-8"))
             index = json.loads((package / "manifest.json").read_text("utf-8"))
+            self.assertEqual(report["layout_version"], "0.3")
+            self.assertEqual(index["layout_version"], "0.3")
+            self.assertEqual(manifest["layout_version"], "0.3")
             self.assertIn(manifest_path.relative_to(package).as_posix(), [entry["manifest"] for entry in index["conversions"]])
             self.assertEqual(index["formats"]["gltf"], "generated")
             for planned in ("blender",):
@@ -100,7 +104,7 @@ class BatchTests(unittest.TestCase):
                     target = (path.parent / unquote(buffer["uri"])).resolve()
                     self.assertEqual(target, (manifest_path.parent / binary).resolve())
                     self.assertEqual(target.stat().st_size, buffer["byteLength"])
-        for obj in (run / "packages").glob("*/obj/*.obj"):
+        for obj in (run / "packages").glob("*/obj/**/*.obj"):
             lines = obj.read_text("utf-8").splitlines()
             mtl = obj.parent / next(line.split()[1] for line in lines if line.startswith("mtllib "))
             self.assertEqual(mtl, obj.with_suffix(".mtl"))
@@ -143,7 +147,7 @@ class BatchTests(unittest.TestCase):
         self.assertEqual(report["counts"], {"converted":4,"skipped":2})
         scene = next(r for r in report["files"] if r["source"].endswith("scene.lws"))
         self.assertEqual(Path(scene["content_root"]), a.parent)
-        self.assertEqual(scene["obj"], "packages/project_A/obj/scene.lws.obj")
+        self.assertEqual(scene["obj"], "packages/project_A/obj/nested/scene.lws.obj")
         mesh = next(r for r in report["files"] if r["source"] == "project A/mesh ! é")
         self.assertEqual(mesh["obj"], "packages/project_A/obj/mesh_!_é.lwo.obj")
         self.assertEqual(mesh["gltf"], "packages/project_A/gltf/mesh_!_é.lwo.gltf")
@@ -202,9 +206,9 @@ class BatchTests(unittest.TestCase):
         report_path = self.reports()[0]
         report = self.check_published_files(report_path)
         package = report_path.parent / "packages/project"
-        self.assertEqual({p.name for p in (package / "obj").glob("*.obj")},
-                         {"0.lws.obj", "1.lws.obj", "door.lwo.obj", "door.lwo-3.obj", "Door.lwo-4.obj", "door.lwo-2.obj", "é_!__.lwo.obj", "é_!__.lwo-2.obj"})
-        self.assertEqual(len(list((package / "IR").glob("*/object.json"))), 6)
+        self.assertEqual({p.relative_to(package / "obj").as_posix() for p in (package / "obj").rglob("*.obj")},
+                         {"0.lws.obj", "1.lws.obj", *(str(Path(name).parent / (output_name(Path(name).name) + ".obj")).replace("\\", "/") for name in sources)})
+        self.assertEqual(len(list((package / "IR").rglob("object.json"))), 6)
         self.assertEqual(report["counts"], {"converted":8})
         paths = {}
         for record in report["files"]:
@@ -221,20 +225,86 @@ class BatchTests(unittest.TestCase):
         report = self.check_published_files(self.reports()[0])
         self.assertEqual({r["package"] for r in report["files"]}, {"packages/content", "packages/content-2"})
 
-    def test_mapped_dependencies_share_the_collision_namespace(self):
+    def test_project_selection_keeps_nested_files_in_one_project(self):
+        self.source("quatuor/01.lws", b"LWSC\n1\n")
+        self.source("quatuor/work/3d/01.lws", b"LWSC\n1\n")
+        self.source("unselected/invalid.lws", b"LWSC\n99\n")
+        self.run_batch("--project", "quatuor")
+        report = self.check_published_files(self.reports()[0])
+        self.assertEqual(report["counts"], {"converted": 2})
+        self.assertEqual({r["package"] for r in report["files"]}, {"packages/quatuor"})
+        self.assertEqual({r["gltf"] for r in report["files"]},
+                         {"packages/quatuor/gltf/01.lws.gltf", "packages/quatuor/gltf/work/3d/01.lws.gltf"})
+        for name in ("missing", "../quatuor", "quatuor/work", ""):
+            self.run_batch("--project", name, code=1)
+        self.assertEqual(len(self.reports()), 1)
+
+    def test_directory_and_inferred_filename_collisions_preserve_sources(self):
+        sources = {"a b/mesh.lwo": "a_b/mesh.lwo", "a_b/mesh.lwo": "a_b-3/mesh.lwo",
+                   "a_b-2/mesh.lwo": "a_b-2/mesh.lwo", "mesh": "mesh.lwo-3",
+                   "mesh.lwo-2": "mesh.lwo-2", "mesh.lwo/inner.lwo": "mesh.lwo/inner.lwo",
+                   "other.lwo": "other.lwo-2", "other.lwo.gltf/inner.lwo": "other.lwo.gltf/inner.lwo"}
+        for index, source in enumerate(sources):
+            self.source("project/" + source, object_bytes(index))
+        self.run_batch()
+        report_path = self.reports()[0]
+        self.check_published_files(report_path)
+        project = report_path.parent / "packages/project"
+        for index, (source, destination) in enumerate(sources.items()):
+            self.assertEqual((project / "IR" / destination / "source.bin").read_bytes(), object_bytes(index), source)
+            self.assertTrue((project / "gltf" / (destination + ".gltf")).is_file())
+            self.assertTrue((project / "obj" / (destination + ".obj")).is_file())
+
+    def test_nested_textures_and_scene_dependencies_survive_relocation(self):
+        def chunk(tag, payload, small=False):
+            return tag + struct.pack(">H" if small else ">I", len(payload)) + payload + b"\0" * (len(payload) % 2)
+
+        texture = chunk(b"CTEX", b"Planar Image Map\0", True) + chunk(b"TIMG", b"maps/screen.tga\0", True)
+        texture += chunk(b"TFLG", struct.pack(">H", 4), True) + chunk(b"TSIZ", struct.pack(">3f", 1, 1, 1), True)
+        mesh = object_bytes()[12:-2] + struct.pack(">H", 1)
+        mesh += chunk(b"SRFS", b"paint\0") + chunk(b"SURF", b"paint\0" + texture)
+        self.source("project/objects/details/mesh.lwo", form(b"LWOB", mesh))
+        self.source("project/objects/details/maps/screen.tga", struct.pack("<BBBHHBHHHHBB", 0,0,2,0,0,0,0,0,1,1,24,32) + b"\x10\x40\xc0")
+        for name in ("main.lws", "work/scenes/main.lws"):
+            self.source("project/" + name, b"LWSC\n1\nLoadObject objects/details/mesh.lwo\n")
+        self.run_batch(code=2)
+        original = self.reports()[0].parent
+        relocated = self.base / "relocated project"
+        shutil.copytree(original, relocated)
+        self.check_published_files(relocated / "batch-report.json")
+        project = relocated / "packages/project"
+        for name in ("main.lws", "work/scenes/main.lws", "objects/details/mesh.lwo"):
+            path = project / "gltf" / (name + ".gltf")
+            data = json.loads(path.read_text("utf-8"))
+            self.assertEqual(len(data["images"]), 1)
+            uri = data["images"][0]["uri"]
+            image = path.parent / unquote(uri)
+            self.assertTrue(image.resolve().is_relative_to(relocated))
+            self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(), image.stem)
+            obj = project / "obj" / (name + ".obj")
+            self.assertIn("map_Kd " + uri, obj.with_suffix(".mtl").read_text("utf-8"))
+            self.assertEqual((obj.parent / uri).read_bytes(), image.read_bytes())
+        self.assertEqual(len(list((project / "IR").rglob("object.json"))), 1)
+
+    def test_mapped_dependencies_use_an_external_namespace(self):
         self.source("project/local/mesh.lwo", object_bytes())
+        self.source("project/_external/mesh.lwo", object_bytes(1))
         external = self.base / "external"
         external.mkdir()
         (external / "mesh.lwo").write_bytes(object_bytes(7))
-        self.source("project/0.lws", b"LWSC\n1\nLoadObject outside:mesh.lwo\nLoadObject local/mesh.lwo\n")
-        self.source("project/1.lws", b"LWSC\n1\nLoadObject local/mesh.lwo\nLoadObject outside:mesh.lwo\n")
-        self.run_batch("--map", f"outside:={external}")
+        (external / "nested").mkdir()
+        (external / "nested/mesh.lwo").write_bytes(object_bytes(8))
+        self.source("project/0.lws", b"LWSC\n1\nLoadObject outside:mesh.lwo\nLoadObject local/mesh.lwo\nLoadObject other:mesh.lwo\n")
+        self.source("project/1.lws", b"LWSC\n1\nLoadObject local/mesh.lwo\nLoadObject other:mesh.lwo\nLoadObject outside:mesh.lwo\n")
+        self.run_batch("--map", f"outside:={external}", "--map", f"other:={external / 'nested'}")
         report_path = self.reports()[0]
         self.check_published_files(report_path)
         ir = report_path.parent / "packages/project/IR"
-        self.assertEqual((ir / "mesh.lwo/source.bin").read_bytes(), object_bytes())
-        self.assertEqual((ir / "mesh.lwo-2/source.bin").read_bytes(), object_bytes(7))
-        self.assertEqual(len(list(ir.glob("*/object.json"))), 2)
+        self.assertEqual((ir / "local/mesh.lwo/source.bin").read_bytes(), object_bytes())
+        self.assertEqual((ir / "_external/mesh.lwo/source.bin").read_bytes(), object_bytes(1))
+        self.assertEqual((ir / "_external-2/mesh.lwo/source.bin").read_bytes(), object_bytes(7))
+        self.assertEqual((ir / "_external-2/mesh.lwo-2/source.bin").read_bytes(), object_bytes(8))
+        self.assertEqual(len(list(ir.rglob("object.json"))), 4)
 
     def test_extensionless_scenes_and_mapped_object_collisions(self):
         self.source("project/a/mesh", object_bytes())
@@ -250,13 +320,13 @@ class BatchTests(unittest.TestCase):
         report_path = self.reports()[0]
         self.check_published_files(report_path)
         package = report_path.parent / "packages/project"
-        names = {"mesh.lwo", "mesh.lwo-3", "mesh.lwo-2", "mesh.lwo-4", "mesh.lws", "mesh.lws-2"}
-        self.assertEqual({p.stem for p in (package / "obj").glob("*.obj")}, names)
-        self.assertEqual({p.stem for p in (package / "gltf").glob("*.gltf")}, names)
-        self.assertEqual((package / "IR/mesh.lwo/source.bin").read_bytes(), object_bytes())
-        self.assertEqual((package / "IR/mesh.lwo-4/source.bin").read_bytes(), object_bytes(3))
+        names = {"a/mesh.lwo", "b/mesh.lwo", "c/mesh.lwo-2", "_external/mesh.lwo", "mesh.lws", "mesh.lws-2"}
+        self.assertEqual({p.relative_to(package / "obj").with_suffix("").as_posix() for p in (package / "obj").rglob("*.obj")}, names)
+        self.assertEqual({p.relative_to(package / "gltf").with_suffix("").as_posix() for p in (package / "gltf").rglob("*.gltf")}, names)
+        self.assertEqual((package / "IR/a/mesh.lwo/source.bin").read_bytes(), object_bytes())
+        self.assertEqual((package / "IR/_external/mesh.lwo/source.bin").read_bytes(), object_bytes(3))
         self.assertEqual((package / "IR/mesh.lws/source.bin").read_bytes(), scene)
-        self.assertEqual(len(list((package / "IR").glob("*/object.json"))), 4)
+        self.assertEqual(len(list((package / "IR").rglob("object.json"))), 4)
 
     def test_batch_keeps_scene_animation_and_shared_buffer_links(self):
         self.source("project/object", object_bytes())

@@ -11,7 +11,7 @@ import test_converter as fixtures
 import test_skin as skin
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"tools"))
 from lightwave_animation import digest, decompose, export_rig, multiply, read_capture, validate_mesh, write_json
-from export_lightwave_animation import prepare_scene
+from export_lightwave_animation import prepare_scene, finalize_rig_outputs
 from output_layout import ProjectOutput
 from lightwave_scene import export_scene, validate_rigid_scene
 
@@ -292,21 +292,47 @@ class AnimationTests(unittest.TestCase):
             prepare_scene(source+b'Plugin MasterHandler 2 UnknownDeformer\nEndPlugin\n',scene,assets,bad,self.base,plugin)
 
     def test_batch_publication_keeps_capture_hashes_and_animation_links(self):
-        package,manifest = self.package(); scene_path = package/manifest["scene"]
+        self.write("rig.lwo",skin.object_bytes())
+        source = self.write("rig.lws",skin.scene_bytes().replace("BoneWeightMapOnly 1", "BoneWeightMapOnly 0"))
+        package,manifest = self.convert(source,"--uv-map","uv","--gltf-rigs","all",code=2)
+        scene_path = package/manifest["scene"]
         cache = scene_path.parent/"evaluated-animation"; cache.mkdir(); (cache/"frames").mkdir()
         path = cache/"frames/frame-000011.txt"; path.write_text(capture_text(captures()[0]))
         write_json(cache/"capture.json",{"frames":[{"uri":"frames/"+path.name,"sha256":digest(path)}]})
         provenance = digest(cache/"capture.json")
         manifest["evaluated_animation"] = {"uri":(cache/"capture.json").relative_to(package).as_posix(),"sha256":provenance}
         manifest["gltf_animations"] = [export_rig(package,manifest,manifest["gltf_rigs"][0],captures(),provenance)]
-        publisher = ProjectOutput(self.base/"published",[self.root/"rig.lwo",self.root/"rig.lws"])
+        manifest["gltf_files"] += 1
+        direct_manifest = copy.deepcopy(manifest)
+        collision = self.write("rig.lws.anim-10000000",skin.object_bytes())
+        publisher = ProjectOutput(self.base/"published",[self.root/"rig.lwo",self.root/"rig.lws",collision],self.root.parent)
         published = publisher.publish(package,manifest)
         result = json.loads(published.read_text()); reference = result["gltf_animations"][0]
         self.assertTrue((published.parent/reference["gltf"]).is_file())
         self.assertTrue((published.parent/reference["gltf_bin"]).is_file())
+        self.assertIsNone(result["gltf_rigs"][0]["gltf"])
+        self.assertEqual(result["gltf_rigs"][0]["export_status"],"omitted-by-policy")
+        self.assertEqual(list((publisher.directory/"gltf").rglob("*.rig-*")),[])
+        animation = (published.parent/reference["gltf"]).resolve()
+        self.assertEqual(animation.name,"rig.lws.anim-10000000-2.gltf")
+        self.assertEqual(animation.parent.relative_to(publisher.directory/"gltf"),published.parent.parent.relative_to(publisher.directory/"IR"))
+        data = json.loads(animation.read_text())
+        self.assertTrue(data["animations"])
+        self.assertEqual((animation.parent/data["buffers"][0]["uri"]).read_bytes(),(published.parent/reference["gltf_bin"]).read_bytes())
         capture = published.parent/result["evaluated_animation"]["uri"]
         self.assertEqual(digest(capture),provenance)
         self.assertEqual(digest(capture.parent/"frames/frame-000011.txt"),digest(path))
+
+        # The direct native-animation CLI prunes its temporary rest copy too.
+        # Final animation and original IR remain available after that cleanup.
+        write_json(package/"manifest.json",direct_manifest)
+        finalize_rig_outputs(package,"skins")
+        compact = json.loads((package/"manifest.json").read_text())
+        self.assertIsNone(compact["gltf_rigs"][0]["gltf"])
+        self.assertEqual(compact["gltf_files"],3)
+        self.assertEqual(list((package/"gltf").glob("*.rig-*")),[])
+        self.assertTrue((package/compact["gltf_animations"][0]["gltf"]).is_file())
+        self.assertEqual(digest(cache/"capture.json"),provenance)
 
 
 if __name__=="__main__": unittest.main()

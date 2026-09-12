@@ -48,7 +48,7 @@ typedef struct { char *prefix, *destination; } LWRule;
 typedef struct {
     char *input, *output, *root, *uv_map;
     double frame;
-    int frame_set;
+    int frame_set, gltf_all_rigs;
     LW_ARRAY(LWRule) rules;
 } LWOptions;
 typedef struct {
@@ -132,7 +132,7 @@ typedef struct {
 typedef struct {
     size_t owner,bones,sets,unweighted_points,missing_maps,procedural_bones;
     char *name;
-    int weighted,written;
+    int weighted,written,available;
     char issue[256];
 } LWRigExport;
 typedef struct LWRigExports { LWRigExport *v; size_t n,cap; } LWRigExports;

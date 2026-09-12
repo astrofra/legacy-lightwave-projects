@@ -10,7 +10,7 @@ import shutil
 import stat
 import subprocess
 import sys
-from output_layout import FORMATS, Names, ProjectOutput, new_run, output_name
+from output_layout import FORMATS, LAYOUT_VERSION, Names, ProjectOutput, new_run, output_name
 
 REPOSITORY = Path(__file__).resolve().parents[1]
 KINDS = {b"LWOB": "LWOB", b"LWO2": "LWO2", b"PST_": "PST_"}
@@ -81,7 +81,7 @@ def find_converter():
     return None
 
 
-def prepare_projects(records, content, run):
+def prepare_projects(records, content, run, rig_policy="skins"):
     groups = {}
     for record in records:
         source = content / record["source"]
@@ -89,7 +89,7 @@ def prepare_projects(records, content, run):
         groups.setdefault(project, []).append(source)
         record["content_root"] = str(project)
     names = Names(output_name(project.name) for project in groups)
-    return {str(project): ProjectOutput(run / "packages" / names.get(str(project), output_name(project.name)), sources)
+    return {str(project): ProjectOutput(run / "packages" / names.get(str(project), output_name(project.name)), sources, project, rig_policy)
             for project, sources in sorted(groups.items())}
 
 
@@ -102,6 +102,9 @@ def convert_one(record, number, content, run, converter, options, project_output
     log = run / "logs" / project_output.directory.name / (project_output.name_for(source) + ".log")
     record["log"] = log.relative_to(run).as_posix()
     command = [str(converter), "convert", str(source), "--content-root", str(project), "--output", str(package)]
+    # Native animation needs rest rigs as working inputs; publication applies
+    # the user's final policy after animation export, including on failure.
+    command += ["--gltf-rigs", "all" if options.lightwave_root else options.gltf_rigs]
     for option in ("frame", "uv_map"):
         value = getattr(options, option)
         if value is not None:
@@ -167,12 +170,14 @@ def convert_one(record, number, content, run, converter, options, project_output
 def main(argv=None):
     parser = BatchParser(description=__doc__)
     parser.add_argument("--content", type=Path, default=REPOSITORY / "content", help="Input tree (default: repository content/)")
+    parser.add_argument("--project", action="append", default=[], metavar="NAME", help="Convert only this top-level content directory, retaining its project root (repeatable)")
     parser.add_argument("--output-root", type=Path, default=REPOSITORY / "output", help="Parent of a new batch directory (default: repository output/)")
     parser.add_argument("--converter", type=Path, help="Converter executable (Windows default: bin/win64/lwconvert.exe, then local builds)")
     parser.add_argument("--dry-run", action="store_true", help="List supported files and counts without creating output or invoking the converter")
     parser.add_argument("--timeout", type=float, default=120, help="Maximum seconds per conversion (default: 120)")
     parser.add_argument("--frame", type=float, help="Override the OBJ snapshot and initial glTF pose; scene clips keep their playback range")
     parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
+    parser.add_argument("--gltf-rigs", choices=("skins", "all"), default="skins", help="Separate rigs: usable skins (default), or also unbound rest skeletons")
     parser.add_argument("--lightwave-root",type=Path,help="Evaluate native rigs and missing rigid-object scene assemblies using this installed LightWave root")
     parser.add_argument("--capture-plugin",type=Path,help="Native animation capture plugin (default: bin/win64/lw_capture.p)")
     parser.add_argument("--animation-start",type=int,help="First native animation frame (default: scene preview start)")
@@ -183,6 +188,9 @@ def main(argv=None):
     content, output = options.content.resolve(), options.output_root.resolve()
     if not content.is_dir():
         parser.error(f"Input directory does not exist: {content}")
+    for name in options.project:
+        if not name or Path(name).name != name or name in {".", ".."} or not (content / name).is_dir() or is_link(content / name):
+            parser.error(f"--project must name an existing top-level content directory: {name}")
     if output == content or content in output.parents or output in content.parents:
         parser.error("Input and output trees must be separate, without nesting")
     if not math.isfinite(options.timeout) or options.timeout <= 0:
@@ -197,6 +205,10 @@ def main(argv=None):
     if not options.dry_run and (converter is None or not converter.is_file()):
         parser.error("Converter not found. Build it first: cmake --build build --config Release (see README.md), or use --converter")
     records = discover(content)
+    if options.project:
+        selected = {os.path.normcase(str(content / name)) for name in options.project}
+        records = [record for record in records if len(Path(record["source"]).parts) > 1 and
+                   os.path.normcase(str(content / Path(record["source"]).parts[0])) in selected]
     eligible = [record for record in records if record["status"] == "pending"]
     print(f"Scanned {len(records)} entries; {len(eligible)} supported LightWave files; {counts(records)}", flush=True)
     if options.dry_run:
@@ -206,13 +218,13 @@ def main(argv=None):
     output.mkdir(parents=True, exist_ok=True)
     run = new_run(output, datetime.now().strftime("batch-%Y%m%d-%H%M%S"))
     (run / "logs").mkdir()
-    projects = prepare_projects(eligible, content, run)
-    report_options = {"frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout,
+    projects = prepare_projects(eligible, content, run, options.gltf_rigs)
+    report_options = {"project": options.project, "gltf_rigs": options.gltf_rigs, "frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout,
                       "lightwave_root": str(options.lightwave_root.resolve()) if options.lightwave_root else None,
                       "capture_plugin": str(options.capture_plugin.resolve()) if options.capture_plugin else None,
                       "animation_start": options.animation_start, "animation_end": options.animation_end,
                       "animation_step": options.animation_step}
-    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": report_options, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 geometry with sampled scene transform animation, plus optional external LightWave evaluated rigs and rigid-object scene assemblies. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
+    report = {"schema_version": "0.2", "layout_version": LAYOUT_VERSION, "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": report_options, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 geometry with sampled scene transform animation, plus optional external LightWave evaluated rigs and rigid-object scene assemblies. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root, with its source hierarchy retained under each output format.", "files": records}
     write_report(run, report)
     print(f"Output: {run}", flush=True)
     interrupted = False

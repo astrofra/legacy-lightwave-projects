@@ -226,10 +226,10 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fputs(",\"scene_gltf_bin\":",f);
     if(gltf->geometry.scene_written) { if(!json_output_path(f,"gltf",p->scene_name,".bin",e)) goto failed; } else fputs("null",f);
     fputs(",\"scene_gltf_issue\":",f); lw_json_string(f,gltf->geometry.scene_issue);
-    fputs(",\"gltf_rigs\":[",f);
+    fprintf(f,",\"gltf_rig_policy\":\"%s\",\"gltf_rigs\":[",opts->gltf_all_rigs?"all":"skins");
     if(gltf->rigs) for(i=0;i<gltf->rigs->n;i++) {
         const LWRigExport *rig=&gltf->rigs->v[i]; if(i) fputc(',',f);
-        fprintf(f,"{\"owner_node\":%zu,\"owner_item\":%u,\"bones\":%zu,\"status\":\"%s\",\"pose\":\"rest; object-local; scene motion and IK not evaluated\",\"influence_sets\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"missing_weight_maps\":%zu,\"procedural_bones_not_evaluated\":%zu,\"gltf\":",rig->owner,p->scene.nodes.v[rig->owner].id,rig->bones,rig->written?(rig->weighted?"explicit-weight-map-skin":"skeleton-only"):"blocked",rig->sets,rig->unweighted_points,rig->missing_maps,rig->procedural_bones);
+        fprintf(f,"{\"owner_node\":%zu,\"owner_item\":%u,\"bones\":%zu,\"status\":\"%s\",\"export_status\":\"%s\",\"pose\":\"rest; object-local; scene motion and IK not evaluated\",\"influence_sets\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"missing_weight_maps\":%zu,\"procedural_bones_not_evaluated\":%zu,\"gltf\":",rig->owner,p->scene.nodes.v[rig->owner].id,rig->bones,rig->available?(rig->weighted?"explicit-weight-map-skin":"skeleton-only"):"blocked",rig->written?"written":rig->available?"omitted-by-policy":"blocked",rig->sets,rig->unweighted_points,rig->missing_maps,rig->procedural_bones);
         if(rig->written) { if(!json_output_path(f,"gltf",rig->name,".gltf",e)) goto failed; } else fputs("null",f);
         fputs(",\"gltf_bin\":",f);
         if(rig->written) { if(!json_output_path(f,"gltf",rig->name,".bin",e)) goto failed; } else fputs("null",f);

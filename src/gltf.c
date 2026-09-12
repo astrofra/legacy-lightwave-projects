@@ -611,7 +611,8 @@ int lw_write_gltf(const char *dir,const LWPackage *p,const LWOptions *opts,LWGlt
         result.sets=rig.influence_sets; result.weighted=rig.weighted;
         result.missing_maps=rig.missing_maps; result.procedural_bones=rig.procedural_bones; result.unweighted_points=rig.unweighted_points;
         snprintf(result.issue,sizeof result.issue,"%s",built?rig.issue:rig_error.message);
-        if(built) {
+        result.available=built;
+        if(built&&(rig.weighted||opts->gltf_all_rigs)) {
             size_t length=strlen(p->scene_name)+48; result.name=malloc(length);
             if(!result.name) { lw_free_rig(&rig); lw_error(e,0,"allocation","out of memory"); goto done; }
             snprintf(result.name,length,"%s.rig-%08x",p->scene_name,p->scene.nodes.v[i].id);

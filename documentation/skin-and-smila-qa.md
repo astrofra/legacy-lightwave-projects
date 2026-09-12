@@ -1,5 +1,10 @@
 # Native bone bindings and glTF rest rigs — v0.5.0
 
+Since v0.8.2, the default `--gltf-rigs skins` omits the unbound rest-skeleton
+files discussed below. Their diagnostic entries and original IR remain present.
+Use `--gltf-rigs all` to reproduce these historical skeleton-only glTF exports.
+Explicit skins and native animated derivatives remain exported by default.
+
 This report describes the v0.5.0 rest-rig milestone. The later
 [v0.6.0 animation profile](smila-animation-qa.md) captures evaluated LightWave
 deformation as morph targets and bone poses as TRS tracks; it does not recover
