@@ -126,7 +126,7 @@ def convert_one(record, number, content, run, converter, options, project_output
         if getattr(options,"lightwave_root",None) and manifest.get("scene"):
             from export_lightwave_animation import evaluate_package
             try:
-                evaluate_package(package, options.lightwave_root, options.capture_plugin, options.animation_start, options.animation_end, options.animation_step, options.timeout)
+                evaluate_package(package, options.lightwave_root, options.capture_plugin, options.animation_start, options.animation_end, options.animation_step, options.timeout, converter)
                 manifest = json.loads((package / "manifest.json").read_text("utf-8"))
             except (OSError, ValueError, KeyError, subprocess.TimeoutExpired) as error:
                 manifest = json.loads((package / "manifest.json").read_text("utf-8"))
@@ -145,6 +145,8 @@ def convert_one(record, number, content, run, converter, options, project_output
         record["scene_gltf_issue"] = manifest.get("scene_gltf_issue", "")
         record["rig_gltf"] = [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig["gltf"]]
         record["animation_gltf"] = [(published.parent / animation["gltf"]).resolve().relative_to(run).as_posix() for animation in manifest.get("gltf_animations", [])]
+        if manifest.get("gltf_evaluated_scene") and manifest["gltf_evaluated_scene"]["channels"]:
+            record["animation_gltf"].append(record["gltf"])
         record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)
     except (OSError, ValueError, subprocess.TimeoutExpired) as error:
         record.update(status="failed", reason=str(error))
@@ -171,7 +173,7 @@ def main(argv=None):
     parser.add_argument("--timeout", type=float, default=120, help="Maximum seconds per conversion (default: 120)")
     parser.add_argument("--frame", type=float, help="Override the OBJ snapshot and initial glTF pose; scene clips keep their playback range")
     parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
-    parser.add_argument("--lightwave-root",type=Path,help="Opt in to native evaluated rig animation using this installed LightWave root")
+    parser.add_argument("--lightwave-root",type=Path,help="Evaluate native rigs and missing rigid-object scene assemblies using this installed LightWave root")
     parser.add_argument("--capture-plugin",type=Path,help="Native animation capture plugin (default: bin/win64/lw_capture.p)")
     parser.add_argument("--animation-start",type=int,help="First native animation frame (default: scene preview start)")
     parser.add_argument("--animation-end",type=int,help="Last native animation frame (default: scene preview end)")
@@ -210,7 +212,7 @@ def main(argv=None):
                       "capture_plugin": str(options.capture_plugin.resolve()) if options.capture_plugin else None,
                       "animation_start": options.animation_start, "animation_end": options.animation_end,
                       "animation_step": options.animation_step}
-    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": report_options, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 geometry with sampled scene transform animation, plus optional external LightWave evaluated rig animation. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
+    report = {"schema_version": "0.2", "layout_version": "0.2", "formats": FORMATS, "status": "running", "started_utc": datetime.now(timezone.utc).isoformat(), "content": str(content), "output": str(run), "converter": str(converter), "options": report_options, "scope": "Loose LWOB/LWO2/PST_/LWSC files by signature; OBJ/MTL, LWIR and glTF 2.0 geometry with sampled scene transform animation, plus optional external LightWave evaluated rigs and rigid-object scene assemblies. Ancillary files are listed as skipped; archives are not extracted. Each top-level content directory is a separate project root.", "files": records}
     write_report(run, report)
     print(f"Output: {run}", flush=True)
     interrupted = False

@@ -84,6 +84,55 @@ class Converter(unittest.TestCase):
         path = out / manifest["assets"][0]["uri"]
         return path.parent, json.loads(path.read_text("utf-8"))
 
+    def legacy_motion(self, kind, x):
+        return motion1([(0,[x,0,0,0,0,0,1,1,1],1),(10,[x+10,0,0,0,0,0,1,1,1],1)]).replace("ObjectMotion",kind+"Motion (unnamed)")
+
+    def test_legacy_implicit_camera_keeps_separate_light_and_object_keys(self):
+        obj=self.write("Station1",lwob())
+        for visibility in ("before","after","absent"):
+            with self.subTest(visibility=visibility):
+                raw="LWSC\n1\nFirstFrame 0\nLastFrame 10\n"
+                if visibility=="before": raw+="ShowCamera 1\n"
+                raw+="LoadObject HD1:atm/space/Station1\n"+self.legacy_motion("Object",10)
+                raw+="AddLight\nLightName Sun\n"+self.legacy_motion("Light",20)
+                raw+="AddLight\nLightName Flare\n"+self.legacy_motion("Light",30)+"ParentObject 1\n"
+                raw+=self.legacy_motion("Camera",40)
+                if visibility=="after": raw+="ShowCamera 1\n"
+                path=self.write("StationChase",raw); out,m=self.convert(path)
+                scene_path=out/m["scene"]; scene=json.loads(scene_path.read_text())
+                self.assertEqual((scene_path.parent/"source.bin").read_bytes(),path.read_bytes())
+                self.assertEqual(m["unresolved_object_instances"],0)
+                self.assertTrue(m["scene_gltf"]); self.assertTrue(m["scene_obj"])
+                self.assertEqual(m["gltf_animation_samples"],11)
+                self.assertEqual(Path(m["assets"][0]["source_path"]),obj)
+                nodes={n["id"]:n for n in scene["nodes"]}; self.assertEqual(len(nodes),4)
+                self.assertEqual(nodes[0x20000001]["parent"],0x10000000)
+                self.assertIsNone(nodes[0x30000000]["parent"])
+                data=(scene_path.parent/scene["animation_buffer"]["uri"]).read_bytes()
+                for item,x in ((0x10000000,10),(0x20000000,20),(0x20000001,30),(0x30000000,40)):
+                    channel=nodes[item]["channels"][0]; span=channel["keys"]
+                    self.assertEqual(len(nodes[item]["channels"]),9); self.assertEqual(span["count"],2)
+                    self.assertEqual(struct.unpack_from("<2d",data,span["offset"]),(0,x))
+                    self.assertEqual(struct.unpack_from("<2d",data,span["offset"]+span["stride"]),(10,x+10))
+
+    def test_legacy_camera_after_object_does_not_require_a_light(self):
+        self.write("Station1",lwob())
+        raw="LWSC\n1\nLoadObject Station1\n"+self.legacy_motion("Object",10)+self.legacy_motion("Camera",40)
+        out,m=self.convert(self.write("CameraPass",raw))
+        scene=json.loads((out/m["scene"]).read_text())
+        self.assertEqual([n["id"] for n in scene["nodes"]],[0x10000000,0x30000000])
+        self.assertEqual([len(n["channels"]) for n in scene["nodes"]],[9,9])
+
+    def test_motion_owner_errors_and_real_duplicate_camera_are_rejected(self):
+        for header,body,message in [
+            ("LWSC\n1\n", "AddLight\n"+self.legacy_motion("Object",10),"no matching item owner"),
+            ("LWSC\n1\n", self.legacy_motion("Light",10),"no matching item owner"),
+            ("LWSC\n3\n", "AddLight\n"+motion3().replace("ObjectMotion","CameraMotion"),"no matching item owner"),
+            ("LWSC\n1\n", self.legacy_motion("Camera",10)+self.legacy_motion("Camera",20),"duplicate motion block")]:
+            with self.subTest(body=body):
+                result=self.run_cli("inspect",self.write("invalid",header+body),code=1)
+                self.assertIn(message,result.stderr)
+
     def image_object(self, name, reference, kind="LWOB"):
         if kind == "LWO2":
             raw = form(kind, layer(0), chunk("CLIP", struct.pack(">I", 7) + chunk("STIL", s0(reference), True)))
@@ -323,7 +372,7 @@ class Converter(unittest.TestCase):
         self.assertEqual(struct.unpack_from("<3f", (directory / "geometry.bin").read_bytes()), (0, 0, 1))
         text = (out / manifest["assets"][0]["obj"]).read_text()
         self.assertIn("v 0 0 -1", text)
-        self.assertIn("f 3 2 1", text)
+        self.assertIn("f 3//3 2//2 1//1", text)
         self.assertEqual(obj["chunks"][-1]["status"], "preserved-opaque")
 
     def test_readable_layout_collisions_and_material_links(self):
@@ -398,7 +447,7 @@ class Converter(unittest.TestCase):
         directory, obj = self.object_data(out, manifest)
         self.assertEqual(len(obj["maps"]), 2)
         self.assertIn("vt 0.25 0.75", (out / manifest["assets"][0]["obj"]).read_text())
-        self.assertIn("f 3/3 2/2 1/1", (out / manifest["assets"][0]["obj"]).read_text())
+        self.assertIn("f 3/3/3 2/2/2 1/1/1", (out / manifest["assets"][0]["obj"]).read_text())
         out, manifest = self.convert(path, "--uv-map", "absent", code=2)
         self.assertEqual(manifest["unmapped_uv_corners"], 3)
 
@@ -456,7 +505,7 @@ class Converter(unittest.TestCase):
         points = [list(map(float, line.split()[1:])) for line in lines if line.startswith("v ")]
         self.assertAlmostEqual(points[0][0], 1)
         self.assertAlmostEqual(points[1][2], -1)
-        self.assertIn("f 1 2 3", lines)
+        self.assertIn("f 1//1 2//2 3//3", lines)
 
     def test_v3_seconds_and_unsupported_spline(self):
         self.write("tri", lwob())
@@ -601,7 +650,7 @@ class Converter(unittest.TestCase):
         uv = [tuple(map(float,line.split()[1:])) for line in (out / manifest["assets"][0]["obj"]).read_text().splitlines() if line.startswith("vt ")]
         for polygon in polygons:
             for corner in polygon:
-                vertex,texture = map(int,corner.split('/'))
+                vertex,texture,_ = map(int,corner.split('/'))
                 value = 40 if vertex == 5 else vertex-1
                 self.assertEqual(uv[texture-1], (value,2*value))
 

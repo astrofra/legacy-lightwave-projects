@@ -13,6 +13,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/"tools"))
 from lightwave_animation import digest, decompose, export_rig, multiply, read_capture, validate_mesh, write_json
 from export_lightwave_animation import prepare_scene
 from output_layout import ProjectOutput
+from lightwave_scene import export_scene, validate_rigid_scene
 
 
 def matrix(x=0,y=0,z=0,angle=0,scale=1):
@@ -40,14 +41,19 @@ def captures():
 
 
 def capture_text(frame):
-    rows = [f"LWCONVERT_CAPTURE 1 {frame['frame']} {frame['time']} {frame['time']}"]
+    version = 2 if any("corner_normals" in m for m in frame["meshes"].values()) else 1
+    rows = [f"LWCONVERT_CAPTURE {version} {frame['frame']} {frame['time']} {frame['time']}"]
     for item,values in frame["items"].items():
         m = values["matrix"]; values12 = [m[4*c+r] for c in range(4) for r in range(3)]
         rows.append(f"I {item:x} {values['parent']:x} "+" ".join(map(str,values12)))
     for item,m in frame["meshes"].items():
         rows.append(f"M {item:x} {len(m['points'])} {len(m['polygons'])} 0 0")
         for p in m["points"]: rows.append(f"P {p['id']:x} "+" ".join(map(str,p["base"]+p["world"])))
-        for p in m["polygons"]: rows.append(f"Q 1178682181 {len(p)} "+" ".join(f"{i:x}" for i in p))
+        for polygon,p in enumerate(m["polygons"]):
+            rows.append(f"Q 1178682181 {len(p)} "+" ".join(f"{i:x}" for i in p))
+            for corner,point in enumerate(p):
+                if (polygon,corner) in m.get("corner_normals",{}):
+                    rows.append(f"V {polygon} {corner} {point:x} "+" ".join(map(str,m["corner_normals"][polygon,corner])))
     rows.append(f"END {len(frame['items'])} 1 4 2")
     return "\n".join(rows)+"\n"
 
@@ -69,12 +75,132 @@ class AnimationTests(unittest.TestCase):
         self.write("rig.lwo",skin.object_bytes())
         return self.convert(self.write("rig.lws",skin.scene_bytes()),"--uv-map","uv",code=2)
 
+    def rigid_package(self):
+        self.write("tri.lwo",fixtures.lwob())
+        source="LWSC\n3\nFramesPerSecond 30\nLoadObject tri.lwo\nPController 3\nParentItem 10000002\nLoadObject tri.lwo\nParentItem 10000002\nAddNullObject root\n"
+        package,manifest=self.convert(self.write("rigid.lws",source),code=2)
+        scene_path=package/manifest["scene"]; scene=json.loads(scene_path.read_text())
+        (scene_path.parent/"evaluated-animation").mkdir()
+        frames=[]
+        for sample in range(3):
+            root=matrix(2+sample,3,4,scale=-2)
+            items={0x10000002:{"parent":0,"matrix":root}}
+            meshes={}
+            for i in range(2):
+                item=0x10000000+i
+                world=multiply(root,matrix(y=1 if i==0 else -1,angle=math.radians(170+10*sample) if i==0 else 0))
+                items[item]={"parent":0x10000002,"matrix":world}
+                points=[]
+                for point,base in enumerate(((0,0,1),(1,0,1),(0,1,1))):
+                    position=[sum(world[4*k+r]*base[k] for k in range(3))+world[12+r] for r in range(3)]
+                    points.append({"id":100+point,"base":list(base),"world":position})
+                meshes[item]={"points":points,"polygons":[[100,101,102]]}
+            frames.append({"frame":11+sample,"time":(11+sample)/30,"items":items,"meshes":meshes})
+        return package,manifest,scene,frames
+
+    def test_native_rigid_assembly_exports_instances_hierarchy_and_trs(self):
+        package,manifest,scene,frames=self.rigid_package()
+        entry=export_scene(package,manifest,scene,frames,"d"*64,fixtures.EXE)
+        data=json.loads((package/entry["gltf"]).read_text()); raw=(package/entry["gltf_bin"]).read_bytes()
+        self.assertEqual(entry["geometry_instances"],2); self.assertEqual(entry["meshes"],1)
+        self.assertEqual(len(data["nodes"]),3); self.assertEqual(data["scenes"][0]["nodes"],[2])
+        self.assertEqual(data["nodes"][2]["children"],[0,1])
+        self.assertEqual(data["nodes"][0]["mesh"],data["nodes"][1]["mesh"])
+        self.assertEqual(data["nodes"][2]["scale"],[-2,1,1])
+        self.assertNotIn("skins",data); self.assertNotIn("targets",data["meshes"][0]["primitives"][0])
+        self.assertEqual(data["extras"]["source_sha256"],scene["source"]["sha256"])
+        self.assertEqual(data["nodes"][0]["extras"]["native_rig_parameters"][0]["value"]["text"],"3")
+        clip=data["animations"][0]
+        self.assertEqual(clip["extras"]["first_frame"],11)
+        for channel in clip["channels"]:
+            sampler=clip["samplers"][channel["sampler"]]
+            self.assertEqual(values(data,raw,sampler["input"])[0],(0,))
+            rows=values(data,raw,sampler["output"])
+            if channel["target"]=={"node":2,"path":"translation"}:
+                self.assertEqual(rows,[(2,3,-4),(3,3,-4),(4,3,-4)])
+            if channel["target"]["path"]=="rotation":
+                for a,b in zip(rows,rows[1:]): self.assertGreater(sum(x*y for x,y in zip(a,b)),0)
+        self.assertFalse(((package/manifest["scene"]).parent/"evaluated-animation/assembly-package").exists())
+
+    def test_native_rigid_validation_rejects_deformation_and_changed_parents(self):
+        for change in ("deform","parent","topology","time"):
+            package,manifest,scene,frames=self.rigid_package()
+            if change=="deform": frames[1]["meshes"][0x10000000]["points"][0]["world"][0]+=.01
+            elif change=="parent": frames[1]["items"][0x10000000]["parent"]=0
+            elif change=="topology": frames[1]["meshes"][0x10000000]["polygons"][0]=[100,101,101]
+            else: frames[1]["time"]=frames[0]["time"]
+            with self.subTest(change=change), self.assertRaises(ValueError):
+                validate_rigid_scene(package,manifest,scene,frames)
+
+    def test_native_rigid_scene_publishes_as_the_main_scene_gltf(self):
+        package,manifest,scene,frames=self.rigid_package()
+        entry=export_scene(package,manifest,scene,frames,"e"*64,fixtures.EXE)
+        manifest.update(scene_gltf=entry["gltf"],scene_gltf_bin=entry["gltf_bin"],scene_gltf_issue="",
+                        gltf_evaluated_scene={k:v for k,v in entry.items() if k not in ("gltf","gltf_bin")})
+        publisher=ProjectOutput(self.base/"published-rigid",[self.root/"tri.lwo",self.root/"rigid.lws"])
+        path=publisher.publish(package,manifest); published=json.loads(path.read_text())
+        self.assertEqual(Path(published["scene_gltf"]).name,"rigid.lws.gltf")
+        self.assertTrue((path.parent/published["scene_gltf"]).is_file())
+        self.assertTrue((path.parent/published["scene_gltf_bin"]).is_file())
+        self.assertEqual(published["gltf_evaluated_scene"]["geometry_instances"],2)
+
     def test_complete_capture_and_rejection_of_truncated_or_invalid_data(self):
         text = capture_text(captures()[0]); path = self.write("capture.txt",text)
         self.assertEqual(read_capture(path),captures()[0])
         for bad in (text.rsplit("END",1)[0],text.replace("END 8 1 4 2","END 7 1 4 2"),text.replace("M 10000000 4 2 0 0","M 10000000 4 2 2 2"),text.replace("P 64 0 0 1","P 64 nan 0 1")):
             path.write_text(bad)
             with self.assertRaises(ValueError): read_capture(path)
+
+    def normal_captures(self):
+        frames = captures()
+        for sample,frame in enumerate(frames):
+            mesh = frame["meshes"][0x10000000]; mesh["corner_normals"] = {}
+            for polygon,boundary in enumerate(mesh["polygons"]):
+                for corner,point in enumerate(boundary):
+                    n = [sample*.25+(point-100)*.1,1.,1.]
+                    length = math.sqrt(sum(v*v for v in n))
+                    mesh["corner_normals"][polygon,corner] = [v/length for v in n]
+        return frames
+
+    def test_capture_v2_normal_identity_and_vectors_are_validated(self):
+        frame = self.normal_captures()[0]; text = capture_text(frame)
+        self.assertEqual(read_capture(self.write("normals.txt",text)),frame)
+        line = next(l for l in text.splitlines() if l.startswith("V "))
+        for replacement in (line+"\n"+line,line.replace("V 0 0 64","V 0 0 65"),"V 0 0 64 nan 0 0","V 0 0 64 0 0 0"):
+            with self.subTest(replacement=replacement), self.assertRaises(ValueError):
+                read_capture(self.write("bad-normals.txt",text.replace(line,replacement)))
+
+    def test_evaluated_normals_survive_morphs_uv_seams_and_signed_scale(self):
+        package,manifest = self.package(); frames = self.normal_captures()
+        # Native enumeration and cyclic corner starts may differ from IR.
+        for frame in frames:
+            m=frame["meshes"][0x10000000]; m["polygons"]=[p[1:]+p[:1] for p in m["polygons"][::-1]]
+            m["corner_normals"]={(1-p,(c+2)%3):v for (p,c),v in m["corner_normals"].items()}
+        entry = export_rig(package,manifest,manifest["gltf_rigs"][0],frames,"e"*64)
+        data=json.loads((package/entry["gltf"]).read_text()); raw=(package/entry["gltf_bin"]).read_bytes()
+        self.assertEqual(data["extras"]["normal_profile"],"native-evaluated-corner-normals-0.1")
+        for primitive in data["meshes"][0]["primitives"]:
+            base=values(data,raw,primitive["attributes"]["NORMAL"]); mapping=primitive["extras"]["source_map"]
+            for sample in range(3):
+                delta=values(data,raw,primitive["targets"][sample-1]["NORMAL"]) if sample else [(0,0,0)]*len(base)
+                for row,(n,d) in enumerate(zip(base,delta)):
+                    point=struct.unpack_from("<III",raw,mapping["byteOffset"]+12*row)[2]
+                    expected=[-2*(sample*.25+point*.1),1.,-1.]
+                    length=math.sqrt(sum(v*v for v in expected))
+                    for a,b in zip((a+b for a,b in zip(n,d)),expected): self.assertAlmostEqual(a,b/length,places=6)
+
+    def test_missing_evaluated_normals_never_silently_flatten_smoothing(self):
+        package,manifest = self.package(); rig=manifest["gltf_rigs"][0]
+        incomplete=self.normal_captures(); incomplete[1]["meshes"][0x10000000]["corner_normals"].pop((0,0))
+        with self.assertRaisesRegex(ValueError,"omitted an exported corner normal"):
+            export_rig(package,manifest,rig,incomplete,"f"*64)
+        path=package/manifest["assets"][0]["uri"]; native=json.loads(path.read_text())
+        native["materials"]=[{"smoothing_angle":1.5}]; write_json(path,native)
+        with self.assertRaisesRegex(ValueError,"recapture"):
+            export_rig(package,manifest,rig,captures(),"f"*64)
+        native["tag_assignments"]=[{"type":int.from_bytes(b"SMGP","big")}]; write_json(path,native)
+        with self.assertRaisesRegex(ValueError,"NORM/SMGP shading is not qualified"):
+            export_rig(package,manifest,rig,self.normal_captures(),"f"*64)
 
     def test_morph_animation_preserves_points_seams_and_native_time_origin(self):
         package,manifest = self.package(); rig = manifest["gltf_rigs"][0]

@@ -64,7 +64,7 @@ def decompose(m):
 
 def read_capture(path):
     lines = path.read_text("ascii").splitlines()
-    if not lines or not lines[0].startswith("LWCONVERT_CAPTURE 1 ") or not lines[-1].startswith("END "):
+    if not lines or not lines[0].startswith(("LWCONVERT_CAPTURE 1 ","LWCONVERT_CAPTURE 2 ")) or not lines[-1].startswith("END "):
         raise ValueError(f"Incomplete native capture: {path}")
     header = lines[0].split(); result = {"frame": int(header[2]), "time": float(header[3]), "items": {}, "meshes": {}}
     if float(header[4]) != result["time"]: raise ValueError("Motion-blurred capture is not supported")
@@ -87,11 +87,22 @@ def read_capture(path):
             if key in result["meshes"]: raise ValueError("Duplicate captured mesh ID")
             if list(map(int,fields[4:])) != [0,0]: raise ValueError("Subdivision must be disabled in native capture")
             mesh = {"declared_points": int(fields[2]), "declared_polygons": int(fields[3]), "points": [], "polygons": []}
+            if header[1] == "2": mesh["corner_normals"] = {}
             result["meshes"][key] = mesh
         elif fields[0] == "P" and len(fields) == 8 and mesh is not None:
             mesh["points"].append({"id": int(fields[1],16), "base": list(map(float,fields[2:5])), "world": list(map(float,fields[5:]))})
         elif fields[0] == "Q" and mesh is not None and len(fields) == 3+int(fields[2]):
             mesh["polygons"].append([int(v,16) for v in fields[3:]])
+        elif fields[0] == "V" and header[1] == "2" and mesh is not None and len(fields) == 7:
+            polygon,corner,point = int(fields[1]),int(fields[2]),int(fields[3],16)
+            if not 0<=polygon<len(mesh["polygons"]) or not 0<=corner<len(mesh["polygons"][polygon]) or mesh["polygons"][polygon][corner]!=point:
+                raise ValueError("Invalid captured corner normal identity")
+            key = (polygon,corner)
+            if key in mesh.setdefault("corner_normals",{}): raise ValueError("Duplicate captured corner normal")
+            vector = list(map(float,fields[4:7]))
+            if not all(math.isfinite(v) for v in vector) or not .99<sum(v*v for v in vector)<1.01:
+                raise ValueError("Invalid captured corner normal vector")
+            mesh["corner_normals"][key] = vector
         else: raise ValueError(f"Invalid capture record: {line[:100]}")
     counts = [len(result["items"]),len(result["meshes"]),sum(len(m["points"]) for m in result["meshes"].values()),sum(len(m["polygons"]) for m in result["meshes"].values())]
     if counts != list(map(int,lines[-1].split()[1:])): raise ValueError("Capture trailer counts disagree")
@@ -112,6 +123,21 @@ def selected_points(native, geometry, request):
     return indices,points,layers
 
 
+def polygon_key(boundary):
+    if not boundary: return ()
+    return min(tuple(p[i:]+p[:i]) for p in (boundary,boundary[::-1]) for i in range(len(p)))
+
+
+def source_boundaries(native, geometry, layers):
+    span = native["primitives"]; fields = native["primitive_fields"]
+    names = [n.strip() for n in (fields.split(",") if isinstance(fields,str) else fields)]
+    for i in range(span["count"]):
+        row = struct.unpack_from("<"+"I"*(span["stride"]//4),geometry,span["offset"]+i*span["stride"])
+        record = dict(zip(names,row))
+        if native["polygon_blocks"][record["polygon_block"]]["layer"] not in layers: continue
+        yield i,list(struct.unpack_from("<"+"I"*record["index_count"],geometry,native["indices"]["offset"]+4*record["first_index"]))
+
+
 def validate_mesh(capture, native, geometry, request):
     indices,points,layers = selected_points(native,geometry,request)
     if len(points) != len(capture["points"]): raise ValueError("Evaluated topology changed: native point count differs from cage")
@@ -122,28 +148,55 @@ def validate_mesh(capture, native, geometry, request):
         lookup[actual["id"]] = index
     # Match complete polygon boundaries, allowing cyclic rotation and winding.
     # This catches a topology replacement even if point/polygon counts agree.
-    def canonical(poly):
-        if not poly: return ()
-        return min(tuple(poly[i:]+poly[:i]) for i in range(len(poly)))
     from collections import Counter
-    expected = []
-    span = native["primitives"]; fields = native["primitive_fields"]
-    # Current LWIR records have stable named fields; read by name, not offsets.
-    names = fields.split(",") if isinstance(fields,str) else fields
-    names = [n.strip() for n in names]
-    for i in range(span["count"]):
-        row = struct.unpack_from("<"+"I"*(span["stride"]//4),geometry,span["offset"]+i*span["stride"])
-        record = dict(zip(names,row))
-        block = native["polygon_blocks"][record["polygon_block"]]
-        if block["layer"] not in layers: continue
-        boundary = list(struct.unpack_from("<"+"I"*record["index_count"],geometry,native["indices"]["offset"]+4*record["first_index"]))
-        expected.append(min(canonical(boundary),canonical(boundary[::-1])))
-    actual = []
-    for polygon in capture["polygons"]:
-        boundary = [lookup[p] for p in polygon]
-        actual.append(min(canonical(boundary),canonical(boundary[::-1])))
+    expected = [polygon_key(boundary) for _,boundary in source_boundaries(native,geometry,layers)]
+    actual = [polygon_key([lookup[p] for p in polygon]) for polygon in capture["polygons"]]
     if Counter(expected) != Counter(actual): raise ValueError("Evaluated polygon connectivity differs from the native cage")
     return dict(zip(indices,[p["world"] for p in capture["points"]]))
+
+
+def evaluated_normals(capture, native, geometry, request, matrix):
+    """Match evaluated world normals to IR corners after validate_mesh succeeds."""
+    indices,_,layers = selected_points(native,geometry,request)
+    boundaries = list(source_boundaries(native,geometry,layers))
+    if "corner_normals" not in capture:
+        # Protocol 1 never recorded shading. Retain its original flat-triangle
+        # compatibility only where that reconstruction has no lost parameters.
+        smooth = any(m.get("smoothing",{}).get("enabled",False) or m.get("smoothing_angle",0)>0 or
+                     (native.get("format")=="LWOB" and m.get("flags",0)&4) for m in native["materials"])
+        if smooth or any(m["type"]=="NORM" for m in native["maps"]) or any(len(b)>3 for _,b in boundaries):
+            raise ValueError("Evaluated corner normals missing; recapture with LWConvertCapture protocol 2 to preserve smoothing")
+        return None
+    if any(m["type"]=="NORM" for m in native["maps"]) or any(a["type"]==int.from_bytes(b"SMGP","big") for a in native["tag_assignments"]):
+        raise ValueError("Native evaluated NORM/SMGP shading is not qualified for LightWave 9.6; source and rest normals remain preserved")
+    lookup = dict(zip((p["id"] for p in capture["points"]),indices))
+    by_boundary = {}
+    for polygon,boundary in enumerate(capture["polygons"]):
+        normals_by_point = {}
+        for corner,point in enumerate(boundary):
+            normal = capture["corner_normals"].get((polygon,corner))
+            if normal is None: continue
+            # Inverse of the normal transform: A^T * world normal. This also
+            # handles nonuniform and mirrored object scale without double bake.
+            local = [sum(matrix[4*c+r]*normal[r] for r in range(3)) for c in range(3)]
+            length = math.sqrt(sum(v*v for v in local))
+            if not length or not math.isfinite(length): raise ValueError("Invalid evaluated normal transform")
+            local = [v/length for v in local]; local[2] = -local[2]
+            source_point = lookup[point]
+            if source_point in normals_by_point and max(abs(a-b) for a,b in zip(local,normals_by_point[source_point]))>1e-6:
+                raise ValueError("Ambiguous evaluated normal at repeated polygon point")
+            normals_by_point[source_point] = local
+        by_boundary.setdefault(polygon_key([lookup[p] for p in boundary]),[]).append(normals_by_point)
+    result = {}
+    for polygon,boundary in boundaries:
+        candidates = by_boundary[polygon_key(boundary)]
+        for corner,point in enumerate(boundary):
+            choices = [candidate.get(point) for candidate in candidates]
+            if any(n is None for n in choices): continue
+            if any(max(abs(a-b) for a,b in zip(n,choices[0]))>1e-6 for n in choices[1:]):
+                raise ValueError("Ambiguous evaluated normals on duplicate polygon boundaries")
+            result[polygon,corner,point] = choices[0]
+    return result
 
 
 def append_accessor(data, buffer, rows, kind, bounds=False, vertex=False):
@@ -193,7 +246,8 @@ def export_rig(package, manifest, rig, frames, provenance):
     asset = next(a for a in manifest["assets"] if a["id"] == mesh["extras"]["source_sha256"])
     native_path = package/asset["uri"]; native = json.loads(native_path.read_text("utf-8")); geometry = (native_path.parent/native["buffer"]["uri"]).read_bytes()
     request = mesh["extras"]["source_layer_request"]
-    samples = []
+    samples = []; corner_samples = []
+    needs_normals = any("NORMAL" in p["attributes"] for p in mesh["primitives"])
     for frame in frames:
         if owner not in frame["meshes"] or owner not in frame["items"]: raise ValueError("Native evaluator omitted the rig object")
         world_points = validate_mesh(frame["meshes"][owner],native,geometry,request)
@@ -202,6 +256,10 @@ def export_rig(package, manifest, rig, frames, provenance):
         for point,world in world_points.items():
             p = transform(owner_inverse,world); local[point] = [p[0],p[1],-p[2]]
         samples.append(local)
+        if needs_normals: corner_samples.append(evaluated_normals(frame["meshes"][owner],native,geometry,request,frame["items"][owner]["matrix"]))
+    normal_profile = "native-evaluated-corner-normals-0.1" if corner_samples and all(n is not None for n in corner_samples) else "legacy-flat-triangle-normals-0.1"
+    if corner_samples and any(n is None for n in corner_samples) and any(n is not None for n in corner_samples):
+        raise ValueError("Mixed capture normal protocols across animation samples")
     times = [(f["time"]-frames[0]["time"],) for f in frames]
     if len(times)<2 or any(a[0]>=b[0] for a,b in zip(times,times[1:])): raise ValueError("Animation requires increasing capture times")
     time_accessor = append_accessor(data,buffer,times,"SCALAR",True)
@@ -245,9 +303,16 @@ def export_rig(package, manifest, rig, frames, provenance):
         for key in list(attributes):
             if key.startswith(("JOINTS_","WEIGHTS_")): del attributes[key]
         mapping = primitive["extras"]["source_map"]
-        ids = [struct.unpack_from("<III",buffer,mapping["byteOffset"]+12*i)[2] for i in range(mapping["count"])]
+        corners = [struct.unpack_from("<III",buffer,mapping["byteOffset"]+12*i) for i in range(mapping["count"])]
+        ids = [corner[2] for corner in corners]
         positions = [[sample[i] for i in ids] for sample in samples]
-        normal_samples = [normals(p) for p in positions] if "NORMAL" in attributes else None
+        normal_samples = None
+        if "NORMAL" in attributes:
+            if normal_profile == "native-evaluated-corner-normals-0.1":
+                if any(corner not in sample for sample in corner_samples for corner in corners):
+                    raise ValueError("Native evaluator omitted an exported corner normal")
+                normal_samples = [[sample[corner] for corner in corners] for sample in corner_samples]
+            else: normal_samples = [normals(p) for p in positions]
         overwrite_accessor(data,buffer,attributes["POSITION"],positions[0])
         if normal_samples: overwrite_accessor(data,buffer,attributes["NORMAL"],normal_samples[0])
         primitive["targets"] = []
@@ -266,9 +331,11 @@ def export_rig(package, manifest, rig, frames, provenance):
     data["animations"] = [animation]
     data["extras"].update(profile="lightwave-evaluated-cage-0.1",pose="native evaluated first capture frame",animation="sampled native transforms and deformed cage; LINEAR between samples",skin_status="native deformation captured as morph targets; original rig retained separately",subdivision="disabled; source point identities and polygon boundaries verified",capture_sha256=provenance)
     data["extras"].pop("skin_issue",None)
+    data["extras"].update(normal_profile=normal_profile,normals="evaluated world corner normals transformed to mesh local space; base NORMAL plus per-sample morph NORMAL deltas" if normal_profile.startswith("native-") else "protocol 1 compatibility: reconstructed flat triangle normals")
+    animation["extras"]["normal_profile"] = normal_profile
     name = source.name.replace(f".rig-{owner:08x}",f".anim-{owner:08x}")
     destination = source.with_name(name); binary = destination.with_suffix(".bin")
     data["buffers"] = [{"uri":quote(binary.name,safe="-._~"),"byteLength":len(buffer)}]
     if destination.exists() or binary.exists(): raise FileExistsError(destination)
     binary.write_bytes(buffer); write_json(destination,data)
-    return {"owner_item":owner,"gltf":destination.relative_to(package).as_posix(),"gltf_bin":binary.relative_to(package).as_posix(),"samples":len(frames),"first_frame":frames[0]["frame"],"last_frame":frames[-1]["frame"],"duration_seconds":times[-1][0],"animated_bones":animated_bones,"morph_targets":targets,"source_points":len(samples[0]),"maximum_local_vertex_displacement":max_displacement,"profile":"lightwave-evaluated-cage-0.1","capture_sha256":provenance}
+    return {"owner_item":owner,"gltf":destination.relative_to(package).as_posix(),"gltf_bin":binary.relative_to(package).as_posix(),"samples":len(frames),"first_frame":frames[0]["frame"],"last_frame":frames[-1]["frame"],"duration_seconds":times[-1][0],"animated_bones":animated_bones,"morph_targets":targets,"source_points":len(samples[0]),"maximum_local_vertex_displacement":max_displacement,"profile":"lightwave-evaluated-cage-0.1","normal_profile":normal_profile,"capture_sha256":provenance}

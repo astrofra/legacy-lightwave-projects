@@ -153,6 +153,24 @@ class BatchTests(unittest.TestCase):
         for path, checksum in before.items():
             self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(), checksum)
 
+    def test_extensionless_amiga_scene_with_implicit_camera_is_published(self):
+        self.source("aminet-atmobjs/Station1",object_bytes())
+        motion="  9\n  1\n  0 0 0 0 0 0 1 1 1\n  0 0 0 0 0\nEndBehavior 1\n"
+        raw="LWSC\n1\nLoadObject HD1:atm/space/Station1\nObjectMotion (unnamed)\n"+motion
+        raw+="AddLight\nLightName Sun\nLightMotion (unnamed)\n"+motion
+        raw+="CameraMotion (unnamed)\n"+motion+"ShowCamera 1\n"
+        original=self.source("aminet-atmobjs/NastyStation",raw.encode())
+        self.run_batch()
+        report_path=self.reports()[0]; report=self.check_published_files(report_path)
+        self.assertEqual(report["counts"],{"converted":2})
+        record=next(r for r in report["files"] if r["source"].endswith("NastyStation"))
+        self.assertEqual(record["gltf"],"packages/aminet-atmobjs/gltf/NastyStation.lws.gltf")
+        self.assertEqual(record["obj"],"packages/aminet-atmobjs/obj/NastyStation.lws.obj")
+        manifest_path=report_path.parent/record["manifest"]; manifest=json.loads(manifest_path.read_text())
+        scene_path=manifest_path.parent/manifest["scene"]; scene=json.loads(scene_path.read_text())
+        self.assertEqual([n["id"] for n in scene["nodes"]],[0x10000000,0x20000000,0x30000000])
+        self.assertEqual((scene_path.parent/"source.bin").read_bytes(),original.read_bytes())
+
     def test_rerun_creates_new_outputs_without_overwriting(self):
         self.source("project/object", object_bytes())
         self.run_batch()

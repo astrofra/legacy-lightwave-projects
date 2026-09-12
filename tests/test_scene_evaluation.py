@@ -123,5 +123,51 @@ class SceneEvaluationTests(unittest.TestCase):
                 _,m=self.convert(scene,code=2)
                 self.assertIsNone(m["scene_obj"]); self.assertIn(issue,m["scene_obj_issue"])
 
+    def test_rotation_controllers_cannot_export_raw_keys_as_solved_motion(self):
+        self.write("tri.lwo",fixtures.lwob())
+        for axis in "HPB":
+            for mode in (1,2,3,4,99):
+                with self.subTest(axis=axis,mode=mode):
+                    setting=f"{axis}Controller {mode}"
+                    path=self.write("controlled.lws","LWSC\n3\nLastFrame 10\nLoadObject tri.lwo\n"+motion(0,[(0,0,3),(2,1,3)])+setting+"\n")
+                    out,m=self.convert(path,code=2)
+                    self.assertIsNone(m["scene_obj"]); self.assertIsNone(m["scene_gltf"])
+                    self.assertIn(setting,m["scene_obj_issue"])
+                    self.assertIn("inverse-kinematics" if mode==3 else "motion-controller",m["scene_gltf_issue"])
+                    self.assertTrue((out/m["assets"][0]["gltf"]).is_file())
+
+    def test_ik_goal_parameters_are_preserved_with_specific_diagnostics(self):
+        self.write("tri.lwo",fixtures.lwob())
+        settings="GoalObject 17\nGoalStrength 1\nIKAnchor 1\nHLimits -45 90\nHJointStiffness 30\n"
+        path=self.write("goal.lws","LWSC\n3\nLoadObject tri.lwo\n"+settings)
+        out,m=self.convert(path,code=2)
+        self.assertIn("GoalObject 17: requires native inverse-kinematics goal evaluation",m["scene_obj_issue"])
+        scene=json.loads((out/m["scene"]).read_text()); fields=scene["nodes"][0]["rig_parameters"]
+        self.assertEqual({f["name"]["text"]:f["value"]["text"] for f in fields},dict(line.split(maxsplit=1) for line in settings.splitlines()))
+        raw=path.read_bytes()
+        for f in fields:
+            line=f["name"]["text"]+" "+f["value"]["text"]
+            self.assertEqual(raw[f["source_offset"]:f["source_offset"]+len(line)],line.encode())
+        self.assertEqual((out/m["scene"]).with_name("source.bin").read_bytes(),raw)
+
+    def test_disabled_ik_and_keyframe_controllers_allow_regular_scene_animation(self):
+        self.write("tri.lwo",fixtures.lwob())
+        raw="LWSC\n3\nFirstFrame 0\nLastFrame 2\nFramesPerSecond 1\nLoadObject tri.lwo\n"+motion(0,[(0,0,3),(2,2,3)])
+        raw+="HController 0\nPController 0\nBController 0\nFullTimeIK 0\n"
+        out,m=self.convert(self.write("keyframes.lws",raw))
+        data,_=gltf.load(out/m["scene_gltf"])
+        self.assertTrue(data["animations"]); self.assertEqual(m["scene_deformation_features_not_evaluated"],0)
+        _,m=self.convert(self.write("ik.lws",raw.replace("FullTimeIK 0","FullTimeIK 1")),code=2)
+        self.assertIsNone(m["scene_gltf"]); self.assertIn("FullTimeIK 1",m["scene_obj_issue"])
+
+    def test_concatenated_joint_stiffness_is_reported_without_rewriting_source(self):
+        self.write("tri.lwo",fixtures.lwob())
+        raw="LWSC\n3\nLoadObject tri.lwo\nHJointStiffness 600PController 3\n"
+        path=self.write("joined.lws",raw); out,m=self.convert(path,code=2)
+        self.assertIsNone(m["scene_gltf"]); self.assertIn("concatenated scene statements",m["scene_obj_issue"])
+        scene=json.loads((out/m["scene"]).read_text())
+        self.assertEqual(scene["nodes"][0]["rig_parameters"][0]["value"]["text"],"600PController 3")
+        self.assertEqual((out/m["scene"]).with_name("source.bin").read_bytes(),path.read_bytes())
+
 
 if __name__ == "__main__": unittest.main()

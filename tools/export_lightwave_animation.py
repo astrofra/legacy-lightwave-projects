@@ -21,7 +21,7 @@ MODULES = {
 # These plugins affect display, selection or the final image rather than the
 # evaluated object transformations. Unknown masters/deformers are not discarded.
 DISPLAY_CLASSES = {"CustomObjHandler","PixelFilterHandler","ImageFilterHandler"}
-DISPLAY_MASTERS = {"ProxyPick",".BRDF"}
+DISPLAY_MASTERS = {"ProxyPick",".BRDF",".SceneEditorStandardBanks","SceneEditor","Fprime"}
 BUILTINS = {("DisplacementHandler","LW_MorphMixer")}
 
 
@@ -98,7 +98,7 @@ def prepare_scene(source, scene, assets, directory, lightwave, capture_plugin):
     return working,config,{"removed_display_plugins":removed,"retained_animation_plugins":[{"class":c,"name":n} for c,n in retained],"modules":modules,"overrides":{"SubPatchLevel":"0 0",**overrides},"working_scene_sha256":digest(working)}
 
 
-def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120):
+def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None):
     package = Path(package).resolve(); lightwave = Path(lightwave).resolve()
     capture_plugin = Path(capture_plugin or REPOSITORY/"bin/win64/lw_capture.p").resolve()
     executable = lightwave/"Programs/lwsn.exe"
@@ -106,8 +106,11 @@ def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=N
     manifest_path = package/"manifest.json"; manifest = json.loads(manifest_path.read_text("utf-8"))
     if not manifest.get("scene"): return []
     rigs = [r for r in manifest.get("gltf_rigs",[]) if r.get("gltf")]
-    if not rigs: return []
+    # The C backend already handles ordinary scene motion. Native whole-scene
+    # evaluation fills missing assemblies; existing rig derivatives stay separate.
+    if not rigs and manifest.get("scene_gltf"): return []
     scene_path = package/manifest["scene"]; scene = json.loads(scene_path.read_text("utf-8")); source = scene_path.parent/scene["source"]["uri"]
+    if not rigs and not any(n["asset_index"] is not None for n in scene["nodes"]): return []
     if digest(source)!=scene["source"]["sha256"]: raise ValueError("IR scene source hash mismatch")
     text = source.read_bytes().decode("latin1")
     def preview(key, fallback):
@@ -143,19 +146,40 @@ def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=N
     for f in frames:
         if not math.isclose(f["time"],f["frame"]/scene["fps"],rel_tol=1e-7,abs_tol=1e-9): raise ValueError("Native capture time differs from source frame rate")
     audit.update(schema_version="0.1",profile="lightwave-evaluated-cage-0.1",source_sha256=scene["source"]["sha256"],host={"path":executable.as_posix(),"sha256":digest(executable),"banner":log.splitlines()[0]},fps=scene["fps"],first_frame=int(start),last_frame=int(end),frame_step=int(step),frames=[{"uri":"frames/"+p.name,"sha256":digest(p)} for p in paths],log_uri="screamernet.log",log_sha256=digest(directory/"screamernet.log"),reported_resource_issues=[line for line in log.splitlines() if "Can't " in line or "Error:" in line],scope="Native evaluated cage and bone poses. Display and image plugins removed; animation plugins retained; subdivision disabled; every exported mesh checked against native point identities and polygon connectivity.")
+    if not rigs:
+        audit["profile"] = "lightwave-evaluated-scene-transforms-0.1"
+        audit["scope"] = "Native evaluated object/null hierarchy; rigid cage motion and topology verified before whole-scene export; subdivision disabled; original IK statements retained in evaluation copy."
+    protocols = {2 if "corner_normals" in mesh else 1 for frame in frames for mesh in frame["meshes"].values()}
+    audit["capture_protocols"] = sorted(protocols)
+    audit["normal_scope"] = "Protocol 2 records LWMeshInfo.pntOtherNormal, evaluated world normals per polygon corner; protocol 1 contains no normals; subdivision disabled"
     capture_manifest = directory/"capture.json"; write_json(capture_manifest,audit)
-    results = [export_rig(package,manifest,rig,frames,digest(capture_manifest)) for rig in rigs]
-    manifest["gltf_animations"] = results
+    if rigs:
+        results = [export_rig(package,manifest,rig,frames,digest(capture_manifest)) for rig in rigs]
+        manifest["gltf_animations"] = results
+        manifest["scope"] += "; additional native evaluated animation via external LightWave, cage morph targets and bone TRS tracks"
+    else:
+        from lightwave_scene import export_scene
+        converter = Path(converter or REPOSITORY/"bin/win64/lwconvert.exe").resolve()
+        entry = export_scene(package,manifest,scene,frames,digest(capture_manifest),converter,timeout)
+        results = [entry]
+        manifest["source_scene_gltf_issue"] = manifest["scene_gltf_issue"]
+        manifest.update(scene_gltf=entry["gltf"],scene_gltf_bin=entry["gltf_bin"],scene_gltf_issue="",gltf_animation_issue="",
+                        gltf_animation_channels=entry["channels"],gltf_animation_samples=entry["samples"])
+        manifest["gltf_evaluated_scene"] = {k:v for k,v in entry.items() if k not in ("gltf","gltf_bin")}
+        manifest["gltf_triangles"] += entry["triangles"]
+        manifest["gltf_scene_nodes_not_exported"] = sum(n["id"]>>28!=1 for n in scene["nodes"])
+        manifest["gltf_animated_channels_not_exported"] = sum(c["keys"]["count"]>1 for n in scene["nodes"] if n["id"]>>28!=1 for c in n["channels"])
+        manifest["gltf_profile"] += "; "+entry["profile"]
+        manifest["scope"] += "; additional native evaluated rigid-object scene and TRS animation via external LightWave"
     manifest["evaluated_animation"] = {"uri":capture_manifest.relative_to(package).as_posix(),"sha256":digest(capture_manifest)}
     manifest["gltf_files"] += len(results)
-    manifest["scope"] += "; additional native evaluated animation via external LightWave, cage morph targets and bone TRS tracks"
     write_json(manifest_path,manifest)
     return results
 
 
-def evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120):
+def evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None):
     try:
-        return _evaluate_package(package,lightwave,capture_plugin,start,end,step,timeout)
+        return _evaluate_package(package,lightwave,capture_plugin,start,end,step,timeout,converter)
     except (OSError,ValueError,KeyError,subprocess.TimeoutExpired) as error:
         # Keep failed native evaluations reviewable when a batch publishes the
         # successfully extracted IR and removes its temporary working package.
@@ -193,7 +217,7 @@ def main():
     for rule in args.map: command += ["--map",rule]
     result = subprocess.run(command,timeout=args.timeout)
     if result.returncode not in (0,2): return result.returncode
-    animations = evaluate_package(args.output,args.lightwave_root,args.capture_plugin,args.start_frame,args.end_frame,args.frame_step,args.timeout)
+    animations = evaluate_package(args.output,args.lightwave_root,args.capture_plugin,args.start_frame,args.end_frame,args.frame_step,args.timeout,args.converter)
     print(json.dumps({"output":str(args.output.resolve()),"animations":animations},indent=2))
     return result.returncode
 

@@ -82,7 +82,10 @@ def check(run):
             pairs.extend((r["gltf"], r["gltf_bin"]) for r in rigs)
             animations = manifest.get("gltf_animations", [])
             pairs.extend((a["gltf"], a["gltf_bin"]) for a in animations)
-            assert {linked(run, uri, project) for uri in record.get("animation_gltf", [])} == {linked(manifest_path.parent, a["gltf"], project) for a in animations}
+            animation_paths = {linked(manifest_path.parent, a["gltf"], project) for a in animations}
+            if manifest.get("gltf_evaluated_scene") and manifest["gltf_evaluated_scene"]["channels"]:
+                animation_paths.add(linked(manifest_path.parent, manifest["scene_gltf"], project))
+            assert {linked(run, uri, project) for uri in record.get("animation_gltf", [])} == animation_paths
             assert {linked(run, uri, project) for uri in record.get("rig_gltf", [])} == {linked(manifest_path.parent, r["gltf"], project) for r in rigs}
             for uri, binary in pairs:
                 path = linked(manifest_path.parent, uri, project)
