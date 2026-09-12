@@ -1,0 +1,22 @@
+{
+  "blender_version": "4.2.0",
+  "files": [
+    {
+      "gltf": "S:\\works\\legacy-lightwave-projects\\output\\smila-lw6-animation-20260912\\gltf\\Smilla_IK.lws.anim-10000000.gltf",
+      "gltf_sha256": "b9fa725dadcc379be1d1ae49f7e01172c26bfc42dd0584fdc1eb84b1f104551a",
+      "bin_sha256": "07d15f96856966982153cfde31d12a46c0a220c01c4903f52119aa7f190b2542",
+      "capture_sha256": "c033697c5508b9774d4148f64868b3b36c652ba3b0d8405600e8280932cfbe92",
+      "frames": 41,
+      "joints": 31,
+      "vertices": 11250,
+      "maximum_playback_error": 9.805371687628092e-07,
+      "rms_playback_error": 1.8015261971135048e-07,
+      "maximum_native_cage_error": 0.07692275393480469,
+      "rms_native_cage_error": 0.007177419251168592,
+      "maximum_blender_vertex_movement": 0.7339611927210332,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "scope": "Blender evaluated armature vertices at every native sample, compared by vertex index with captured post-IK joints driving the exported weights. Native cage deviation is measured separately; no subdivision added."
+}

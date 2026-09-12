@@ -36,6 +36,17 @@ def check(run):
                 assert hashlib.sha256(raw.read_bytes()).hexdigest() == frame["sha256"]
         projects.setdefault(project, set()).add(manifest_path)
         assert manifest["status"] == ("partial" if record["status"] == "partial" else "converted-supported-subset")
+        for rig in manifest.get("gltf_rigs", []):
+            if rig.get("derived_skin"):
+                skin = json.loads(linked(manifest_path.parent,rig["derived_skin"],project).read_text("utf-8"))
+                assert skin["kind"] == "derived-skin" and skin["approximation"]
+                assert skin["owner_item"] == rig["owner_item"] == skin["joint_items"][0]
+                assert skin["source_object_sha256"] in {a["id"] for a in manifest["assets"]}
+                scene_source = json.loads(linked(manifest_path.parent,manifest["scene"],project).read_text("utf-8"))["source"]
+                assert skin["source_scene_sha256"] == scene_source["sha256"]
+                for point in skin["points"]:
+                    assert not point or abs(sum(w for _,w in point)-1) < 1e-6
+                    assert all(0 <= j < len(skin["joint_items"]) and 0 < w <= 1 for j,w in point)
         uris = [asset["uri"] for asset in manifest["assets"]]
         if manifest["scene"]:
             uris.append(manifest["scene"])

@@ -440,8 +440,9 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
     size_t i,j; int comma=0;
     fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,doc->rig?"rest-skeleton-0.1":doc->animation.n?"sampled-scene-transforms-0.1":"static-base-geometry-0.1",source->sha256); lw_json_string(f,source->path);
     if(doc->rig) {
-        fprintf(f,",\"pose\":\"native-rest; object-local; no scene animation or IK evaluation\",\"skin_status\":\"%s\",\"unweighted_points_on_object_anchor\":%zu,\"skin_issue\":",doc->rig->weighted?"explicit-normalized-weight-maps":"skeleton-only; native influences not evaluated",doc->rig->unweighted_points);
+        fprintf(f,",\"pose\":\"native-rest; object-local; no scene animation or IK evaluation\",\"skin_status\":\"%s\",\"missing_map_procedural_fallbacks\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"skin_issue\":",doc->rig->weighted?(doc->rig->procedural_bones?(doc->package->legacy_bone_maps?"lightwave6-procedural-weights-0.1; approximation":"lightwave96-procedural-weights-0.1; approximation"):"explicit-normalized-weight-maps"):"skeleton-only; native influences not evaluated",doc->package->legacy_bone_maps?doc->rig->missing_maps:0,doc->rig->unweighted_points);
         lw_json_string(f,doc->rig->issue);
+        if(doc->rig->weighted&&doc->rig->procedural_bones) fprintf(f,",\"skin_approximation\":true,\"volume_corrections_omitted\":%zu,\"skin_limitations\":\"fixed weights derived from the native rest cage; joint compensation and muscle flexing omitted; scene IK and morphs not evaluated\"",doc->rig->volume_corrections);
     }
     if(!doc->rig) fprintf(f,",\"snapshot_frame\":%.17g",doc->options->frame);
     fputs(",\"normal_profile\":\"source-corner-normals-0.1\",\"normals\":\"unique NORM map per point block with VMAD precedence, otherwise unit polygon normals averaged by owner SMAN and SMGP among smoothing-enabled faces; angle cuts retained at source corners\"",f);
@@ -609,7 +610,8 @@ int lw_write_gltf(const char *dir,const LWPackage *p,const LWOptions *opts,LWGlt
         result.owner=i; built=lw_build_rig(p,i,&rig,&rig_error);
         for(j=0;j<p->scene.nodes.n;j++) if(p->scene.nodes.v[j].bone.owner==p->scene.nodes.v[i].id) result.bones++;
         result.sets=rig.influence_sets; result.weighted=rig.weighted;
-        result.missing_maps=rig.missing_maps; result.procedural_bones=rig.procedural_bones; result.unweighted_points=rig.unweighted_points;
+        result.missing_maps=rig.missing_maps; result.procedural_bones=rig.procedural_bones; result.unweighted_points=rig.unweighted_points; result.volume_corrections=rig.volume_corrections;
+        if(built&&rig.weighted&&rig.procedural_bones&&!lw_write_derived_skin(dir,p,&rig,e)) { lw_free_rig(&rig); goto done; }
         snprintf(result.issue,sizeof result.issue,"%s",built?rig.issue:rig_error.message);
         result.available=built;
         if(built&&(rig.weighted||opts->gltf_all_rigs)) {

@@ -543,6 +543,67 @@ class Converter(unittest.TestCase):
         summary = json.loads(self.run_cli("inspect", path).stdout)
         self.assertEqual((summary["object_loads"], summary["nodes"], summary["plugins"]), (0, 1, 1))
 
+    def test_content_root_consensus_resolves_duplicate_names(self):
+        expected=self.write("complete/Objects/body.lwo",lwob())
+        self.write("complete/Objects/head.lwo",lwob())
+        self.write("incomplete/Objects/body.lwo",lwob())
+        source=self.write("Scenes/shot.lws","LWSC\n1\n"+"LoadObject Objects/body.lwo\n"*6+"LoadObject Objects/head.lwo\n")
+        out,manifest=self.convert(source)
+        inference=manifest["content_root_inference"]
+        self.assertEqual(Path(inference["selected_root"]),self.root/"complete")
+        self.assertEqual((inference["distinct_references"],inference["matched_references"]),(2,2))
+        nodes=json.loads((out/manifest["scene"]).read_text())["nodes"]
+        self.assertEqual(Path(nodes[0]["resolved_path"]),expected)
+        self.assertEqual(nodes[0]["resolution"],"inferred-content-root")
+
+    def test_content_root_tie_remains_ambiguous(self):
+        for project in ("a","b"):
+            for name in ("body","head"): self.write(f"{project}/Objects/{name}.lwo",lwob())
+        out,manifest=self.convert(self.write("shot.lws","LWSC\n1\nLoadObject Objects/body.lwo\nLoadObject Objects/head.lwo\n"),code=2)
+        self.assertEqual(manifest["content_root_inference"]["status"],"ambiguous")
+        self.assertIsNone(manifest["content_root_inference"]["selected_root"])
+        self.assertEqual(manifest["unresolved_object_instances"],2)
+
+    def test_content_root_parent_and_sibling_search(self):
+        expected=self.write("Objects/body.lwo",lwob())
+        source=self.write("Scenes/shot.lws","LWSC\n1\nLoadObject Objects/body.lwo\n")
+        out=self.base/"parent-output"
+        self.run_cli("convert",source,"--output",out)
+        manifest=json.loads((out/"manifest.json").read_text())
+        self.assertEqual(Path(manifest["content_root_inference"]["selected_root"]),self.root)
+        node=json.loads((out/manifest["scene"]).read_text())["nodes"][0]
+        self.assertEqual(Path(node["resolved_path"]),expected)
+        self.assertEqual(node["resolution"],"inferred-content-root")
+
+    def test_lwsc5_explicit_ids_preserve_parenting_and_infer_sibling_objects(self):
+        self.write("Objects/body.lwo",lwob())
+        source=self.write("Scenes/v5.lws","LWSC\n5\nLoadObjectLayer 1 1000004c Objects/body.lwo\nParentItem 1000000c\nAddBone 4003004c\nBoneName thigh\nBoneType 0\nParentItem 1000004c\nAddNullObject 1000000c controller\nAddLight 20000005\nLightName lamp\nAddCamera 30000002\n")
+        out=self.base/"v5-output"
+        self.run_cli("convert",source,"--output",out,code=2)
+        manifest=json.loads((out/"manifest.json").read_text());scene=json.loads((out/manifest["scene"]).read_text())
+        self.assertEqual(manifest["unresolved_object_instances"],0)
+        self.assertEqual(Path(manifest["content_root_inference"]["selected_root"]),self.root)
+        self.assertEqual([n["id"] for n in scene["nodes"]],[0x1000004c,0x4003004c,0x1000000c,0x20000005,0x30000002])
+        self.assertEqual(scene["nodes"][0]["parent"],0x1000000c)
+        self.assertEqual(scene["nodes"][1]["bone"]["owner_item"],0x1000004c)
+        self.assertEqual((out/manifest["scene"]).with_name("source.bin").read_bytes(),source.read_bytes())
+
+    def test_lwsc5_rejects_duplicate_mistyped_and_mismatched_ids(self):
+        for text in ("AddNullObject 1000000c a\nAddNullObject 1000000c b\n",
+                     "AddNullObject 2000000c a\n", "AddNullObject xyz a\n",
+                     "AddNullObject 1000000c a\nAddBone 4000004c\n"):
+            source=self.write("invalid-v5.lws","LWSC\n5\n"+text)
+            self.run_cli("inspect",source,code=1)
+    def test_content_root_keeps_explicit_rules_authoritative(self):
+        self.write("candidate/Objects/body.lwo",lwob())
+        self.write("candidate/Objects/head.lwo",lwob())
+        mapped=self.write("override/body.lwo",lwob())
+        source=self.write("shot.lws","LWSC\n1\nLoadObject Special/body.lwo\nLoadObject Objects/head.lwo\n")
+        out,manifest=self.convert(source,"--map","Special/="+str(mapped.parent))
+        node=json.loads((out/manifest["scene"]).read_text())["nodes"][0]
+        self.assertEqual(node["resolution"],"mapped-prefix")
+        self.assertEqual(Path(node["resolved_path"]),mapped)
+
     def test_surface_preset(self):
         raw = form("PST_", chunk("NAME", b"preset"), chunk("PDAT", form("LWO2", chunk("SURF", s0("mat")+s0("")))))
         for name in ("preset.srf", "preset"):

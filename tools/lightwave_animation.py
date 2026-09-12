@@ -64,9 +64,9 @@ def decompose(m):
 
 def read_capture(path):
     lines = path.read_text("ascii").splitlines()
-    if not lines or not lines[0].startswith(("LWCONVERT_CAPTURE 1 ","LWCONVERT_CAPTURE 2 ")) or not lines[-1].startswith("END "):
+    if not lines or not lines[0].startswith(("LWCONVERT_CAPTURE 1 ","LWCONVERT_CAPTURE 2 ","LWCONVERT_CAPTURE 3 ")) or not lines[-1].startswith("END "):
         raise ValueError(f"Incomplete native capture: {path}")
-    header = lines[0].split(); result = {"frame": int(header[2]), "time": float(header[3]), "items": {}, "meshes": {}}
+    header = lines[0].split(); result = {"protocol":int(header[1]),"frame": int(header[2]), "time": float(header[3]), "items": {}, "meshes": {}}
     if float(header[4]) != result["time"]: raise ValueError("Motion-blurred capture is not supported")
     mesh = None
     for line in lines[1:-1]:
@@ -82,6 +82,11 @@ def read_capture(path):
             value = fields[2] if len(fields)==3 else ""
             bytes.fromhex(value)
             result["items"][key]["name_hex"] = value
+        elif fields[0] == "T" and header[1]=="3" and len(fields)==14:
+            key = int(fields[1],16); values = list(map(float,fields[2:]))
+            if key not in result["items"] or "post_ik_trs" in result["items"][key] or not all(math.isfinite(v) for v in values):
+                raise ValueError("Invalid post-IK motion identity or values")
+            result["items"][key]["post_ik_trs"] = values
         elif fields[0] == "M" and len(fields) == 6:
             key = int(fields[1],16)
             if key in result["meshes"]: raise ValueError("Duplicate captured mesh ID")
@@ -112,7 +117,36 @@ def read_capture(path):
         if len(ids) != len(m["points"]) or any(p not in ids for poly in m["polygons"] for p in poly): raise ValueError("Invalid native point identity")
     numbers = [result["time"]]+[v for i in result["items"].values() for v in i["matrix"]]+[v for m in result["meshes"].values() for p in m["points"] for v in p["base"]+p["world"]]
     if not all(math.isfinite(v) for v in numbers): raise ValueError("Non-finite native capture value")
+    if header[1]=="3":
+        states = {}
+        def resolve(item):
+            if not item: return IDENTITY
+            if item not in result["items"]: raise ValueError("Missing post-IK parent")
+            if states.get(item)==1: raise ValueError("Cycle in post-IK hierarchy")
+            node = result["items"][item]
+            if states.get(item)==2: return node["matrix"]
+            states[item]=1
+            if "post_ik_trs" in node:
+                node["sdk_matrix"] = node["matrix"]
+                node["matrix"] = multiply(resolve(node["parent"]),motion_matrix(node["post_ik_trs"]))
+            elif item>>28==4: raise ValueError("Missing after-IK capture for bone")
+            states[item]=2
+            return node["matrix"]
+        for item in result["items"]: resolve(item)
     return result
+
+
+def motion_matrix(values):
+    """LightWave local T * Ry(heading) * Rx(pitch) * Rz(bank) * S * T(-pivot)."""
+    h,p,b = values[3:6]; y,x,z = IDENTITY[:],IDENTITY[:],IDENTITY[:]
+    y[0]=y[10]=math.cos(h); y[8]=math.sin(h); y[2]=-y[8]
+    x[5]=x[10]=math.cos(p); x[6]=math.sin(p); x[9]=-x[6]
+    z[0]=z[5]=math.cos(b); z[1]=math.sin(b); z[4]=-z[1]
+    matrix = multiply(multiply(y,x),z)
+    for c,scale in enumerate(values[6:9]):
+        for r in range(3): matrix[4*c+r]*=scale
+    matrix[12:15]=[values[r]-sum(matrix[4*c+r]*values[9+c] for c in range(3)) for r in range(3)]
+    return matrix
 
 
 def selected_points(native, geometry, request):
@@ -330,7 +364,8 @@ def export_rig(package, manifest, rig, frames, provenance):
     track(mesh_index,"weights",weight_rows,"SCALAR")
     data["animations"] = [animation]
     data["extras"].update(profile="lightwave-evaluated-cage-0.1",pose="native evaluated first capture frame",animation="sampled native transforms and deformed cage; LINEAR between samples",skin_status="native deformation captured as morph targets; original rig retained separately",subdivision="disabled; source point identities and polygon boundaries verified",capture_sha256=provenance)
-    data["extras"].pop("skin_issue",None)
+    for key in ("skin_issue","skin_approximation","skin_limitations","volume_corrections_omitted"):
+        data["extras"].pop(key,None)
     data["extras"].update(normal_profile=normal_profile,normals="evaluated world corner normals transformed to mesh local space; base NORMAL plus per-sample morph NORMAL deltas" if normal_profile.startswith("native-") else "protocol 1 compatibility: reconstructed flat triangle normals")
     animation["extras"]["normal_profile"] = normal_profile
     name = source.name.replace(f".rig-{owner:08x}",f".anim-{owner:08x}")

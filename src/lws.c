@@ -193,12 +193,29 @@ static int mirrored_bank_follower(LWNode *node,const Lines *ls,size_t start,size
     node->follower_source=(uint32_t)id[0]; node->mirrored_bank_follower=1; return 1;
 }
 static int add_node(LWScene *s,uint32_t id,Line line,LWString name,size_t *current,LWError *e) {
+    size_t i;
     LWNode n={0}; n.id=id; n.parent=LW_NONE; n.layer=LW_NONE; n.name=unquote(name);
+    for(i=0;i<s->nodes.n;i++) if(s->nodes.v[i].id==id) return lw_error(e,line.offset,"item","duplicate scene item ID");
     n.bone.owner=LW_NONE; n.bone_falloff=LW_NONE;
     n.bone.active=n.bone.normalize=n.bone.scale_strength=1; n.bone.strength=1;
     n.asset=SIZE_MAX; n.source_offset=line.offset;
     snprintf(n.resolution,sizeof n.resolution,"not-evaluated");
     LW_TRY(LW_ADD(s->nodes,n,e)); *current=s->nodes.n-1; return 1;
+}
+static int explicit_item_id(LWString *value,uint32_t kind,uint32_t *id,size_t offset,LWError *e) {
+    Line rest={*value,offset}; LWString token; size_t i; uint32_t result=0;
+    split(rest,&token,value);
+    if(token.size!=8) return lw_error(e,offset,"item","expected an eight-digit hexadecimal item ID");
+    for(i=0;i<token.size;i++) {
+        unsigned char c=token.data[i]; unsigned digit;
+        if(c>='0'&&c<='9') digit=c-'0';
+        else if(c>='a'&&c<='f') digit=c-'a'+10;
+        else if(c>='A'&&c<='F') digit=c-'A'+10;
+        else return lw_error(e,offset,"item","invalid hexadecimal item ID");
+        result=(result<<4)|digit;
+    }
+    if(result>>28!=kind) return lw_error(e,offset,"item","item ID type does not match its declaration");
+    *id=result; return 1;
 }
 static uint32_t motion_kind(LWString key) {
     if(lw_string_is(key,"ObjectMotion")) return 1;
@@ -273,10 +290,10 @@ static int clip_map(LWScene *s,const Lines *ls,size_t *i,size_t owner,int modern
     return 1;
 }
 static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
-    size_t i,current=SIZE_MAX; uint32_t object_count=0,light_count=0,camera_count=0,bone_count=0;
+    size_t i,current=SIZE_MAX; uint32_t object_count=0,light_count=0,camera_count=0,bone_count=0,object_id=LW_NONE;
     if(ls->n<2||!lw_string_is(ls->v[0].text,"LWSC")) return lw_error(e,0,"LWS","expected LWSC header");
     LW_TRY(integer(ls->v[1].text,&s->version,ls->v[1].offset,e));
-    if(s->version!=1&&s->version!=3) return lw_error(e,ls->v[1].offset,"LWS","only LWSC versions 1 and 3 are supported");
+    if(s->version!=1&&s->version!=3&&s->version!=5) return lw_error(e,ls->v[1].offset,"LWS","only LWSC versions 1, 3 and 5 are supported");
     for(i=2;i<ls->n;i++) {
         LWString key,value; LWNode *node; split(ls->v[i],&key,&value);
         if(lw_string_is(key,"ClipMaps")||lw_string_is(key,"ClipMap")) {
@@ -311,27 +328,38 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             s->opaque_blocks++; continue;
         }
         if(lw_string_is(key,"LoadObject")||lw_string_is(key,"LoadObjectLayer")||lw_string_is(key,"AddNullObject")) {
-            int load=!lw_string_is(key,"AddNullObject"); uint32_t layer=LW_NONE;
+            int load=!lw_string_is(key,"AddNullObject"); uint32_t layer=LW_NONE,id=0x10000000|object_count;
             if(lw_string_is(key,"LoadObjectLayer")) {
                 Line rest={value,ls->v[i].offset}; LWString first; split(rest,&first,&value);
                 LW_TRY(integer(first,&layer,ls->v[i].offset,e));
                 if(!layer) return lw_error(e,ls->v[i].offset,"layer","expected a positive scene layer request");
             }
+            if(s->version==5) LW_TRY(explicit_item_id(&value,1,&id,ls->v[i].offset,e));
             if(!value.size) return lw_error(e,ls->v[i].offset,"object","missing name/path");
-            LW_TRY(add_node(s,0x10000000|object_count++,ls->v[i],value,&current,e)); bone_count=0;
+            LW_TRY(add_node(s,id,ls->v[i],value,&current,e)); object_count++; object_id=id; bone_count=0;
             if(load) { s->nodes.v[current].object_path=unquote(value); s->nodes.v[current].layer=layer; }
             continue;
         }
-        if(lw_string_is(key,"AddLight")) { LW_TRY(add_node(s,0x20000000|light_count++,ls->v[i],value,&current,e)); continue; }
+        if(lw_string_is(key,"AddLight")) {
+            uint32_t id=0x20000000|light_count++;
+            if(s->version==5) LW_TRY(explicit_item_id(&value,2,&id,ls->v[i].offset,e));
+            LW_TRY(add_node(s,id,ls->v[i],value,&current,e)); continue;
+        }
         if(lw_string_is(key,"AddCamera") || (s->version==1&&lw_string_is(key,"ShowCamera")&&!camera_count)) {
-            LW_TRY(add_node(s,0x30000000|camera_count++,ls->v[i],lw_string("Camera"),&current,e)); continue;
+            uint32_t id=0x30000000|camera_count++;
+            if(s->version==5) LW_TRY(explicit_item_id(&value,3,&id,ls->v[i].offset,e));
+            LW_TRY(add_node(s,id,ls->v[i],lw_string("Camera"),&current,e)); continue;
         }
         if(lw_string_is(key,"AddBone")) {
             uint32_t id;
             if(!object_count||object_count>65536||bone_count>=4096) return lw_error(e,ls->v[i].offset,"bone","invalid owner/bone ordinal");
             id=0x40000000|(bone_count++<<16)|(object_count-1);
+            if(s->version==5) {
+                LW_TRY(explicit_item_id(&value,4,&id,ls->v[i].offset,e));
+                if((object_id&0x0fffffff)>65535||(id&65535)!=(object_id&65535)) return lw_error(e,ls->v[i].offset,"bone","explicit bone ID disagrees with its object owner");
+            }
             LW_TRY(add_node(s,id,ls->v[i],value,&current,e));
-            s->nodes.v[current].bone.owner=0x10000000|(object_count-1);
+            s->nodes.v[current].bone.owner=object_id;
             s->nodes.v[current].parent=s->nodes.v[current].bone.owner;
             s->nodes.v[current].unsupported_transform=1; s->unsupported_features++; continue;
         }

@@ -1,0 +1,137 @@
+{
+  "blender_version": "4.2.0",
+  "blender_build_hash": "a51f293548ad",
+  "files_checked": 8,
+  "files": [
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_export.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 13341,
+      "gltf_sha256": "d9860fed200d84ca6e9e2c868a4d55d4bc943328cb52fa0fe77ba46423facdbb",
+      "buffer_sha256": {
+        "smila_export.lws.rig-10000000.bin": "8e54c1775d0d2e417fa02eae60d7273d383c251ccfc02411439c5d7f7994c5fd"
+      },
+      "maximum_vertex_error": 6.167352821402215e-07,
+      "rms_vertex_error": 1.860158259961345e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.9291861420618375e-08,
+      "maximum_rest_position_error": 1.1869909221218016e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_export.lws.rig-10000000.png"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_export_converted.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 13341,
+      "gltf_sha256": "f388cac9402f8d7e9cfbd3f165415e3a934eb8781f565104baccea2f277e7da0",
+      "buffer_sha256": {
+        "smila_export_converted.lws.rig-10000000.bin": "acb652a1176f61ed0d7c43c5a242228a104432dcca4549cd9668f29a0ed93f3e"
+      },
+      "maximum_vertex_error": 6.115038777322353e-07,
+      "rms_vertex_error": 1.8568527258484842e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.943226200066931e-08,
+      "maximum_rest_position_error": 1.1869909221218016e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_export_converted.lws.rig-10000000.png"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_posing.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 13341,
+      "gltf_sha256": "6709bf246c5ca951a0b7337e914fdfa49bd8b428e1ed349ffeb7172d2c4fb181",
+      "buffer_sha256": {
+        "smila_posing.lws.rig-10000000.bin": "fa98654eb60894d9ad0003bfcf984cf64231aee4df20b76ab996d1d4f469f1b1"
+      },
+      "maximum_vertex_error": 6.167352821402215e-07,
+      "rms_vertex_error": 1.860158259961345e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.9291861420618375e-08,
+      "maximum_rest_position_error": 1.1869909221218016e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_posing.lws.rig-10000000.png"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_posing_02.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 13341,
+      "gltf_sha256": "8f6de83d94a27fb0a646f6b1687c55246e658b142b2506fb78aa85d868ed4936",
+      "buffer_sha256": {
+        "smila_posing_02.lws.rig-10000000.bin": "8c8609ebcc6806837d849c91b5902646f2c1ab4a19b19a6764773ff17ab39a51"
+      },
+      "maximum_vertex_error": 6.09355471449862e-07,
+      "rms_vertex_error": 1.8151015900294914e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.9291861420618375e-08,
+      "maximum_rest_position_error": 1.0595716734115217e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_posing_02.lws.rig-10000000.png"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_posing_toon.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 13341,
+      "gltf_sha256": "0e0029688bb51040bb9651986ff17ab1d4dc07ad7a37be22e101d6a1d3c38ebc",
+      "buffer_sha256": {
+        "smila_posing_toon.lws.rig-10000000.bin": "fa98654eb60894d9ad0003bfcf984cf64231aee4df20b76ab996d1d4f469f1b1"
+      },
+      "maximum_vertex_error": 6.167352821402215e-07,
+      "rms_vertex_error": 1.860158259961345e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.9291861420618375e-08,
+      "maximum_rest_position_error": 1.1869909221218016e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_posing_toon.lws.rig-10000000.png"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_rig.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 11361,
+      "gltf_sha256": "bac06bc7892ffbbfcd0b3c0821a32be99a4ebc0ab87bf7ec90b4fa6226f75b60",
+      "buffer_sha256": {
+        "smila_rig.lws.rig-10000000.bin": "6db87c9c8be7a1929685731557e700eab30957fc7744a38ae5e8285415a294ef"
+      },
+      "maximum_vertex_error": 9.83137917709749e-07,
+      "rms_vertex_error": 2.3501938062892588e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.943226200066931e-08,
+      "maximum_rest_position_error": 1.3153087691312882e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_rig.lws.rig-10000000.png"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_rig_converted.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 13341,
+      "gltf_sha256": "4e1ae4e1b982b5802915c9ac161895aed300686166868cc38ccb304b7ed5d152",
+      "buffer_sha256": {
+        "smila_rig_converted.lws.rig-10000000.bin": "ba05850a3e70343279a1ce4fa2320584bc686f7f36ba93ba25853e5133f42105"
+      },
+      "maximum_vertex_error": 6.167352821402215e-07,
+      "rms_vertex_error": 2.0922847991568395e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.9291861420618375e-08,
+      "maximum_rest_position_error": 1.1869909221218016e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_rig_converted.lws.rig-10000000.png"
+    },
+    {
+      "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-151513\\packages\\smila-by-moebius\\gltf\\smila_run_cycle.lws.rig-10000000.gltf",
+      "mesh_count": 1,
+      "vertices": 13341,
+      "gltf_sha256": "7e5cd413035920532f89958476b65981b1095803549d81063da677af1893d1b8",
+      "buffer_sha256": {
+        "smila_run_cycle.lws.rig-10000000.bin": "fa98654eb60894d9ad0003bfcf984cf64231aee4df20b76ab996d1d4f469f1b1"
+      },
+      "maximum_vertex_error": 6.167352821402215e-07,
+      "rms_vertex_error": 1.860158259961345e-07,
+      "tolerance": 8.10605744944288e-06,
+      "maximum_bind_identity_error": 5.9291861420618375e-08,
+      "maximum_rest_position_error": 1.1869909221218016e-07,
+      "passed": true,
+      "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-viewer-blender-final\\smila_run_cycle.lws.rig-10000000.png"
+    }
+  ],
+  "passed": true,
+  "scope": "Actual glTF rest hierarchy, inverse binds and Blender evaluated armature vertices, compared by vertex index. Optional Workbench images inspect geometry, not LightWave rendering fidelity."
+}

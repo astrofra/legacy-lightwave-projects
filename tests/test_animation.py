@@ -14,6 +14,7 @@ from lightwave_animation import digest, decompose, export_rig, multiply, read_ca
 from export_lightwave_animation import prepare_scene, finalize_rig_outputs
 from output_layout import ProjectOutput
 from lightwave_scene import export_scene, validate_rigid_scene
+from lightwave_skin_animation import export_skinned_rig
 
 
 def matrix(x=0,y=0,z=0,angle=0,scale=1):
@@ -74,6 +75,49 @@ class AnimationTests(unittest.TestCase):
     def package(self):
         self.write("rig.lwo",skin.object_bytes())
         return self.convert(self.write("rig.lws",skin.scene_bytes()),"--uv-map","uv",code=2)
+
+    def test_bound_skin_animation_preserves_weights_and_applies_joint_motion(self):
+        self.write("rig.lwo",skin.object_bytes(skin.weight_map("weight0",[(0,1),(1,1),(2,1)])))
+        package,manifest=self.convert(self.write("rig.lws",skin.scene_bytes(skin.bone(position="1 0 0",rotation="0 0 90"))),"--uv-map","uv",code=2)
+        frames=[]; bases=[[0,0,1],[1,0,1],[1,1,1],[0,1,1]]
+        for sample in range(2):
+            root=matrix(2+sample,3,4)
+            local=bases if not sample else [[1,-1,1],[1,0,1],[0,0,1],[0,1,1]]
+            points=[{"id":100+i,"base":base,"world":[p[0]+2+sample,p[1]+3,p[2]+4]} for i,(base,p) in enumerate(zip(bases,local))]
+            frames.append({"frame":11+sample,"time":(11+sample)/30,"items":{0x10000000:{"parent":0,"matrix":root},
+                0x40000000:{"parent":0x10000000,"matrix":multiply(root,matrix(1,angle=math.pi/2+sample*math.pi/2))}},
+                "meshes":{0x10000000:{"points":points,"polygons":[[100,101,102],[100,102,103]]}}})
+        rig=manifest["gltf_rigs"][0];rest=json.loads((package/rig["gltf"]).read_text())
+        entry=export_skinned_rig(package,manifest,rig,frames,"d"*64)
+        data=json.loads((package/entry["gltf"]).read_text());raw=(package/entry["gltf_bin"]).read_bytes()
+        self.assertEqual(data["skins"],rest["skins"])
+        self.assertEqual(data["meshes"],rest["meshes"])
+        self.assertEqual(entry["morph_targets"],0);self.assertEqual(entry["animated_bones"],1)
+        self.assertLess(entry["native_deformation_comparison"]["maximum_vertex_error"],1e-6)
+        from procedural_skin_checks import skin_rows,world_matrices,transform
+        binds,rows=skin_rows(package/entry["gltf"])
+        animation=data["animations"][0]
+        for sample,frame in enumerate(frames):
+            for channel in animation["channels"]:
+                sampler=animation["samplers"][channel["sampler"]]
+                data["nodes"][channel["target"]["node"]][channel["target"]["path"]]=values(data,raw,sampler["output"])[sample]
+            world=world_matrices(data);matrices=[multiply(world[j],b) for j,b in zip(data["skins"][0]["joints"],binds)]
+            for point,position,influences in rows:
+                actual=[sum(weight*transform(matrices[joint],position)[k] for joint,weight in influences) for k in range(3)]
+                expected=frame["meshes"][0x10000000]["points"][point]["world"][:];expected[2]*=-1
+                self.assertLess(math.dist(actual,expected),1e-6)
+
+    def test_protocol3_requires_after_ik_bones_and_composes_their_actual_pose(self):
+        text=capture_text(captures()[0]).replace("LWCONVERT_CAPTURE 1 ","LWCONVERT_CAPTURE 3 ")
+        with self.assertRaisesRegex(ValueError,"after-IK"): read_capture(self.write("post-ik.txt",text))
+        tracks="".join(f"T {item:x} 0 0 0 0 0 0 1 1 1 0 0 0\n" for item in captures()[0]["items"] if item>>28==4)
+        tracks=tracks.replace("T 40000000 0 0 0", "T 40000000 1 0 0")
+        complete=text.replace("END ",tracks+"END ")
+        result=read_capture(self.write("post-ik-complete.txt",complete))
+        self.assertEqual(result["items"][0x40000000]["matrix"][12:15],[0,3,4])
+        self.assertIn("sdk_matrix",result["items"][0x40000000])
+        with self.assertRaisesRegex(ValueError,"identity"):
+            read_capture(self.write("post-ik-duplicate.txt",complete.replace("END ",tracks+"END ")))
 
     def rigid_package(self):
         self.write("tri.lwo",fixtures.lwob())
@@ -146,7 +190,7 @@ class AnimationTests(unittest.TestCase):
 
     def test_complete_capture_and_rejection_of_truncated_or_invalid_data(self):
         text = capture_text(captures()[0]); path = self.write("capture.txt",text)
-        self.assertEqual(read_capture(path),captures()[0])
+        self.assertEqual(read_capture(path),dict(captures()[0],protocol=1))
         for bad in (text.rsplit("END",1)[0],text.replace("END 8 1 4 2","END 7 1 4 2"),text.replace("M 10000000 4 2 0 0","M 10000000 4 2 2 2"),text.replace("P 64 0 0 1","P 64 nan 0 1")):
             path.write_text(bad)
             with self.assertRaises(ValueError): read_capture(path)
@@ -164,7 +208,7 @@ class AnimationTests(unittest.TestCase):
 
     def test_capture_v2_normal_identity_and_vectors_are_validated(self):
         frame = self.normal_captures()[0]; text = capture_text(frame)
-        self.assertEqual(read_capture(self.write("normals.txt",text)),frame)
+        self.assertEqual(read_capture(self.write("normals.txt",text)),dict(frame,protocol=2))
         line = next(l for l in text.splitlines() if l.startswith("V "))
         for replacement in (line+"\n"+line,line.replace("V 0 0 64","V 0 0 65"),"V 0 0 64 nan 0 0","V 0 0 64 0 0 0"):
             with self.subTest(replacement=replacement), self.assertRaises(ValueError):
@@ -204,11 +248,16 @@ class AnimationTests(unittest.TestCase):
 
     def test_morph_animation_preserves_points_seams_and_native_time_origin(self):
         package,manifest = self.package(); rig = manifest["gltf_rigs"][0]
+        rest=json.loads((package/rig["gltf"]).read_text())
+        rest["extras"].update(skin_approximation=True,skin_limitations="rest only",volume_corrections_omitted=2)
+        (package/rig["gltf"]).write_text(json.dumps(rest),encoding="utf-8")
         before = digest(package/rig["gltf"])
         entry = export_rig(package,manifest,rig,captures(),"a"*64)
         self.assertEqual(digest(package/rig["gltf"]),before)
         data = json.loads((package/entry["gltf"]).read_text()); raw = (package/entry["gltf_bin"]).read_bytes()
         self.assertNotIn("skins",data)
+        for key in ("skin_approximation","skin_limitations","volume_corrections_omitted"):
+            self.assertNotIn(key,data["extras"])
         animation = data["animations"][0]
         self.assertEqual(animation["extras"]["source_first_frame"],11)
         self.assertAlmostEqual(entry["duration_seconds"],2/30)
@@ -290,6 +339,25 @@ class AnimationTests(unittest.TestCase):
         bad = self.base/"bad-evaluation"; bad.mkdir()
         with self.assertRaisesRegex(ValueError,"not qualified"):
             prepare_scene(source+b'Plugin MasterHandler 2 UnknownDeformer\nEndPlugin\n',scene,assets,bad,self.base,plugin)
+
+    def test_lightwave6_preparation_attaches_observers_after_motion_and_audits_omissions(self):
+        from probe_skinning_oracle import scene_bytes
+        self.write("rig.lwo",skin.object_bytes())
+        source=scene_bytes([{}]).replace(b"probe-0.lwo",b"rig.lwo")
+        source+=b"Plugin DisplacementHandler 1 JointMorph\nEndPlugin\nPlugin MasterHandler 1 .SpreadsheetStandardBanks\nEndPlugin\n"
+        package,manifest=self.convert(self.write("rig.lws",source),code=2)
+        scene=json.loads((package/manifest["scene"]).read_text())
+        assets=[{**a,"source_copy":(package/a["uri"]).parent/"source.bin"} for a in manifest["assets"]]
+        directory=self.base/"lw6-evaluation";directory.mkdir();plugin=self.write("capture.p",b"test plugin")
+        working,config,audit=prepare_scene(source,scene,assets,directory,self.base,plugin,"lightwave6",["JointMorph"])
+        text=working.read_text()
+        self.assertEqual(config.name,"LW3.CFG")
+        self.assertEqual(text.count("LWConvertMotionCapture"),3)
+        self.assertIn("ParentItem 10000000\n\nPlugin ItemMotionHandler 1 LWConvertMotionCapture",text)
+        self.assertNotIn("JointMorph",text);self.assertNotIn("SpreadsheetStandardBanks",text)
+        self.assertEqual([p["name"] for p in audit["explicitly_skipped_plugins"]],["JointMorph"])
+        self.assertIn("Plugin ItemMotionHandler LWConvertMotionCapture",config.read_text())
+        self.assertEqual(audit["working_scene_sha256"],digest(working))
 
     def test_batch_publication_keeps_capture_hashes_and_animation_links(self):
         self.write("rig.lwo",skin.object_bytes())

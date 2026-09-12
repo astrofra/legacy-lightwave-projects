@@ -416,13 +416,22 @@ individual objects and the scene.
 
 Since v0.8.2, `--gltf-rigs skins|all` controls separate rest-rig exports in the
 C CLI, batch launcher and native-animation CLI. The default `skins` writes a
-separate rig only when explicit weight-map skinning can be exported. `all` also
-writes the unbound rest skeleton and geometry for inspection. A procedural rig
+separate rig when explicit or supported procedural skinning can be exported. `all` also
+writes the unbound rest skeleton and geometry for inspection. An unsupported rig
 still has a manifest entry with `status: skeleton-only`, an explanatory `issue`,
 `export_status: omitted-by-policy`, and null `gltf` / `gltf_bin` URIs. Invalid rigs
 retain `status: blocked`. Written rigs have `export_status: written`.
 `gltf_rig_policy` records the selected policy. Original IR bones, weights,
 controllers and keys are independent of this output selection.
+
+Since v0.9.0, procedural and hybrid bindings use the independent C
+`lightwave96-procedural-weights-0.1` approximation. The manifest distinguishes
+`procedural-weight-skin-approximation` from `explicit-weight-map-skin` and links
+`derived_skin` to `IR/<scene>/skin-<owner>.json`. This derivative preserves source
+point indices, joint item IDs, object-anchor residuals and both source hashes;
+it does not replace the original bone parameters or WGHT maps. Joint compensation
+and muscle flexing omissions are counted in both IR and glTF. See the
+[algorithm, measured scope and remaining work](procedural-skinning.md).
 
 Native animation evaluation obtains all rest rigs as temporary working inputs.
 The final batch publication or direct native-export cleanup removes only the
@@ -430,8 +439,8 @@ unbound rest copies when `skins` is selected, keeping actual skins and animated
 derivatives. This policy also applies when native evaluation fails. Published
 `gltf_files` counts the retained files; if intermediate rest outputs were omitted,
 `gltf_intermediate_files` and `gltf_statistics_scope` explain that the C geometry
-counters include those temporary exports. No procedural skinning implementation
-is implied by this cleanup; see [the Quatuor QA](quatuor-gltf-qa.md).
+counters include those temporary exports. The historical cleanup measurements
+are recorded in [the Quatuor QA](quatuor-gltf-qa.md).
 
 The direct C writer consumes native objects and the shared triangulator/UV
 resolver. It does not parse OBJ or invoke Blender. Output is `.gltf` JSON with
@@ -732,3 +741,9 @@ additional texture projections and shader semantics, extend the glTF profile, an
 in a background Blender process; no custom addon is required. All three outputs
 should share LWIR and the same qualified geometry, material and animation
 derivations.
+
+Since v0.10.0, `--skin-profile lightwave6` selects the measured legacy missing-map
+fallback. The optional native bridge can export Smilla as a bound skin with
+after-IK bone animation using the installed LW6 x86 runtime and helper. Content
+root inference and LWSC 5 explicit-ID extraction are also available. See the
+[Smilla LW6 reference, reproduction commands and limits](smilla-lightwave6-animation.md).

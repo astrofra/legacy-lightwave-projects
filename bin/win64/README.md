@@ -24,6 +24,8 @@ executable when redistributing: libilbm and stb retain their MIT attribution.
 the user's LightWave 9.6 x64 ScreamerNet installation, through
 `tools/export_lightwave_animation.py` or the batch option `--lightwave-root`.
 It is not needed for ordinary C conversion or for viewing exported animations.
+The v0.9.0 procedural/hybrid weight calculation is also entirely inside
+`lwconvert.exe`; the helper is only used for development comparisons.
 The helper uses the NewTek LightWave SDK API; SDK headers, LightWave executables
 and NewTek plugins are not included here.
 
@@ -41,3 +43,9 @@ cmake --build build --config Release
 
 See the [animation guide](../../documentation/smila-animation-qa.md) and
 [capture helper source](../../tools/lightwave_capture/capture.c).
+
+Since v0.10.0, `--skin-profile lightwave6` selects the measured legacy missing-map
+fallback. The optional native bridge can export Smilla as a bound skin with
+after-IK bone animation using the installed LW6 x86 runtime and helper. Content
+root inference and LWSC 5 explicit-ID extraction are also available. See the
+[Smilla LW6 reference, reproduction commands and limits](../../documentation/smilla-lightwave6-animation.md).

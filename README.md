@@ -129,13 +129,19 @@ declared envelope key counts while retaining the original data and a warning.
 A bounded mirrored-bank `LW_Follower` preview unblocks the seven
 [`butterfly-tank` scenes](documentation/butterfly-tank-qa.md).
 
-Since v0.8.2, unbound rest-skeleton glTF copies are **opt-in**. By default,
-`test_anim.lws` and `dialogue01.lws` each produce one scene glTF and its binary,
-without four additional `rig-*` pairs. Original object exports are still shared
-across the project's scenes. Actual skins and native animated derivatives are
+Since v0.8.2, unbound rest-skeleton glTF copies are **opt-in**. Original object
+exports are shared across the project's scenes. Actual skins and native animated derivatives are
 retained. Bones, weight maps, IK and original animation keys remain in the IR;
 manifest entries still explain unsupported skinning. Use `--gltf-rigs all` to
 include unbound rest skeletons for inspection (`skins` is the default).
+
+Since v0.9.0, the standalone C converter also derives editable skin weights
+from procedural bone influences and hybrid weight maps. It exports standard
+glTF skins and separate, explicitly derived weights in the IR. The measured
+LightWave 9.6 approximation includes falloff, strength, limited ranges and
+Faster Bones. It needs no LightWave installation. Joint compensation, muscle
+flexing, scene morphs and IK animation remain outside this fixed-weight profile.
+See the [algorithm and measured QA](documentation/procedural-skinning.md).
 See the [Quatuor export simplification QA](documentation/quatuor-gltf-qa.md).
 
 Since v0.5.0, scene IR includes bone rest poses, weight-map assignments and native
@@ -323,3 +329,9 @@ selection. On other platforms, the default is `build/lwconvert`.
 uses the current converter's OBJ/MTL, LWIR and glTF outputs; `.blend` files are
 not generated yet. Keep each `.gltf` alongside its `.bin` and referenced textures
 when copying an export.
+
+Since v0.10.0, `--skin-profile lightwave6` selects the measured legacy missing-map
+fallback. The optional native bridge can export Smilla as a bound skin with
+after-IK bone animation using the installed LW6 x86 runtime and helper. Content
+root inference and LWSC 5 explicit-ID extraction are also available. See the
+[Smilla LW6 reference, reproduction commands and limits](documentation/smilla-lightwave6-animation.md).

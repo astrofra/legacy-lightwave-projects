@@ -297,6 +297,11 @@ class ProjectOutput:
         if manifest["scene_gltf"]:
             manifest["scene_gltf"], manifest["scene_gltf_bin"] = self.publish_gltf(package, manifest["scene_gltf"], manifest["scene_gltf_bin"], name, ir)
         for rig in manifest.get("gltf_rigs", []):
+            if rig.get("derived_skin"):
+                source_skin = package_file(package, rig["derived_skin"])
+                target_skin = ir / f"skin-{rig['owner_item']:08x}.json"
+                copy_file(source_skin, target_skin)
+                rig["derived_skin"] = target_skin.name
             if rig["gltf"]:
                 rig_name = self.derived_name_for(manifest["input"], f".rig-{rig['owner_item']:08x}")
                 rig["gltf"], rig["gltf_bin"] = self.publish_gltf(package, rig["gltf"], rig["gltf_bin"], rig_name, ir)

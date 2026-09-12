@@ -31,7 +31,8 @@ static int candidate(LWNode *n,const char *path,LWError *e) {
     char *p=lw_dup(path); if(!p) return lw_error(e,0,"allocation","out of memory");
     if(!LW_ADD(n->candidates,p,e)) { free(p); return 0; } return 1;
 }
-static int resolve_node(LWNode *n,const LWOptions *opts,const LWPaths *files,LWError *e) {
+static int resolve_node(LWNode *n,const LWOptions *opts,const LWPackage *p,LWError *e) {
+    const LWPaths *files=&p->files;
     char *name=lw_text(n->object_path),*path=NULL; size_t i,best_rule=SIZE_MAX,best_length=0; unsigned best=0;
     if(!name) return lw_error(e,0,"allocation","out of memory");
     normalize(name);
@@ -64,8 +65,20 @@ static int resolve_node(LWNode *n,const LWOptions *opts,const LWPaths *files,LWE
         free(path);
         if(n->resolved_path) { int ok=candidate(n,n->resolved_path,e); free(name); return ok; }
     }
+    if(p->inferred_content_root&&!strchr(name,':')&&name[0]!='/') {
+        char *full;
+        path=lw_join(p->inferred_content_root,name); full=path?lw_absolute(path):NULL; free(path);
+        if(full&&lw_path_inside(full,p->content_search_root)) for(i=0;i<files->n;i++) if(lw_path_equal(full,files->v[i])) {
+            n->resolved_path=lw_dup(files->v[i]);
+            if(!n->resolved_path) { free(full); free(name); return lw_error(e,0,"allocation","out of memory"); }
+            snprintf(n->resolution,sizeof n->resolution,"inferred-content-root"); break;
+        }
+        free(full);
+        if(n->resolved_path) { int ok=candidate(n,n->resolved_path,e); free(name); return ok; }
+    }
     for(i=0;i<files->n;i++) {
         unsigned score=suffix_score(name,files->v[i]);
+        if(p->inferred_content_root&&!lw_path_inside(files->v[i],p->inferred_content_root)) continue;
         if(score>best) {
             size_t j; for(j=0;j<n->candidates.n;j++) free(n->candidates.v[j]); n->candidates.n=0; best=score;
         }
@@ -80,6 +93,7 @@ static int resolve_node(LWNode *n,const LWOptions *opts,const LWPaths *files,LWE
 }
 static int collect(LWPackage *p,const LWOptions *opts,LWError *e) {
     FILE *f=lw_fopen(opts->input,"rb"); unsigned char sig[4]; size_t n,i;
+    p->legacy_bone_maps=opts->legacy_bone_maps;
     if(!f) return lw_error(e,0,"input","cannot open %s",opts->input);
     n=fread(sig,1,4,f); fclose(f);
     p->is_scene=n==4&&!memcmp(sig,"LWSC",4);
@@ -91,15 +105,34 @@ static int collect(LWPackage *p,const LWOptions *opts,LWError *e) {
     }
     LW_TRY(lw_load_scene(opts->input,&p->scene,e));
     LW_TRY(lw_walk(opts->root,&p->files,e));
+    {
+        char *dir=lw_dirname(opts->input),*parent=dir?lw_dirname(dir):NULL;
+        free(dir);
+        if(!parent) return lw_error(e,0,"allocation","out of memory");
+        p->content_search_root=lw_dup(lw_path_inside(parent,opts->root)?opts->root:parent);
+        if(!p->content_search_root) { free(parent); return lw_error(e,0,"allocation","out of memory"); }
+        free(parent);
+    }
     n=0;
     for(i=0;i<p->files.n;i++) {
         if(object_file(p->files.v[i])) p->files.v[n++]=p->files.v[i]; else free(p->files.v[i]);
     }
     p->files.n=n;
+    LW_TRY(lw_infer_content_root(p,opts,e));
+    if(p->content_matches<p->content_references&&!lw_path_inside(p->content_search_root,opts->root)) {
+        LWPaths extra={0}; size_t j;
+        if(!lw_walk(p->content_search_root,&extra,e)) { lw_free_paths(&extra); return 0; }
+        for(j=0;j<extra.n;j++) {
+            if(lw_path_inside(extra.v[j],opts->root)||!object_file(extra.v[j])) { free(extra.v[j]); continue; }
+            if(!LW_ADD(p->files,extra.v[j],e)) { size_t k; for(k=j;k<extra.n;k++) free(extra.v[k]); LW_FREE(extra); return 0; }
+        }
+        LW_FREE(extra);
+        LW_TRY(lw_infer_content_root(p,opts,e));
+    }
     for(i=0;i<p->scene.nodes.n;i++) {
         LWNode *node=&p->scene.nodes.v[i]; size_t j; LWObject object; LWError local={0};
         if(!node->object_path.size) continue;
-        LW_TRY(resolve_node(node,opts,&p->files,e));
+        LW_TRY(resolve_node(node,opts,p,e));
         if(!node->resolved_path) { p->unresolved++; continue; }
         for(j=0;j<p->objects.n;j++) if(lw_path_equal(p->objects.v[j].source.path,node->resolved_path)) break;
         if(j==p->objects.n) {
@@ -182,7 +215,13 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
     fputs(",\"layout_version\":\"0.2\",\"formats\":{\"obj\":\"generated\",\"IR\":\"generated\",\"gltf\":\"generated\",\"blender\":\"not-implemented\"}",f);
-    fputs(",\n\"content_root\":",f); lw_json_string(f,opts->root); fputs(",\n\"path_rules\":[",f);
+    fputs(",\n\"content_root\":",f); lw_json_string(f,opts->root);
+    fprintf(f,",\"skin_profile\":\"%s\"",opts->legacy_bone_maps?"lightwave6":"lightwave96");
+    fputs(",\n\"content_root_inference\":{\"search_root\":",f); if(p->content_search_root) lw_json_string(f,p->content_search_root); else fputs("null",f);
+    fputs(",\"selected_root\":",f); if(p->inferred_content_root) lw_json_string(f,p->inferred_content_root); else fputs("null",f);
+    fprintf(f,",\"status\":\"%s\",\"distinct_references\":%zu,\"matched_references\":%zu,\"candidates\":[",p->inferred_content_root?"unique-best-root":p->content_matches?"ambiguous":"no-relative-path-evidence",p->content_references,p->content_matches);
+    for(i=0;i<p->content_candidates.n;i++) { if(i) fputc(',',f); fputs("{\"path\":",f); lw_json_string(f,p->content_candidates.v[i]); fprintf(f,",\"matched_references\":%zu}",p->content_scores.v[i]); }
+    fputs("]},\n\"path_rules\":[",f);
     for(i=0;i<opts->rules.n;i++) { if(i) fputc(',',f); fputs("{\"prefix\":",f); lw_json_string(f,opts->rules.v[i].prefix); fputs(",\"destination\":",f); lw_json_string(f,opts->rules.v[i].destination); fputc('}',f); }
     for(i=0;i<=p->objects.n;i++) {
         const LWImageReference *refs=i<p->objects.n?p->objects.v[i].images.v:p->scene.images.v;
@@ -229,10 +268,12 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fprintf(f,",\"gltf_rig_policy\":\"%s\",\"gltf_rigs\":[",opts->gltf_all_rigs?"all":"skins");
     if(gltf->rigs) for(i=0;i<gltf->rigs->n;i++) {
         const LWRigExport *rig=&gltf->rigs->v[i]; if(i) fputc(',',f);
-        fprintf(f,"{\"owner_node\":%zu,\"owner_item\":%u,\"bones\":%zu,\"status\":\"%s\",\"export_status\":\"%s\",\"pose\":\"rest; object-local; scene motion and IK not evaluated\",\"influence_sets\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"missing_weight_maps\":%zu,\"procedural_bones_not_evaluated\":%zu,\"gltf\":",rig->owner,p->scene.nodes.v[rig->owner].id,rig->bones,rig->available?(rig->weighted?"explicit-weight-map-skin":"skeleton-only"):"blocked",rig->written?"written":rig->available?"omitted-by-policy":"blocked",rig->sets,rig->unweighted_points,rig->missing_maps,rig->procedural_bones);
+        fprintf(f,"{\"owner_node\":%zu,\"owner_item\":%u,\"bones\":%zu,\"status\":\"%s\",\"export_status\":\"%s\",\"pose\":\"rest; object-local; scene motion and IK not evaluated\",\"influence_sets\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"missing_weight_maps\":%zu,\"procedural_bones_not_evaluated\":%zu,\"procedural_bones_converted\":%zu,\"volume_corrections_omitted\":%zu,\"gltf\":",rig->owner,p->scene.nodes.v[rig->owner].id,rig->bones,rig->available?(rig->weighted?(rig->procedural_bones?"procedural-weight-skin-approximation":"explicit-weight-map-skin"):"skeleton-only"):"blocked",rig->written?"written":rig->available?"omitted-by-policy":"blocked",rig->sets,rig->unweighted_points,rig->missing_maps,rig->weighted?0:rig->procedural_bones,rig->weighted?rig->procedural_bones:0,rig->weighted?rig->volume_corrections:0);
         if(rig->written) { if(!json_output_path(f,"gltf",rig->name,".gltf",e)) goto failed; } else fputs("null",f);
         fputs(",\"gltf_bin\":",f);
         if(rig->written) { if(!json_output_path(f,"gltf",rig->name,".bin",e)) goto failed; } else fputs("null",f);
+        fputs(",\"derived_skin\":",f);
+        if(rig->weighted&&rig->procedural_bones) { char suffix[64]; snprintf(suffix,sizeof suffix,"/skin-%08x.json",p->scene.nodes.v[rig->owner].id); if(!json_output_path(f,"IR",p->scene_name,suffix,e)) goto failed; } else fputs("null",f);
         fputs(",\"issue\":",f); lw_json_string(f,rig->issue); fputc('}',f);
     }
     fputc(']',f);
@@ -244,7 +285,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fprintf(f,",\n\"frame\":%.17g,\"unresolved_object_instances\":%zu,\"skipped_obj_primitives\":%zu,\"exported_patch_cages\":%zu,\"exported_curve_control_polylines\":%zu,\"unmapped_uv_corners\":%zu,\n\"obj_coordinates\":\"right-handed Y-up; source Z reflected; winding adjusted for transform determinant\",\"uv_map\":",opts->frame,p->unresolved,stats->skipped,stats->cages,stats->control_curves,stats->uv_missing);
     if(opts->uv_map) lw_json_string(f,opts->uv_map); else fputs("null",f);
     fprintf(f,",\n\"obj_triangulated_faces\":%zu,\"obj_triangles\":%zu,\"obj_bridged_hole_faces\":%zu,\"obj_triangulation_failures\":%zu,\"obj_nonplanar_faces\":%zu,\"obj_removed_duplicate_corners\":%zu,\"obj_triangulation\":\"projected ear clipping of FACE boundaries, including paired reverse-edge hole bridges; source corners and native LWIR polygons preserved\"",stats->triangulated_faces,stats->triangles,stats->bridged_faces,stats->triangulation_failures,stats->nonplanar_faces,stats->removed_corners);
-    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 base geometry plus separate object-local rest rigs with explicit normalized map-only skinning; LWOB planar/spherical image maps and PNG derivatives; approximate materials; source-corner normals and native smoothing parameters; no baked subdivision, procedural deformation, animated rigs or Blender backend in the C executable\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",opaque_plugins,p->scene.unsupported_features);
+    fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 base geometry plus separate object-local rest rigs with explicit normalized maps or measured procedural weight approximations; LWOB planar/spherical image maps and PNG derivatives; approximate materials; source-corner normals and native smoothing parameters; no baked subdivision, volume corrections, morph or rig animation, or Blender backend in the C executable\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",opaque_plugins,p->scene.unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }
 failed:
     fclose(f); free(path); return 0;
@@ -301,4 +342,5 @@ done:
 void lw_free_package(LWPackage *p) {
     size_t i; for(i=0;i<p->objects.n;i++) lw_free_object(&p->objects.v[i]);
     LW_FREE(p->objects); lw_free_scene(&p->scene); lw_free_paths(&p->files); lw_free_paths(&p->names); free(p->scene_name);
+    free(p->content_search_root); free(p->inferred_content_root); lw_free_paths(&p->content_candidates); LW_FREE(p->content_scores);
 }

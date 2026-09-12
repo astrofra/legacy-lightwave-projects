@@ -1,0 +1,1632 @@
+{
+  "converter_version": "0.9.0",
+  "metric": "Euclidean object-local error at exported source corners, comparing glTF JOINTS/WEIGHTS and inverse binds under captured native bone matrices; scene IK is supplied only by the development oracle.",
+  "experiments": [
+    {
+      "source": "content\\quatuor\\work\\3d\\test_anim.lws",
+      "source_sha256": "37fa25e4fe993210d9a9c2e5dc23e6d3b804843d6a06b858796877efe621f68b",
+      "converter_sha256": "a38b45aabc69188b16d75a9963e7dbd1bf9874b1fa198b8ade60cf15eed94fb8",
+      "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+      "helper_sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf",
+      "captures": [
+        {
+          "frame": 0,
+          "sha256": "a331b49948bb5bb3009180dfae163c2b823d7e25daeef7e0e0d84db1b05456c6"
+        },
+        {
+          "frame": 2,
+          "sha256": "fa685bd69b3f8d31efc24b1369cdb280990e4ef2f77cd04062390c5434f741d8"
+        }
+      ],
+      "audit": {
+        "removed_display_plugins": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Bloom"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Virtual_Darkroom2.0"
+          }
+        ],
+        "retained_animation_plugins": [],
+        "modules": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LWConvertCapture",
+            "path": "S:/works/legacy-lightwave-projects/bin/win64/lw_capture.p",
+            "sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf"
+          }
+        ],
+        "overrides": {
+          "SubPatchLevel": "0 0",
+          "FrameSize": "8 8",
+          "ResolutionMultiplier": "1",
+          "Antialiasing": "0",
+          "EnhancedAA": "0",
+          "MotionBlur": "0",
+          "DepthOfField": "0",
+          "Radiosity": "0",
+          "SaveRGB": "0",
+          "SaveAlpha": "0",
+          "RenderThreads": "1"
+        },
+        "working_scene_sha256": "06c024bd0599bf06ceef44cf0f375701408b6705b48f671f0d60bfd1edc972d0",
+        "empty_command_recorders_removed": 1,
+        "volume_parameters_removed": 0,
+        "morph_mixers_removed": 0
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 0,
+          "error": {
+            "samples": 34034,
+            "max": 6.472689175505052e-07,
+            "rms": 1.2497344548507064e-07
+          }
+        },
+        {
+          "owner_item": 268435475,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 0,
+          "error": {
+            "samples": 32946,
+            "max": 4.652862499845382e-07,
+            "rms": 1.2547325418010803e-07
+          }
+        },
+        {
+          "owner_item": 268435494,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 0,
+          "error": {
+            "samples": 32814,
+            "max": 6.412471447676735e-07,
+            "rms": 1.26465625803013e-07
+          }
+        },
+        {
+          "owner_item": 268435513,
+          "status": "skeleton-only",
+          "issue": "non-normalized LightWave weight semantics require qualification",
+          "volume_corrections_omitted": 0
+        }
+      ],
+      "experiment": "test-anim"
+    },
+    {
+      "source": "content\\quatuor\\work\\3d\\dialogue01.lws",
+      "source_sha256": "e0cf485457f1899b0a8a86fdb9cc98ef1b0d268e600a55e23d2ed803e81c8f35",
+      "converter_sha256": "a38b45aabc69188b16d75a9963e7dbd1bf9874b1fa198b8ade60cf15eed94fb8",
+      "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+      "helper_sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf",
+      "captures": [
+        {
+          "frame": 0,
+          "sha256": "1557bbc0472d71615a678c2a2ef776bf4ffe22ac30897ccf89df279bcad55c9d"
+        },
+        {
+          "frame": 2,
+          "sha256": "850f14bd157dbff506a2edab0480d99b0494ba35194e9a12cb6b40433481354d"
+        }
+      ],
+      "audit": {
+        "removed_display_plugins": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Bloom"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Virtual_Darkroom2.0"
+          }
+        ],
+        "retained_animation_plugins": [],
+        "modules": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LWConvertCapture",
+            "path": "S:/works/legacy-lightwave-projects/bin/win64/lw_capture.p",
+            "sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf"
+          }
+        ],
+        "overrides": {
+          "SubPatchLevel": "0 0",
+          "FrameSize": "8 8",
+          "ResolutionMultiplier": "1",
+          "Antialiasing": "0",
+          "EnhancedAA": "0",
+          "MotionBlur": "0",
+          "DepthOfField": "0",
+          "Radiosity": "0",
+          "SaveRGB": "0",
+          "SaveAlpha": "0",
+          "RenderThreads": "1"
+        },
+        "working_scene_sha256": "95aa318167843ec172882f999c2da8f7e7f7c6ebf8e5fbec55312d7da481d99e",
+        "empty_command_recorders_removed": 1,
+        "volume_parameters_removed": 0,
+        "morph_mixers_removed": 0
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 0,
+          "error": {
+            "samples": 7818,
+            "max": 5.040962368550916e-07,
+            "rms": 1.6312757791357104e-07
+          }
+        },
+        {
+          "owner_item": 268435475,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 0,
+          "error": {
+            "samples": 7818,
+            "max": 4.478775706450294e-07,
+            "rms": 1.5651399479563748e-07
+          }
+        },
+        {
+          "owner_item": 268435494,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 0,
+          "error": {
+            "samples": 7818,
+            "max": 4.5935602530331084e-07,
+            "rms": 1.5279838419244732e-07
+          }
+        },
+        {
+          "owner_item": 268435513,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 0,
+          "error": {
+            "samples": 7818,
+            "max": 4.735327754233415e-07,
+            "rms": 1.479216327689963e-07
+          }
+        }
+      ],
+      "experiment": "dialogue"
+    },
+    {
+      "source": "content\\smila-by-moebius\\smila_run_cycle.lws",
+      "source_sha256": "6342942a1e0d5301da34d0e71b9cea7891255a97fe7f1239d2a2fc2232d97c08",
+      "converter_sha256": "a38b45aabc69188b16d75a9963e7dbd1bf9874b1fa198b8ade60cf15eed94fb8",
+      "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+      "helper_sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf",
+      "captures": [
+        {
+          "frame": 0,
+          "sha256": "0b81e5b71690ed5d9bf373f34e39e260cd757b60332d76fcab1e2509a6290d30"
+        },
+        {
+          "frame": 8,
+          "sha256": "1ebe7a1ccbea8f60c06b52cb6e91d1ed66249c7947278cbd8fee69b379a40779"
+        },
+        {
+          "frame": 16,
+          "sha256": "6237ca2c20d8fd46a06a6b1953cab7415063ef5169d50fcc9bdd1c2a9d6f8dbf"
+        }
+      ],
+      "audit": {
+        "removed_display_plugins": [
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": ".BRDF"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "ACS4_Shape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "ACS4_Shape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "Sliders"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "PixelFilterHandler",
+            "name": "Dof_Data"
+          },
+          {
+            "class": "PixelFilterHandler",
+            "name": "Dof_Render"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "H/A"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Virtual_Darkroom2.0"
+          }
+        ],
+        "retained_animation_plugins": [
+          {
+            "class": "MasterHandler",
+            "name": "MotionMixer"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "SimpleOrientConstraints"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "SimpleOrientConstraints"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "DisplacementHandler",
+            "name": "LW_MorphMixer"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          }
+        ],
+        "modules": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LWConvertCapture",
+            "path": "S:/works/legacy-lightwave-projects/bin/win64/lw_capture.p",
+            "sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/chanexpress.p",
+            "sha256": "3b114ccaea18cdc1ef9b3e7de57c0c47336acf0f43d803f97e422942f64e683b"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+            "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "SimpleOrientConstraints",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/simpleconstraints.p",
+            "sha256": "0e9d807a0316cf70ebe409b936b261387fa2856c5d50da90a6f08ed259afe495"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "MotionMixer",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+            "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+          }
+        ],
+        "overrides": {
+          "SubPatchLevel": "0 0",
+          "FrameSize": "8 8",
+          "ResolutionMultiplier": "1",
+          "Antialiasing": "0",
+          "EnhancedAA": "0",
+          "MotionBlur": "0",
+          "DepthOfField": "0",
+          "Radiosity": "0",
+          "SaveRGB": "0",
+          "SaveAlpha": "0",
+          "RenderThreads": "1"
+        },
+        "working_scene_sha256": "ecc7a7c6c2111c47424643d0bd42e5a087e97fd314bb1f15894b0c0f7d297520",
+        "empty_command_recorders_removed": 0,
+        "volume_parameters_removed": 0,
+        "morph_mixers_removed": 0
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 8,
+          "error": {
+            "samples": 40023,
+            "max": 0.05525519905788485,
+            "rms": 0.0068267468881570825
+          }
+        }
+      ],
+      "experiment": "smila-full"
+    },
+    {
+      "source": "content\\smila-by-moebius\\smila_run_cycle.lws",
+      "source_sha256": "6342942a1e0d5301da34d0e71b9cea7891255a97fe7f1239d2a2fc2232d97c08",
+      "converter_sha256": "a38b45aabc69188b16d75a9963e7dbd1bf9874b1fa198b8ade60cf15eed94fb8",
+      "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+      "helper_sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf",
+      "captures": [
+        {
+          "frame": 0,
+          "sha256": "42a1af69a1e0544e866e7a57cf4dc80530a85606aefa9582555cd6d57eec0933"
+        },
+        {
+          "frame": 8,
+          "sha256": "4e520456173cc6c4aebbdbb89a4693042d83d8f6f41c7524f0a2858c7fee995c"
+        },
+        {
+          "frame": 16,
+          "sha256": "59c25b730d545bafc2843362a7808c4571ae37ebd9afa18da8dc1df6380ddaa5"
+        }
+      ],
+      "audit": {
+        "removed_display_plugins": [
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "ProxyPick"
+          },
+          {
+            "class": "MasterHandler",
+            "name": ".BRDF"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "ACS4_Shape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "ACS4_Shape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "Sliders"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "CustomObjHandler",
+            "name": "LW_ItemShape"
+          },
+          {
+            "class": "PixelFilterHandler",
+            "name": "Dof_Data"
+          },
+          {
+            "class": "PixelFilterHandler",
+            "name": "Dof_Render"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "H/A"
+          },
+          {
+            "class": "ImageFilterHandler",
+            "name": "LW_Virtual_Darkroom2.0"
+          }
+        ],
+        "retained_animation_plugins": [
+          {
+            "class": "MasterHandler",
+            "name": "MotionMixer"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "SimpleOrientConstraints"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "SimpleOrientConstraints"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver"
+          }
+        ],
+        "modules": [
+          {
+            "class": "ImageFilterHandler",
+            "name": "LWConvertCapture",
+            "path": "S:/works/legacy-lightwave-projects/bin/win64/lw_capture.p",
+            "sha256": "42f4ca718d2aab5c98e450d8e67dbcb8c73d4424bfed93ccb182f2dce2a85cbf"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "LW_Expression",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/chanexpress.p",
+            "sha256": "3b114ccaea18cdc1ef9b3e7de57c0c47336acf0f43d803f97e422942f64e683b"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "MM_MotionDriver",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+            "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+          },
+          {
+            "class": "ItemMotionHandler",
+            "name": "SimpleOrientConstraints",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/simpleconstraints.p",
+            "sha256": "0e9d807a0316cf70ebe409b936b261387fa2856c5d50da90a6f08ed259afe495"
+          },
+          {
+            "class": "MasterHandler",
+            "name": "MotionMixer",
+            "path": "S:/works/legacy-lightwave-projects/_tmp/_extern/LightWave/LW9.6/Plugins/animate/motionmixer.p",
+            "sha256": "b9e217d36ef02c3532b4031cd26c64fb738a9a02c62695536ea30e03a680dfa0"
+          }
+        ],
+        "overrides": {
+          "SubPatchLevel": "0 0",
+          "FrameSize": "8 8",
+          "ResolutionMultiplier": "1",
+          "Antialiasing": "0",
+          "EnhancedAA": "0",
+          "MotionBlur": "0",
+          "DepthOfField": "0",
+          "Radiosity": "0",
+          "SaveRGB": "0",
+          "SaveAlpha": "0",
+          "RenderThreads": "1"
+        },
+        "working_scene_sha256": "dab33ee572c10560028560b86ca0e0b3780390160df5c137759b26430011749d",
+        "empty_command_recorders_removed": 0,
+        "volume_parameters_removed": 22,
+        "morph_mixers_removed": 1
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "issue": "",
+          "volume_corrections_omitted": 8,
+          "error": {
+            "samples": 40023,
+            "max": 1.8079525449473508e-06,
+            "rms": 1.1580714412748012e-07
+          }
+        }
+      ],
+      "experiment": "smila-linear"
+    }
+  ],
+  "batch": {
+    "path": "output/batch-20260912-150015",
+    "inputs": 96,
+    "gltf_files": 115,
+    "rig_statuses": {
+      "procedural-weight-skin-approximation": 26,
+      "skeleton-only": 4
+    },
+    "converter_sha256": "a38b45aabc69188b16d75a9963e7dbd1bf9874b1fa198b8ade60cf15eed94fb8",
+    "native_dependency_for_conversion": false
+  }
+}

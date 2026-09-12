@@ -9,8 +9,10 @@ import shutil
 import struct
 import subprocess
 import sys
+import tempfile
 
 from lightwave_animation import digest, export_rig, read_capture, write_json
+from lightwave_skin_animation import export_skinned_rig
 from output_layout import apply_rig_policy, package_file
 
 REPOSITORY = Path(__file__).resolve().parents[1]
@@ -18,6 +20,7 @@ MODULES = {
     "MotionMixer":"animate/motionmixer.p", "MM_MotionDriver":"animate/motionmixer.p",
     "LW_Expression":"animate/chanexpress.p", "SimpleOrientConstraints":"animate/simpleconstraints.p",
     "LW_Follower":"animate/chanfollow.p", "LW_Cyclist":"animate/chanfollow.p",
+    "JointMorph":"animate/jointmorph.p",
 }
 # These plugins affect display, selection or the final image rather than the
 # evaluated object transformations. Unknown masters/deformers are not discarded.
@@ -35,9 +38,11 @@ def machine(path):
         return struct.unpack("<H",f.read(2))[0]
 
 
-def prepare_scene(source, scene, assets, directory, lightwave, capture_plugin):
+def prepare_scene(source, scene, assets, directory, lightwave, capture_plugin, runtime="lightwave96", skip_plugins=()):
     """Create isolated scene/config copies and a complete override audit."""
-    text = source.decode("latin1"); lines = text.splitlines(); kept = []; removed = []; retained = []; i = 0
+    if scene.get("version") not in (None,1,3):
+        raise ValueError("Native capture currently supports LWSC 1/3; LWSC 5 explicit-ID scenes remain available in the C IR")
+    text = source.decode("latin1"); lines = text.splitlines(); kept = []; removed = []; skipped = []; retained = []; i = 0
     while i<len(lines):
         line = lines[i]
         if line.startswith("Plugin "):
@@ -48,7 +53,9 @@ def prepare_scene(source, scene, assets, directory, lightwave, capture_plugin):
                 block.append(lines[i]); depth += int(lines[i].startswith("Plugin "))-int(lines[i].startswith("EndPlugin")); i += 1
             if depth: raise ValueError("Unterminated native plugin")
             cls,name = fields[1],fields[3]
-            if cls in DISPLAY_CLASSES or (cls=="MasterHandler" and name in DISPLAY_MASTERS):
+            if name in skip_plugins:
+                skipped.append({"class":cls,"name":name,"reason":"explicit --skip-plugin"}); continue
+            if cls in DISPLAY_CLASSES or (cls=="MasterHandler" and (name in DISPLAY_MASTERS or (name==".SpreadsheetStandardBanks" and len(block)==2))):
                 removed.append({"class":cls,"name":name}); continue
             if name not in MODULES and (cls,name) not in BUILTINS: raise ValueError(f"Native animation plugin is not qualified: {cls} {name}")
             retained.append((cls,name)); kept.extend(block); continue
@@ -78,7 +85,26 @@ def prepare_scene(source, scene, assets, directory, lightwave, capture_plugin):
     # source omitted the setting (LightWave defaults must not add geometry).
     text = re.sub(r"^SubPatchLevel .*\n?","",text,flags=re.M)
     text = re.sub(r"^(LoadObjectLayer|LoadObject|AddNullObject) (.*)$",r"\1 \2\nSubPatchLevel 0 0",text,flags=re.M)
+    if runtime=="lightwave6":
+        # Old MeshInfo exposes undeformed positions. A read-only WORLD-stage
+        # displacement observer records the final positions for this object.
+        chunks = re.split(r"(?=^(?:LoadObjectLayer|LoadObject|AddNullObject) )",text,flags=re.M)
+        for index,chunk in enumerate(chunks):
+            if not chunk.startswith(("LoadObject ","LoadObjectLayer ")): continue
+            slot = 1+max([int(n) for n in re.findall(r"^Plugin DisplacementHandler (\d+) ",chunk,re.M)],default=0)
+            declaration,rest = chunk.split("\n",1)
+            chunks[index] = declaration+f"\nPlugin DisplacementHandler {slot} LWConvertDeformationCapture\nEndPlugin\n"+rest
+        text = "".join(chunks)
+        chunks = re.split(r"(?=^(?:LoadObjectLayer|LoadObject|AddNullObject|AddBone|AddLight|AddCamera)(?: |$))",text,flags=re.M)
+        for index,chunk in enumerate(chunks):
+            if not re.search(r"^(ObjectMotion|BoneMotion)$",chunk,re.M): continue
+            slot = 1+max([int(n) for n in re.findall(r"^Plugin ItemMotionHandler (\d+) ",chunk,re.M)],default=0)
+            chunks[index] += f"\nPlugin ItemMotionHandler {slot} LWConvertMotionCapture\nEndPlugin\n"
+        text = "".join(chunks)
     overrides = {"FrameSize":"8 8","ResolutionMultiplier":"1","Antialiasing":"0","EnhancedAA":"0","MotionBlur":"0","DepthOfField":"0","Radiosity":"0","SaveRGB":"0","SaveAlpha":"0","RenderThreads":"1"}
+    # Some old hosts infer output enablement from the prefix despite SaveRGB 0.
+    # Keep any incidental render inside the isolated evaluation directory.
+    text = re.sub(r"^(SaveRGBImagesPrefix|SaveAlphaImagesPrefix) .*$",r"\1 frames/preview",text,flags=re.M)
     for key,value in overrides.items(): text = re.sub("^"+key+r" .*\n?","",text,flags=re.M)
     # Frame size is camera-scoped. Add it to each camera; append the global
     # switches as well so scene omissions cannot fall back to enabled defaults.
@@ -87,24 +113,34 @@ def prepare_scene(source, scene, assets, directory, lightwave, capture_plugin):
     working = directory/"evaluation.lws"; working.write_bytes(text.encode("latin1"))
     config = directory/"config"; config.mkdir()
     modules = [{"class":"ImageFilterHandler","name":"LWConvertCapture","path":capture_plugin.as_posix(),"sha256":digest(capture_plugin)}]
+    if runtime=="lightwave6":
+        modules.append({"class":"DisplacementHandler","name":"LWConvertDeformationCapture","path":capture_plugin.as_posix(),"sha256":digest(capture_plugin)})
+        modules.append({"class":"ItemMotionHandler","name":"LWConvertMotionCapture","path":capture_plugin.as_posix(),"sha256":digest(capture_plugin)})
     for cls,name in sorted(set(retained)):
         if (cls,name) in BUILTINS: continue
-        path = lightwave/"Plugins"/MODULES[name]
+        path = (lightwave.parent if runtime=="lightwave6" else lightwave)/"Plugins"/MODULES[name]
         if not path.is_file(): raise FileNotFoundError(path)
         modules.append({"class":cls,"name":name,"path":path.as_posix(),"sha256":digest(path)})
     plugin_config = "".join('{ Entry\n  Class "'+m["class"]+'"\n  Name "'+m["name"]+'"\n  Module "'+m["path"]+'"\n}\n' for m in modules)
     encoding = "mbcs" if os.name=="nt" else "utf-8"
     for name in ("LWEXT9.CFG","LWEXT9-64.CFG"): (config/name).write_text(plugin_config,encoding=encoding)
     for name in ("LW9.CFG","LW9-64.CFG"): (config/name).write_text("ContentDirectory .\n",encoding=encoding)
-    return working,config,{"removed_display_plugins":removed,"retained_animation_plugins":[{"class":c,"name":n} for c,n in retained],"modules":modules,"overrides":{"SubPatchLevel":"0 0",**overrides},"working_scene_sha256":digest(working)}
+    if runtime=="lightwave6":
+        config = config/"LW3.CFG"
+        config.write_text("ContentDirectory .\n"+"".join(f"Plugin {m['class']} {m['name']} {m['path']} {m['name']}\n" for m in modules),encoding=encoding)
+    return working,config,{"runtime_profile":runtime,"removed_display_plugins":removed,"explicitly_skipped_plugins":skipped,"retained_animation_plugins":[{"class":c,"name":n} for c,n in retained],"modules":modules,"overrides":{"SubPatchLevel":"0 0","render_image_prefixes":"frames/preview",**overrides},"working_scene_sha256":digest(working)}
 
 
-def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None):
+def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None, runtime="lightwave96", skip_plugins=(), animation_mode="auto"):
     package = Path(package).resolve(); lightwave = Path(lightwave).resolve()
     capture_plugin = Path(capture_plugin or REPOSITORY/"bin/win64/lw_capture.p").resolve()
-    executable = lightwave/"Programs/lwsn.exe"
+    executable = lightwave/("LWSN.exe" if runtime=="lightwave6" else "Programs/lwsn.exe")
     if machine(executable)!=machine(capture_plugin): raise ValueError("ScreamerNet and capture plugin architectures differ")
     manifest_path = package/"manifest.json"; manifest = json.loads(manifest_path.read_text("utf-8"))
+    if runtime not in ("lightwave6","lightwave96") or animation_mode not in ("auto","skin","morph"):
+        raise ValueError("Unknown runtime or animation mode")
+    if animation_mode!="morph" and manifest.get("skin_profile","lightwave96")!=runtime:
+        raise ValueError("The C skin profile must match the native evaluation runtime")
     if not manifest.get("scene"): return []
     rigs = [r for r in manifest.get("gltf_rigs",[]) if r.get("gltf")]
     # The C backend already handles ordinary scene motion. Native whole-scene
@@ -129,15 +165,34 @@ def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=N
     for asset in manifest["assets"]:
         native_path = package/asset["uri"]; native = json.loads(native_path.read_text("utf-8"))
         assets.append({**asset,"source_copy":native_path.parent/native["source"]["uri"]})
-    working,config,audit = prepare_scene(source.read_bytes(),scene,assets,directory,lightwave,capture_plugin)
+    working,config,audit = prepare_scene(source.read_bytes(),scene,assets,directory,lightwave,capture_plugin,runtime,skip_plugins)
     capture = directory/"frames"; capture.mkdir()
     env = os.environ.copy(); env["LWCONVERT_CAPTURE_DIR"] = str(capture)
     command = [str(executable),"-3","-c"+str(config),"-d"+str(directory),str(working),str(int(start)),str(int(end)),str(int(step))]
-    with (directory/"screamernet.log").open("wb") as log:
-        result = subprocess.run(command,cwd=directory,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=timeout,creationflags=subprocess.CREATE_NO_WINDOW if os.name=="nt" else 0)
+    def invoke(work, args, environment):
+        with (work/"screamernet.log").open("wb") as log:
+            return subprocess.run(args,cwd=work,env=environment,stdout=log,stderr=subprocess.STDOUT,timeout=timeout,creationflags=subprocess.CREATE_NO_WINDOW if os.name=="nt" else 0)
+    if runtime=="lightwave6":
+        # Build 446 corrupts renderer state with long scene paths. Archive the
+        # prepared inputs normally, but evaluate identical bytes in a short cwd.
+        with tempfile.TemporaryDirectory(prefix="lw6-") as temporary:
+            short = Path(temporary).resolve()
+            if short.parent!=Path(tempfile.gettempdir()).resolve(): raise ValueError("Unexpected temporary evaluation parent")
+            if len(str(short))>70: raise ValueError("LightWave 6 needs a shorter TEMP directory (at most 70 characters including temporary name)")
+            shutil.copytree(directory,short,dirs_exist_ok=True)
+            env["LWCONVERT_CAPTURE_DIR"] = str(short/"frames")
+            command = [str(executable),"-3","-cconfig/LW3.CFG","-d"+str(short),"evaluation.lws",str(int(start)),str(int(end)),str(int(step))]
+            try:
+                result = invoke(short,command,env)
+            finally:
+                shutil.copytree(short/"frames",capture,dirs_exist_ok=True)
+                if (short/"screamernet.log").exists(): shutil.copyfile(short/"screamernet.log",directory/"screamernet.log")
+            audit["short_working_directory"] = {"path":str(short),"temporary":True,"working_scene_sha256":digest(short/"evaluation.lws")}
+    else:
+        result = invoke(directory,command,env)
     log = (directory/"screamernet.log").read_text("latin1")
     if result.returncode: raise ValueError(f"ScreamerNet failed ({result.returncode}); see {directory/'screamernet.log'}")
-    for cls,name in {(m["class"],m["name"]) for m in audit["retained_animation_plugins"]}|{("ImageFilterHandler","LWConvertCapture")}:
+    for cls,name in {(m["class"],m["name"]) for m in audit["retained_animation_plugins"]+audit["modules"]}:
         if re.search(r"Can't load plug-in \""+re.escape(name)+r'\"',log) or f"No plug-in of type {cls} found with name {name}" in log:
             raise ValueError(f"Native animation plugin failed to load: {cls} {name}")
     if "Instance creation failed" in log: raise ValueError("Native plugin instance creation failed; evaluation is incomplete")
@@ -150,14 +205,22 @@ def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=N
     if not rigs:
         audit["profile"] = "lightwave-evaluated-scene-transforms-0.1"
         audit["scope"] = "Native evaluated object/null hierarchy; rigid cage motion and topology verified before whole-scene export; subdivision disabled; original IK statements retained in evaluation copy."
-    protocols = {2 if "corner_normals" in mesh else 1 for frame in frames for mesh in frame["meshes"].values()}
+    protocols = {frame["protocol"] for frame in frames}
     audit["capture_protocols"] = sorted(protocols)
     audit["normal_scope"] = "Protocol 2 records LWMeshInfo.pntOtherNormal, evaluated world normals per polygon corner; protocol 1 contains no normals; subdivision disabled"
+    audit["position_scope"] = "Read-only WORLD displacement observer; subdivision disabled by working-scene override (old SDK cannot query patch levels)" if runtime=="lightwave6" else "Evaluated LWMeshInfo world positions; patch levels queried"
+    audit["bone_pose_scope"] = "Protocol 3: read-only ItemMotionHandler after IK; SDK matrices retained separately and local TRS composed with pivots" if runtime=="lightwave6" else "ItemInfo world matrices"
+    if skip_plugins: audit["scope"] += " Explicitly skipped animation plugins are listed separately; this capture represents that loading configuration."
     capture_manifest = directory/"capture.json"; write_json(capture_manifest,audit)
     if rigs:
-        results = [export_rig(package,manifest,rig,frames,digest(capture_manifest)) for rig in rigs]
+        results = []
+        for rig in rigs:
+            bound = bool(json.loads((package/rig["gltf"]).read_text("utf-8")).get("skins"))
+            if animation_mode=="skin" and not bound: raise ValueError(f"No bound skin for {rig['owner_item']:08x}")
+            exporter = export_skinned_rig if bound and animation_mode!="morph" else export_rig
+            results.append(exporter(package,manifest,rig,frames,digest(capture_manifest)))
         manifest["gltf_animations"] = results
-        manifest["scope"] += "; additional native evaluated animation via external LightWave, cage morph targets and bone TRS tracks"
+        manifest["scope"] += "; additional native evaluated animation via external LightWave; per-animation profile identifies skeletal skin or cage morph targets"
     else:
         from lightwave_scene import export_scene
         converter = Path(converter or REPOSITORY/"bin/win64/lwconvert.exe").resolve()
@@ -178,9 +241,9 @@ def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=N
     return results
 
 
-def evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None):
+def evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None, runtime="lightwave96", skip_plugins=(), animation_mode="auto"):
     try:
-        return _evaluate_package(package,lightwave,capture_plugin,start,end,step,timeout,converter)
+        return _evaluate_package(package,lightwave,capture_plugin,start,end,step,timeout,converter,runtime,skip_plugins,animation_mode)
     except (OSError,ValueError,KeyError,subprocess.TimeoutExpired) as error:
         # Keep failed native evaluations reviewable when a batch publishes the
         # successfully extracted IR and removes its temporary working package.
@@ -219,6 +282,9 @@ def main():
     parser.add_argument("--content-root",type=Path)
     parser.add_argument("--lightwave-root",type=Path,required=True,help="Installed LightWave root containing Programs/lwsn.exe and Plugins/")
     parser.add_argument("--capture-plugin",type=Path,default=REPOSITORY/"bin/win64/lw_capture.p")
+    parser.add_argument("--runtime",choices=("lightwave96","lightwave6"),default="lightwave96",help="For LightWave 6, --lightwave-root is the directory containing LWSN.exe; use the x86 capture plugin")
+    parser.add_argument("--skip-plugin",action="append",default=[],help="Explicitly omit a source plugin by name and record the omission in the capture audit")
+    parser.add_argument("--animation-mode",choices=("auto","skin","morph"),default="auto",help="Auto keeps bound skins; morph captures complete cage deformation")
     parser.add_argument("--converter",type=Path,default=REPOSITORY/"bin/win64/lwconvert.exe")
     parser.add_argument("--start-frame",type=int)
     parser.add_argument("--end-frame",type=int)
@@ -229,13 +295,13 @@ def main():
     parser.add_argument("--map",action="append",default=[])
     args = parser.parse_args()
     command = [str(args.converter.resolve()),"convert",str(args.input.resolve()),"--output",str(args.output.resolve()),"--content-root",str((args.content_root or args.input.parent).resolve())]
-    command += ["--gltf-rigs", "all"]
+    command += ["--gltf-rigs", "all", "--skin-profile",args.runtime]
     if args.uv_map: command += ["--uv-map",args.uv_map]
     for rule in args.map: command += ["--map",rule]
     result = subprocess.run(command,timeout=args.timeout)
     if result.returncode not in (0,2): return result.returncode
     try:
-        animations = evaluate_package(args.output,args.lightwave_root,args.capture_plugin,args.start_frame,args.end_frame,args.frame_step,args.timeout,args.converter)
+        animations = evaluate_package(args.output,args.lightwave_root,args.capture_plugin,args.start_frame,args.end_frame,args.frame_step,args.timeout,args.converter,args.runtime,args.skip_plugin,args.animation_mode)
     finally:
         finalize_rig_outputs(args.output, args.gltf_rigs)
     print(json.dumps({"output":str(args.output.resolve()),"animations":animations},indent=2))

@@ -1,5 +1,11 @@
 # Native bone bindings and glTF rest rigs — v0.5.0
 
+Update: v0.9.0 now derives procedural and hybrid weights in standalone C.
+See [the measured profile](procedural-skinning.md), including the distinction
+between `Smilla_IK.lws` (assigned weight maps) and `smila_run_cycle.lws`
+(another model revision, without WGHT maps). The remaining text describes
+the earlier milestone.
+
 Since v0.8.2, the default `--gltf-rigs skins` omits the unbound rest-skeleton
 files discussed below. Their diagnostic entries and original IR remain present.
 Use `--gltf-rigs all` to reproduce these historical skeleton-only glTF exports.

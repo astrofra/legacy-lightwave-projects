@@ -48,18 +48,23 @@ typedef struct { char *prefix, *destination; } LWRule;
 typedef struct {
     char *input, *output, *root, *uv_map;
     double frame;
-    int frame_set, gltf_all_rigs;
+    int frame_set, gltf_all_rigs, legacy_bone_maps;
     LW_ARRAY(LWRule) rules;
 } LWOptions;
 typedef struct {
     LW_ARRAY(LWObject) objects;
     LWScene scene;
-    int is_scene;
+    int is_scene, legacy_bone_maps;
     LWPaths files;
     LWPaths names;
     char *scene_name;
+    char *content_search_root, *inferred_content_root;
+    LWPaths content_candidates;
+    LW_ARRAY(size_t) content_scores;
+    size_t content_references, content_matches;
     size_t unresolved, approximation_count;
 } LWPackage;
+int lw_infer_content_root(LWPackage *, const LWOptions *, LWError *);
 int lw_convert(const LWOptions *, LWError *);
 void lw_free_package(LWPackage *);
 int lw_write_object(const char *, const LWObject *, LWError *);
@@ -125,12 +130,12 @@ typedef struct {
     LW_ARRAY(LWRigJoint) joints;
     LW_ARRAY(LWRigInfluence) influences;
     LWRigPoint *points;
-    size_t point_count,influence_sets,unweighted_points,missing_maps,procedural_bones;
+    size_t point_count,influence_sets,unweighted_points,missing_maps,procedural_bones,volume_corrections;
     int weighted;
     char issue[256];
 } LWRig;
 typedef struct {
-    size_t owner,bones,sets,unweighted_points,missing_maps,procedural_bones;
+    size_t owner,bones,sets,unweighted_points,missing_maps,procedural_bones,volume_corrections;
     char *name;
     int weighted,written,available;
     char issue[256];
@@ -139,5 +144,6 @@ typedef struct LWRigExports { LWRigExport *v; size_t n,cap; } LWRigExports;
 void lw_resolve_bone_maps(LWPackage *);
 int lw_build_rig(const LWPackage *,size_t,LWRig *,LWError *);
 void lw_free_rig(LWRig *);
+int lw_write_derived_skin(const char *,const LWPackage *,const LWRig *,LWError *);
 void lw_free_gltf_stats(LWGltfStats *);
 #endif
