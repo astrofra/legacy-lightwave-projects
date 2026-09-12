@@ -269,6 +269,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fputs(",\"scene_gltf_issue\":",f); lw_json_string(f,gltf->geometry.scene_issue);
     fputs(",\"autonomous_animation\":{\"profile\":\"autonomous-hpb-ik-0.1\",\"status\":",f);
     lw_json_string(f,p->bake.poses?"baked-approximation":opts->no_bake_ik?"disabled":p->bake.issue[0]?"unsupported":"not-needed");
+    fprintf(f,",\"scene_exported\":%s",p->bake.poses&&gltf->geometry.scene_written?"true":"false");
     fprintf(f,",\"samples\":%zu,\"goals\":%zu,\"maximum_goal_position_error\":%.17g,\"uri\":",p->bake.samples,p->bake.goals,p->bake.max_goal_error);
     if(p->bake.poses) { if(!json_output_path(f,"IR",p->scene_name,"/baked-animation.json",e)) goto failed; } else fputs("null",f);
     fputs(",\"issue\":",f); lw_json_string(f,p->bake.issue); fputc('}',f);
@@ -281,6 +282,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
         if(rig->written) { if(!json_output_path(f,"gltf",rig->name,".bin",e)) goto failed; } else fputs("null",f);
         fputs(",\"derived_skin\":",f);
         if(rig->weighted&&rig->procedural_bones) { char suffix[64]; snprintf(suffix,sizeof suffix,"/skin-%08x.json",p->scene.nodes.v[rig->owner].id); if(!json_output_path(f,"IR",p->scene_name,suffix,e)) goto failed; } else fputs("null",f);
+        fprintf(f,",\"animated\":%s",rig->animated?"true":"false");
         fputs(",\"issue\":",f); lw_json_string(f,rig->issue); fputc('}',f);
     }
     fputc(']',f);

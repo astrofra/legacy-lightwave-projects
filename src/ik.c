@@ -11,7 +11,7 @@
 #define IK_GOALS 32
 typedef struct {
     size_t parent,goal,anchor,depth;
-    int control[3],limited[3],stop,full,match;
+    int control[3],limited[3],solve[3],stop,full,match;
     double low[3],high[3],stiff[3],strength,v[9],local[16],world[16];
 } IKNode;
 typedef struct { size_t node; unsigned axis; } IKVar;
@@ -58,7 +58,8 @@ int lw_matrix_trs(const double m[16],double out[10],LWError *e) {
         if(a<1e-12) return lw_error(e,0,"IK","invalid rotation matrix");
         q[i]=a/4; q[j]=(r[i][j]+r[j][i])/a; q[k]=(r[i][k]+r[k][i])/a; q[3]=(r[k][j]-r[j][k])/a;
     }
-    for(i=0;i<4;i++) norm+=q[i]*q[i]; norm=sqrt(norm);
+    for(i=0;i<4;i++) norm+=q[i]*q[i];
+    norm=sqrt(norm);
     for(i=0;i<4;i++) out[3+i]=q[i]/norm;
     for(i=0;i<10;i++) if(!isfinite(out[i])) return lw_error(e,0,"IK","non-finite TRS");
     return 1;
@@ -146,7 +147,8 @@ static int prepare(IKScene *s,LWIKBake *b,LWError *e) {
                 if(v[0]!=0&&v[0]!=1) return lw_error(e,f->offset,"IK","invalid reach flag");
             } else if(lw_string_is(f->name,"GoalStrength")) {
                 LW_TRY(field_values(f,v,1,0,&recovered,e));
-                if(v[0]<0||v[0]>100000) return lw_error(e,f->offset,"IK","invalid goal strength"); n->strength=v[0];
+                if(v[0]<0||v[0]>100000) return lw_error(e,f->offset,"IK","invalid goal strength");
+                n->strength=v[0];
             } else if(lw_string_is(f->name,"XController")||lw_string_is(f->name,"YController")||lw_string_is(f->name,"ZController")) {
                 LW_TRY(field_values(f,v,1,0,&recovered,e)); if(v[0]) return lw_error(e,f->offset,"IK","position controller is outside the autonomous profile");
             } else if(lw_string_is(f->name,"BoneType")) {
@@ -163,6 +165,8 @@ static int prepare(IKScene *s,LWIKBake *b,LWError *e) {
         if(++b->goals>IK_GOALS) return lw_error(e,0,"IK","more than 32 active goals");
         for(j=n->parent;j!=SIZE_MAX;j=s->nodes[j].parent) if(s->nodes[j].stop) break;
         n->anchor=j;
+        for(j=i;j!=n->anchor&&j!=SIZE_MAX;j=s->nodes[j].parent)
+            for(k=0;k<3;k++) if(s->nodes[j].control[k]) s->nodes[j].solve[k]=1;
     }
     return 1;
 }
@@ -267,9 +271,14 @@ int lw_bake_ik(const LWScene *scene,LWIKBake *b,LWError *e) {
     /* Unknown motion/channel plugins can change IK inputs. Keep their source,
        but do not claim that their poses have been evaluated autonomously. */
     for(i=0;i<scene->plugins.n;i++) {
-        const LWPlugin *p=&scene->plugins.v[i]; const unsigned char *bytes=scene->source.data+p->offset;
-        const char *types[]={"Plugin ItemMotionHandler ","Plugin ChannelHandler "};
-        for(j=0;j<2;j++) if(p->size>=strlen(types[j])&&!memcmp(bytes,types[j],strlen(types[j]))) { lw_error(&local,p->offset,"IK","motion/channel plugins are outside the autonomous profile"); goto unsupported; }
+        const LWPlugin *p=&scene->plugins.v[i];
+        const char *types[]={"ItemMotionHandler","ChannelHandler"};
+        for(j=0;j<2;j++) {
+            size_t len=strlen(types[j]);
+            if(p->name.size>len&&!memcmp(p->name.data,types[j],len)&&isspace(p->name.data[len])) {
+                lw_error(&local,p->offset,"IK","motion/channel plugins are outside the autonomous profile"); goto unsupported;
+            }
+        }
     }
     b->poses=malloc(b->samples*b->nodes*20*sizeof(float));
     if(!b->poses) { lw_error(e,0,"allocation","cannot allocate autonomous poses"); goto done; }
@@ -285,8 +294,8 @@ int lw_bake_ik(const LWScene *scene,LWIKBake *b,LWError *e) {
                 if(!lw_channel_value(c,time,&n->v[c->index])) { lw_error(&local,source->source_offset,"IK","unsupported envelope evaluation"); goto unsupported; }
             }
             if(scene->version==1) for(j=3;j<6;j++) n->v[j]*=IK_PI/180;
-            if(frame) for(j=0;j<3;j++) if(n->control[j]) n->v[3+j]=previous[j];
-            for(j=0;j<3;j++) if(n->control[j]&&n->limited[j]) n->v[3+j]=fmax(n->low[j],fmin(n->high[j],n->v[3+j]));
+            if(frame) for(j=0;j<3;j++) if(n->solve[j]) n->v[3+j]=previous[j];
+            for(j=0;j<3;j++) if(n->solve[j]&&n->limited[j]) n->v[3+j]=fmax(n->low[j],fmin(n->high[j],n->v[3+j]));
         }
         update(&s);
         if(!solve_group(&s,SIZE_MAX,b,&local)) goto unsupported;

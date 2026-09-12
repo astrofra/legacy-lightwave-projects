@@ -159,7 +159,9 @@ def convert_one(record, number, content, run, converter, options, project_output
         record["scene_gltf_issue"] = manifest.get("scene_gltf_issue", "")
         record["rig_gltf"] = [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig["gltf"]]
         record["animation_gltf"] = [(published.parent / animation["gltf"]).resolve().relative_to(run).as_posix() for animation in manifest.get("gltf_animations", [])]
-        record["animation_gltf"] += [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig.get("gltf") and "autonomous animated" in rig.get("pose", "")]
+        record["animation_gltf"] += [(published.parent / rig["gltf"]).resolve().relative_to(run).as_posix() for rig in manifest.get("gltf_rigs", []) if rig.get("gltf") and rig.get("animated")]
+        if manifest.get("autonomous_animation", {}).get("scene_exported") and record["gltf"] not in record["animation_gltf"]:
+            record["animation_gltf"].append(record["gltf"])
         if manifest.get("gltf_evaluated_scene") and manifest["gltf_evaluated_scene"]["channels"]:
             record["animation_gltf"].append(record["gltf"])
         record["unresolved_object_instances"] = manifest.get("unresolved_object_instances", 0)

@@ -130,6 +130,12 @@ class IKTests(unittest.TestCase):
         for frame in range(3):
             self.assertAlmostEqual(frames[frame][1][4], math.sin((.3 + frame * .1)/2), places=6)
 
+    def test_disabled_fulltime_ik_does_not_freeze_source_rotation(self):
+        _, out, m = self.bake(scene().replace("FullTimeIK 1", "FullTimeIK 0"))
+        self.assertEqual(m["autonomous_animation"]["goals"], 0)
+        _, frames, _ = self.poses(out, m)
+        self.assertAlmostEqual(frames[-1][1][4], math.sin(.5/2), places=6)
+
     def test_concatenated_constraint_recovery_is_narrow(self):
         _, out, m = self.bake(scene("HJointStiffness 50PController 3\nPLimits 0 0\n"))
         self.assertEqual(self.poses(out, m)[0]["recovered_constraint_fields"], 1)
@@ -144,6 +150,20 @@ class IKTests(unittest.TestCase):
         _, _, m = self.bake(scene().replace("LastFrame 2", "LastFrame 100000"))
         self.assertEqual(m["autonomous_animation"]["status"], "unsupported")
         self.assertIsNone(m["autonomous_animation"]["uri"])
+
+    def test_rigid_ik_uses_the_same_bake_without_bones(self):
+        text = "LWSC\n3\nFirstFrame 0\nLastFrame 2\nFramesPerSecond 1\n"
+        text += "AddNullObject pivot\n" + motion("Object") + "HController 3\n"
+        text += "LoadObject rig.lwo\nParentItem 10000000\n" + motion("Object", **{"2": [(0, 1)]})
+        text += "GoalObject 3\nFullTimeIK 1\nGoalStrength 1\n"
+        text += "AddNullObject goal\n" + motion("Object", **{"0": [(0, 0), (2, 1)], "2": [(0, 1), (2, 0)]})
+        _, out, m = self.bake(text)
+        self.assertTrue(m["autonomous_animation"]["scene_exported"])
+        meta, frames, _ = self.poses(out, m)
+        self.assertLess(math.dist(frames[-1][1][10:13], (1, 0, 0)), 2e-5)
+        data, _ = load(out/m["scene_gltf"])
+        self.assertNotIn("skins", data)
+        self.assertTrue(data["animations"])
 
 
 if __name__ == "__main__":

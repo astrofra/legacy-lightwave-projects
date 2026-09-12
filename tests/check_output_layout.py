@@ -94,6 +94,15 @@ def check(run):
             animations = manifest.get("gltf_animations", [])
             pairs.extend((a["gltf"], a["gltf_bin"]) for a in animations)
             animation_paths = {linked(manifest_path.parent, a["gltf"], project) for a in animations}
+            animation_paths.update(linked(manifest_path.parent, r["gltf"], project) for r in rigs if r.get("animated") or "autonomous animated" in r.get("pose", ""))
+            bake = manifest.get("autonomous_animation", {})
+            if bake.get("uri"):
+                bake_path = linked(manifest_path.parent, bake["uri"], project)
+                baked = json.loads(bake_path.read_text("utf-8"))
+                assert baked["source_sha256"] == native[linked(manifest_path.parent, manifest["scene"], project)]
+                assert linked(bake_path.parent, baked["buffer"]["uri"], project).stat().st_size == baked["buffer"]["byte_length"]
+            if bake.get("scene_exported"):
+                animation_paths.add(linked(manifest_path.parent, manifest["scene_gltf"], project))
             if manifest.get("gltf_evaluated_scene") and manifest["gltf_evaluated_scene"]["channels"]:
                 animation_paths.add(linked(manifest_path.parent, manifest["scene_gltf"], project))
             assert {linked(run, uri, project) for uri in record.get("animation_gltf", [])} == animation_paths
