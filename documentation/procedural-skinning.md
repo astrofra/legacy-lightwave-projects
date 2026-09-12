@@ -148,6 +148,18 @@ pending; no converter workaround or reduction of influences has been applied.
 The normal regression suite now also checks the actual exported rest hierarchy
 and inverse binds, in addition to the native-matrix deformation comparison.
 
+Rechecked with the user's v0.11.0 batch `batch-20260912-221000`:
+`smila_export_converted.lws.rig-10000000.gltf` is intact in Blender (13,341
+evaluated vertices, maximum rest error `6.12e-7`), with zero Khronos errors or
+warnings. This is a 107-bone rest rig, with no animation: oriented pivots block
+the autonomous profile, and MotionMixer motion drivers are present in the source.
+That animation limitation does not explain exploded rest geometry.
+Fresh diagnostic copies are in `output/qa-smila-export-converted-compatibility`:
+`01-original`, `02-trs`, `03-parents-first`, `04-trs-parents-first`. They share
+the exact same binary weights and geometry; all four pass Blender and Khronos
+checks. The viewer-specific trigger remains unconfirmed. See the
+[current report and hashes](diagnostics/smila-export-converted-rest-qa.json).
+
 ## Reproducing development QA
 
 The normal regression suite needs no native installation. Its checked-in

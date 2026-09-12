@@ -18,6 +18,66 @@ static int image_ref(LWObject *o,LWReader r,uint32_t clip) {
     if(!ref.path.size||lw_string_is(ref.path,"(none)")||lw_string_is(ref.path,"<none>")) return 1;
     return LW_ADD(o->images,ref,r.error);
 }
+static int texture_envelope(LWTexture *t,LWReader *r) {
+    uint32_t envelope; LW_TRY(lw_vx(r,&envelope));
+    if(envelope) t->has_envelopes=1;
+    return 1;
+}
+/* LWO2 headers, mapping attributes and image attributes have distinct scopes.
+   Shader FUNC payloads are opaque; do not mistake embedded plugin data for
+   ordinary image layers or global CLIP indices. */
+static int texture_attributes(LWTexture *t,LWReader r,int scope) {
+    while(r.pos<r.size) {
+        LWReader c; uint32_t tag,n; size_t off,k;
+        LW_TRY(lw_chunk(&r,1,&tag,&c,&off));
+        if(scope==1&&tag==TAG("CHAN")) LW_TRY(lw_u32(&c,&t->channel));
+        else if(scope==1&&tag==TAG("ENAB")) LW_TRY(lw_u16(&c,&t->enabled));
+        else if(scope==1&&tag==TAG("OPAC")) {
+            LW_TRY(lw_u16(&c,&t->opacity_type)); LW_TRY(lw_float(&c,&t->opacity)); LW_TRY(texture_envelope(t,&c));
+        } else if(scope==1&&tag==TAG("NEGA")) {
+            LW_TRY(lw_u16(&c,&n)); if(n) t->flags|=16;
+        } else if(scope==0&&tag==TAG("TMAP")) LW_TRY(texture_attributes(t,c,2));
+        else if(scope==2&&(tag==TAG("CNTR")||tag==TAG("SIZE")||tag==TAG("ROTA")||tag==TAG("FALL"))) {
+            float *v=tag==TAG("CNTR")?t->center:tag==TAG("SIZE")?t->size:tag==TAG("ROTA")?t->rotation:t->falloff;
+            if(tag==TAG("FALL")) LW_TRY(lw_u16(&c,&t->falloff_type));
+            for(k=0;k<3;k++) LW_TRY(lw_float(&c,&v[k]));
+            LW_TRY(texture_envelope(t,&c));
+        } else if(scope==2&&tag==TAG("OREF")) LW_TRY(lw_s0(&c,&t->reference_object));
+        else if(scope==2&&tag==TAG("CSYS")) LW_TRY(lw_u16(&c,&t->coordinate_system));
+        else if(scope==0&&tag==TAG("PROJ")) LW_TRY(lw_u16(&c,&t->projection));
+        else if(scope==0&&tag==TAG("IMAG")) LW_TRY(lw_vx(&c,&t->clip));
+        else if(scope==0&&tag==TAG("VMAP")) LW_TRY(lw_s0(&c,&t->uv_map));
+        else if(scope==0&&tag==TAG("WRAP")) { LW_TRY(lw_u16(&c,&t->wrap[0])); LW_TRY(lw_u16(&c,&t->wrap[1])); }
+        else if(scope==0&&(tag==TAG("WRPW")||tag==TAG("WRPH")||tag==TAG("TAMP"))) {
+            float *v=tag==TAG("WRPW")?&t->tiles[0]:tag==TAG("WRPH")?&t->tiles[1]:&t->amplitude;
+            LW_TRY(lw_float(&c,v)); LW_TRY(texture_envelope(t,&c));
+        } else if(tag==TAG("AXIS")&&scope!=2) {
+            LW_TRY(lw_u16(&c,&n)); t->flags=(t->flags&~7u)|(n<3?1u<<n:0);
+        } else if(scope==0&&tag==TAG("AAST")) {
+            float strength; LW_TRY(lw_u16(&c,&n)); LW_TRY(lw_float(&c,&strength));
+        } else if(scope==0&&tag==TAG("PIXB")) LW_TRY(lw_u16(&c,&n));
+        else if(scope==0&&tag==TAG("FUNC")&&t->block_type!=TAG("IMAP")) LW_TRY(lw_s0(&c,&t->shader));
+        else if(!t->issue[0]) {
+            char name[5]; lw_tag_text(tag,name);
+            snprintf(t->issue,sizeof t->issue,"unsupported LWO2 texture attribute %.4s; preserved only",name);
+        }
+    }
+    return 1;
+}
+static int texture_block(LWObject *o,LWReader r,size_t offset) {
+    LWTexture t={0}; LWReader header; size_t off,k;
+    t.material=(uint32_t)o->materials.n; t.offset=offset; t.bytes=r.size+6;
+    t.image=SIZE_MAX; t.clip=LW_NONE; t.projection=LW_NONE; t.enabled=1;
+    t.opacity_type=7; t.opacity=1; /* SDK default: 100% additive. */
+    t.flags=4; t.value=t.amplitude=t.tiles[0]=t.tiles[1]=1; t.wrap[0]=t.wrap[1]=1;
+    for(k=0;k<3;k++) t.size[k]=1;
+    LW_TRY(lw_chunk(&r,1,&t.block_type,&header,&off));
+    t.type=(LWString){r.data,4};
+    LW_TRY(lw_s0(&header,&t.ordinal));
+    LW_TRY(texture_attributes(&t,header,1));
+    LW_TRY(texture_attributes(&t,r,0));
+    return LW_ADD(o->textures,t,r.error);
+}
 static int material_chunks(LWObject *o,LWMaterial *m,LWReader r,unsigned depth,int direct,uint32_t clip) {
     size_t active=SIZE_MAX;
     if(depth>32) return lw_error(r.error,r.base,"SURF","subchunk nesting exceeds 32");
@@ -67,7 +127,8 @@ static int material_chunks(LWObject *o,LWMaterial *m,LWReader r,unsigned depth,i
         }
         if(tag==TAG("BLOK")||tag==TAG("TMAP")) {
             if(tag==TAG("BLOK")) o->texture_blocks++;
-            LW_TRY(material_chunks(o,m,c,depth+1,0,clip));
+            if(tag==TAG("BLOK")&&o->format==TAG("LWO2")&&m&&direct) LW_TRY(texture_block(o,c,off));
+            else LW_TRY(material_chunks(o,m,c,depth+1,0,clip));
         } else if(!direct&&(tag==TAG("IMAP")||tag==TAG("PROC")||tag==TAG("GRAD")||tag==TAG("SHDR"))) {
             LWString ordinal; LW_TRY(lw_s0(&c,&ordinal));
             LW_TRY(material_chunks(o,m,c,depth+1,0,clip));
@@ -261,7 +322,22 @@ int lw_parse_object(LWObject *o,LWError *e) {
         if(type!=TAG("LWOB")&&type!=TAG("LWO2")) return lw_error(e,8,"FORM","supported object types are LWOB, LWO2 and PST_");
         o->format=type; LW_TRY(parse_form(o,form));
     }
-    bind_object(o); return 1;
+    bind_object(o);
+    /* CLIP chunks may follow SURF, so resolve indices only after the full FORM. */
+    {
+        size_t i,j;
+        for(i=0;i<o->textures.n;i++) {
+            LWTexture *t=&o->textures.v[i];
+            if(t->block_type!=TAG("IMAP")||t->clip==LW_NONE) continue;
+            for(j=0;j<o->images.n;j++) if(o->images.v[j].clip==t->clip) {
+                if(t->image!=SIZE_MAX) {
+                    t->image=SIZE_MAX; snprintf(t->issue,sizeof t->issue,"ambiguous CLIP index; preserved only"); break;
+                }
+                t->image=j;
+            }
+        }
+    }
+    return 1;
 }
 int lw_load_object(const char *path,LWObject *o,LWError *e) {
     memset(o,0,sizeof *o);

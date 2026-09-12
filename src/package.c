@@ -237,8 +237,8 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     }
     fprintf(f,",\n\"image_references_packaged\":%zu,\"image_references_unresolved\":%zu,\"image_references_decoded\":%zu,\"image_references_converted_to_png\":%zu,\"image_resolution_scope\":\"owner directory and descendants; image filename extensions; exact filename before alternative extension; unique best suffix; original bytes in owning IR/textures; ILBM decoded to PNG with original retained\",\n\"assets\":[",packaged_images,unresolved_images,decoded_images,png_images);
     for(i=0;i<p->objects.n;i++) {
-        const LWObject *o=&p->objects.v[i]; size_t bindings=0,not_exported=0,k; if(i) fputc(',',f);
-        for(j=0;j<o->textures.n;j++) bindings+=o->textures.v[j].supported!=0;
+        const LWObject *o=&p->objects.v[i]; size_t bindings=0,not_exported=0,parsed_blocks=0,k; if(i) fputc(',',f);
+        for(j=0;j<o->textures.n;j++) { bindings+=o->textures.v[j].supported!=0; parsed_blocks+=o->textures.v[j].block_type!=0; }
         for(j=0;j<o->images.n;j++) {
             for(k=0;k<o->textures.n;k++) if(o->textures.v[k].supported&&o->textures.v[k].image==j) break;
             not_exported+=k==o->textures.n;
@@ -250,7 +250,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
         fputs(",\"gltf\":",f); if(!json_output_path(f,"gltf",p->names.v[i],".gltf",e)) goto failed;
         fputs(",\"gltf_bin\":",f); if(!json_output_path(f,"gltf",p->names.v[i],".bin",e)) goto failed;
         fputs(",\"source_path\":",f); lw_json_string(f,o->source.path);
-        fprintf(f,",\"texture_bindings_approximated\":%zu,\"images_not_exported\":%zu,\"texture_blocks_not_evaluated\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"opaque_chunks\":%zu,\"non_finite_map_values\":%zu}",bindings,not_exported,o->texture_blocks+o->textures.n-bindings,o->invalid_map_references,o->missing_materials,o->opaque_chunks,o->non_finite_map_values);
+        fprintf(f,",\"texture_bindings_approximated\":%zu,\"images_not_exported\":%zu,\"texture_blocks_not_evaluated\":%zu,\"invalid_map_references\":%zu,\"missing_materials\":%zu,\"opaque_chunks\":%zu,\"non_finite_map_values\":%zu}",bindings,not_exported,o->texture_blocks+o->textures.n-parsed_blocks-bindings,o->invalid_map_references,o->missing_materials,o->opaque_chunks,o->non_finite_map_values);
     }
     fputs("],\n\"scene\":",f);
     if(p->is_scene) { if(!json_output_path(f,"IR",p->scene_name,"/scene.json",e)) goto failed; } else fputs("null",f);

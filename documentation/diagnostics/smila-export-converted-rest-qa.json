@@ -1,0 +1,116 @@
+{
+  "original": {
+    "blender_version": "4.2.0",
+    "blender_build_hash": "a51f293548ad",
+    "files_checked": 1,
+    "files": [
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260912-221000\\packages\\smila-by-moebius\\gltf\\smila_export_converted.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "8067fb4ca914916e7ae860e6d3ae4f83d8789a5a091b0f1205a3d52bd6d02113",
+        "buffer_sha256": {
+          "smila_export_converted.lws.rig-10000000.bin": "acb652a1176f61ed0d7c43c5a242228a104432dcca4549cd9668f29a0ed93f3e"
+        },
+        "maximum_vertex_error": 6.115038777322353e-07,
+        "rms_vertex_error": 1.8568527258484842e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true,
+        "render": "S:\\works\\legacy-lightwave-projects\\_tmp\\qa-smila-export-converted-221000\\smila_export_converted.lws.rig-10000000.png"
+      }
+    ],
+    "passed": true,
+    "scope": "Actual glTF rest hierarchy, inverse binds and Blender evaluated armature vertices, compared by vertex index. Optional Workbench images inspect geometry, not LightWave rendering fidelity."
+  },
+  "variants": {
+    "blender_version": "4.2.0",
+    "blender_build_hash": "a51f293548ad",
+    "files_checked": 4,
+    "files": [
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\qa-smila-export-converted-compatibility\\01-original.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "27c12f09435cf2f3235a58012f27e5d342e002d5ecf10c4bc7e3db042ce7554b",
+        "buffer_sha256": {
+          "smila.bin": "acb652a1176f61ed0d7c43c5a242228a104432dcca4549cd9668f29a0ed93f3e"
+        },
+        "maximum_vertex_error": 6.115038777322353e-07,
+        "rms_vertex_error": 1.8568527258484842e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\qa-smila-export-converted-compatibility\\02-trs.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "d8171c7fdea1af27213f2511a6082db339882256da3fecd53432c051000a6b2b",
+        "buffer_sha256": {
+          "smila.bin": "acb652a1176f61ed0d7c43c5a242228a104432dcca4549cd9668f29a0ed93f3e"
+        },
+        "maximum_vertex_error": 5.153841854787249e-07,
+        "rms_vertex_error": 1.7775682307056363e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9432262222713916e-08,
+        "maximum_rest_position_error": 1.1869909231426366e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\qa-smila-export-converted-compatibility\\03-parents-first.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "17032165a92bba15b6bc05f17b5cce8b7101d7e7b61599e60c0f9106da3b9dd8",
+        "buffer_sha256": {
+          "smila.bin": "acb652a1176f61ed0d7c43c5a242228a104432dcca4549cd9668f29a0ed93f3e"
+        },
+        "maximum_vertex_error": 6.115038777322353e-07,
+        "rms_vertex_error": 1.8568527258484842e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\qa-smila-export-converted-compatibility\\04-trs-parents-first.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "c3baf5b66ca6d1b761b4430e6fcdfe940e2bd0b94ea1761f2866abd22eda95ab",
+        "buffer_sha256": {
+          "smila.bin": "acb652a1176f61ed0d7c43c5a242228a104432dcca4549cd9668f29a0ed93f3e"
+        },
+        "maximum_vertex_error": 5.153841854787249e-07,
+        "rms_vertex_error": 1.7775682307056363e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9432262222713916e-08,
+        "maximum_rest_position_error": 1.1869909231426366e-07,
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "scope": "Actual glTF rest hierarchy, inverse binds and Blender evaluated armature vertices, compared by vertex index. Optional Workbench images inspect geometry, not LightWave rendering fidelity."
+  },
+  "validator": {
+    "input": "S:\\works\\legacy-lightwave-projects\\output\\qa-smila-export-converted-compatibility",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 4,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "conclusion": "The reported rest glTF and all lossless variants pass Blender and Khronos checks. Viewer-specific cause remains unconfirmed. The source scene has 107 bones and no autonomous animation because rotated pivots are unsupported; MotionMixer drivers are also present."
+}

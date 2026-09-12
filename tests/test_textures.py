@@ -1,5 +1,6 @@
 """Raster decoding, native bindings, projected UVs and portable texture packages."""
 import hashlib
+import base64
 import json
 from pathlib import Path
 import shutil
@@ -11,7 +12,7 @@ import zlib
 
 import test_gltf as gltf
 import test_converter as fixtures
-from test_converter import EXE, U16, F32, s0, chunk, form
+from test_converter import EXE, U16, F32, s0, chunk, form, vx
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
@@ -53,6 +54,25 @@ def textured(blocks=None, points=None, scalar=b""):
     if points is None: points = [(-.5,-.5,0),(.5,-.5,0),(-.5,.5,0)]
     return form("LWOB", chunk("PNTS",F32(*(v for p in points for v in p))), chunk("POLS",U16(3)+U16(0)+U16(1)+U16(2)+U16(1)),
                 chunk("SRFS",s0("surface")), chunk("SURF",s0("surface")+chunk("COLR",bytes([255,255,255,0]),True)+scalar+blocks))
+
+
+def imap(channel="COLR", clip=17, uv="atlas", enabled=1, header=b"", extra=b"", kind="IMAP"):
+    attributes = chunk("CHAN",channel.encode(),True)+chunk("ENAB",U16(enabled),True)
+    attributes += chunk("OPAC",U16(0)+F32(1)+vx(0),True)+header
+    return chunk("BLOK",chunk(kind,s0(b"\x80")+attributes,True)+chunk("PROJ",U16(5),True)
+                 +chunk("IMAG",vx(clip),True)+chunk("VMAP",s0(uv),True)+extra,True)
+
+
+def uv_textured(blocks=None, scalar=b"", maps=None, clips=None):
+    if blocks is None: blocks=imap()
+    if maps is None:
+        maps=chunk("VMAP",b"TXUV"+U16(2)+s0("atlas")+b"".join(vx(i)+F32(i/4,0) for i in range(4)))
+        maps+=chunk("VMAD",b"TXUV"+U16(2)+s0("atlas")+vx(0)+vx(1)+F32(.75,1))
+    if clips is None: clips=chunk("CLIP",struct.pack(">I",17)+chunk("STIL",s0("I:old/project/maps/screen.tga"),True))
+    return form("LWO2",chunk("PNTS",F32(0,0,0,1,0,0,0,1,0,-1,0,0)),
+                chunk("POLS",b"FACE"+U16(3)+vx(0)+vx(1)+vx(2)+U16(3)+vx(0)+vx(2)+vx(3)),
+                chunk("TAGS",s0("surface")),chunk("PTAG",b"SURF"+vx(0)+U16(0)+vx(1)+U16(0)),maps,
+                chunk("SURF",s0("surface")+s0("")+chunk("COLR",F32(1,1,1)+vx(0),True)+scalar+blocks),clips)
 
 
 def png(path):
@@ -99,6 +119,85 @@ class TextureTests(unittest.TestCase):
         out, manifest = self.convert(source,*options,code=2)
         directory, native = self.object_data(out,manifest)
         return out,manifest,directory,native
+
+    def test_lwo2_uv_clip_after_surface_and_discontinuous_corners(self):
+        self.write("maps/screen.iff",ilbm([[(255,0,0),(0,255,0)]]))
+        raw=uv_textured()
+        source=self.write("modern.lwo",raw)
+        out,manifest=self.convert(source,code=2)
+        directory,native=self.object_data(out,manifest)
+        t=native["materials"][0]["textures"][0]
+        self.assertEqual(t["lwo2_block"]["clip_index"],17)
+        self.assertEqual(t["lwo2_block"]["uv_map"]["text"],"atlas")
+        self.assertEqual(t["export_status"],"approximated")
+        self.assertEqual(manifest["assets"][0]["texture_blocks_not_evaluated"],0)
+        self.assertEqual((directory/"source.bin").read_bytes(),raw)
+        data,buffers=gltf.load(out/manifest["assets"][0]["gltf"])
+        p=data["meshes"][0]["primitives"][0]
+        values=gltf.values(data,buffers,p["attributes"]["TEXCOORD_0"])
+        for (polygon,corner,point),(u,v) in zip(gltf.source_map(p,buffers),values):
+            self.assertEqual((u,v),(.75,0) if polygon==1 and point==0 else (point/4,1))
+        obj=(out/manifest["assets"][0]["obj"]).read_text()
+        self.assertIn("vt 0.75 1",obj)
+        maps=native["materials"][0]["derived_maps"]
+        self.assertEqual(png(directory/maps["base_color"])[0],[(255,0,0,255),(0,255,0,255)])
+        self.assertIn("map_Kd "+maps["base_color"],(out/manifest["assets"][0]["mtl"]).read_text())
+
+    def test_lwo2_tga_to_real_jpeg_remap(self):
+        # A 2x2 RGB JPEG generated once; no Pillow dependency in the tests.
+        jpeg=base64.b64decode(
+            "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAIBAQEBAQIBAQECAgICAgQDAgICAgUEBAMEBgUGBgYFBgYGBwkIBgcJBwYGCAsICQoKCgoKBggLDAsKDAkKCgr/"
+            "2wBDAQICAgICAgUDAwUKBwYHCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgr/wAARCAACAAIDASIAAhEBAxEB/"
+            "8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2Jy"
+            "ggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5"
+            "usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcF"
+            "BAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0"
+            "dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzOiiiv43P9BD/2Q==")
+        self.write("maps/screen.jpg",jpeg)
+        out,manifest=self.convert(self.write("modern.lwo",uv_textured()),code=2)
+        directory,native=self.object_data(out,manifest)
+        ref=native["image_references"][0]
+        self.assertEqual(ref["resolution"],"unique-image-stem-suffix")
+        self.assertTrue(ref["resolved_path"].endswith("screen.jpg"))
+        self.assertEqual((directory/ref["uri"]).read_bytes(),jpeg)
+        color=png(directory/native["materials"][0]["derived_maps"]["base_color"])[0][0]
+        for actual,expected in zip(color,(200,80,20,255)): self.assertLessEqual(abs(actual-expected),2)
+
+    def test_lwo2_scalar_replaces_base_and_color_drives_emission(self):
+        self.write("maps/screen.iff",ilbm([[(0,0,0),(128,128,128),(255,255,255)]]))
+        scalar=chunk("DIFF",F32(0)+vx(0),True)+chunk("LUMI",F32(1)+vx(0),True)+chunk("SPEC",F32(1)+vx(0),True)
+        blocks=imap()+imap("SPEC")
+        out,manifest=self.convert(self.write("modern.lwo",uv_textured(blocks,scalar)),code=2)
+        directory,native=self.object_data(out,manifest); maps=native["materials"][0]["derived_maps"]
+        self.assertEqual([c[3] for c in png(directory/maps["specular"])[0]],[0,128,255])
+        self.assertEqual([c[0] for c in png(directory/maps["emissive"])[0]],[0,128,255])
+        self.assertEqual([c[0] for c in png(directory/maps["base_color"])[0]],[0,0,0])
+        data,_=gltf.load(out/manifest["assets"][0]["gltf"])
+        self.assertIn("emissiveTexture",data["materials"][0])
+        self.assertIn("specularTexture",data["materials"][0]["extensions"]["KHR_materials_specular"])
+
+    def test_lwo2_unsupported_bindings_are_explicit(self):
+        self.write("maps/screen.iff",ilbm([[(255,0,0)]]))
+        cases=[(imap(enabled=0),"disabled"),(imap(uv="missing"),"TXUV"),
+               (imap(clip=999),"unresolved"),(imap()+imap(),"compositing"),
+               (imap()+imap(kind="PROC"),"compositing"),
+               (imap(extra=chunk("PROJ",U16(0),True)),"projection"),
+               (imap(header=chunk("OPAC",U16(3)+F32(1)+vx(0),True)),"blending"),
+               (imap(header=chunk("OPAC",U16(0)+F32(1)+vx(7),True)),"animated"),
+               (imap(extra=chunk("WRAP",U16(3)+U16(3),True)),"wrapping")]
+        for blocks,issue in cases:
+            with self.subTest(issue=issue):
+                out,manifest=self.convert(self.write("modern.lwo",uv_textured(blocks)),code=2)
+                _,native=self.object_data(out,manifest)
+                m=native["materials"][0]
+                self.assertEqual(m["derived_maps"],{})
+                self.assertIn(issue,m["textures"][0]["issue"])
+                data,_=gltf.load(out/manifest["assets"][0]["gltf"])
+                self.assertNotIn("textures",data)
+        # A disabled extra layer must not hide the enabled one.
+        out,manifest=self.convert(self.write("modern.lwo",uv_textured(imap()+imap(enabled=0))),code=2)
+        _,native=self.object_data(out,manifest)
+        self.assertIn("base_color",native["materials"][0]["derived_maps"])
 
     def test_24bit_iff_png_pixels_padding_byte_runs_and_bindings(self):
         rows = [[(255,0,0),(0,255,0),(0,0,255)]*5+[(19,87,143),(1,2,3)],[(0,0,0)]*17]

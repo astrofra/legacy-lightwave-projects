@@ -448,7 +448,7 @@ static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
     fprintf(f,",\"source_sha256\":\"%s\",\"source_sidedness\":%u",o->source.sha256,m?m->side:1);
     fputs(",\"native_texture_bindings\":",f); lw_json_textures(f,o,entry->index);
     fprintf(f,",\"source_smoothing_angle_radians\":%.9g,\"effective_smoothing_angle_radians\":%.9g",m?m->smoothing:0,lw_smoothing_angle(o,entry->index,NULL,NULL));
-    fputs(",\"interpretation\":\"color/diffuse/emission/opacity approximation; neutral rough dielectric; compatible LWOB image projections; height bump and environment reflection preserved in IR; source-corner normals carry smoothing\"}}",f);
+    fputs(",\"interpretation\":\"color/diffuse/emission/opacity approximation; neutral rough dielectric; compatible LWOB projections and LWO2 UV image maps; height bump and environment reflection preserved in IR; source-corner normals carry smoothing\"}}",f);
 }
 static void buffer_uri(FILE *f,const char *name) {
     const unsigned char *p=(const unsigned char *)name;
