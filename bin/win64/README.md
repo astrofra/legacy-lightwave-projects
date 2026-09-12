@@ -49,3 +49,13 @@ fallback. The optional native bridge can export Smilla as a bound skin with
 after-IK bone animation using the installed LW6 x86 runtime and helper. Content
 root inference and LWSC 5 explicit-ID extraction are also available. See the
 [Smilla LW6 reference, reproduction commands and limits](../../documentation/smilla-lightwave6-animation.md).
+
+Version 0.10.1 qualifies partial LWSC 5 extraction, indexes uninterpreted scene
+statements in IR and reports unsupported position controllers. LWSC 5 packages
+return exit code 2. See [scope and QA](../../documentation/lwsc5-partial-support.md).
+
+Version 0.10.2 defaults to the oldest implemented weight profile for each file:
+LW6 for LWSC 1/3, LW9.6 for LWSC 5. `--skin-profile` can override that policy.
+The batch and native export script use the same choice by default. No project
+presets are saved or loaded; output manifests record the effective profile.
+Native IK still requires a matching installed host and capture helper.

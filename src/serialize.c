@@ -148,6 +148,7 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
     path=lw_join(dir,"scene.json"); if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create scene manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"version\":%u,\"source\":",s->version); source_json(f,&s->source);
+    fprintf(f,",\"reader_profile\":\"%s\"",lw_scene_reader_profile(s));
     fprintf(f,",\n\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"time_domain\":\"%s\",\"angle_units\":\"%s\",\n\"animation_buffer\":{\"uri\":\"animation.bin\",\"byte_order\":\"little\",\"key_stride\":72,\"key_fields\":\"float64 time,value,parameters[6]; uint32 shape,reserved\"},\n\"nodes\":[",s->first_frame,s->last_frame,s->fps,s->version==1?"frame":"second",s->version==1?"degrees":"radians");
     for(i=0;i<s->nodes.n;i++) {
         const LWNode *n=&s->nodes.v[i]; if(i) fputc(',',f);
@@ -196,6 +197,12 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
     for(i=0;i<s->plugins.n;i++) {
         const LWPlugin *plugin=&s->plugins.v[i]; if(i) fputc(',',f); fputs("{\"name\":",f); lw_json_name(f,plugin->name);
         fprintf(f,",\"offset\":%zu,\"bytes\":%zu,\"status\":\"%s\"}",plugin->offset,plugin->size,plugin->interpreted?"mirrored-bank-preview":"preserved-opaque");
+    }
+    fputs("],\n\"uninterpreted_statements\":[",f);
+    for(i=0;i<s->uninterpreted_statements.n;i++) {
+        const LWSceneStatement *statement=&s->uninterpreted_statements.v[i]; if(i) fputc(',',f);
+        fputs("{\"name\":",f); lw_json_name(f,statement->name);
+        fprintf(f,",\"source_offset\":%zu,\"bytes\":%zu}",statement->offset,statement->size);
     }
     fprintf(f,"],\n\"animation_bytes\":%zu,\"opaque_blocks\":%zu,\"unsupported_features\":%zu,\"unparsed_fields\":\"retained verbatim in source.bin, including optics, lights, scalar envelopes and deformation settings\"\n}\n",offset,s->opaque_blocks,s->unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }

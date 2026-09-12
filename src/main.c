@@ -15,7 +15,8 @@ static void help(void) {
          "  --frame NUMBER            OBJ/glTF snapshot frame (default: scene FirstFrame)\n"
          "  --uv-map NAME             Export this native TXUV map, including VMAD seams\n"
          "  --gltf-rigs skins|all     Separate rigs: usable skins (default), or also unbound rest skeletons\n"
-         "  --skin-profile lightwave96|lightwave6  Missing-map semantics (default: lightwave96)\n"
+         "  --skin-profile auto|lightwave6|lightwave96  Missing-map semantics (default: oldest supported for file)\n"
+         "Scenes: LWSC 1/3 and partial LWSC 5 (explicit IDs, hierarchy, original keys; see manifest).\n"
          "Output must be outside the content root. Source files are read only.\n"
          "Exit codes: 0 supported subset exported, 1 error, 2 partial export (see manifest).\n"
          "glTF 2.0 exports static base geometry and scalar materials. Blender output is not implemented.");
@@ -49,7 +50,8 @@ static int run(int argc,char **argv) {
         else if(!strcmp(name,"--content-root")&&!opts.root) opts.root=lw_absolute(value);
         else if(!strcmp(name,"--uv-map")&&!opts.uv_map) opts.uv_map=lw_dup(value);
         else if(!strcmp(name,"--skin-profile")) {
-            if(strcmp(value,"lightwave96")&&strcmp(value,"lightwave6")) { lw_error(&error,0,"arguments","unknown skin profile"); goto done; }
+            if(strcmp(value,"auto")&&strcmp(value,"lightwave96")&&strcmp(value,"lightwave6")) { lw_error(&error,0,"arguments","unknown skin profile"); goto done; }
+            opts.skin_profile_set=strcmp(value,"auto")!=0;
             opts.legacy_bone_maps=!strcmp(value,"lightwave6");
         }
         else if(!strcmp(name,"--gltf-rigs")&&!rigs_set) {

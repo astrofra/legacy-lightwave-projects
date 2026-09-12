@@ -69,9 +69,9 @@ class SkinTests(unittest.TestCase):
     run_cli = fixtures.Converter.run_cli
     convert = fixtures.Converter.convert
 
-    def rig(self, bones=None, maps=None, extra="", patch=False, policy="skins"):
+    def rig(self, bones=None, maps=None, extra="", patch=False, policy="skins", profile="auto"):
         self.write("rig.lwo", object_bytes(maps, patch))
-        out, manifest = self.convert(self.write("rig.lws", scene_bytes(bones, extra)), "--uv-map", "uv", "--gltf-rigs", policy, code=2)
+        out, manifest = self.convert(self.write("rig.lws", scene_bytes(bones, extra)), "--uv-map", "uv", "--gltf-rigs", policy, "--skin-profile", profile, code=2)
         result = manifest["gltf_rigs"][0]
         data, buffers = load(out / result["gltf"]) if result["gltf"] else (None, None)
         return out, manifest, result, data, buffers
@@ -140,7 +140,7 @@ class SkinTests(unittest.TestCase):
         ]
         for bones, maps, issue in cases:
             with self.subTest(issue=issue):
-                _, _, result, data, _ = self.rig(bones, maps, policy="all")
+                _, _, result, data, _ = self.rig(bones, maps, policy="all", profile="lightwave96")
                 self.assertEqual(result["status"], "skeleton-only")
                 self.assertIn(issue, result["issue"])
                 self.assertNotIn("skins", data)

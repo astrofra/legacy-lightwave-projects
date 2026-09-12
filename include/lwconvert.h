@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.10.0"
+#define LWCONVERT_VERSION "0.10.2"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -130,6 +130,9 @@ typedef struct {
     char issue[256];
 } LWNode;
 typedef struct { size_t offset, size; LWString name; int interpreted; } LWPlugin;
+/* Uninterpreted LWSC 5 statements index their exact bytes in source.bin.
+   Nested blocks are kept as a whole; no semantic ownership is inferred. */
+typedef struct { size_t offset, size; LWString name; } LWSceneStatement;
 typedef struct LWScene {
     LWSource source;
     unsigned version;
@@ -137,6 +140,7 @@ typedef struct LWScene {
     LW_ARRAY(LWNode) nodes;
     LW_ARRAY(LWPlugin) plugins;
     LW_ARRAY(LWImageReference) images;
+    LW_ARRAY(LWSceneStatement) uninterpreted_statements;
     size_t opaque_blocks, unsupported_features;
 } LWScene;
 

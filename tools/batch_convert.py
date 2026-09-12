@@ -105,6 +105,7 @@ def convert_one(record, number, content, run, converter, options, project_output
     # Native animation needs rest rigs as working inputs; publication applies
     # the user's final policy after animation export, including on failure.
     command += ["--gltf-rigs", "all" if options.lightwave_root else options.gltf_rigs]
+    command += ["--skin-profile", options.skin_profile]
     for option in ("frame", "uv_map"):
         value = getattr(options, option)
         if value is not None:
@@ -126,18 +127,26 @@ def convert_one(record, number, content, run, converter, options, project_output
         expected = "partial" if result.returncode == 2 else "converted-supported-subset"
         if manifest.get("status") != expected:
             raise ValueError("Converter exit code and manifest status disagree")
+        record["skin_profile"] = manifest["skin_profile"]
+        record["skin_profile_policy"] = manifest.get("skin_profile_policy", "unspecified")
         if getattr(options,"lightwave_root",None) and manifest.get("scene"):
             from export_lightwave_animation import evaluate_package
+            runtime = manifest["skin_profile"] if options.runtime == "auto" else options.runtime
             try:
-                evaluate_package(package, options.lightwave_root, options.capture_plugin, options.animation_start, options.animation_end, options.animation_step, options.timeout, converter)
+                evaluate_package(package, options.lightwave_root, options.capture_plugin, options.animation_start, options.animation_end, options.animation_step, options.timeout, converter,
+                                 runtime=runtime, skip_plugins=options.skip_plugin, animation_mode=options.animation_mode)
                 manifest = json.loads((package / "manifest.json").read_text("utf-8"))
+                record["native_animation"] = {"status": "evaluated" if manifest.get("evaluated_animation") else "not-needed", "runtime": runtime}
             except (OSError, ValueError, KeyError, subprocess.TimeoutExpired) as error:
                 manifest = json.loads((package / "manifest.json").read_text("utf-8"))
                 manifest["gltf_animation_issue"] = str(error)
                 record["animation_issue"] = str(error)
+                record["native_animation"] = {"status": "failed", "runtime": runtime, "issue": str(error)}
                 manifest["status"] = "partial"
                 record["return_code"] = result.returncode = 2
                 (package / "manifest.json").write_text(json.dumps(manifest,ensure_ascii=False)+"\n",encoding="utf-8")
+        elif manifest.get("scene"):
+            record["native_animation"] = {"status": "not-requested", "reason": "No --lightwave-root; standalone C export does not evaluate skeletal IK animation"}
         published = project_output.publish(package, manifest)
         record.update(status="partial" if result.returncode == 2 else "converted", manifest=published.relative_to(run).as_posix())
         obj_uri = manifest["scene_obj"] if manifest["scene"] else manifest["assets"][0]["obj"]
@@ -171,6 +180,7 @@ def main(argv=None):
     parser = BatchParser(description=__doc__)
     parser.add_argument("--content", type=Path, default=REPOSITORY / "content", help="Input tree (default: repository content/)")
     parser.add_argument("--project", action="append", default=[], metavar="NAME", help="Convert only this top-level content directory, retaining its project root (repeatable)")
+    parser.add_argument("--file", action="append", default=[], metavar="RELATIVE_PATH", help="Convert only this file relative to --content, retaining its project root and resolving dependencies (repeatable)")
     parser.add_argument("--output-root", type=Path, default=REPOSITORY / "output", help="Parent of a new batch directory (default: repository output/)")
     parser.add_argument("--converter", type=Path, help="Converter executable (Windows default: bin/win64/lwconvert.exe, then local builds)")
     parser.add_argument("--dry-run", action="store_true", help="List supported files and counts without creating output or invoking the converter")
@@ -179,7 +189,11 @@ def main(argv=None):
     parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
     parser.add_argument("--gltf-rigs", choices=("skins", "all"), default="skins", help="Separate rigs: usable skins (default), or also unbound rest skeletons")
     parser.add_argument("--lightwave-root",type=Path,help="Evaluate native rigs and missing rigid-object scene assemblies using this installed LightWave root")
-    parser.add_argument("--capture-plugin",type=Path,help="Native animation capture plugin (default: bin/win64/lw_capture.p)")
+    parser.add_argument("--runtime",choices=("auto","lightwave6","lightwave96"),help="Native host profile (default: auto, following each file's C skin profile); LW6 root must directly contain LWSN.exe")
+    parser.add_argument("--skin-profile",choices=("auto","lightwave6","lightwave96"),help="C weight semantics (default: oldest supported for each file, or explicitly selected native runtime)")
+    parser.add_argument("--skip-plugin",action="append",default=[],help="Explicitly omit a native source plugin and record it in capture audit (repeatable)")
+    parser.add_argument("--animation-mode",choices=("auto","skin","morph"),default="auto",help="Native export: preserve bound skins when available (auto), require a skin, or export cage morphs")
+    parser.add_argument("--capture-plugin",type=Path,help="Native capture plugin (default: build-lw6/Release/lw_capture.p for LW6, bin/win64/lw_capture.p for LW9.6)")
     parser.add_argument("--animation-start",type=int,help="First native animation frame (default: scene preview start)")
     parser.add_argument("--animation-end",type=int,help="Last native animation frame (default: scene preview end)")
     parser.add_argument("--animation-step",type=int,default=1,help="Native animation sampling step in frames")
@@ -199,8 +213,13 @@ def main(argv=None):
         parser.error("--frame must be finite")
     if options.animation_step<=0:
         parser.error("--animation-step must be positive")
-    if not options.lightwave_root and (options.capture_plugin or options.animation_start is not None or options.animation_end is not None or options.animation_step!=1):
+    if not options.lightwave_root and (options.runtime or options.skip_plugin or options.animation_mode!="auto" or options.capture_plugin or options.animation_start is not None or options.animation_end is not None or options.animation_step!=1):
         parser.error("Native animation options require --lightwave-root")
+    options.runtime = options.runtime or "auto"
+    if options.skin_profile in (None, "auto"):
+        options.skin_profile = options.runtime
+    if options.lightwave_root and options.animation_mode != "morph" and "auto" not in (options.skin_profile, options.runtime) and options.skin_profile != options.runtime:
+        parser.error("--skin-profile must match --runtime for native skin animation")
     converter = options.converter.resolve() if options.converter else find_converter()
     if not options.dry_run and (converter is None or not converter.is_file()):
         parser.error("Converter not found. Build it first: cmake --build build --config Release (see README.md), or use --converter")
@@ -209,17 +228,30 @@ def main(argv=None):
         selected = {os.path.normcase(str(content / name)) for name in options.project}
         records = [record for record in records if len(Path(record["source"]).parts) > 1 and
                    os.path.normcase(str(content / Path(record["source"]).parts[0])) in selected]
+    if options.file:
+        selected_files = set()
+        available = {os.path.normcase(record["source"]): record for record in records if record["status"] == "pending"}
+        for name in options.file:
+            path = Path(name)
+            key = os.path.normcase(path.as_posix())
+            if path.is_absolute() or ".." in path.parts or key not in available:
+                parser.error(f"--file must name a supported file relative to --content within the selected projects: {name}")
+            selected_files.add(key)
+        records = [record for record in records if os.path.normcase(record["source"]) in selected_files]
     eligible = [record for record in records if record["status"] == "pending"]
     print(f"Scanned {len(records)} entries; {len(eligible)} supported LightWave files; {counts(records)}", flush=True)
     if options.dry_run:
         for record in eligible:
             print(f"{record['kind']}: {record['source']}")
         return 1 if any(record["status"] == "failed" for record in records) else 0
+    print(f"Native rig animation: {options.runtime if options.lightwave_root else 'disabled (no --lightwave-root)'}; C skin profile: {options.skin_profile}", flush=True)
     output.mkdir(parents=True, exist_ok=True)
     run = new_run(output, datetime.now().strftime("batch-%Y%m%d-%H%M%S"))
     (run / "logs").mkdir()
     projects = prepare_projects(eligible, content, run, options.gltf_rigs)
-    report_options = {"project": options.project, "gltf_rigs": options.gltf_rigs, "frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout,
+    report_options = {"project": options.project, "file": options.file, "gltf_rigs": options.gltf_rigs, "skin_profile": options.skin_profile,
+                      "runtime": options.runtime if options.lightwave_root else None, "skip_plugin": options.skip_plugin, "animation_mode": options.animation_mode,
+                      "frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout,
                       "lightwave_root": str(options.lightwave_root.resolve()) if options.lightwave_root else None,
                       "capture_plugin": str(options.capture_plugin.resolve()) if options.capture_plugin else None,
                       "animation_start": options.animation_start, "animation_end": options.animation_end,

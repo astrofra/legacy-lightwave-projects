@@ -9,6 +9,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 from urllib.parse import unquote
 
 EXE = str(Path(sys.argv.pop(1)).resolve())
@@ -16,6 +17,7 @@ REPOSITORY = Path(__file__).resolve().parents[1]
 BATCH = REPOSITORY / "tools/batch_convert.py"
 sys.path.insert(0, str(REPOSITORY / "tools"))
 from output_layout import new_run, output_name
+import batch_convert
 
 
 def form(kind, payload):
@@ -238,6 +240,90 @@ class BatchTests(unittest.TestCase):
         for name in ("missing", "../quatuor", "quatuor/work", ""):
             self.run_batch("--project", name, code=1)
         self.assertEqual(len(self.reports()), 1)
+
+    def test_file_selection_keeps_project_root_and_object_dependencies(self):
+        self.source("project/Objects/body.lwo",object_bytes())
+        self.source("project/Scenes/shot.lws",b"LWSC\n3\nLoadObject Objects/body.lwo\n")
+        self.source("project/Scenes/invalid.lws",b"LWSC\n99\n")
+        self.run_batch("--file","project/Scenes/shot.lws","--skin-profile","lightwave6")
+        path=self.reports()[0]; report=self.check_published_files(path)
+        self.assertEqual(len(report["files"]),1)
+        record=report["files"][0]
+        self.assertEqual(Path(record["content_root"]),self.content/"project")
+        manifest=json.loads((path.parent/record["manifest"]).read_text())
+        self.assertEqual(manifest["skin_profile"],"lightwave6")
+        self.assertEqual(manifest["unresolved_object_instances"],0)
+        self.assertEqual(record["native_animation"]["status"],"not-requested")
+        for name in ("../outside.lws","project/Scenes/missing.lws",str(self.content/"project/Scenes/shot.lws")):
+            self.run_batch("--file",name,code=1)
+        self.assertEqual(len(self.reports()),1)
+
+    def test_native_lw6_options_reach_evaluator_and_use_matching_c_weights(self):
+        self.source("project/shot.lws",b"LWSC\n3\n")
+        arguments=["--content",str(self.content),"--output-root",str(self.output),"--converter",EXE,
+                   "--runtime","lightwave6","--lightwave-root",str(self.base/"LW6"),
+                   "--capture-plugin",str(self.base/"x86.p"),"--animation-mode","skin",
+                   "--skip-plugin","JointMorph","--skip-plugin","LW_MorphMixer",
+                   "--animation-start","0","--animation-end","40"]
+        def evaluate(package,*args,**kwargs):
+            manifest=json.loads((package/"manifest.json").read_text())
+            self.assertEqual(manifest["skin_profile"],"lightwave6")
+            self.assertEqual(manifest["gltf_rig_policy"],"all")
+            self.assertEqual(args[2:5],(0,40,1))
+            self.assertEqual(kwargs,{"runtime":"lightwave6","skip_plugins":["JointMorph","LW_MorphMixer"],"animation_mode":"skin"})
+            return []
+        for explicit in (True,False):
+            selected=arguments[:] if explicit else arguments[:6]+arguments[8:]
+            with mock.patch("export_lightwave_animation.evaluate_package",side_effect=evaluate) as evaluator:
+                self.assertEqual(batch_convert.main(selected),0)
+                evaluator.assert_called_once()
+            report=json.loads(self.reports()[-1].read_text())
+            self.assertEqual(report["options"]["skin_profile"],"lightwave6" if explicit else "auto")
+            self.assertEqual(report["options"]["runtime"],"lightwave6" if explicit else "auto")
+            record=report["files"][0]
+            self.assertEqual(record["skin_profile"],"lightwave6")
+            self.assertEqual(record["native_animation"],{"status":"not-needed","runtime":"lightwave6"})
+        modern=arguments[:]
+        modern[modern.index("--runtime")+1]="lightwave96"
+        modern += ["--skin-profile","auto"]
+        def evaluate_modern(package,*args,**kwargs):
+            manifest=json.loads((package/"manifest.json").read_text())
+            self.assertEqual(manifest["skin_profile"],"lightwave96")
+            self.assertEqual(manifest["skin_profile_policy"],"explicit")
+            self.assertEqual(kwargs["runtime"],"lightwave96")
+            return []
+        with mock.patch("export_lightwave_animation.evaluate_package",side_effect=evaluate_modern) as evaluator:
+            self.assertEqual(batch_convert.main(modern),0)
+            evaluator.assert_called_once()
+        with mock.patch("export_lightwave_animation.evaluate_package",side_effect=ValueError("capture failed")):
+            self.assertEqual(batch_convert.main(arguments),2)
+        failed=[json.loads(p.read_text()) for p in self.reports() if json.loads(p.read_text())["exit_code"]==2][0]
+        self.assertEqual(failed["files"][0]["native_animation"]["status"],"failed")
+        self.assertEqual(failed["files"][0]["animation_issue"],"capture failed")
+
+    def test_native_option_validation_happens_before_batch_creation(self):
+        for args in (("--runtime","lightwave6"),("--skip-plugin","JointMorph"),("--animation-mode","skin"),
+                     ("--lightwave-root",str(self.base),"--runtime","lightwave6","--skin-profile","lightwave96"),
+                     ("--lightwave-root",str(self.base),"--runtime","lightwave96","--skin-profile","lightwave6")):
+            self.run_batch(*args,code=1)
+        self.assertFalse(self.output.exists())
+
+    def test_oldest_profile_is_per_file_and_explicit_choices_are_not_saved(self):
+        sources={f"project/v{v}.lws":f"LWSC\n{v}\n".encode() for v in (1,3,5)}
+        for name,data in sources.items(): self.source(name,data)
+        # A forced profile on one run must not become a project preset.
+        for explicit in (False,True,False):
+            self.run_batch(*(["--skin-profile","lightwave96"] if explicit else []),code=2)
+            path=self.reports()[-1]; report=self.check_published_files(path)
+            for record in report["files"]:
+                version=int(Path(record["source"]).stem[1:])
+                expected="lightwave96" if explicit or version==5 else "lightwave6"
+                manifest=json.loads((path.parent/record["manifest"]).read_text())
+                self.assertEqual(manifest["skin_profile"],expected)
+                self.assertEqual(record["skin_profile"],expected)
+                self.assertEqual(record["skin_profile_policy"],"explicit" if explicit else "oldest-supported-for-file")
+                self.assertEqual((path.parent/record["manifest"]).with_name("source.bin").read_bytes(),sources[record["source"]])
+        self.assertEqual({p.relative_to(self.content).as_posix():p.read_bytes() for p in self.content.rglob("*") if p.is_file()},sources)
 
     def test_directory_and_inferred_filename_collisions_preserve_sources(self):
         sources = {"a b/mesh.lwo": "a_b/mesh.lwo", "a_b/mesh.lwo": "a_b-3/mesh.lwo",

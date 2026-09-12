@@ -27,7 +27,9 @@ class ProceduralSkinTests(unittest.TestCase):
         for i,case in enumerate(cases):
             self.write(f"probe-{i}.lwo",mesh_bytes([p["point"] for p in case["observations"]],case["case"].get("maps",())))
         source=scene_bytes([c["case"] for c in cases])
-        out,manifest=self.convert(self.write("probe.lws",source),"--skin-profile","lightwave6",code=2)
+        out,manifest=self.convert(self.write("probe.lws",source),code=2)
+        self.assertEqual(manifest["skin_profile"],"lightwave6")
+        self.assertEqual(manifest["skin_profile_policy"],"oldest-supported-for-file")
         self.assertEqual((out/manifest["scene"]).with_name("source.bin").read_bytes(),source)
         self.assertEqual(len(manifest["gltf_rigs"]),8)
         for rig,case in zip(manifest["gltf_rigs"],cases):
@@ -43,7 +45,8 @@ class ProceduralSkinTests(unittest.TestCase):
         for i, c in enumerate(observations):
             self.write(f"probe-{i}.lwo", mesh_bytes([o["point"] for o in c["observations"]],c["case"].get("maps",())))
         source = scene_bytes([c["case"] for c in observations])
-        out, manifest = self.convert(self.write("probe.lws",source), code=2)
+        out, manifest = self.convert(self.write("probe.lws",source), "--skin-profile", "lightwave96", code=2)
+        self.assertEqual(manifest["skin_profile_policy"],"explicit")
         self.assertEqual((out/manifest["scene"]).with_name("source.bin").read_bytes(),source)
         self.assertEqual(len(manifest["gltf_rigs"]),len(observations))
         for rig, c in zip(manifest["gltf_rigs"],observations):

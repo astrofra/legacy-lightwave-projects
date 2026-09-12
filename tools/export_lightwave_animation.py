@@ -131,12 +131,13 @@ def prepare_scene(source, scene, assets, directory, lightwave, capture_plugin, r
     return working,config,{"runtime_profile":runtime,"removed_display_plugins":removed,"explicitly_skipped_plugins":skipped,"retained_animation_plugins":[{"class":c,"name":n} for c,n in retained],"modules":modules,"overrides":{"SubPatchLevel":"0 0","render_image_prefixes":"frames/preview",**overrides},"working_scene_sha256":digest(working)}
 
 
-def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None, runtime="lightwave96", skip_plugins=(), animation_mode="auto"):
+def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None, runtime="auto", skip_plugins=(), animation_mode="auto"):
     package = Path(package).resolve(); lightwave = Path(lightwave).resolve()
-    capture_plugin = Path(capture_plugin or REPOSITORY/"bin/win64/lw_capture.p").resolve()
-    executable = lightwave/("LWSN.exe" if runtime=="lightwave6" else "Programs/lwsn.exe")
-    if machine(executable)!=machine(capture_plugin): raise ValueError("ScreamerNet and capture plugin architectures differ")
     manifest_path = package/"manifest.json"; manifest = json.loads(manifest_path.read_text("utf-8"))
+    if runtime=="auto":
+        runtime=manifest.get("skin_profile")
+        if runtime not in ("lightwave6","lightwave96"):
+            raise ValueError("Automatic native runtime selection needs a C manifest with skin_profile; reconvert the source")
     if runtime not in ("lightwave6","lightwave96") or animation_mode not in ("auto","skin","morph"):
         raise ValueError("Unknown runtime or animation mode")
     if animation_mode!="morph" and manifest.get("skin_profile","lightwave96")!=runtime:
@@ -148,6 +149,13 @@ def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=N
     if not rigs and manifest.get("scene_gltf"): return []
     scene_path = package/manifest["scene"]; scene = json.loads(scene_path.read_text("utf-8")); source = scene_path.parent/scene["source"]["uri"]
     if not rigs and not any(n["asset_index"] is not None for n in scene["nodes"]): return []
+    if scene.get("version") not in (1,3):
+        raise ValueError("Native animation bridge supports LWSC 1/3 only; newer scene formats remain partial C exports")
+    capture_plugin = Path(capture_plugin or REPOSITORY/("build-lw6/Release/lw_capture.p" if runtime=="lightwave6" else "bin/win64/lw_capture.p")).resolve()
+    executable = lightwave/("LWSN.exe" if runtime=="lightwave6" else "Programs/lwsn.exe")
+    if not executable.is_file():
+        raise ValueError(f"Selected {runtime} for LWSC {scene['version']}, but native host is missing: {executable}. Supply the matching --lightwave-root or explicitly select --runtime")
+    if machine(executable)!=machine(capture_plugin): raise ValueError("ScreamerNet and capture plugin architectures differ")
     if digest(source)!=scene["source"]["sha256"]: raise ValueError("IR scene source hash mismatch")
     text = source.read_bytes().decode("latin1")
     def preview(key, fallback):
@@ -241,7 +249,7 @@ def _evaluate_package(package, lightwave, capture_plugin=None, start=None, end=N
     return results
 
 
-def evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None, runtime="lightwave96", skip_plugins=(), animation_mode="auto"):
+def evaluate_package(package, lightwave, capture_plugin=None, start=None, end=None, step=1, timeout=120, converter=None, runtime="auto", skip_plugins=(), animation_mode="auto"):
     try:
         return _evaluate_package(package,lightwave,capture_plugin,start,end,step,timeout,converter,runtime,skip_plugins,animation_mode)
     except (OSError,ValueError,KeyError,subprocess.TimeoutExpired) as error:
@@ -281,8 +289,8 @@ def main():
     parser.add_argument("--output",type=Path,required=True)
     parser.add_argument("--content-root",type=Path)
     parser.add_argument("--lightwave-root",type=Path,required=True,help="Installed LightWave root containing Programs/lwsn.exe and Plugins/")
-    parser.add_argument("--capture-plugin",type=Path,default=REPOSITORY/"bin/win64/lw_capture.p")
-    parser.add_argument("--runtime",choices=("lightwave96","lightwave6"),default="lightwave96",help="For LightWave 6, --lightwave-root is the directory containing LWSN.exe; use the x86 capture plugin")
+    parser.add_argument("--capture-plugin",type=Path,help="Default: build-lw6/Release/lw_capture.p for LW6, bin/win64/lw_capture.p for LW9.6")
+    parser.add_argument("--runtime",choices=("auto","lightwave6","lightwave96"),default="auto",help="Default: oldest supported profile for the file. For LW6, --lightwave-root directly contains LWSN.exe")
     parser.add_argument("--skip-plugin",action="append",default=[],help="Explicitly omit a source plugin by name and record the omission in the capture audit")
     parser.add_argument("--animation-mode",choices=("auto","skin","morph"),default="auto",help="Auto keeps bound skins; morph captures complete cage deformation")
     parser.add_argument("--converter",type=Path,default=REPOSITORY/"bin/win64/lwconvert.exe")

@@ -594,6 +594,70 @@ class Converter(unittest.TestCase):
                      "AddNullObject 1000000c a\nAddBone 4000004c\n"):
             source=self.write("invalid-v5.lws","LWSC\n5\n"+text)
             self.run_cli("inspect",source,code=1)
+
+    def test_lwsc5_partial_profile_exports_keyed_hierarchy(self):
+        self.write("Objects/body.lwo",lwob())
+        raw="LWSC\n5\nFramesPerSecond 2\nFirstFrame 0\nLastFrame 2\n"
+        raw+="LoadObjectLayer 1 1000004c Objects/body.lwo\nParentItem 1000000c\n"+motion3(channel=1)
+        raw+="AddNullObject 1000000c parent\n"+motion3()
+        source=self.write("keyed-v5.lws",raw)
+        out,m=self.convert(source,"--frame","1",code=2)
+        scene=json.loads((out/m["scene"]).read_text())
+        self.assertEqual(m["scene_format"],{"format":"LWSC","version":5,"reader_profile":"lwsc5-partial-0.1","support":"partial","uninterpreted_statements":0})
+        self.assertEqual(scene["reader_profile"],"lwsc5-partial-0.1")
+        self.assertEqual((scene["time_domain"],scene["angle_units"]),("second","radians"))
+        self.assertIn("v 5 5 -1",(out/m["scene_obj"]).read_text())
+        self.assertTrue((out/m["scene_gltf"]).is_file())
+        self.assertGreaterEqual(m["gltf_animation_channels"],2)
+        self.assertEqual((out/m["scene"]).with_name("source.bin").read_bytes(),source.read_bytes())
+
+    def test_lwsc5_uninterpreted_blocks_are_indexed_without_fake_items(self):
+        self.write("tri.lwo",lwob())
+        blocks=["UnknownRenderSetting 42", "{ FutureBlock\n  { Nested\n    AddNullObject 100000fe fake\n  }\n}"]
+        raw="LWSC\n5\nLoadObject 1000004c tri.lwo\n"+"\n".join(blocks)+"\n"
+        source=self.write("opaque-v5.lws",raw.replace("\n","\r\n"))
+        out,m=self.convert(source,code=2)
+        scene=json.loads((out/m["scene"]).read_text())
+        self.assertEqual(len(scene["nodes"]),1)
+        self.assertEqual(len(scene["uninterpreted_statements"]),2)
+        self.assertEqual(m["scene_format"]["uninterpreted_statements"],2)
+        for statement,expected in zip(scene["uninterpreted_statements"],blocks):
+            saved=source.read_bytes()[statement["source_offset"]:][:statement["bytes"]]
+            self.assertEqual(saved,expected.replace("\n","\r\n").encode())
+        self.assertEqual([s["name"]["text"] for s in scene["uninterpreted_statements"]],["UnknownRenderSetting","FutureBlock"])
+        self.assertEqual(json.loads(self.run_cli("inspect",source).stdout)["uninterpreted_statements"],2)
+
+    def test_lwsc5_position_controllers_preserve_settings_and_block_false_animation(self):
+        self.write("tri.lwo",lwob())
+        for axis in "XYZ":
+            for mode in (0,6,7,"broken"):
+                with self.subTest(axis=axis,mode=mode):
+                    raw="LWSC\n5\nLoadObject 1000004c tri.lwo\n"+motion3()
+                    raw+=f"{axis}Controller {mode}\nSplineItem 1000000c\nIKFKBlending 0\nPathAlignLookAhead 0.033\nAddNullObject 1000000c path\n"
+                    out,m=self.convert(self.write("controller-v5.lws",raw),code=2)
+                    scene=json.loads((out/m["scene"]).read_text()); node=scene["nodes"][0]
+                    params={p["name"]["text"]:p["value"]["text"] for p in node["rig_parameters"]}
+                    self.assertEqual(params[f"{axis}Controller"],str(mode))
+                    self.assertEqual(params["SplineItem"],"1000000c")
+                    self.assertEqual(params["IKFKBlending"],"0")
+                    self.assertEqual(params["PathAlignLookAhead"],"0.033")
+                    self.assertEqual(node["unsupported_transform"],mode!=0)
+                    if mode==0: self.assertIsNotNone(m["scene_gltf"])
+                    else:
+                        self.assertIsNone(m["scene_gltf"])
+                        self.assertIsNone(m["scene_obj"])
+                        self.assertIn(f"{axis}Controller",m["scene_gltf_issue"])
+                        self.assertTrue((out/m["assets"][0]["gltf"]).is_file())
+
+    def test_lwsc5_unknown_bone_type_stays_in_ir_without_rest_skin(self):
+        self.write("tri.lwo",lwob())
+        raw="LWSC\n5\nLoadObject 1000004c tri.lwo\nAddBone 4003004c\nBoneType 1\nBoneRestPosition 0 0 0\nBoneRestDirection 0 0 0\nBoneRestLength 1\n"
+        out,m=self.convert(self.write("joint-v5.lws",raw),"--gltf-rigs","all",code=2)
+        scene=json.loads((out/m["scene"]).read_text())
+        self.assertEqual(scene["nodes"][1]["rig_parameters"][0]["value"]["text"],"1")
+        self.assertEqual(m["gltf_rigs"][0]["status"],"blocked")
+        self.assertIn("BoneType 1",m["gltf_rigs"][0]["issue"])
+
     def test_content_root_keeps_explicit_rules_authoritative(self):
         self.write("candidate/Objects/body.lwo",lwob())
         self.write("candidate/Objects/head.lwo",lwob())

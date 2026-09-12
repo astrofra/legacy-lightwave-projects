@@ -1,5 +1,42 @@
 # Smilla: LightWave 6 reference and skeletal glTF — v0.10.0
 
+## Automatic profile selection — v0.10.2
+
+The current source lives at `content/smila-by-moebius/Smilla_IK.lws`.
+The default policy now selects LW6 for this LWSC 3 file. Neither the CLI nor
+the batch saves or loads project presets; an explicit choice affects that run.
+The older commands and measurements below remain reproducible with their
+explicit profiles.
+
+Rechecked through the actual batch launcher, without a version/profile/helper
+option:
+
+```powershell
+.\convert_content.bat --file smila-by-moebius/Smilla_IK.lws --lightwave-root E:/__very_old_stuff_/archive-stuff_cd/LW6/Programs/LightWave_Support --skip-plugin JointMorph --skip-plugin LW_MorphMixer --animation-mode skin --animation-start 0 --animation-end 40
+```
+
+Output:
+`output/batch-20260912-182410/packages/smila-by-moebius/gltf/Smilla_IK.lws.anim-10000000.gltf`.
+The adjacent `.bin` has the same SHA-256 as the previously qualified explicit
+LW6 batch: `07d15f96856966982153cfde31d12a46c0a220c01c4903f52119aa7f190b2542`.
+Blender playback passes for all 41 frames and 31 joints; maximum playback error
+is `9.81e-7`. Native cage differences remain RMS `0.00718`, maximum `0.07693`
+in scene units, with the same approximation limits described below.
+The four glTF files have no Khronos validator errors or warnings.
+
+Reports: [Blender animation](diagnostics/smilla-auto-oldest-blender-qa.json),
+[Khronos validation](diagnostics/smilla-auto-oldest-gltf-validation.json),
+[published paths and source hashes](diagnostics/smilla-auto-oldest-layout.json).
+All nine Release and AddressSanitizer regression groups pass, including the
+measured LW6 fallback, explicit LW9.6 measurements and mixed LWSC 1/3/5 batches.
+
+A separate batch with only `--file smila-by-moebius/Smilla_IK.lws`, at
+`output/batch-20260912-182401`, exports the bound rest skin automatically.
+It does not perform native IK evaluation: the matching installation is still
+needed via `--lightwave-root` for the animated derivative above.
+
+## Original v0.10.0 reference
+
 The reference scene is `content/smila/Smilla_IK.lws`, opened with `content`
 as LightWave's content directory. It resolves to `content/smila/smila.lwo`.
 Do not substitute `_smila.lwo`: that is a different mesh with different maps.
@@ -18,7 +55,8 @@ export and no subdivision has been baked.
   from the loaded mesh. Controlled LightWave 6 build 446 measurements show
   procedural fallback for missing assigned maps; LightWave 9.6 instead gives
   those maps zero influence. `--skin-profile lightwave6` selects the former
-  behavior explicitly. The default `lightwave96` retains its missing-map
+  behavior explicitly. Since v0.10.2 it is selected automatically for LWSC 1/3;
+  an explicit `--skin-profile lightwave96` retains the modern missing-map
   diagnostic. An existing but empty map contributes zero in both profiles.
   The original map assignments remain in the scene IR; fallback counts and
   calculated weights belong to the separate derived-skin record.
@@ -100,6 +138,54 @@ the resulting glTF needs no LightWave. Original motion keys and IK settings
 remain in native IR; evaluated poses and their provenance are additional data.
 This does not implement an independent C IK solver. The more complex
 `smila_run_cycle.lws` rig and its plugins are not qualified by this Smilla_IK QA.
+
+## Batch export
+
+The earlier reference above was produced by `export_lightwave_animation.py`.
+Running `convert_content.bat` without options did not reproduce it: native
+evaluation was disabled and the C skin profile remained `lightwave96`. In the
+reported batch `batch-20260912-175125`, Smilla IK therefore had 14 missing maps,
+an unbound skeleton omitted by the default rig policy, and no skeletal animation.
+The old README's LW9.6 batch example did not select the qualified LW6 path.
+
+The batch now forwards the native runtime, omitted plugins and animation mode,
+and selects matching C weight semantics. With the currently present project
+directory `content/smila-by-moebius`, run:
+
+```powershell
+.\convert_content.bat --file smila-by-moebius/Smilla_IK.lws --runtime lightwave6 --lightwave-root E:/__very_old_stuff_/archive-stuff_cd/LW6/Programs/LightWave_Support --capture-plugin build-lw6/Release/lw_capture.p --skip-plugin JointMorph --skip-plugin LW_MorphMixer --animation-mode skin --animation-start 0 --animation-end 40
+```
+
+`--file` keeps the top-level project root and resolves dependencies; it does not
+require relocating or copying source inputs. `--project` is still available to
+select a complete project. Runtime and plugin options apply to every selected
+scene, so this Smilla-specific loading configuration is not a general preset
+for every asset in the collection.
+
+**No-argument batches remain standalone C exports.** The startup message and
+per-scene `native_animation` report now make the enabled/disabled state explicit.
+`--skin-profile lightwave6` alone can export the rest skin using legacy weights;
+it does not evaluate IK or create skeletal animation.
+
+The reproduced batch output is:
+
+```text
+output/batch-20260912-180723/packages/smila-by-moebius/gltf/Smilla_IK.lws.anim-10000000.gltf
+```
+
+Use the `.anim-10000000.gltf` file with its adjacent binary for the evaluated
+skeletal clip. `.rig-10000000.gltf` is the rest skin; `.lws.gltf` is the ordinary
+C scene export. The batch report's `animation_gltf` list points to the animated
+derivative. Publication retains 41 samples, 17 changing bones and the bound
+31-joint skin, with no morph targets or subdivision. The batch still reports
+`partial` because the existing material/deformation limitations remain.
+
+Published batch links and original scene/object hashes pass the
+[layout check](diagnostics/smilla-batch-lw6-layout.json). All four glTF files pass
+[Khronos validation](diagnostics/smilla-batch-lw6-gltf-validation.json) without
+errors or warnings. [Blender playback QA](diagnostics/smilla-batch-lw6-blender-qa.json)
+checks the published animated file at all 41 frames against captured bone poses
+and the separately measured native cage deformation.
 
 ## Inferring the missing content directory
 

@@ -48,7 +48,7 @@ typedef struct { char *prefix, *destination; } LWRule;
 typedef struct {
     char *input, *output, *root, *uv_map;
     double frame;
-    int frame_set, gltf_all_rigs, legacy_bone_maps;
+    int frame_set, gltf_all_rigs, legacy_bone_maps, skin_profile_set;
     LW_ARRAY(LWRule) rules;
 } LWOptions;
 typedef struct {
@@ -117,6 +117,7 @@ int lw_write_gltf(const char *,const LWPackage *,const LWOptions *,LWGltfStats *
 int lw_write_bytes(const char *, const void *, size_t, LWError *);
 int lw_close(FILE *, const char *, LWError *);
 void lw_identity(double [16]);
+const char *lw_scene_reader_profile(const LWScene *);
 int lw_scene_matrices(const LWScene *, double, double *, size_t *, LWError *);
 int lw_scene_node_matrix(const LWScene *,size_t,double,double [16],LWError *);
 int lw_scene_node_trs(const LWScene *,size_t,double,double [10],LWError *);

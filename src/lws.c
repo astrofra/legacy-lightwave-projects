@@ -40,8 +40,15 @@ static int integer(LWString s,uint32_t *value,size_t off,LWError *e) {
 static int rotation_controller(LWString key) {
     return lw_string_is(key,"HController")||lw_string_is(key,"PController")||lw_string_is(key,"BController");
 }
+static int position_controller(LWString key) {
+    return lw_string_is(key,"XController")||lw_string_is(key,"YController")||lw_string_is(key,"ZController");
+}
 static int ik_parameter(LWString key) {
-    return rotation_controller(key)||lw_string_is(key,"GoalObject")||lw_string_is(key,"GoalStrength")||
+    return rotation_controller(key)||position_controller(key)||lw_string_is(key,"GoalObject")||lw_string_is(key,"GoalStrength")||
+        lw_string_is(key,"TargetItem")||lw_string_is(key,"SplineItem")||
+        (key.size>=2&&!memcmp(key.data,"IK",2))||(key.size>=4&&!memcmp(key.data,"Goal",4))||
+        (key.size>=6&&!memcmp(key.data,"Spline",6))||(key.size>=9&&!memcmp(key.data,"PathAlign",9))||
+        lw_string_is(key,"UseIKChainValues")||
         lw_string_is(key,"FullTimeIK")||lw_string_is(key,"IKAnchor")||lw_string_is(key,"MatchGoalOrientation")||
         lw_string_is(key,"HLimits")||lw_string_is(key,"PLimits")||lw_string_is(key,"BLimits")||
         lw_string_is(key,"HJointStiffness")||lw_string_is(key,"PJointStiffness")||lw_string_is(key,"BJointStiffness");
@@ -50,8 +57,8 @@ static int preserve_ik_parameter(LWScene *scene,LWNode *node,LWString key,LWStri
     LWTextureField field={0}; LWError numeric_error={0}; uint32_t mode=0; const char *issue=NULL;
     field.name=key; field.value=value; field.parent=SIZE_MAX; field.offset=offset;
     LW_TRY(LW_ADD(node->rig_parameters,field,e));
-    if(rotation_controller(key)) {
-        if(!integer(value,&mode,offset,&numeric_error)) issue="malformed rotation controller";
+    if(rotation_controller(key)||position_controller(key)) {
+        if(!integer(value,&mode,offset,&numeric_error)) issue="malformed motion controller";
         else if(mode) {
             /* NewTek lwrender.h: 0 keyframes, 1 targeting, 2 velocity,
                3 inverse kinematics, 4 path alignment. None are raw keys. */
@@ -71,6 +78,20 @@ static int preserve_ik_parameter(LWScene *scene,LWNode *node,LWString key,LWStri
             "%.*s %.*s: %s",(int)key.size,(const char *)key.data,(int)(value.size<48?value.size:48),(const char *)value.data,issue);
     }
     return 1;
+}
+const char *lw_scene_reader_profile(const LWScene *s) {
+    return s->version==5?"lwsc5-partial-0.1":s->version==3?"lwsc3-subset-0.1":"lwsc1-subset-0.1";
+}
+static int preserve_statement(LWScene *s,const Lines *ls,size_t start,size_t end,LWError *e) {
+    LWSceneStatement statement={0}; LWString value;
+    if(s->version!=5) return 1;
+    split(ls->v[start],&statement.name,&value);
+    if(lw_string_is(statement.name,"{")) {
+        Line line={value,ls->v[start].offset}; split(line,&statement.name,&value);
+    }
+    statement.offset=ls->v[start].offset;
+    statement.size=ls->v[end].offset+ls->v[end].text.size-statement.offset;
+    return LW_ADD(s->uninterpreted_statements,statement,e);
 }
 static int next_line(const Lines *ls,size_t *i,LWError *e) {
     if(*i+1>=ls->n) return lw_error(e,ls->v[*i].offset,"LWS","truncated block");
@@ -324,7 +345,9 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             LW_TRY(LW_ADD(s->plugins,plugin,e)); continue;
         }
         if(lw_string_is(key,"{")) {
+            size_t start=i;
             LW_TRY(texture_block(s,ls,&i,NULL,e));
+            LW_TRY(preserve_statement(s,ls,start,i,e));
             s->opaque_blocks++; continue;
         }
         if(lw_string_is(key,"LoadObject")||lw_string_is(key,"LoadObjectLayer")||lw_string_is(key,"AddNullObject")) {
@@ -434,7 +457,8 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             node->parent=parent?(uint32_t)parent:LW_NONE;
         } else if(lw_string_is(key,"MorphTarget")||lw_string_is(key,"DisplacementMap")||lw_string_is(key,"DisplacementMaps")) {
             s->unsupported_features++;
-        }
+            LW_TRY(preserve_statement(s,ls,i,i,e));
+        } else LW_TRY(preserve_statement(s,ls,i,i,e));
     }
     if(s->fps<=0) return lw_error(e,0,"LWS","FramesPerSecond must be positive");
     return 1;
@@ -470,7 +494,7 @@ void lw_free_scene(LWScene *s) {
         LW_FREE(n->candidates); LW_FREE(n->channels); free(n->resolved_path);
     }
     for(i=0;i<s->images.n;i++) lw_free_image(&s->images.v[i]);
-    LW_FREE(s->images); LW_FREE(s->nodes); LW_FREE(s->plugins); lw_free_source(&s->source); memset(s,0,sizeof *s);
+    LW_FREE(s->images); LW_FREE(s->nodes); LW_FREE(s->plugins); LW_FREE(s->uninterpreted_statements); lw_free_source(&s->source); memset(s,0,sizeof *s);
 }
 void lw_scene_summary(FILE *f,const LWScene *s) {
     size_t i,j,objects=0,bones=0,keys=0;
@@ -478,7 +502,7 @@ void lw_scene_summary(FILE *f,const LWScene *s) {
         objects+=s->nodes.v[i].object_path.size!=0; bones+=(s->nodes.v[i].id>>28)==4;
         for(j=0;j<s->nodes.v[i].channels.n;j++) keys+=s->nodes.v[i].channels.v[j].keys.n;
     }
-    fprintf(f,"{\"kind\":\"scene\",\"version\":%u,\"sha256\":\"%s\",\"nodes\":%zu,\"object_loads\":%zu,\"bones\":%zu,\"keys\":%zu,\"plugins\":%zu,\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g}\n",s->version,s->source.sha256,s->nodes.n,objects,bones,keys,s->plugins.n,s->first_frame,s->last_frame,s->fps);
+    fprintf(f,"{\"kind\":\"scene\",\"version\":%u,\"reader_profile\":\"%s\",\"uninterpreted_statements\":%zu,\"sha256\":\"%s\",\"nodes\":%zu,\"object_loads\":%zu,\"bones\":%zu,\"keys\":%zu,\"plugins\":%zu,\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g}\n",s->version,lw_scene_reader_profile(s),s->uninterpreted_statements.n,s->source.sha256,s->nodes.n,objects,bones,keys,s->plugins.n,s->first_frame,s->last_frame,s->fps);
 }
 
 /* Span tangents are expressed in the current span's normalized time, with
@@ -599,6 +623,11 @@ int lw_scene_node_trs(const LWScene *s,size_t i,double frame,double trs[10],LWEr
 int lw_bone_rest_matrix(const LWNode *node,double m[16],LWError *e) {
     double v[9]={0,0,0,0,0,0,1,1,1},pivot[3]={0}; size_t j;
     int rotated=node->pivot_rotation[0]||node->pivot_rotation[1]||node->pivot_rotation[2];
+    for(j=0;j<node->rig_parameters.n;j++) if(lw_string_is(node->rig_parameters.v[j].name,"BoneType")) {
+        uint32_t type; const LWTextureField *field=&node->rig_parameters.v[j];
+        LW_TRY(integer(field->value,&type,field->offset,e));
+        if(type) return lw_error(e,field->offset,"bone","BoneType %u semantics are not qualified",type);
+    }
     if((node->bone.present&3)!=3) return lw_error(e,node->source_offset,"bone","missing rest position or direction for %08x",node->id);
     if(node->pivot[0]||node->pivot[1]||node->pivot[2]) return lw_error(e,node->source_offset,"bone","translated bone pivot semantics are not qualified");
     /* Record Pivot Rotation records the orientation while zeroing the channels.

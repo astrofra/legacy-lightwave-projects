@@ -202,6 +202,9 @@ bin/win64/lwconvert.exe convert content/circus/Mr_Lector_2.lws --content-root co
 Exit code **2** means a package was produced with limitations reported in
 `manifest.json`: approximated or unsupported textures, missing UVs, unavailable layers, etc.
 **0** confirms success for the supported subset; **1** indicates an error.
+LWSC 5 has an explicit [partial reader profile](documentation/lwsc5-partial-support.md):
+identities, hierarchy, object dependencies and original keys are preserved;
+unsupported controllers are reported. These packages always return **2**.
 A scene produces individual OBJ exports for its resolved objects and, when
 the transforms can be evaluated, an `obj/<scene filename>.obj` at the requested frame.
 For example, `Mr_Lector_2.lws` produces `obj/Mr_Lector_2.lws.obj` and its `.mtl`.
@@ -317,9 +320,20 @@ not count as failures. Interrupted runs return **130** and record pending files.
 # Use a specific binary or override the snapshot frame for all scenes.
 .\convert_content.bat --converter build/Debug/lwconvert.exe --frame 1
 
-# Evaluate Smila's rig animation with the supplied historical runtime.
-.\convert_content.bat --content content/smila-by-moebius --lightwave-root _tmp/_extern/LightWave/LW9.6 --animation-start 0 --animation-end 25
+# Evaluate the qualified Smilla IK scene with LightWave 6 and the x86 helper.
+.\convert_content.bat --file smila-by-moebius/Smilla_IK.lws --runtime lightwave6 --lightwave-root E:/__very_old_stuff_/archive-stuff_cd/LW6/Programs/LightWave_Support --capture-plugin build-lw6/Release/lw_capture.p --skip-plugin JointMorph --skip-plugin LW_MorphMixer --animation-mode skin --animation-start 0 --animation-end 40
 ```
+
+Without `--lightwave-root`, the batch runs the standalone C converter: it does
+not evaluate skeletal IK animation. Since v0.10.2, the default `--skin-profile auto`
+chooses the oldest implemented profile for each file: LW6 for LWSC 1/3, LW9.6
+for LWSC 5. Thus Smilla's rest skin is exported without a version option.
+Native `--runtime auto` follows that choice; an explicit `--runtime` selects the
+matching C profile. No presets are saved or loaded: effective choices are only
+recorded in output manifests and the batch report. `--skip-plugin`
+and `--animation-mode` are forwarded to the native exporter and recorded in the
+report. `--file` selects exact content-relative inputs while keeping project
+roots and dependency resolution. See the [Smilla batch reproduction and QA](documentation/smilla-lightwave6-animation.md#batch-export).
 
 On Windows, the default binary is `bin/win64/lwconvert.exe`, falling back to the
 local Release, single-configuration or Debug build. `--converter` overrides this

@@ -93,7 +93,6 @@ static int resolve_node(LWNode *n,const LWOptions *opts,const LWPackage *p,LWErr
 }
 static int collect(LWPackage *p,const LWOptions *opts,LWError *e) {
     FILE *f=lw_fopen(opts->input,"rb"); unsigned char sig[4]; size_t n,i;
-    p->legacy_bone_maps=opts->legacy_bone_maps;
     if(!f) return lw_error(e,0,"input","cannot open %s",opts->input);
     n=fread(sig,1,4,f); fclose(f);
     p->is_scene=n==4&&!memcmp(sig,"LWSC",4);
@@ -216,7 +215,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
     fputs(",\"layout_version\":\"0.2\",\"formats\":{\"obj\":\"generated\",\"IR\":\"generated\",\"gltf\":\"generated\",\"blender\":\"not-implemented\"}",f);
     fputs(",\n\"content_root\":",f); lw_json_string(f,opts->root);
-    fprintf(f,",\"skin_profile\":\"%s\"",opts->legacy_bone_maps?"lightwave6":"lightwave96");
+    fprintf(f,",\"skin_profile\":\"%s\",\"skin_profile_policy\":\"%s\"",p->legacy_bone_maps?"lightwave6":"lightwave96",opts->skin_profile_set?"explicit":"oldest-supported-for-file");
     fputs(",\n\"content_root_inference\":{\"search_root\":",f); if(p->content_search_root) lw_json_string(f,p->content_search_root); else fputs("null",f);
     fputs(",\"selected_root\":",f); if(p->inferred_content_root) lw_json_string(f,p->inferred_content_root); else fputs("null",f);
     fprintf(f,",\"status\":\"%s\",\"distinct_references\":%zu,\"matched_references\":%zu,\"candidates\":[",p->inferred_content_root?"unique-best-root":p->content_matches?"ambiguous":"no-relative-path-evidence",p->content_references,p->content_matches);
@@ -255,6 +254,9 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     }
     fputs("],\n\"scene\":",f);
     if(p->is_scene) { if(!json_output_path(f,"IR",p->scene_name,"/scene.json",e)) goto failed; } else fputs("null",f);
+    fputs(",\"scene_format\":",f);
+    if(p->is_scene) fprintf(f,"{\"format\":\"LWSC\",\"version\":%u,\"reader_profile\":\"%s\",\"support\":\"%s\",\"uninterpreted_statements\":%zu}",p->scene.version,lw_scene_reader_profile(&p->scene),p->scene.version==5?"partial":"supported-subset",p->scene.uninterpreted_statements.n);
+    else fputs("null",f);
     fputs(",\"scene_obj\":",f);
     if(stats->scene_written) { if(!json_output_path(f,"obj",p->scene_name,".obj",e)) goto failed; } else fputs("null",f);
     fputs(",\"scene_mtl\":",f);
@@ -296,6 +298,11 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     if(lw_path_exists(opts->output)) { lw_error(e,0,"output","output directory already exists; choose a new path"); return -1; }
     if(lw_path_inside(opts->output,opts->root)) { lw_error(e,0,"output","output must be outside the content root"); return -1; }
     if(!collect(&p,opts,e)) goto done;
+    /* File versions establish a lower bound, not the producer's release.
+       LWSC 1/3 use the oldest measured profile; LWSC 5 postdates LW6.
+       No separate 9.5 profile is qualified, so use the measured 9.6 profile. */
+    if(!effective.skin_profile_set) effective.legacy_bone_maps=!p.is_scene||p.scene.version<=3;
+    p.legacy_bone_maps=effective.legacy_bone_maps;
     if(!assign_names(&p,e)) goto done;
     lw_resolve_bone_maps(&p);
     if(p.is_scene&&!opts->frame_set) effective.frame=p.scene.first_frame;
@@ -330,6 +337,8 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     if(!lw_write_obj(opts->output,&p,opts,&stats,e)) goto done;
     if(!lw_write_gltf(opts->output,&p,opts,&gltf,e)) goto done;
     if(p.unresolved||stats.skipped||stats.cages||stats.control_curves||stats.uv_missing||stats.nonplanar_faces||stats.removed_corners||stats.scene_issue[0]||p.scene.plugins.n||p.scene.unsupported_features) partial=1;
+    /* LWSC 5 is an explicitly qualified extraction subset, not a full scene evaluator. */
+    if(p.is_scene&&p.scene.version==5) partial=1;
     if(gltf.geometry.skipped||gltf.geometry.cages||gltf.geometry.control_curves||gltf.geometry.uv_missing||gltf.geometry.nonplanar_faces||gltf.geometry.removed_corners||gltf.geometry.scene_issue[0]||gltf.unsupported_sidedness) partial=1;
     if(gltf.animation_issue[0]) partial=1;
     if(stats.normal_issues||gltf.geometry.normal_issues) partial=1;

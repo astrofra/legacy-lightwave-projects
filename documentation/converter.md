@@ -61,6 +61,12 @@ a rendering approximation, and the scope is recorded in every package.
 | LWO2 | LAYR, PNTS/POLS blocks, TAGS/PTAG, VMAP/VMAD of any dimension and type, a SURF/CLIP subset |
 | PST_ | Preserved preset wrapper and LWO2/LWOB object nested in PDAT |
 | LWSC 1/3 | Objects, nulls, light/camera/bone IDs, parents, pivots, motion channels and keys, bone rest poses and weight-map assignments, native rig parameters, plugin blocks |
+| LWSC 5 (partial) | Explicit object/null/light/camera/bone IDs, nonsequential parenting, layer requests, original motion channels/keys, bone settings, indexed uninterpreted statements; see [scope and corpus QA](lwsc5-partial-support.md) |
+
+LWSC 5 conversions use reader profile `lwsc5-partial-0.1` and return **2**
+(`partial`), including scenes whose supported geometry and keyed transforms
+export successfully. `manifest.json.scene_format` identifies the format version,
+reader profile and scope. LWSC 4 remains unqualified and is rejected.
 
 IFF bounds, sizes, point indices and geometry floating-point values are checked.
 Invalid map/assignment indices are preserved and counted. Non-finite map values
@@ -264,6 +270,43 @@ without changing its project root; repeat `--project` to select several. The
 `--content` directory remains the parent collection. Direct C packages retain
 layout 0.2 and are republished by the Python batch into layout 0.3. Asset indices remain local to each
 conversion, so a scene's node indices refer to that conversion's asset list.
+`--file project/path/scene.lws` selects an individual supported input relative
+to `--content` and keeps its project root; it can be repeated or combined with
+`--project`. Referenced objects remain discoverable even when not selected as
+standalone conversions.
+
+Native skeletal animation is opt-in through `--lightwave-root`. Batch options
+`--runtime`, `--skip-plugin`, `--animation-mode` and `--capture-plugin` now reach
+the same evaluator used by the dedicated native exporter. Since v0.10.2,
+`--skin-profile auto` selects the oldest implemented profile for each file:
+
+| Source | Automatic weight profile |
+| --- | --- |
+| LWSC 1 or 3 | `lightwave6` |
+| LWSC 5 | `lightwave96` |
+| Standalone object | `lightwave6` (no scene bones to evaluate) |
+
+This is an interpretation policy, not detection of the producer's software
+release. LWSC 1 has no separately qualified pre-LW6 profile; LWSC 5 has no
+separately qualified 9.5 profile. LWSC 4 remains unsupported. The parser still
+dispatches on the file version regardless of the weight profile.
+`--skin-profile lightwave6|lightwave96` overrides the automatic choice.
+`manifest.json` and each batch file record contain the effective `skin_profile`
+and `skin_profile_policy` (`oldest-supported-for-file` or `explicit`). These
+outputs are audit records; no project presets are saved or loaded on later runs.
+
+With native evaluation enabled, `--runtime auto` follows the selected C profile.
+An explicit `--runtime` also selects matching C semantics unless an explicit
+`--skin-profile` overrides them; incompatible native skin choices are rejected.
+The matching LightWave installation must still be supplied with `--lightwave-root`.
+The default capture helper is `build-lw6/Release/lw_capture.p` for LW6 and
+`bin/win64/lw_capture.p` for LW9.6; `--capture-plugin` overrides it. A missing
+runtime or helper is reported, with no silent switch to a newer profile.
+The native bridge still accepts only LWSC 1/3, independently of LWSC 5's partial
+C extraction. A standalone `--skin-profile lightwave6` changes weight semantics
+only. The batch reports native evaluation as `not-requested`, `not-needed`,
+`evaluated` or `failed`; successful animation URIs are in `animation_gltf`.
+See the [qualified Smilla LW6 batch command](smilla-lightwave6-animation.md#batch-export).
 The batch rewrites manifest URIs, OBJ `mtllib` references and glTF buffer URIs
 when publishing files. Copy the whole project directory to retain the shared
 IR dependencies. Each glTF scene embeds its required geometry in its own `.bin`
