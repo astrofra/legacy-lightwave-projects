@@ -130,7 +130,11 @@ Since v0.12.0, LWO2 UV image layers also bind automatically through
 `BLOK/IMAP` → `CLIP` and the named `TXUV` map, including discontinuous corner UVs.
 For example, `collosus-concept-design/items/aircon` resolves its missing TGA
 references to the existing JPGs and exports color, specular and screen emission.
-Plugin shaders such as `NormalShader` remain preserved and reported.
+Since v0.13.0, the bounded MicroWave `NormalShader` profile also extracts its
+private image and reencodes object-space normals into tangent PNG normal maps,
+with explicit MikkTSpace tangents in glTF. This runs automatically in the batch;
+ambiguous inputs remain preserved with a diagnostic. Explicit object/world/tangent
+modes are available. See the [normal-map profile and QA](documentation/normal-maps.md).
 
 Since v0.4.1, scene snapshots also sample TCB curves and tolerate incorrect
 declared envelope key counts while retaining the original data and a warning.

@@ -1,4 +1,10 @@
-# Raster dependencies
+# Dependencies
+
+- `MikkTSpace`: Morten S. Mikkelsen, zlib-style license, unmodified upstream
+  `mikktspace.c` / `mikktspace.h` at commit
+  `3e895b49d05ea07e4c2133156cfa94369e19e409` of
+  https://github.com/mmikk/MikkTSpace. Used for per-corner glTF tangent frames.
+
 
 - `libilbm`: MIT, Sander van der Burg. The bounded ByteRun1 row decoder is adapted
   from `src/libilbm/byterun.c` at commit

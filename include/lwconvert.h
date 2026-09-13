@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.12.0"
+#define LWCONVERT_VERSION "0.13.0"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -42,13 +42,29 @@ typedef struct {
     int has_envelopes;
     char issue[192];
     int supported;
+    LWString shader_payload;
+    size_t shader_payload_offset, clip_scope; /* zero = global; otherwise owning SHDR byte offset + 1 */
+    uint32_t native_normal_space;
+    struct LWNormalConversion *normal;
 } LWTexture;
+typedef struct {
+    float p[3], n[3], uv[2], tangent[4];
+    uint32_t polygon, corner, point;
+} LWRenderVertex;
+typedef LW_ARRAY(LWRenderVertex) LWRenderVertices;
+typedef struct LWNormalConversion {
+    int requested_space, effective_space, green_negative;
+    int world_matrix_set; double world_matrix[9];
+    size_t samples, covered, overlaps, conflicts, invalid, degenerate, padded;
+    double object_mean_degrees, runner_up_degrees, object_hemisphere, tangent_hemisphere, normal_diversity;
+    double roundtrip_max_degrees;
+} LWNormalConversion;
 typedef struct {
     LWString name, source;
     float color[3], diffuse, specular, luminosity, transparency, smoothing;
     uint32_t flags, side, present, float_fields;
     size_t projection_texture;
-    char *base_texture, *opacity_texture, *emissive_texture, *specular_texture, *bump_texture;
+    char *base_texture, *opacity_texture, *emissive_texture, *specular_texture, *bump_texture, *normal_texture;
     int textured, texture_alpha;
 } LWMaterial;
 typedef struct {
@@ -56,6 +72,7 @@ typedef struct {
     const char *role;
     size_t offset;
     uint32_t clip;
+    size_t clip_scope;
     char *resolved_path, *uri;
     LW_ARRAY(char *) candidates;
     char resolution[48], issue[256], sha256[65];
@@ -81,6 +98,8 @@ typedef struct LWObject {
     LW_ARRAY(LWMap) maps;
     LW_ARRAY(LWImageReference) images;
     LW_ARRAY(LWTexture) textures;
+    LWRenderVertices normal_vertices; /* Derived final glTF triangles; native arrays stay intact. */
+    size_t *normal_first; /* Per source polygon, SIZE_MAX if no converted normal map. */
     size_t texture_blocks, legacy_textures, opaque_chunks, repeated_primitives;
     size_t invalid_map_references, missing_materials, non_finite_map_values;
 } LWObject;

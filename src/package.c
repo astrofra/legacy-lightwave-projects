@@ -293,6 +293,7 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
     lw_json_string(f,gltf->animation_issue);
     fprintf(f,",\n\"frame\":%.17g,\"unresolved_object_instances\":%zu,\"skipped_obj_primitives\":%zu,\"exported_patch_cages\":%zu,\"exported_curve_control_polylines\":%zu,\"unmapped_uv_corners\":%zu,\n\"obj_coordinates\":\"right-handed Y-up; source Z reflected; winding adjusted for transform determinant\",\"uv_map\":",opts->frame,p->unresolved,stats->skipped,stats->cages,stats->control_curves,stats->uv_missing);
     if(opts->uv_map) lw_json_string(f,opts->uv_map); else fputs("null",f);
+    fprintf(f,",\"normal_space\":\"%s\",\"normal_green\":\"%s\"",lw_normal_space_name(opts->normal_space),opts->normal_green_negative?"negative":"positive");
     fprintf(f,",\n\"obj_triangulated_faces\":%zu,\"obj_triangles\":%zu,\"obj_bridged_hole_faces\":%zu,\"obj_triangulation_failures\":%zu,\"obj_nonplanar_faces\":%zu,\"obj_removed_duplicate_corners\":%zu,\"obj_triangulation\":\"projected ear clipping of FACE boundaries, including paired reverse-edge hole bridges; source corners and native LWIR polygons preserved\"",stats->triangulated_faces,stats->triangles,stats->bridged_faces,stats->triangulation_failures,stats->nonplanar_faces,stats->removed_corners);
     fprintf(f,",\"scene_plugins_not_evaluated\":%zu,\"scene_deformation_features_not_evaluated\":%zu,\n\"scope\":\"native extraction, OBJ/MTL and glTF 2.0 base geometry plus separate object-local rest rigs with explicit normalized maps or measured procedural weight approximations; LWOB planar/spherical and LWO2 UV image maps with PNG derivatives; approximate materials; source-corner normals and native smoothing parameters; autonomous-hpb-ik-0.1 provides approximate skeletal animation; no baked subdivision, volume corrections, morph animation or Blender backend\",\n\"source_policy\":\"parsed input files copied byte-for-byte; unresolved or malformed scene dependencies are reported, not bundled\"\n}\n",opaque_plugins,p->scene.unsupported_features);
     { int ok=lw_close(f,path,e); free(path); return ok; }
@@ -328,7 +329,7 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     for(i=0;i<p.objects.n;i++) {
         LWObject *o=&p.objects.v[i]; size_t k;
         dir=lw_join(assets,p.names.v[i]); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
-        if(!lw_mkdir(dir,e)||!lw_package_images(dir,o->source.path,o->images.v,o->images.n,e)||!lw_prepare_textures(dir,opts->output,o,opts,e)||!lw_write_object(dir,o,e)) goto done;
+        if(!lw_mkdir(dir,e)||!lw_package_images(dir,o->source.path,o->images.v,o->images.n,e)||!lw_prepare_textures(dir,opts->output,o,opts,e)||!lw_prepare_normal_maps(dir,opts->output,o,opts,e)||!lw_write_object(dir,o,e)) goto done;
         free(dir); dir=NULL;
         if(o->images.n||o->texture_blocks||o->legacy_textures||o->invalid_map_references||o->missing_materials||o->non_finite_map_values) partial=1;
         for(k=0;k<o->chunks.n;k++) if(o->chunks.v[k].tag==LW_TAG('C','R','V','S')) partial=1;

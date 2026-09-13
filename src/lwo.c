@@ -24,8 +24,8 @@ static int texture_envelope(LWTexture *t,LWReader *r) {
     return 1;
 }
 /* LWO2 headers, mapping attributes and image attributes have distinct scopes.
-   Shader FUNC payloads are opaque; do not mistake embedded plugin data for
-   ordinary image layers or global CLIP indices. */
+   FUNC bytes stay opaque here; the bounded NormalShader profile below extracts
+   its private image layer separately from ordinary layers and global CLIPs. */
 static int texture_attributes(LWTexture *t,LWReader r,int scope) {
     while(r.pos<r.size) {
         LWReader c; uint32_t tag,n; size_t off,k;
@@ -56,7 +56,10 @@ static int texture_attributes(LWTexture *t,LWReader r,int scope) {
         } else if(scope==0&&tag==TAG("AAST")) {
             float strength; LW_TRY(lw_u16(&c,&n)); LW_TRY(lw_float(&c,&strength));
         } else if(scope==0&&tag==TAG("PIXB")) LW_TRY(lw_u16(&c,&n));
-        else if(scope==0&&tag==TAG("FUNC")&&t->block_type!=TAG("IMAP")) LW_TRY(lw_s0(&c,&t->shader));
+        else if(scope==0&&tag==TAG("FUNC")&&t->block_type!=TAG("IMAP")) {
+            LW_TRY(lw_s0(&c,&t->shader));
+            t->shader_payload=(LWString){c.data+c.pos,c.size-c.pos}; t->shader_payload_offset=c.base+c.pos;
+        }
         else if(!t->issue[0]) {
             char name[5]; lw_tag_text(tag,name);
             snprintf(t->issue,sizeof t->issue,"unsupported LWO2 texture attribute %.4s; preserved only",name);
@@ -64,19 +67,66 @@ static int texture_attributes(LWTexture *t,LWReader r,int scope) {
     }
     return 1;
 }
+static int read_texture(LWTexture *t,LWReader r,size_t offset,uint32_t material) {
+    LWReader header; size_t off,k;
+    t->material=material; t->offset=offset; t->bytes=r.size+6;
+    t->image=SIZE_MAX; t->clip=LW_NONE; t->projection=LW_NONE; t->enabled=1;
+    t->opacity_type=7; t->opacity=1;
+    t->flags=4; t->value=t->amplitude=t->tiles[0]=t->tiles[1]=1; t->wrap[0]=t->wrap[1]=1;
+    for(k=0;k<3;k++) t->size[k]=1;
+    LW_TRY(lw_chunk(&r,1,&t->block_type,&header,&off));
+    t->type=(LWString){r.data,4};
+    LW_TRY(lw_s0(&header,&t->ordinal));
+    LW_TRY(texture_attributes(t,header,1));
+    return texture_attributes(t,r,0);
+}
+/* A bounded, deliberately narrow SDK VParm serialization profile. All sibling
+   tags must be known and unique: no recursive byte-signature searches into
+   arbitrary plugin data, no guessing private image IDs as global CLIPs. */
+static int shader_fields(LWReader r,const char *tags,size_t count,LWReader *fields) {
+    unsigned seen=0; size_t i,off; uint32_t tag;
+    if(count>16) return 0;
+    while(r.pos<r.size) {
+        LWReader c;
+        if(!lw_chunk(&r,1,&tag,&c,&off)) return 0;
+        for(i=0;i<count;i++) if(tag==TAG(tags+4*i)) break;
+        if(i==count||(seen&(1u<<i))) return 0;
+        seen|=1u<<i; fields[i]=c;
+    }
+    return seen==((1u<<count)-1);
+}
+static int normal_shader(const LWTexture *parent,LWTexture *t,LWImageReference *ref) {
+    LWError ignored={0}; LWReader r={parent->shader_payload.data,parent->shader_payload.size,0,parent->shader_payload_offset,&ignored};
+    LWReader top[2],normal[3],vparm,values[2],block,clip,stil; uint32_t type,flags,count,env,space; float scalar;
+    if(parent->issue[0]) return 0;
+    if(!shader_fields(r,"NSNSNSNO",2,top)||top[0].size!=4||!lw_u32(&top[0],&space)) return 0;
+    if(!shader_fields(top[1],"VPVLICNTIMGS",3,normal)||normal[1].size!=2||!lw_u16(&normal[1],&count)||count!=1) return 0;
+    if(!shader_fields(normal[0],"VPRM",1,&vparm)||!lw_u32(&vparm,&type)||!lw_u32(&vparm,&flags)||type!=3||flags!=1) return 0;
+    if(!shader_fields(vparm,"VPVLTBLK",2,values)||values[0].size!=14) return 0;
+    if(!lw_float(&values[0],&scalar)||!lw_float(&values[0],&scalar)||!lw_float(&values[0],&scalar)||!lw_vx(&values[0],&env)||env) return 0;
+    if(!shader_fields(values[1],"BLOK",1,&block)||!read_texture(t,block,block.base-6,parent->material)) return 0;
+    if(t->block_type!=TAG("IMAP")||t->channel!=TAG("txtr")||t->clip==LW_NONE) return 0;
+    if(!shader_fields(normal[2],"CLIP",1,&clip)||!shader_fields(clip,"STIL",1,&stil)) return 0;
+    if(!lw_s0(&stil,&ref->path)||stil.pos!=stil.size||!ref->path.size) return 0;
+    /* Single texture and single image are unambiguous even though the private
+       saved IMAG number (3 in aircon) need not be the image's ordinal (1). */
+    t->clip_scope=parent->offset+1; t->native_normal_space=space; t->channel=TAG("NORM");
+    t->enabled=t->enabled&&parent->enabled;
+    ref->offset=stil.base; ref->clip_scope=t->clip_scope; ref->clip=t->clip; ref->role="NormalShader normal vector";
+    return 1;
+}
 static int texture_block(LWObject *o,LWReader r,size_t offset) {
-    LWTexture t={0}; LWReader header; size_t off,k;
-    t.material=(uint32_t)o->materials.n; t.offset=offset; t.bytes=r.size+6;
-    t.image=SIZE_MAX; t.clip=LW_NONE; t.projection=LW_NONE; t.enabled=1;
-    t.opacity_type=7; t.opacity=1; /* SDK default: 100% additive. */
-    t.flags=4; t.value=t.amplitude=t.tiles[0]=t.tiles[1]=1; t.wrap[0]=t.wrap[1]=1;
-    for(k=0;k<3;k++) t.size[k]=1;
-    LW_TRY(lw_chunk(&r,1,&t.block_type,&header,&off));
-    t.type=(LWString){r.data,4};
-    LW_TRY(lw_s0(&header,&t.ordinal));
-    LW_TRY(texture_attributes(&t,header,1));
-    LW_TRY(texture_attributes(&t,r,0));
-    return LW_ADD(o->textures,t,r.error);
+    LWTexture t={0},normal={0}; LWImageReference image={0};
+    LW_TRY(read_texture(&t,r,offset,(uint32_t)o->materials.n));
+    LW_TRY(LW_ADD(o->textures,t,r.error));
+    if(t.block_type==TAG("SHDR")&&lw_string_is(t.shader,"NormalShader")) {
+        if(normal_shader(&t,&normal,&image)) {
+            normal.image=o->images.n;
+            LW_TRY(LW_ADD(o->images,image,r.error));
+            LW_TRY(LW_ADD(o->textures,normal,r.error)); o->texture_blocks++;
+        } else snprintf(o->textures.v[o->textures.n-1].issue,sizeof t.issue,"unrecognized or malformed NormalShader private serialization; preserved only");
+    }
+    return 1;
 }
 static int material_chunks(LWObject *o,LWMaterial *m,LWReader r,unsigned depth,int direct,uint32_t clip) {
     size_t active=SIZE_MAX;
@@ -328,8 +378,8 @@ int lw_parse_object(LWObject *o,LWError *e) {
         size_t i,j;
         for(i=0;i<o->textures.n;i++) {
             LWTexture *t=&o->textures.v[i];
-            if(t->block_type!=TAG("IMAP")||t->clip==LW_NONE) continue;
-            for(j=0;j<o->images.n;j++) if(o->images.v[j].clip==t->clip) {
+            if(t->clip_scope||t->block_type!=TAG("IMAP")||t->clip==LW_NONE) continue;
+            for(j=0;j<o->images.n;j++) if(!o->images.v[j].clip_scope&&o->images.v[j].clip==t->clip) {
                 if(t->image!=SIZE_MAX) {
                     t->image=SIZE_MAX; snprintf(t->issue,sizeof t->issue,"ambiguous CLIP index; preserved only"); break;
                 }
@@ -351,7 +401,9 @@ void lw_free_object(LWObject *o) {
     LW_FREE(o->maps); LW_FREE(o->layers); LW_FREE(o->point_blocks); LW_FREE(o->polygon_blocks);
     LW_FREE(o->positions); LW_FREE(o->indices); LW_FREE(o->primitives); LW_FREE(o->tags);
     for(i=0;i<o->images.n;i++) lw_free_image(&o->images.v[i]);
-    for(i=0;i<o->materials.n;i++) { LWMaterial *m=&o->materials.v[i]; free(m->base_texture); free(m->opacity_texture); free(m->emissive_texture); free(m->specular_texture); free(m->bump_texture); }
+    for(i=0;i<o->materials.n;i++) { LWMaterial *m=&o->materials.v[i]; free(m->base_texture); free(m->opacity_texture); free(m->emissive_texture); free(m->specular_texture); free(m->bump_texture); free(m->normal_texture); }
+    for(i=0;i<o->textures.n;i++) free(o->textures.v[i].normal);
+    LW_FREE(o->normal_vertices); free(o->normal_first);
     LW_FREE(o->textures);
     LW_FREE(o->materials); LW_FREE(o->images); LW_FREE(o->assignments); LW_FREE(o->chunks);
     lw_free_source(&o->source); memset(o,0,sizeof *o);

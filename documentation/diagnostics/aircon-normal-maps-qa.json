@@ -1,0 +1,151 @@
+{
+  "date": "2026-09-13",
+  "converter_version": "0.13.0",
+  "batch": "build/aircon-normal-final/batch-20260913-135533",
+  "command": "convert_content.bat --file collosus-concept-design/items/aircon/aircon.lwo --file collosus-concept-design/items/aircon/aircon.lws --output-root build/aircon-normal-final --converter bin/win64/lwconvert.exe",
+  "source_lwo_sha256": "72dcdcae4d41e4d5509e329e596514e9e8352ee87853468da49bd92dea038ea9",
+  "source_normal_image_sha256": "99e20fd29af4f38925018060e60a83f8f8325fd9d1a634ca345ad51cf62cf409",
+  "normal_source_path": "C:collosus/items/aircon/aircon_norm.tga",
+  "normal_resolved_path": "S:/works/legacy-lightwave-projects/content/collosus-concept-design/items/aircon/aircon_norm.jpg",
+  "private_clip_scope": 26335,
+  "normal_image_resolution": "unique-image-stem-suffix",
+  "normal_png": "textures/53b06ba236cf7fb12646c87bad91c3da3e626d7776c5ff8d8f83bffa4bddc97e.png",
+  "normal_png_sha256": "53b06ba236cf7fb12646c87bad91c3da3e626d7776c5ff8d8f83bffa4bddc97e",
+  "normal_conversion": {
+    "profile": "NormalShader-UV-MikkTSpace-v1",
+    "requested_space": "auto",
+    "effective_space": "object",
+    "basis": "interpolated vertex T,B,N; normalized columns; full inverse; V-up bitangent",
+    "source_green": "positive",
+    "space_evidence": "object-aligned hypothesis; equivalent world bake cannot be distinguished",
+    "source_world_matrix": null,
+    "inference": {
+      "samples": 133099,
+      "object_mean_degrees": 33.6334607,
+      "best_alternative_axes_degrees": 63.2254629,
+      "object_hemisphere": 1,
+      "tangent_positive_z": 0.513076732,
+      "normal_diversity": 0.874056065
+    },
+    "raster": {
+      "covered_texels": 161123,
+      "overlap_samples": 0,
+      "conflicts": 0,
+      "invalid_vectors": 0,
+      "degenerate_uvs": 0,
+      "padding_texels": 27150,
+      "quantized_roundtrip_max_degrees": 0.461749146
+    }
+  },
+  "validator": {
+    "input": "S:\\works\\legacy-lightwave-projects\\build\\aircon-normal-final\\batch-20260913-135533",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 3,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "published_layout": {
+    "batch": "S:\\works\\legacy-lightwave-projects\\build\\aircon-normal-final\\batch-20260913-135533",
+    "layout_version": "0.3",
+    "input_statuses": {
+      "partial": 2
+    },
+    "projects": 1,
+    "conversion_manifests": 2,
+    "native_sources_checked": 3,
+    "obj_mtl_pairs_checked": 3,
+    "gltf_buffer_pairs_checked": 3,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "portable_import": {
+    "blender_version": "4.2.0",
+    "passed": true,
+    "imports": [
+      {
+        "format": "gltf",
+        "file": "items/aircon/aircon.lwo",
+        "material_count": 3,
+        "loaded_texture_nodes": 5,
+        "portable_import": true
+      },
+      {
+        "format": "obj",
+        "file": "items/aircon/aircon.lwo",
+        "material_count": 3,
+        "loaded_texture_nodes": 4,
+        "portable_import": true
+      }
+    ],
+    "scope": "Isolated format directories, loaded material texture nodes, UVs and polygon assignments; opacity checked for the sol.lwo fixture when selected. Preview uses diagnostic lighting, not original LightWave shading."
+  },
+  "independent_normal_comparison": {
+    "blender": "4.2.0",
+    "gltf": "S:\\works\\legacy-lightwave-projects\\build\\aircon-normal-final\\batch-20260913-135533\\packages\\collosus-concept-design\\gltf\\items\\aircon\\aircon.lwo.gltf",
+    "source_image": "S:\\works\\legacy-lightwave-projects\\content\\collosus-concept-design\\items\\aircon\\aircon_norm.jpg",
+    "material": "aircon_target",
+    "normal_map_node_connected": true,
+    "source_space": "object (LW RGB XYZ; Blender XZY)",
+    "target_space": "tangent (Blender glTF import / MikkTSpace)",
+    "normal_texture_colorspace": "Non-Color",
+    "visible_interior_pixels": 138226,
+    "mean_degrees": 3.2523484230041504,
+    "median_degrees": 2.256937265396118,
+    "p95_degrees": 8.320465564727783,
+    "p99_degrees": 19.79635238647461,
+    "max_degrees": 59.4146842956543,
+    "scope": "One camera, visible material interior, linear-filtered images; includes raster/interpolation error. Not a LightWave shader fidelity assertion.",
+    "acceptance": {
+      "median_degrees_below": 3,
+      "mean_degrees_below": 5,
+      "p95_degrees_below": 10,
+      "minimum_pixels": 1000
+    },
+    "passed": true
+  },
+  "tests": {
+    "release": {
+      "groups": 11,
+      "passed": true
+    },
+    "msvc_address_sanitizer": {
+      "groups": 11,
+      "passed": true
+    },
+    "normal_map_regression_cases": 14,
+    "normal_map_regression_recheck": "All 14 cases passed with the distributed Release binary and MSVC AddressSanitizer, including batch world/green option forwarding."
+  },
+  "distribution": {
+    "binary": "bin/win64/lwconvert.exe",
+    "sha256": "79a9231b2332dcea818bc2ec4a497600d30a1a5b1fbc92d7057714472c91109e",
+    "matches_release_build": true
+  },
+  "mikktspace": {
+    "upstream_commit": "3e895b49d05ea07e4c2133156cfa94369e19e409",
+    "source_unmodified": true,
+    "c_sha256": "de87e74107df766ce68108801262bd8d53899414236b59810509a8fc2a51e288",
+    "h_sha256": "17fc433894f24c73753d548086cc4d8c5c0379f4a6edfb98b5da243e4f0bc3d0",
+    "attribution": "Morten S. Mikkelsen; zlib-style notice included in source and binary distribution"
+  },
+  "preview": "build/aircon-normal-final-preview.png",
+  "limits": [
+    "Object-aligned inference cannot distinguish an equivalently oriented world-space bake.",
+    "One bounded NormalShader private image/UV-layer profile; ambiguous or incompatible data is preserved and diagnosed.",
+    "Rendered comparison uses one view and an object-normal reference in Blender, not native LightWave rendering.",
+    "Maximum visible pixel error is about 59.4 degrees; no pixel-exact claim. Filtering, seams and basis reconstruction need further work.",
+    "OBJ does not bind the tangent normal map as a height bump; the derivative is retained in IR and bound in glTF.",
+    "FPrime and full native material evaluation remain unsupported."
+  ]
+}

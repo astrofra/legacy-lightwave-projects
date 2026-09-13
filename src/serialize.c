@@ -78,10 +78,10 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
         }
         fputs(",\"derived_maps\":{",f);
         {
-            const char *keys[]={"base_color","opacity","emissive","specular","bump"};
-            const char *uris[]={m->base_texture,m->opacity_texture,m->emissive_texture,m->specular_texture,m->bump_texture};
+            const char *keys[]={"base_color","opacity","emissive","specular","bump","normal"};
+            const char *uris[]={m->base_texture,m->opacity_texture,m->emissive_texture,m->specular_texture,m->bump_texture,m->normal_texture};
             int comma=0;
-            for(j=0;j<5;j++) if(uris[j]) { if(comma) fputc(',',f); comma=1; lw_json_string(f,keys[j]); fputc(':',f); lw_json_string(f,uris[j]); }
+            for(j=0;j<6;j++) if(uris[j]) { if(comma) fputc(',',f); comma=1; lw_json_string(f,keys[j]); fputc(':',f); lw_json_string(f,uris[j]); }
         }
         fputs("}}",f);
     }

@@ -2,16 +2,16 @@
 #include <math.h>
 
 /* Direct glTF 2.0 writer: native geometry and sampled local scene transforms. */
-typedef struct { float p[3],n[3],uv[2]; uint32_t polygon,corner,point; } GVertex;
+typedef LWRenderVertex GVertex;
 typedef struct { uint32_t material,mode; int uv; LW_ARRAY(GVertex) vertices; } GGroup;
 typedef LW_ARRAY(GGroup) GGroups;
 typedef struct {
     size_t offset,map_offset,count,accessor,material; uint32_t mode,stride;
     size_t skin_offset,skin_view,skin_accessor,skin_sets;
-    int uv; float low[3],high[3];
+    int uv,tangent; float low[3],high[3];
 } GPrimitive;
 typedef struct { size_t asset,first,count; uint32_t layer; } GMesh;
-typedef struct { size_t asset; uint32_t index; int uv; size_t base,emissive,specular; } GMaterial;
+typedef struct { size_t asset; uint32_t index; int uv; size_t base,emissive,specular,normal; } GMaterial;
 typedef struct { size_t source,mesh,parent; int skinned,animated; double matrix[16],trs[10]; } GNode;
 typedef struct { size_t node,offset[3],accessor[3]; float *samples; } GAnimation;
 typedef struct {
@@ -55,18 +55,12 @@ static GVertex vertex(const LWObject *o,uint32_t polygon,uint32_t corner,const L
     if(uv) { v.uv[0]=uv[index].u; v.uv[1]=(float)(1.0-uv[index].v); }
     return v;
 }
-static int triangle(GGroup *g,const LWObject *o,uint32_t polygon,const uint32_t corners[3],const LWUV *uv,const LWNormals *normals,LWError *e) {
-    GVertex v[3]; double a[3],b[3],n[3],length; size_t i,j;
-    for(i=0;i<3;i++) v[i]=vertex(o,polygon,corners[2-i],uv);
-    for(i=0;i<3;i++) { a[i]=(double)v[1].p[i]-v[0].p[i]; b[i]=(double)v[2].p[i]-v[0].p[i]; }
-    n[0]=a[1]*b[2]-a[2]*b[1]; n[1]=a[2]*b[0]-a[0]*b[2]; n[2]=a[0]*b[1]-a[1]*b[0];
-    length=sqrt(n[0]*n[0]+n[1]*n[1]+n[2]*n[2]);
-    if(!length||!isfinite(length)) return lw_error(e,0,"glTF","triangulator returned a degenerate triangle");
-    for(i=0;i<3;i++) {
-        const LWNormal *source=&normals->corners[o->primitives.v[polygon].first+corners[2-i]];
-        for(j=0;j<3;j++) v[i].n[j]=source->valid?source->v[j]*(j==2?-1.f:1.f):(float)(n[j]/length);
-        if(!LW_ADD(g->vertices,v[i],e)) return 0;
-    }
+static int triangle(GGroup *g,const LWObject *o,uint32_t polygon,const uint32_t corners[3],size_t triangle_corner,const LWUV *uv,const LWNormals *normals,LWError *e) {
+    GVertex v[3]; size_t i;
+    if(uv&&o->normal_first&&o->normal_first[polygon]!=SIZE_MAX) {
+        memcpy(v,o->normal_vertices.v+o->normal_first[polygon]+triangle_corner,sizeof v);
+    } else if(!lw_render_triangle(o,polygon,corners,uv,normals,v,e)) return 0;
+    for(i=0;i<3;i++) if(!LW_ADD(g->vertices,v[i],e)) return 0;
     return 1;
 }
 static int derive(GDocument *doc,size_t asset,uint32_t request,GGroups *groups,LWError *e) {
@@ -91,7 +85,7 @@ static int derive(GDocument *doc,size_t asset,uint32_t request,GGroups *groups,L
             if(has_uv) for(j=0;j<p->count;j++) if(!uv[p->first+j].valid) { has_uv=0; s->uv_missing++; }
             g=group(groups,p->material,4,has_uv,e);
             if(!g) { lw_free_triangulation(&t); goto done; }
-            for(j=0;j<t.corners.n;j+=3) if(!triangle(g,o,(uint32_t)i,t.corners.v+j,has_uv?uv:NULL,&normals,e)) { lw_free_triangulation(&t); goto done; }
+            for(j=0;j<t.corners.n;j+=3) if(!triangle(g,o,(uint32_t)i,t.corners.v+j,j,has_uv?uv:NULL,&normals,e)) { lw_free_triangulation(&t); goto done; }
             for(j=0;j<t.corners.n;j++) used[o->indices.v[p->first+t.corners.v[j]]]=1;
             s->triangles+=t.corners.n/3; s->triangulated_faces+=p->count>3;
             s->bridged_faces+=t.bridges!=0; s->nonplanar_faces+=t.nonplanar!=0; s->removed_corners+=t.removed_corners;
@@ -133,20 +127,22 @@ static int texture_index(GDocument *doc,const char *uri,size_t *index,LWError *e
     *index=doc->textures.n; return LW_ADD(doc->textures,uri,e);
 }
 static int material_index(GDocument *doc,size_t asset,uint32_t index,int uv,size_t *result,LWError *e) {
-    GMaterial m={0}; size_t i; m.asset=asset; m.index=index; m.uv=uv; m.base=m.emissive=m.specular=SIZE_MAX;
+    GMaterial m={0}; size_t i; m.asset=asset; m.index=index; m.uv=uv; m.base=m.emissive=m.specular=m.normal=SIZE_MAX;
     for(i=0;i<doc->materials.n;i++) if(doc->materials.v[i].asset==asset&&doc->materials.v[i].index==index&&doc->materials.v[i].uv==uv) { *result=i; return 1; }
     *result=doc->materials.n;
     if(index<doc->package->objects.v[asset].materials.n) {
         uint32_t side=doc->package->objects.v[asset].materials.v[index].side;
         const LWMaterial *native=&doc->package->objects.v[asset].materials.v[index];
         if(side!=1&&side!=3) doc->stats->unsupported_sidedness++;
-        if(uv&&(!texture_index(doc,native->base_texture,&m.base,e)||!texture_index(doc,native->emissive_texture,&m.emissive,e)||!texture_index(doc,native->specular_texture,&m.specular,e))) return 0;
+        if(uv&&(!texture_index(doc,native->base_texture,&m.base,e)||!texture_index(doc,native->emissive_texture,&m.emissive,e)||!texture_index(doc,native->specular_texture,&m.specular,e)||!texture_index(doc,native->normal_texture,&m.normal,e))) return 0;
     }
     return LW_ADD(doc->materials,m,e);
 }
 static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
     GPrimitive p={0}; size_t i,j,bytes; uint32_t stride=12+(g->mode==4?12:0)+(g->uv?8:0);
     if(!g->vertices.n) return 1;
+    p.tangent=g->mode==4&&g->uv&&g->material<doc->package->objects.v[asset].materials.n&&doc->package->objects.v[asset].materials.v[g->material].normal_texture!=NULL;
+    if(p.tangent) stride+=16;
     if(g->vertices.n>UINT32_MAX/(stride+12)) return lw_error(e,0,"glTF","primitive buffer exceeds 4 GiB");
     bytes=g->vertices.n*(stride+12);
     if(doc->rig&&doc->rig->weighted) {
@@ -167,6 +163,7 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
         for(j=0;j<3;j++) { f32(doc->bin,v->p[j]); p.low[j]=fminf(p.low[j],v->p[j]); p.high[j]=fmaxf(p.high[j],v->p[j]); }
         if(g->mode==4) for(j=0;j<3;j++) f32(doc->bin,v->n[j]);
         if(g->uv) for(j=0;j<2;j++) f32(doc->bin,v->uv[j]);
+        if(p.tangent) for(j=0;j<4;j++) f32(doc->bin,v->tangent[j]);
     }
     /* Source mapping is application data in the same binary buffer. It is not
        a glTF vertex attribute (uint32 is not a portable attribute encoding). */
@@ -175,7 +172,7 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
     }
     if(p.skin_sets) {
         size_t set,k; p.skin_offset=p.map_offset+12*p.count; p.skin_view=doc->skin_views;
-        p.skin_accessor=doc->accessors+1+(g->mode==4?1:0)+(g->uv?1:0);
+        p.skin_accessor=doc->accessors+1+(g->mode==4?1:0)+(g->uv?1:0)+(p.tangent?1:0);
         for(set=0;set<p.skin_sets;set++) for(i=0;i<g->vertices.n;i++) {
             const LWRigPoint *point=&doc->rig->points[g->vertices.v[i].point];
             for(k=0;k<4;k++) { size_t index=4*set+k; u16(doc->bin,index<point->count?doc->rig->influences.v[point->first+index].joint:0); }
@@ -184,7 +181,7 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
         doc->skin_views+=p.skin_sets;
     }
     if(ferror(doc->bin)) return lw_error(e,0,"glTF","cannot write geometry buffer");
-    doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0)+2*p.skin_sets;
+    doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0)+(p.tangent?1:0)+2*p.skin_sets;
     return LW_ADD(doc->primitives,p,e);
 }
 static int mesh_index(GDocument *doc,size_t asset,uint32_t layer,size_t *result,LWError *e) {
@@ -441,6 +438,7 @@ static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
     fprintf(f,",\"pbrMetallicRoughness\":{\"baseColorFactor\":[%.9g,%.9g,%.9g,%.9g],\"metallicFactor\":0,\"roughnessFactor\":1",color[0],color[1],color[2],alpha);
     if(entry->base!=SIZE_MAX) fprintf(f,",\"baseColorTexture\":{\"index\":%zu}",entry->base);
     fprintf(f,"},\"emissiveFactor\":[%.9g,%.9g,%.9g],\"alphaMode\":\"%s\",\"doubleSided\":%s",emissive[0],emissive[1],emissive[2],alpha<1||(entry->base!=SIZE_MAX&&m->texture_alpha)?"BLEND":"OPAQUE",two_sided?"true":"false");
+    if(entry->normal!=SIZE_MAX) fprintf(f,",\"normalTexture\":{\"index\":%zu}",entry->normal);
     if(entry->emissive!=SIZE_MAX) fprintf(f,",\"emissiveTexture\":{\"index\":%zu}",entry->emissive);
     if(entry->specular!=SIZE_MAX) fprintf(f,",\"extensions\":{\"KHR_materials_specular\":{\"specularFactor\":1,\"specularTexture\":{\"index\":%zu}}}",entry->specular);
     fprintf(f,",\"extras\":{\"source_asset_index\":%zu,\"source_surface_index\":",entry->asset);
@@ -563,6 +561,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
                 fprintf(f,"{\"attributes\":{\"POSITION\":%zu",p->accessor);
                 if(p->mode==4) fprintf(f,",\"NORMAL\":%zu",p->accessor+1);
                 if(p->uv) fprintf(f,",\"TEXCOORD_0\":%zu",p->accessor+2);
+                if(p->tangent) fprintf(f,",\"TANGENT\":%zu",p->accessor+3);
                 { size_t set; for(set=0;set<p->skin_sets;set++) fprintf(f,",\"JOINTS_%zu\":%zu,\"WEIGHTS_%zu\":%zu",set,p->skin_accessor+2*set,set,p->skin_accessor+2*set+1); }
                 fprintf(f,"},\"mode\":%u,\"material\":%zu,\"extras\":{\"source_map\":{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"count\":%zu,\"stride\":12,\"component_type\":\"uint32\",\"byte_order\":\"little\",\"fields\":[\"polygon\",\"corner\",\"point\"],\"null_index\":4294967295}}}",p->mode,p->material,p->map_offset,p->count*12,p->count);
             }
@@ -598,6 +597,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
             accessor(f,i,0,p->count,3,p->low,p->high);
             if(p->mode==4) { fputc(',',f); accessor(f,i,12,p->count,3,NULL,NULL); }
             if(p->uv) { fputc(',',f); accessor(f,i,24,p->count,2,NULL,NULL); }
+            if(p->tangent) { fputc(',',f); accessor(f,i,32,p->count,4,NULL,NULL); }
             { size_t set; for(set=0;set<p->skin_sets;set++) {
                 size_t view=doc->primitives.n+p->skin_view+set;
                 fprintf(f,",{\"bufferView\":%zu,\"byteOffset\":0,\"componentType\":5123,\"count\":%zu,\"type\":\"VEC4\"},",view,p->count);

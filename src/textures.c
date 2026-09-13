@@ -7,7 +7,7 @@ static double unit(double x) { return x<0?0:x>1?1:x; }
 static unsigned char byte(double x) { return (unsigned char)(unit(x)*255+.5); }
 static int spherical(const LWTexture *t) { return lw_string_is(t->type,"Spherical Image Map"); }
 static int native_uv(const LWTexture *t) { return t->block_type==TAG("IMAP")&&t->projection==5; }
-static const LWImageReference *pixels(const LWObject *o,size_t index) {
+const LWImageReference *lw_texture_pixels(const LWObject *o,size_t index) {
     size_t i; const LWImageReference *ref;
     if(index>=o->images.n) return NULL;
     ref=&o->images.v[index];
@@ -15,7 +15,7 @@ static const LWImageReference *pixels(const LWObject *o,size_t index) {
     if(ref->uri) for(i=0;i<index;i++) if(o->images.v[i].rgba&&o->images.v[i].uri&&!strcmp(o->images.v[i].uri,ref->uri)) return &o->images.v[i];
     return NULL;
 }
-static int same_mapping(const LWTexture *a,const LWTexture *b) {
+int lw_same_mapping(const LWTexture *a,const LWTexture *b) {
     if(native_uv(a)||native_uv(b)) return native_uv(a)&&native_uv(b)&&lw_string_equal(a->uv_map,b->uv_map)&&!memcmp(a->wrap,b->wrap,sizeof a->wrap);
     return lw_string_equal(a->type,b->type)&&(a->flags&7)==(b->flags&7)&&
         !memcmp(a->size,b->size,sizeof a->size)&&!memcmp(a->center,b->center,sizeof a->center)&&
@@ -23,9 +23,11 @@ static int same_mapping(const LWTexture *a,const LWTexture *b) {
 }
 static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError *e) {
     size_t i; const char *issue=NULL;
+    if(t->clip_scope) return 1; /* NormalShader uses a separate qualification/bake pass. */
     if(t->block_type) {
         const uint32_t channels[]={TAG("COLR"),TAG("DIFF"),TAG("LUMI"),TAG("SPEC"),TAG("TRAN"),TAG("BUMP")};
         if(!t->enabled) issue="disabled LWO2 texture block; preserved only";
+        else if(t->block_type!=TAG("IMAP")&&t->issue[0]) return 1;
         else if(t->block_type!=TAG("IMAP")) issue="LWO2 procedural, gradient or shader plugin; preserved only";
         else if(t->issue[0]) return 1;
         else if(!native_uv(t)) issue="LWO2 projection not supported; UV image maps only";
@@ -35,7 +37,7 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
         else if(t->coordinate_system||(t->reference_object.size&&!lw_string_is(t->reference_object,"(none)"))) issue="LWO2 texture reference object/world coordinates require evaluation";
         else if(!t->uv_map.size) issue="LWO2 UV image map has no named TXUV map";
         else if(opts->uv_map&&!lw_string_is(t->uv_map,opts->uv_map)) issue="explicit --uv-map differs from native texture binding";
-        else if(!pixels(o,t->image)) issue="image unresolved or cannot be decoded; see image_references";
+        else if(!lw_texture_pixels(o,t->image)) issue="image unresolved or cannot be decoded; see image_references";
         for(i=0;i<3&&!issue;i++) if(t->size[i]!=1||t->center[i]||t->rotation[i]||t->falloff[i]) issue="LWO2 texture transforms/falloff require evaluation";
         for(i=0;i<sizeof channels/sizeof *channels;i++) if(t->channel==channels[i]) break;
         if(!issue&&i==sizeof channels/sizeof *channels) issue="LWO2 texture channel not supported by target material";
@@ -60,7 +62,7 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
     }
     if(t->channel==TAG("REFL")) issue="environment/reflection requires target-specific lighting; preserved only";
     else if(!spherical(t)&&!lw_string_is(t->type,"Planar Image Map")) issue="procedural or unsupported projection; preserved only";
-    else if(!pixels(o,t->image)) issue="image unresolved or cannot be decoded; see image_references";
+    else if(!lw_texture_pixels(o,t->image)) issue="image unresolved or cannot be decoded; see image_references";
     else if(opts->uv_map) issue="explicit --uv-map overrides projection; automatic texture binding disabled";
     else if(t->flags&~127u) issue="unsupported texture flags";
     else if(t->flags&8) issue="world-coordinate projection requires per-instance baking";
@@ -78,7 +80,7 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
    agree. Scalar maps interpolate the surface value (black) toward TVAL (white).
    This is a documented preview approximation, not a LightWave shader evaluator. */
 static void sample(const LWObject *o,const LWTexture *t,int x,int y,int w,int h,double color[4]) {
-    const LWImageReference *image=pixels(o,t->image); size_t k;
+    const LWImageReference *image=lw_texture_pixels(o,t->image); size_t k;
     size_t sx=((size_t)x*2+1)*(size_t)image->width/((size_t)w*2),sy=((size_t)y*2+1)*(size_t)image->height/((size_t)h*2);
     const unsigned char *p=image->rgba+4*(sy*(size_t)image->width+sx);
     for(k=0;k<4;k++) color[k]=p[k]/255.0;
@@ -98,7 +100,7 @@ static double intensity(double c,double value) {
     linear=unit(linear*unit(value));
     return linear<=.0031308?12.92*linear:1.055*pow(linear,1/2.4)-.055;
 }
-static int save_map(const char *dir,const char *output,const unsigned char *rgba,int w,int h,char **uri,LWError *e) {
+int lw_save_texture(const char *dir,const char *output,const unsigned char *rgba,int w,int h,char **uri,LWError *e) {
     char *path=NULL; LWSource data={0}; size_t i; int ok=0;
     const char *formats[]={"obj","gltf"};
     if(!lw_encode_png(rgba,w,h,&data,e)) goto done;
@@ -132,15 +134,15 @@ int lw_prepare_textures(const char *dir,const char *output,LWObject *o,const LWO
             LWTexture *t=&o->textures.v[j];
             if(!t->supported||t->material!=i||t->channel!=channels[k]) continue;
             if(m->projection_texture==SIZE_MAX) m->projection_texture=j;
-            if(maps[k]||!same_mapping(&o->textures.v[m->projection_texture],t)) {
+            if(maps[k]||!lw_same_mapping(&o->textures.v[m->projection_texture],t)) {
                 t->supported=0; snprintf(t->issue,sizeof t->issue,"additional layer or incompatible projection; preserved only");
             } else maps[k]=t;
         }
         if(m->projection_texture==SIZE_MAX) continue;
-        image=pixels(o,o->textures.v[m->projection_texture].image); w=image->width; h=image->height;
+        image=lw_texture_pixels(o,o->textures.v[m->projection_texture].image); w=image->width; h=image->height;
         /* Use the largest participating map without changing aspect/UV space. */
         for(k=0;k<6;k++) if(maps[k]) {
-            image=pixels(o,maps[k]->image);
+            image=lw_texture_pixels(o,maps[k]->image);
             if((size_t)image->width*image->height>(size_t)w*h) { w=image->width; h=image->height; }
         }
         rgba=malloc((size_t)w*h*4);
@@ -170,7 +172,7 @@ int lw_prepare_textures(const char *dir,const char *output,LWObject *o,const LWO
                     sample(o,maps[5],x,y,w,h,c); p[0]=p[1]=p[2]=byte((c[0]+c[1]+c[2])/3); p[3]=255;
                 }
             }
-            if(!save_map(dir,output,rgba,w,h,destination,e)) { free(rgba); return 0; }
+            if(!lw_save_texture(dir,output,rgba,w,h,destination,e)) { free(rgba); return 0; }
         }
         free(rgba);
     }
@@ -253,6 +255,8 @@ void lw_json_textures(FILE *f,const LWObject *o,uint32_t material) {
             fputs(",\"reference_object\":",f); lw_json_name(f,t->reference_object);
             fputs(",\"shader\":",f); lw_json_name(f,t->shader); fputc('}',f);
         }
+        if(t->clip_scope) fprintf(f,",\"normal_shader\":{\"scope\":%zu,\"source_shader_offset\":%zu,\"native_NSNS\":%u,\"binding\":\"single private image and UV layer\"}",t->clip_scope,t->clip_scope-1,t->native_normal_space);
+        if(t->normal) { fputs(",\"normal_conversion\":",f); lw_json_normal_conversion(f,t->normal); }
         fprintf(f,",\"flags\":%u,\"wrap\":[%u,%u],\"size\":",t->flags,t->wrap[0],t->wrap[1]); vector_json(f,t->size);
         fputs(",\"center\":",f); vector_json(f,t->center); fputs(",\"falloff\":",f); vector_json(f,t->falloff); fputs(",\"velocity\":",f); vector_json(f,t->velocity);
         fprintf(f,",\"value\":%.9g,\"amplitude\":%.9g,\"tiles\":[%.9g,%.9g],\"export_status\":\"%s\",\"issue\":",t->value,t->amplitude,t->tiles[0],t->tiles[1],t->supported?"approximated":"preserved-only"); lw_json_string(f,t->issue);

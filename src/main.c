@@ -13,6 +13,9 @@ static void help(void) {
          "Options:\n  --content-root DIRECTORY  Virtual content root (default: input directory)\n"
          "  --map PREFIX=DIRECTORY    Explicit historic path mapping (repeatable)\n"
          "  --frame NUMBER            OBJ/glTF snapshot frame (default: scene FirstFrame)\n"
+         "  --normal-space auto|object|world|tangent|off  NormalShader vector space (default: auto)\n"
+         "  --normal-green positive|negative  Source green sign (default: positive)\n"
+         "  --normal-world-matrix a,b,c,d,e,f,g,h,i  Row-major object-to-world bake matrix (world mode)\n"
          "  --uv-map NAME             Export this native TXUV map, including VMAD seams\n"
          "  --gltf-rigs skins|all     Separate rigs: usable skins (default), or also unbound rest skeletons\n"
          "  --skin-profile auto|lightwave6|lightwave96  Missing-map semantics (default: oldest supported for file)\n"
@@ -50,6 +53,26 @@ static int run(int argc,char **argv) {
         if(!strcmp(name,"--output")&&!opts.output) opts.output=lw_absolute(value);
         else if(!strcmp(name,"--content-root")&&!opts.root) opts.root=lw_absolute(value);
         else if(!strcmp(name,"--uv-map")&&!opts.uv_map) opts.uv_map=lw_dup(value);
+        else if(!strcmp(name,"--normal-space")) {
+            int space; for(space=0;space<5;space++) if(!strcmp(value,lw_normal_space_name(space))) break;
+            if(space==5) { lw_error(&error,0,"arguments","invalid --normal-space"); goto done; }
+            opts.normal_space=space;
+        } else if(!strcmp(name,"--normal-green")) {
+            if(strcmp(value,"positive")&&strcmp(value,"negative")) { lw_error(&error,0,"arguments","invalid --normal-green"); goto done; }
+            opts.normal_green_negative=!strcmp(value,"negative");
+        } else if(!strcmp(name,"--normal-world-matrix")) {
+            const char *at=value; size_t k; double *m=opts.normal_world_matrix,det,scale=0;
+            for(k=0;k<9;k++) {
+                char *end; errno=0; m[k]=strtod(at,&end);
+                if(end==at||errno||!isfinite(m[k])||(k<8?*end!=',':*end!=0)) { lw_error(&error,0,"arguments","expected nine finite matrix coefficients separated by commas"); goto done; }
+                scale=fmax(scale,fabs(m[k])); at=end+(k<8?1:0);
+            }
+            if(!scale) { lw_error(&error,0,"arguments","singular normal bake matrix"); goto done; }
+            { double a[9]; for(k=0;k<9;k++) a[k]=m[k]/scale;
+              det=a[0]*(a[4]*a[8]-a[5]*a[7])-a[1]*(a[3]*a[8]-a[5]*a[6])+a[2]*(a[3]*a[7]-a[4]*a[6]); }
+            if(!isfinite(det)||fabs(det)<1e-12) { lw_error(&error,0,"arguments","singular or ill-conditioned normal bake matrix"); goto done; }
+            opts.normal_world_matrix_set=1;
+        }
         else if(!strcmp(name,"--bake-ik")) {
             if(strcmp(value,"auto")&&strcmp(value,"off")) { lw_error(&error,0,"arguments","--bake-ik must be auto or off"); goto done; }
             opts.no_bake_ik=!strcmp(value,"off");
@@ -77,6 +100,7 @@ static int run(int argc,char **argv) {
             if(!LW_ADD(opts.rules,rule,&error)) { free(rule.prefix); free(rule.destination); goto done; }
         } else { lw_error(&error,0,"arguments","unknown or duplicate option: %s",name); goto done; }
     }
+    if((opts.normal_space==2)!=opts.normal_world_matrix_set) { lw_error(&error,0,"arguments","world normal space requires --normal-world-matrix; matrix is only valid in world mode"); goto done; }
     if(!opts.output) { lw_error(&error,0,"arguments","--output NEW_DIRECTORY is required"); goto done; }
     if(!opts.root) opts.root=lw_dirname(opts.input);
     if(!opts.root) { lw_error(&error,0,"allocation","cannot allocate content root"); goto done; }

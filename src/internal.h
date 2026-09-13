@@ -54,6 +54,8 @@ typedef struct {
 typedef struct {
     char *input, *output, *root, *uv_map;
     double frame;
+    int normal_space, normal_green_negative, normal_world_matrix_set;
+    double normal_world_matrix[9]; /* Row-major object-to-world linear transform at source bake. */
     int frame_set, gltf_all_rigs, legacy_bone_maps, skin_profile_set, no_bake_ik;
     LW_ARRAY(LWRule) rules;
 } LWOptions;
@@ -84,6 +86,12 @@ int lw_save_png(const char *,const unsigned char *,int,int,char [65],LWError *);
 int lw_encode_png(const unsigned char *,int,int,LWSource *,LWError *);
 int lw_prepare_textures(const char *,const char *,LWObject *,const LWOptions *,LWError *);
 void lw_json_textures(FILE *,const LWObject *,uint32_t);
+const LWImageReference *lw_texture_pixels(const LWObject *,size_t);
+int lw_same_mapping(const LWTexture *,const LWTexture *);
+int lw_save_texture(const char *,const char *,const unsigned char *,int,int,char **,LWError *);
+int lw_prepare_normal_maps(const char *,const char *,LWObject *,const LWOptions *,LWError *);
+void lw_json_normal_conversion(FILE *,const LWNormalConversion *);
+const char *lw_normal_space_name(int); /* auto=0, object=1, world=2, tangent=3, off=4 */
 typedef struct {
     size_t skipped, cages, control_curves, uv_missing;
     size_t normal_issues;
@@ -112,6 +120,7 @@ typedef struct {
 float lw_smoothing_angle(const LWObject *,uint32_t,const char **,int *);
 int lw_corner_normals(const LWObject *,LWNormals *,LWError *);
 void lw_free_normals(LWNormals *);
+int lw_render_triangle(const LWObject *,uint32_t,const uint32_t [3],const LWUV *,const LWNormals *,LWRenderVertex [3],LWError *);
 int lw_transform_normal(const double [16],const float [3],double [3]);
 typedef struct {
     LWExportStats geometry;

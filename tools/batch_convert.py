@@ -107,8 +107,8 @@ def convert_one(record, number, content, run, converter, options, project_output
     command += ["--gltf-rigs", "all" if options.lightwave_root else options.gltf_rigs]
     command += ["--skin-profile", options.skin_profile]
     command += ["--bake-ik", "off" if options.lightwave_root else options.bake_ik]
-    for option in ("frame", "uv_map"):
-        value = getattr(options, option)
+    for option in ("frame", "uv_map", "normal_space", "normal_green", "normal_world_matrix"):
+        value = getattr(options, option, None)
         if value is not None:
             command += ["--" + option.replace("_", "-"), str(value)]
     for rule in options.map:
@@ -192,6 +192,9 @@ def main(argv=None):
     parser.add_argument("--timeout", type=float, default=120, help="Maximum seconds per conversion (default: 120)")
     parser.add_argument("--frame", type=float, help="Override the OBJ snapshot and initial glTF pose; scene clips keep their playback range")
     parser.add_argument("--uv-map", help="Explicit native TXUV map name passed to every conversion")
+    parser.add_argument("--normal-space", choices=("auto", "object", "world", "tangent", "off"), default="auto", help="NormalShader source space (default: conservative object-space inference)")
+    parser.add_argument("--normal-green", choices=("positive", "negative"), default="positive", help="Source normal green sign")
+    parser.add_argument("--normal-world-matrix", help="Nine comma-separated row-major object-to-world coefficients at source normal bake")
     parser.add_argument("--gltf-rigs", choices=("skins", "all"), default="skins", help="Separate rigs: usable skins (default), or also unbound rest skeletons")
     parser.add_argument("--bake-ik", choices=("auto", "off"), default="auto", help="Autonomous C skeletal FK/IK bake (default: auto, approximate IK); explicit native runtime takes precedence")
     parser.add_argument("--lightwave-root",type=Path,help="Evaluate native rigs and missing rigid-object scene assemblies using this installed LightWave root")
@@ -221,6 +224,15 @@ def main(argv=None):
         parser.error("--animation-step must be positive")
     if not options.lightwave_root and (options.runtime or options.skip_plugin or options.animation_mode!="auto" or options.capture_plugin or options.animation_start is not None or options.animation_end is not None or options.animation_step!=1):
         parser.error("Native animation options require --lightwave-root")
+    if (options.normal_space == "world") != (options.normal_world_matrix is not None):
+        parser.error("--normal-space world requires --normal-world-matrix, which is only valid in world mode")
+    if options.normal_world_matrix is not None:
+        try:
+            coefficients = [float(x) for x in options.normal_world_matrix.split(",")]
+            if len(coefficients) != 9 or not all(math.isfinite(x) for x in coefficients):
+                raise ValueError()
+        except ValueError:
+            parser.error("--normal-world-matrix requires nine finite coefficients separated by commas")
     options.runtime = options.runtime or "auto"
     if options.skin_profile in (None, "auto"):
         options.skin_profile = options.runtime
@@ -259,6 +271,7 @@ def main(argv=None):
     report_options = {"project": options.project, "file": options.file, "gltf_rigs": options.gltf_rigs, "skin_profile": options.skin_profile,
                       "bake_ik": "off" if options.lightwave_root else options.bake_ik,
                       "runtime": options.runtime if options.lightwave_root else None, "skip_plugin": options.skip_plugin, "animation_mode": options.animation_mode,
+                      "normal_space": options.normal_space, "normal_green": options.normal_green, "normal_world_matrix": options.normal_world_matrix,
                       "frame": options.frame, "uv_map": options.uv_map, "map": options.map, "timeout": options.timeout,
                       "lightwave_root": str(options.lightwave_root.resolve()) if options.lightwave_root else None,
                       "capture_plugin": str(options.capture_plugin.resolve()) if options.capture_plugin else None,

@@ -2,6 +2,10 @@
 
 Étude du 12 septembre 2026, à partir d’`aircon` et du convertisseur 0.12.0.
 
+Mise à jour du 13 septembre : le premier profil est implémenté dans la version
+0.13.0. Voir le [fonctionnement et les mesures de validation](normal-maps.md).
+Le texte ci-dessous conserve les observations et propositions initiales.
+
 **La démarche est faisable en C autonome.** Une carte contenant les normales
 en espace objet peut être réencodée dans l’espace tangent du maillage exporté.
 Il suffit de disposer de la correspondance UV, des normales de shading et du

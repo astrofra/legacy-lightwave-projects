@@ -1,4 +1,4 @@
-# Texture profile — v0.12.0
+# Texture profile — v0.13.0
 
 The motivating project is `content/orange-juice-signage`. Its scene loads the
 textured LWOB object `oj_tv_mesh_t.lwo`: `screen.iff` supplies the screen's color;
@@ -136,10 +136,12 @@ The `aircon_target` material now has color and specular maps. The screen uses th
 same color atlas for emission with native diffuse=0 and luminosity=1. The third
 image (`aircon_norm.tga`, available as JPG) belongs to a private `NormalShader`
 payload with a plugin-local CLIP, not the object's global CLIP table. That shader
-is named and reported as preserved-only; its normal-map behavior is not inferred
-from a filename. `FPrime` likewise remains a preserved shader.
-See the [normal-map conversion feasibility study](normal-map-conversion-feasibility.md)
-for measured object-space evidence and the proposed MikkTSpace conversion path.
+is now decoded by the bounded v0.13.0 NormalShader profile, with a separate private
+image scope. Its object-space normal map is inferred and reencoded as a tangent
+PNG with explicit glTF tangents. `FPrime` remains a preserved shader.
+See the [implemented normal-map profile and QA](normal-maps.md) for options,
+abstention rules, world-space conversion and measured rendering differences.
+The following texture QA records the earlier v0.12.0 color/specular work.
 
 QA batch: `build/aircon-textures-qa/batch-20260912-224012` (kept outside the
 regular output cleanup). The LWO and LWS were converted through
