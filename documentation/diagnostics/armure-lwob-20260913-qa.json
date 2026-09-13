@@ -1,0 +1,491 @@
+{
+  "date": "2026-09-13",
+  "batch": "output/batch-20260913-191158",
+  "converter": "0.15.0",
+  "conclusion": "The malformed MAN Test armure --- topology is present in the LWOB source and independently reproduced by LightWave 9.6. MAN Test armure is intact. No converter or source changes.",
+  "scope": "Source PNTS/POLS independently decoded and compared with IR; every emitted glTF corner checked against source with Z reflection; actual Blender triangle import compared with the glTF buffer. Source polygon tessellation, shading and surfaces are not claimed identical to LightWave rendering. The damaged file omits 75 untriangulatable polygons.",
+  "native_oracle": {
+    "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+    "helper_sha256": "a08d694d100a8476d589d67fde78654ce981291b80f7862cbc99e49c224592df",
+    "runtime_profile": "lightwave96",
+    "removed_display_plugins": [],
+    "explicitly_skipped_plugins": [],
+    "retained_animation_plugins": [],
+    "modules": [
+      {
+        "class": "ImageFilterHandler",
+        "name": "LWConvertCapture",
+        "path": "S:/works/legacy-lightwave-projects/bin/win64/lw_capture.p",
+        "sha256": "a08d694d100a8476d589d67fde78654ce981291b80f7862cbc99e49c224592df"
+      }
+    ],
+    "overrides": {
+      "SubPatchLevel": "0 0",
+      "render_image_prefixes": "frames/preview",
+      "FrameSize": "8 8",
+      "ResolutionMultiplier": "1",
+      "Antialiasing": "0",
+      "EnhancedAA": "0",
+      "MotionBlur": "0",
+      "DepthOfField": "0",
+      "Radiosity": "0",
+      "SaveRGB": "0",
+      "SaveAlpha": "0",
+      "RenderThreads": "1"
+    },
+    "working_scene_sha256": "f9a61b0a847118de5d829dfc3fa83e0c350fa3b406d2c9163595af7718473485"
+  },
+  "files": [
+    {
+      "source": "content/1st-year-student-amiga-project/armure/MAN Test armure",
+      "sha256": "123bce1b3b1c5d299026e0a5b01131116f673b0820b696e0f138aa271cbf3990",
+      "gltf": "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure.lwo.gltf",
+      "points": 1920,
+      "polygons": 3006,
+      "polygon_arities": {
+        "3": 3006
+      },
+      "ir_points_indices_surfaces_exact": true,
+      "gltf_corners_exact_source_points": true,
+      "max_position_error": 0.0,
+      "gltf_triangles": 3006,
+      "omitted_polygons": 0,
+      "longest_source_edges": [
+        {
+          "length": 4.916055841828733,
+          "polygon": 790,
+          "points": [
+            438,
+            434
+          ],
+          "coordinates": [
+            [
+              3.8299992084503174,
+              -5.310001373291016,
+              -3.020000457763672
+            ],
+            [
+              6.089999198913574,
+              -1.21000075340271,
+              -1.5200004577636719
+            ]
+          ]
+        },
+        {
+          "length": 4.916055841828733,
+          "polygon": 781,
+          "points": [
+            434,
+            438
+          ],
+          "coordinates": [
+            [
+              6.089999198913574,
+              -1.21000075340271,
+              -1.5200004577636719
+            ],
+            [
+              3.8299992084503174,
+              -5.310001373291016,
+              -3.020000457763672
+            ]
+          ]
+        },
+        {
+          "length": 4.541980412505616,
+          "polygon": 774,
+          "points": [
+            429,
+            421
+          ],
+          "coordinates": [
+            [
+              3.7300007343292236,
+              -2.1499993801116943,
+              -2.979999542236328
+            ],
+            [
+              5.669999122619629,
+              1.5699996948242188,
+              -1.239999771118164
+            ]
+          ]
+        },
+        {
+          "length": 4.541980412505616,
+          "polygon": 765,
+          "points": [
+            421,
+            429
+          ],
+          "coordinates": [
+            [
+              5.669999122619629,
+              1.5699996948242188,
+              -1.239999771118164
+            ],
+            [
+              3.7300007343292236,
+              -2.1499993801116943,
+              -2.979999542236328
+            ]
+          ]
+        },
+        {
+          "length": 4.486781299046919,
+          "polygon": 791,
+          "points": [
+            434,
+            437
+          ],
+          "coordinates": [
+            [
+              6.089999198913574,
+              -1.21000075340271,
+              -1.5200004577636719
+            ],
+            [
+              6.289999961853027,
+              -4.970001220703125,
+              0.9200000762939453
+            ]
+          ]
+        },
+        {
+          "length": 4.486781299046919,
+          "polygon": 780,
+          "points": [
+            437,
+            434
+          ],
+          "coordinates": [
+            [
+              6.289999961853027,
+              -4.970001220703125,
+              0.9200000762939453
+            ],
+            [
+              6.089999198913574,
+              -1.21000075340271,
+              -1.5200004577636719
+            ]
+          ]
+        },
+        {
+          "length": 4.483614933818028,
+          "polygon": 906,
+          "points": [
+            492,
+            506
+          ],
+          "coordinates": [
+            [
+              -4.1100006103515625,
+              -5.190000534057617,
+              -2.8000011444091797
+            ],
+            [
+              -1.950000524520874,
+              -8.950000762939453,
+              -1.6600008010864258
+            ]
+          ]
+        },
+        {
+          "length": 4.483614933818028,
+          "polygon": 905,
+          "points": [
+            506,
+            492
+          ],
+          "coordinates": [
+            [
+              -1.950000524520874,
+              -8.950000762939453,
+              -1.6600008010864258
+            ],
+            [
+              -4.1100006103515625,
+              -5.190000534057617,
+              -2.8000011444091797
+            ]
+          ]
+        }
+      ],
+      "native_lightwave96": {
+        "points": 1920,
+        "polygons": 3006,
+        "exact_polygon_indices_and_order": true,
+        "positions_exact_at_source_float32_precision": true,
+        "max_decimal_capture_position_error": 4.981658347635374e-08,
+        "undefined_corner_normals": 0,
+        "capture_sha256": "4e0d4f8041cf3e0bca4629a163afe7aa0d8f6917b1d2f91d2bb728dece761c68"
+      },
+      "referenced_points": 1920,
+      "unreferenced_points": 0,
+      "highest_referenced_point": 1919,
+      "all_points_below_2048_referenced": false,
+      "source_unchanged_after_qa": true,
+      "artifacts": {
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure.lwo.gltf": "887f7dc4651a7aa13b2a0d92d3c4d8599bc07a3a598d02d4c5749c3ce9feb57c",
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure.lwo.bin": "50f547a705b3ed525a5add9a164d88382deae24063560528c80b3191e0e5d9d1",
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/IR/armure/MAN_Test_armure.lwo/object.json": "f86017b117bc1ffbc9496bde08a40b5a9de5ec20a7ee5aa8de8c904672b5adc5",
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/IR/armure/MAN_Test_armure.lwo/geometry.bin": "03ff60a5c24b8e58677a784f30b7d5289f54379cb880b1bd63265b587ee30590"
+      }
+    },
+    {
+      "source": "content/1st-year-student-amiga-project/armure/MAN Test armure ---",
+      "sha256": "fa652f31d2c22453735c2b402933c6c2eb33143d1a93197f8fe075554f73efc4",
+      "gltf": "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure_---.lwo.gltf",
+      "points": 3538,
+      "polygons": 4283,
+      "polygon_arities": {
+        "2": 4,
+        "3": 3551,
+        "4": 489,
+        "5": 110,
+        "6": 69,
+        "7": 19,
+        "8": 7,
+        "9": 7,
+        "10": 3,
+        "11": 1,
+        "12": 1,
+        "16": 12,
+        "19": 2,
+        "34": 8
+      },
+      "ir_points_indices_surfaces_exact": true,
+      "gltf_corners_exact_source_points": true,
+      "max_position_error": 0.0,
+      "gltf_triangles": 5569,
+      "omitted_polygons": 75,
+      "longest_source_edges": [
+        {
+          "length": 25.39873749791989,
+          "polygon": 2715,
+          "points": [
+            0,
+            2046
+          ],
+          "coordinates": [
+            [
+              -10.183953285217285,
+              11.222833633422852,
+              0.6451511383056641
+            ],
+            [
+              9.34999942779541,
+              -5.010000228881836,
+              0.5200004577636719
+            ]
+          ]
+        },
+        {
+          "length": 24.5280471055068,
+          "polygon": 2732,
+          "points": [
+            8,
+            2047
+          ],
+          "coordinates": [
+            [
+              -10.265466690063477,
+              10.291157722473145,
+              1.8000001907348633
+            ],
+            [
+              9.289998054504395,
+              -4.430000305175781,
+              0.2200002670288086
+            ]
+          ]
+        },
+        {
+          "length": 24.5280471055068,
+          "polygon": 2724,
+          "points": [
+            2047,
+            8
+          ],
+          "coordinates": [
+            [
+              9.289998054504395,
+              -4.430000305175781,
+              0.2200002670288086
+            ],
+            [
+              -10.265466690063477,
+              10.291157722473145,
+              1.8000001907348633
+            ]
+          ]
+        },
+        {
+          "length": 21.764848851710543,
+          "polygon": 2721,
+          "points": [
+            1,
+            2046
+          ],
+          "coordinates": [
+            [
+              -5.586065292358398,
+              10.82056999206543,
+              0.6451511383056641
+            ],
+            [
+              9.34999942779541,
+              -5.010000228881836,
+              0.5200004577636719
+            ]
+          ]
+        },
+        {
+          "length": 21.764848851710543,
+          "polygon": 2715,
+          "points": [
+            2046,
+            1
+          ],
+          "coordinates": [
+            [
+              9.34999942779541,
+              -5.010000228881836,
+              0.5200004577636719
+            ],
+            [
+              -5.586065292358398,
+              10.82056999206543,
+              0.6451511383056641
+            ]
+          ]
+        },
+        {
+          "length": 21.308634596198743,
+          "polygon": 2724,
+          "points": [
+            1,
+            2047
+          ],
+          "coordinates": [
+            [
+              -5.586065292358398,
+              10.82056999206543,
+              0.6451511383056641
+            ],
+            [
+              9.289998054504395,
+              -4.430000305175781,
+              0.2200002670288086
+            ]
+          ]
+        },
+        {
+          "length": 21.308634596198743,
+          "polygon": 2721,
+          "points": [
+            2047,
+            1
+          ],
+          "coordinates": [
+            [
+              9.289998054504395,
+              -4.430000305175781,
+              0.2200002670288086
+            ],
+            [
+              -5.586065292358398,
+              10.82056999206543,
+              0.6451511383056641
+            ]
+          ]
+        },
+        {
+          "length": 20.808075299380338,
+          "polygon": 2732,
+          "points": [
+            2047,
+            7
+          ],
+          "coordinates": [
+            [
+              9.289998054504395,
+              -4.430000305175781,
+              0.2200002670288086
+            ],
+            [
+              -5.657524585723877,
+              10.003777503967285,
+              1.321645736694336
+            ]
+          ]
+        }
+      ],
+      "native_lightwave96": {
+        "points": 3538,
+        "polygons": 4283,
+        "exact_polygon_indices_and_order": true,
+        "positions_exact_at_source_float32_precision": true,
+        "max_decimal_capture_position_error": 6.008611681115823e-08,
+        "undefined_corner_normals": 6,
+        "capture_sha256": "4e0d4f8041cf3e0bca4629a163afe7aa0d8f6917b1d2f91d2bb728dece761c68"
+      },
+      "referenced_points": 2048,
+      "unreferenced_points": 1490,
+      "highest_referenced_point": 2047,
+      "all_points_below_2048_referenced": true,
+      "source_unchanged_after_qa": true,
+      "artifacts": {
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure_---.lwo.gltf": "af29887fa4f6e4c0e4f3978d782edbba5e7c6ddb1ac5f6e228032b579faccea1",
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure_---.lwo.bin": "16cdad0eb959d1c4132c1856e201199e2235cefa46d2ebde01dec85b260537d3",
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/IR/armure/MAN_Test_armure_---.lwo/object.json": "7906bfe3169bc9dd4d418315c083faa14d24afb64dc699e0040bcf9c7749d999",
+        "output/batch-20260913-191158/packages/1st-year-student-amiga-project/IR/armure/MAN_Test_armure_---.lwo/geometry.bin": "3afe1cd731f7b49ba2102f9f4283c6d5183d9d28c7f4346eb9e13212abb9ee9f"
+      }
+    }
+  ],
+  "blender": {
+    "blender_version": "4.2.0",
+    "results": [
+      {
+        "gltf": "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure.lwo.gltf",
+        "triangles": 3006,
+        "maximum_imported_corner_error": 0.0,
+        "tolerance": 0.0006894000244140625
+      },
+      {
+        "gltf": "output/batch-20260913-191158/packages/1st-year-student-amiga-project/gltf/armure/MAN_Test_armure_---.lwo.gltf",
+        "triangles": 5569,
+        "maximum_imported_corner_error": 0.0,
+        "tolerance": 0.0003068000030517578
+      }
+    ],
+    "render_scope": "Same view setup, neutral material and workbench lighting. Native SDK polygon mesh is tessellated by Blender for visualization. Numerical topology comparison precedes rendering; no subdivision or geometry repair."
+  },
+  "validator": {
+    "input": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-191158\\packages\\1st-year-student-amiga-project\\gltf\\armure",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 19,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "local_artifacts": {
+    "_tmp/armure-qa/check.py": "79218245ac66dba963f5d8ff979dc6c419491a88de16ad0b542bc24bd92ef452",
+    "_tmp/armure-qa/render.py": "6f5ad0fdc39f9a9870a2da320eaa2c8e16842e8d29c14a76d3387dfa1185e306",
+    "_tmp/armure-qa/0-gltf.png": "ec380e1611ea30419183caacc5b9c99c9cde656e12b246539647c9495e99d191",
+    "_tmp/armure-qa/1-native.png": "48e99e0d0ebc7bd61bfe773b0d766585e06a467465d6ed630035424af39e4dc0",
+    "_tmp/armure-qa/1-gltf.png": "355f20a34b11f8ca0e87a6516e0015d97dc8ecd2825bd6b4217115c38b10c666"
+  }
+}

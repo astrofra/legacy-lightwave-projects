@@ -1,0 +1,533 @@
+{
+  "date": "2026-09-13",
+  "converter_version": "0.15.1",
+  "source": "content/cyber-bot/bot_15.lwo",
+  "source_sha256": "84fb1db1a506a0ebfd8477a8ccc0dce39f6404ffcb805d2eef125e6ccc493652",
+  "source_and_ir_geometry_unchanged": true,
+  "old_exported_polygon_attributes_and_order_unchanged": true,
+  "materials_unchanged": true,
+  "recovered_faces": [
+    {
+      "polygon_zero_based": 339,
+      "source_indices": [
+        76,
+        375,
+        441,
+        442,
+        339,
+        340,
+        344,
+        343,
+        172,
+        343,
+        119,
+        75
+      ],
+      "triangles": 8,
+      "projected_area_coverage_ratio": 1.0,
+      "minimum_projected_double_triangle_area": 0.047368530318067315
+    },
+    {
+      "polygon_zero_based": 759,
+      "source_indices": [
+        542,
+        541,
+        585,
+        777,
+        638,
+        777,
+        778,
+        775,
+        774,
+        876,
+        875,
+        809
+      ],
+      "triangles": 8,
+      "projected_area_coverage_ratio": 1.0,
+      "minimum_projected_double_triangle_area": 0.02740876258201297
+    }
+  ],
+  "blender_imports": [
+    {
+      "output": "before",
+      "blender_version": "4.2.0",
+      "triangles": 17356,
+      "maximum_corner_error": 0.0,
+      "tolerance": 0.0005105232238769531
+    },
+    {
+      "output": "after",
+      "blender_version": "4.2.0",
+      "triangles": 17372,
+      "maximum_corner_error": 0.0,
+      "tolerance": 0.0005105232238769531
+    }
+  ],
+  "skipped_faces_before": 73,
+  "skipped_faces_after": 71,
+  "remaining_reasons": {
+    "self-intersecting, overlapping or touching boundary edges": 31,
+    "zero projected area or cancelling boundary": 40
+  },
+  "remaining_issues": [
+    {
+      "primitive": 2599,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2603,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2604,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2607,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2608,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2802,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2805,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2882,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2885,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2910,
+      "corners": 3,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 2911,
+      "corners": 3,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 2962,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 2965,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3644,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3648,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3649,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3652,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3847,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3850,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3927,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3930,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 3955,
+      "corners": 3,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 3956,
+      "corners": 3,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 4007,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 4010,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 6201,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 6203,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 6466,
+      "corners": 8,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 6518,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 6520,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 6903,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6904,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6905,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6906,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6907,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6908,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6909,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6910,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6911,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6912,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6913,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6914,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6915,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6916,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6917,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6918,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6919,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 6920,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 7834,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 7836,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 8099,
+      "corners": 8,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 8151,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 8153,
+      "corners": 4,
+      "nonplanar": 1,
+      "reason": "self-intersecting, overlapping or touching boundary edges"
+    },
+    {
+      "primitive": 8536,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8537,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8538,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8539,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8540,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8541,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8542,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8543,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8544,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8545,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8546,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8547,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8548,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8549,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8550,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8551,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8552,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    },
+    {
+      "primitive": 8553,
+      "corners": 4,
+      "nonplanar": 0,
+      "reason": "zero projected area or cancelling boundary"
+    }
+  ],
+  "binary_sha256": "627d9ca8bcb0002ead1cdd21b93c60af4c50c3ac04e40ae2c2b1f3dab365d639",
+  "gltf_sha256": "ddc9387d7762f394a94488454f90a9d908829d4c5b55df6d57758948880a0740",
+  "buffer_sha256": "570bfd6e9bf1f7df0487cdbf1c3067a0bc6390b6c9e19216c5825cc5fd61accf",
+  "validator": {
+    "input": "S:\\works\\legacy-lightwave-projects\\output\\qa-cyber-bot-20260913\\gltf",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 1,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "regressions": {
+    "release": {
+      "groups": 11,
+      "failures": 0
+    },
+    "address_sanitizer": {
+      "groups": 11,
+      "failures": 0
+    }
+  }
+}
