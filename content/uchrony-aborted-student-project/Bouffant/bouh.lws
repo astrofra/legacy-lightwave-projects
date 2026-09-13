@@ -1,0 +1,749 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 300
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 300
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject E:\Perso\projet 3d\Bouffant\bouffant.lwo
+ShowObject 2 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -0.0675 -0.03749999 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 1584
+PivotPoint 0 -0.0675 -0.03749999
+BoneFalloffType 3
+AddBone
+BoneName Bassin
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.000000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.212000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0.04749999 -0.025 0 96.3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+AddBone
+BoneName OS_Bassin_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.212000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.124000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.2119999 -80 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 56
+ParentObject 1
+AddBone
+BoneName OS_Bassin_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.212000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.124000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.2119999 80 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 1
+AddBone
+BoneName Cuisse_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.124000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.124000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.124 76.69998 -11.9 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 2
+AddBone
+BoneName Cuisse_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.124000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.124000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.124 -76.69999 -11.9 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 3
+AddBone
+BoneName Mollet_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.124000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.114000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.124 2.300001 -15.3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ParentObject 4
+AddBone
+BoneName Mollet_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.124000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.114000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.124 -2.3 -15.3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 5
+AddBone
+BoneName Pied_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.114000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.114000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.114 0 103.4 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 6
+AddBone
+BoneName Pied_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.114000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.114000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.114 0 103.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 7
+AddBone
+BoneName Dos
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.212000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.172000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 -0.0005001538 0 178.9 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 1
+AddBone
+BoneName Epaule_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.172000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.172000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.1719999 -92.79999 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 51
+ParentObject 10
+AddBone
+BoneName Epaule_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.172000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.172000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.1719999 92.8 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 10
+AddBone
+BoneName Bras_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.172000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.180000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.1719999 -2.999999 16.49999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 11
+AddBone
+BoneName Bras_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.172000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.180000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.1719999 3 16.5 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 12
+AddBone
+BoneName Avant_Bras_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.180000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.168000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.18 0 -18.39999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 13
+AddBone
+BoneName Avant_Bras_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.180000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.168000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.18 0 -18.4 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 14
+AddBone
+BoneName Poignet_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.168000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.048000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.168 0 4.5 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 15
+AddBone
+BoneName Poignet_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.168000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.048000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.168 0 4.5 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 16
+AddBone
+BoneName Paume_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.048000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.048000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.04800001 0 3.4 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 17
+AddBone
+BoneName Paume_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.048000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.048000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.048 0 3.4 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 18
+AddBone
+BoneName Phalanges_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.048000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.068000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.04800001 -17.1 5.3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 19
+AddBone
+BoneName Phalanges_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.048000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.068000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.048 17.1 5.3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 20
+AddBone
+BoneName Pouce_D
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.048000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.070000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.003000016 -20.7 -43.1 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 19
+AddBone
+BoneName Pouce_G
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.048000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.070000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.003 20.7 -43.1 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 51
+ParentObject 20
+AddBone
+BoneName Cou
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.172000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.064000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.172 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 10
+AddBone
+BoneName Tête
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.064000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.086000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.064 0 -76.69999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 25
+AddBone
+BoneName Haut_Tête
+ShowBone 1 7
+BoneActive 0
+BoneRestPosition 0.000000 0.000000 0.086000
+BoneRestDirection 0.000000 0.000000 0.000000
+BoneRestLength 0.146000
+ScaleBoneStrength 0
+BoneStrength 1.000000
+BoneMotion (unnamed)
+  9
+  1
+  0 0 0.08600003 0 149 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ParentObject 26
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Main Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -0.2740997 -1.8575 -0.7414591 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 255
+LgtIntensity 1.500000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 2
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 20.000000
+ShadowFuzziness 10.000000
+
+AddLight
+LightName BackLight
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0.4670873 2.04 0.1085122 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+TargetObject 1
+LightColor 255 255 255
+LgtIntensity 0.500000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 2
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 20.000000
+ShadowFuzziness 10.000000
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0 0.5831682 -1.701601 0 20.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 43
+ZoomFactor 3.200000
+Resolution -1
+PixelAspectRatio 2
+SegmentMemory 8050000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+GlowEffect 1
+GlowIntensity 0.500000
+GlowRadius 4.000000
+Plugin PixelFilterHandler 1 Steamer
+ 5.000000
+ 4.000000
+ 1.000000
+ 100.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+(none)
+Main Light
+ -1.000000
+ 1.000000
+ 9999.000000
+ 20.000000
+ 2.000000
+ 0.000000
+ 10.000000
+ 0.800000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 255.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+(none)
+ 3.000000
+ 0.100000
+ 0.000000
+ 1.000000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 1.000000
+ 1.000000
+ 0.600000
+Main Light
+Main Light
+ 30.000000
+ 20.000000
+ 9999.000000
+ 20.000000
+ 3.000000
+ 0.000000
+ 10.000000
+ 0.800000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 126.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 1.000000
+(none)
+ 3.000000
+ 0.100000
+ 0.000000
+ 0.010000
+ 0.000000
+ 0.200000
+ 0.000000
+ 0.000000
+ -1.000000
+ 0.000000
+ 0.000000
+(none)
+Main Light
+ 0.000000
+ 1.000000
+ 9999.000000
+ 20.000000
+ 2.000000
+ 0.000000
+ 10.000000
+ 0.800000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 255.000000
+ 255.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+(none)
+ 3.000000
+ 0.100000
+ 0.000000
+ 1.000000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 1.000000
+ 1.000000
+ 0.600000
+BackLight
+BackLight
+ 30.000000
+ 20.000000
+ 9999.000000
+ 20.000000
+ 2.000000
+ 0.000000
+ 10.000000
+ 0.800000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 127.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+ 0.000000
+(none)
+ 3.000000
+ 0.100000
+ 0.000000
+ 1.000000
+ 0.000000
+ 1.000000
+ 0.000000
+ 0.000000
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 2
+RayRecursionLimit 16
+DataOverlay 1
+DataOverlayLabel bouh.lws
+SaveAnimationName C:\WINDOWS\BUREAU\bouffant.avi
+AnimationType 1
+EndPlugin
+OutputFilenameFormat 1
+SaveRGBImagesPrefix E:\Perso\projet 3d\rendus\boufff.
+RGBImageFormat 2
+
+ViewMode 0
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 13.500000
+GridNumber 10
+GridSize 0.500000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

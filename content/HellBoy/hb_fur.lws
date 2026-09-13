@@ -1,0 +1,702 @@
+LWSC
+3
+
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+PreviewFirstFrame 0
+PreviewLastFrame 60
+PreviewFrameStep 1
+CurrentFrame 0
+FramesPerSecond 30
+Plugin MasterHandler 1 LW_LScriptCommander
+EndPlugin
+
+LoadObjectLayer 1 I:fra/3D/HellBoy/hellboy_03.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ShadowOptions 7
+
+LoadObjectLayer 2 I:fra/3D/HellBoy/hellboy_03.lwo
+ShowObject 6 3
+ObjectMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+Plugin DisplacementHandler 1 Sasquatch
+BEGIN WORLEY_LABS_PLUGIN Sasquatch
+# 2040145860 5130   x86 Sasquatch Version 1.6-HW Jul 15 2003
+# Saved Tue Sep 16 09:19:30 2003
+
+VERSION 1.6
+ BEGIN COLOR SALTDIFFUSEBCOLOR
+  RED 0
+  GREEN 0
+  BLUE 0
+ END
+ BEGIN COLOR SALTDIFFUSETCOLOR
+  RED 0
+  GREEN 0
+  BLUE 0
+ END
+ BEGIN COLOR PEPPERDIFFUSEBCOLOR
+  RED 0
+  GREEN 0
+  BLUE 0
+ END
+ BEGIN COLOR PEPPERDIFFUSETCOLOR
+  RED 0
+  GREEN 0
+  BLUE 0
+ END
+ BEGIN SURFVARY SPBIAS
+ VALUE 0.1
+ END
+ BEGIN SURFVARY SPGAIN
+ VALUE 0.1
+ END
+ BEGIN SURFVARY COLORSKEW
+ VALUE 0.5
+ END
+ BEGIN SURFVARY SKEWVARY
+ VALUE 0.1
+ END
+ BEGIN SURFVARY COLORSHARP
+ VALUE 0.5
+ END
+ BEGIN SURFVARY BRIGHTVARY
+ VALUE 0.25
+ END
+ BEGIN SURFVARY HUEVARY
+ VALUE 0.15
+ END
+ BEGIN SURFVARY CLUMPINHERIT
+ VALUE 0.7
+ END
+ BEGIN SURFVARY DIFFUSE
+ VALUE 0.1
+ END
+ BEGIN SURFVARY SPECULAR
+ VALUE 0.1
+ END
+ BEGIN SURFVARY GLOSS
+ VALUE 0.4
+ END
+ BEGIN SURFVARY SPECTINT
+ VALUE 0.25
+ END
+ BEGIN SURFVARY SCATTER
+ VALUE 0.9
+ END
+ BEGIN SURFVARY DIRECT
+ VALUE 0.9
+ END
+ BEGIN SURFVARY AMBIENT
+ VALUE 0.5
+ END
+ BEGIN SURFVARY SELF_SHADOW
+ VALUE 0.7
+ END
+ BEGIN SURFVARY DENSITY
+ VALUE 0.4
+ END
+ BEGIN NUM DENSITYANIM
+ VALUE 1
+ END
+ BEGIN SURFVARY LENGTH2
+ VALUE 0.55
+ END
+ BEGIN NUM LENGTHANIM
+ VALUE 1
+ END
+ BEGIN SURFVARY LENGTHVARY
+ VALUE 0.5
+ END
+ BEGIN SURFVARY COARSENESS
+ VALUE 7.5
+ END
+ BEGIN SURFVARY COARSEVARY
+ VALUE 0.1
+ END
+ BEGIN SURFVARY NARROWING
+ VALUE 0.05
+ END
+ BEGIN NUM SEGQUAL
+ VALUE 0.25
+ END
+ BEGIN NUM MANUALSIZE
+ VALUE 1
+ END
+ BEGIN BUTTON AUTOSIZE
+  CHECKED NO
+  HIGHLIGHTED YES
+ END
+ BEGIN NUM SUBDIVIDE
+ VALUE 0.05
+ END
+ BEGIN NUM POSEFRAME
+ VALUE 0
+ END
+ BEGIN RADIO ACTION
+  SELECTION 3
+ END
+ BEGIN RADIO SURFACETYPE
+  SELECTION 0
+ END
+ BEGIN STRING SURFACE
+  STRING2 4 @fur*
+ END
+ BEGIN NUM SURFCREEP
+ VALUE 0
+ END
+ BEGIN NUM SURFSOFT
+ VALUE 0
+ END
+ BEGIN SURFVARY HAIRWIDTH
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRTHICK
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRMERGE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY HAIRHELIX
+ VALUE 0
+ END
+ BEGIN NUM HAIRCLUMPS
+ VALUE 24
+ END
+ BEGIN NUM HAIRFIBERS
+ VALUE 1
+ END
+ BEGIN NUM HAIRSMOOTHING
+ VALUE 0.05
+ END
+ BEGIN NUM HAIRSIZEIND
+ VALUE 0.75
+ END
+ BEGIN NUM HAIRLENGTH
+ VALUE 1
+ END
+ BEGIN SURFVARY COMBSTRENGTH
+ VALUE 0
+ END
+ BEGIN RADIO COMBTYPE
+  SELECTION 0
+ END
+ BEGIN SURFVARY COMBBIAS
+ VALUE 0.1
+ END
+ BEGIN SURFVARY MAXSLEEK
+ VALUE 1
+ END
+ BEGIN SURFVARY TANGLE
+ VALUE 0.3
+ END
+ BEGIN SURFVARY BASEDROOP
+ VALUE 0.1
+ END
+ BEGIN SURFVARY TIPDROOP
+ VALUE 0.1
+ END
+ BEGIN SURFVARY CURL
+ VALUE 0
+ END
+ BEGIN SURFVARY CURLVARY
+ VALUE 0
+ END
+ BEGIN SURFVARY TIPCURL
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CURLDIRECTION
+ VALUE 0
+ END
+ BEGIN SURFVARY FRIZZ
+ VALUE 0.05
+ END
+ BEGIN SURFVARY KINK
+ VALUE 0.05
+ END
+ BEGIN SURFVARY KINKFREQ
+ VALUE 0.5
+ END
+ BEGIN SURFVARY WINDROOT
+ VALUE 0.5
+ END
+ BEGIN SURFVARY WINDTIP
+ VALUE 0.75
+ END
+ BEGIN SURFVARY FLOPROOT
+ VALUE 0
+ END
+ BEGIN SURFVARY FLOPTIP
+ VALUE 0
+ END
+ BEGIN NUM RESTORE
+ VALUE 0.5
+ END
+ BEGIN NUM DAMPING
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPCOUNT
+ VALUE 0.15
+ END
+ BEGIN SURFVARY CLUMPSCALE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPSCALEVARY
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPMATT
+ VALUE 0.98
+ END
+ BEGIN SURFVARY CLUMPBIAS
+ VALUE 0.75
+ END
+ BEGIN SURFVARY CLUMPWIGGLE
+ VALUE 0.5
+ END
+ BEGIN SURFVARY CLUMPLENGTHVARY
+ VALUE 0.5
+ END
+ BEGIN NUM IMCOLSTR
+ VALUE 1
+ END
+ BEGIN RADIO IMPROJ
+  SELECTION 0
+ END
+ BEGIN RADIO IMAXIS
+  SELECTION 2
+ END
+ BEGIN RADIO IMTYPE
+  SELECTION 0
+ END
+ BEGIN NUM VCOLSTR
+ VALUE 1
+ END
+ BEGIN NUMSTORE SEED
+ COUNT 1
+  3.86482e+009
+ END
+END WORLEY_LABS_PLUGIN Sasquatch
+EndPlugin
+ShadowOptions 7
+
+AmbientColor 1 1 1
+AmbientIntensity 0.25
+EnableRadiosity 1
+RadiosityType 1
+RadiosityIntensity 1
+RadiosityRays 3
+
+AddLight
+LightName Light
+ShowLight 1 5
+LightMotion
+NumChannels 9
+Channel 0
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -2 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key 0.78539813 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.61086524 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 6
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 7
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 8
+{ Envelope
+  1
+  Key 1 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+LightColor 1 1 1
+LightIntensity 1
+AffectCaustics 1
+LightType 0
+ShadowType 1
+ShadowColor 0 0 0
+
+AddCamera
+CameraName Camera
+ShowCamera 1 2
+CameraMotion
+NumChannels 6
+Channel 0
+{ Envelope
+  1
+  Key 0.34619114 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 1
+{ Envelope
+  1
+  Key 1.9254543 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 2
+{ Envelope
+  1
+  Key -0.45251197 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 3
+{ Envelope
+  1
+  Key -0.67544234 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 4
+{ Envelope
+  1
+  Key 0.25830886 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+Channel 5
+{ Envelope
+  1
+  Key 0 0 0 0 0 0 0 0 0
+  Behaviors 1 1
+}
+
+ZoomFactor 3.2
+ResolutionMultiplier 1.0
+FrameSize 640 480
+PixelAspect 1
+MaskPosition 0 0 640 480
+MotionBlur 0
+FieldRendering 0
+
+ApertureHeight 0.015
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 0.1
+
+SolidBackdrop 1
+BackdropColor 0.501961 0.501961 0.501961
+ZenithColor 0 0.1569 0.3137
+SkyColor 0.4706 0.7059 0.9412
+GroundColor 0.1961 0.1569 0.1176
+NadirColor 0.3922 0.3137 0.2353
+FogType 0
+DitherIntensity 3
+AnimatedDither 0
+Plugin PixelFilterHandler 1 Sasquatch
+BEGIN WORLEY_LABS_PLUGIN Sasquatch
+# 2040145860 5130   x86 Sasquatch Version 1.6-HW Jul 15 2003
+# Saved Tue Sep 16 09:19:30 2003
+
+VERSION 1.6
+ BEGIN NUM AALev
+ VALUE 2
+ END
+ BEGIN BUTTON PREVIEW
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON FREEZE
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON ONEPASS
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN NUM TRANSP
+ VALUE 0
+ END
+ BEGIN NUM REAR
+ VALUE 0.15
+ END
+ BEGIN NUM OFFSCREEN
+ VALUE 0.9
+ END
+ BEGIN NUM SHADINGQUAL
+ VALUE 0.5
+ END
+ BEGIN NUM ZBUFSIZE2
+ VALUE 96
+ END
+ BEGIN NUM SNZBUFSIZE2
+ VALUE 96
+ END
+ BEGIN NUM WINDSPEED
+ VALUE 0
+ END
+ BEGIN NUM WINDGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWSPEED
+ VALUE 0
+ END
+ BEGIN NUM BLOWGUST
+ VALUE 0
+ END
+ BEGIN NUM BLOWDIST
+ VALUE 0.1
+ END
+ BEGIN NUM GUSTSIZE
+ VALUE 0.5
+ END
+ BEGIN NUM GUSTTIME
+ VALUE 1
+ END
+ BEGIN NUM GUSTTURB
+ VALUE 0.8
+ END
+ BEGIN BUTTON LWSHADOW
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON SELFSHAD
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON CASTSHAD
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN RADIO WHATSHAD
+  SELECTION 0
+ END
+ BEGIN NUM SHADRES
+ VALUE 1000
+ END
+ BEGIN BUTTON SPOT_CONES
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN NUM SHAD_SOFT
+ VALUE 0.1
+ END
+ BEGIN NUM G2SHAD_SOFT
+ VALUE 0.1
+ END
+ BEGIN NUM BOOST1
+ VALUE 1
+ END
+ BEGIN NUM BOOST2
+ VALUE 1
+ END
+ BEGIN RADIO ALPHA
+  SELECTION 2
+ END
+ BEGIN RADIO Z
+  SELECTION 2
+ END
+ BEGIN RADIO RGBOUT
+  SELECTION 2
+ END
+ BEGIN BUTTON THREAD_RENDER
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON LWBUG
+  CHECKED YES
+  HIGHLIGHTED YES
+ END
+ BEGIN BUTTON RADIOSITY
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN BUTTON USEDISTCLIP
+  CHECKED NO
+  HIGHLIGHTED NO
+ END
+ BEGIN NUM DISTCLIP
+ VALUE 100
+ END
+ BEGIN NUM LOW_FRAME
+ VALUE -32767
+ END
+ BEGIN NUM HIGH_FRAME
+ VALUE 32767
+ END
+ BEGIN NUM ZBUF_BIAS
+ VALUE 0
+ END
+END WORLEY_LABS_PLUGIN Sasquatch
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 1
+RayRecursionLimit 16
+RayTraceOptimization 1
+DataOverlayLabel  
+SaveRGB 0
+SaveAlpha 0
+
+ViewConfiguration 0
+DefineView 0
+ViewType 9
+ViewAimpoint 0 0 0
+ViewZoomFactor 4
+
+GridNumber 10
+GridSize 1
+CameraViewBG 0
+ShowMotionPath 1
+ShowFogRadius 1
+ShowFogEffect 0
+ShowSafeAreas 0
+ShowFieldChart 0
+OverlayColor 7
+
+CurrentObject 1
+CurrentLight 0
+CurrentCamera 0
+GraphEditorData
+{ GraphEd_Favorites
+}
+{ GE_Expression_Lib
+  1
+}

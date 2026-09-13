@@ -1,0 +1,204 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 50
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 50
+PreviewFrameStep 1
+FramesPerSecond 25.000000
+
+LoadObject et\dictee_mesh.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 0 0 -37.4 0 0 1 1 1
+  0 0 1 0 0
+  0 0 0 94 0 0 1 1 1
+  25 0 -1 0 0
+  0 0 0 -37.4 0 0 1 1 1
+  50 0 1 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -1.571015 1.567 -2.313798 33.60001 28.59999 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 2
+ShadowMapSize 512
+UseConeAngle 0
+ShadowMapAngle 10.000000
+ShadowFuzziness 1.000000
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  1.61759 -1.277 -0.9324655 -47.6 -37.2 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 210
+LgtIntensity 0.800000
+LightType 0
+ShadowType 0
+
+AddLight
+LightName bl
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -1.17341 0.3619999 0.7825345 -240.6 13.60001 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 210
+LgtIntensity 1.000000
+LightType 0
+ShadowType 0
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  -0.9987385 0.7074761 -1.449367 31.6 20.9 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ZoomFactor 3.200000
+Resolution 0
+PixelAspectRatio 2
+SegmentMemory 8050000
+Antialiasing 1
+AdaptiveSampling 1
+AdaptiveThreshold 64
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+Plugin ImageFilterHandler 1 Bloom
+BEGIN WORLEY_LABS_PLUGIN Bloom
+VERSION 1.000000
+  BEGIN BUTTON PREVBUTTON
+   CHECKED NO
+   HIGHLIGHTED YES
+  END BUTTON PREVBUTTON
+  BEGIN BUTTON CLIPBUTTON
+   CHECKED NO
+   HIGHLIGHTED YES
+  END BUTTON CLIPBUTTON
+  BEGIN NUM RADIUS
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM RADIUS
+  BEGIN NUM SHAPE
+   ANIMATE FIXED
+  VALUE 0.000000
+  END NUM SHAPE
+  BEGIN NUM SHARP
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM SHARP
+  BEGIN NUM REDCUTOFF
+   ANIMATE FIXED
+  VALUE 0.900000
+  END NUM REDCUTOFF
+  BEGIN NUM GREENCUTOFF
+   ANIMATE FIXED
+  VALUE 0.900000
+  END NUM GREENCUTOFF
+  BEGIN NUM BLUECUTOFF
+   ANIMATE FIXED
+  VALUE 0.900000
+  END NUM BLUECUTOFF
+  BEGIN NUM BOOST
+   ANIMATE FIXED
+  VALUE 1.000000
+  END NUM BOOST
+  BEGIN NUM GAMMA
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM GAMMA
+  BEGIN NUM TINT
+   ANIMATE FIXED
+  VALUE 1.000000
+  END NUM TINT
+  BEGIN NUM TINTGAMMA
+   ANIMATE FIXED
+  VALUE 0.500000
+  END NUM TINTGAMMA
+  BEGIN COLOR COLOR
+   RED 255
+   GREEN 255
+   BLUE 128
+  END COLOR COLOR
+  BEGIN BUTTON SPECIAL
+   CHECKED NO
+   HIGHLIGHTED NO
+  END BUTTON SPECIAL
+  BEGIN BUTTON BG
+   CHECKED NO
+   HIGHLIGHTED NO
+  END BUTTON BG
+  BEGIN NUM BRIGHTNESS
+   ANIMATE FIXED
+  VALUE 0.900000
+  END NUM BRIGHTNESS
+  BEGIN STRING COMMENT
+   STRING @@
+  END STRING COMMENT
+  BEGIN BUTTON DISABLE
+   CHECKED NO
+   HIGHLIGHTED NO
+  END BUTTON DISABLE
+END WORLEY_LABS_PLUGIN Bloom
+EndPlugin
+
+RenderMode 2
+RayTraceEffects 2
+RayRecursionLimit 16
+DataOverlayLabel  
+SaveAnimationName C:\WINDOWS\BUREAU\s&s.avi
+AnimationType 1
+EndPlugin
+FullSceneParamEval 0
+
+ViewMode 5
+ViewAimpoint 0.000000 0.000000 0.000000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 1.185185
+GridNumber 0
+GridSize 0.200000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
