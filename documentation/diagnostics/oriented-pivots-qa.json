@@ -1,0 +1,597 @@
+{
+  "version": "0.15.0",
+  "profile": "autonomous-hpb-ik-0.2",
+  "batch": "output/batch-20260913-181133",
+  "composition": "T(position) * R(pivot HPB degrees) * R(channel HPB radians) * S * T(-pivot_position)",
+  "oracle_fixture": "tests/fixtures/pivot_rotation_oracle.json",
+  "oracle_fixture_sha256": "4a1b8bf35353d056b0425365a9a2ab8a860232d82d1f6a20859da44d66439036",
+  "fk_oracle_audits": [
+    {
+      "runtime_profile": "lightwave6",
+      "removed_display_plugins": [],
+      "explicitly_skipped_plugins": [],
+      "retained_animation_plugins": [],
+      "modules": [
+        {
+          "class": "ImageFilterHandler",
+          "name": "LWConvertCapture",
+          "path": "S:/works/legacy-lightwave-projects/build-lw6/Release/lw_capture.p",
+          "sha256": "096ab8f94771143804d5ffa03c01b134a2b00ad8ba855724599c1ae9a855d715"
+        },
+        {
+          "class": "DisplacementHandler",
+          "name": "LWConvertDeformationCapture",
+          "path": "S:/works/legacy-lightwave-projects/build-lw6/Release/lw_capture.p",
+          "sha256": "096ab8f94771143804d5ffa03c01b134a2b00ad8ba855724599c1ae9a855d715"
+        },
+        {
+          "class": "ItemMotionHandler",
+          "name": "LWConvertMotionCapture",
+          "path": "S:/works/legacy-lightwave-projects/build-lw6/Release/lw_capture.p",
+          "sha256": "096ab8f94771143804d5ffa03c01b134a2b00ad8ba855724599c1ae9a855d715"
+        }
+      ],
+      "overrides": {
+        "SubPatchLevel": "0 0",
+        "render_image_prefixes": "frames/preview",
+        "FrameSize": "8 8",
+        "ResolutionMultiplier": "1",
+        "Antialiasing": "0",
+        "EnhancedAA": "0",
+        "MotionBlur": "0",
+        "DepthOfField": "0",
+        "Radiosity": "0",
+        "SaveRGB": "0",
+        "SaveAlpha": "0",
+        "RenderThreads": "1"
+      },
+      "working_scene_sha256": "db2f45939003f48e68761d6f6cd0bfcf0f20c7ccbcaa1e70dafd684cdb42a8c7"
+    },
+    {
+      "runtime_profile": "lightwave96",
+      "removed_display_plugins": [],
+      "explicitly_skipped_plugins": [],
+      "retained_animation_plugins": [],
+      "modules": [
+        {
+          "class": "ImageFilterHandler",
+          "name": "LWConvertCapture",
+          "path": "S:/works/legacy-lightwave-projects/bin/win64/lw_capture.p",
+          "sha256": "a08d694d100a8476d589d67fde78654ce981291b80f7862cbc99e49c224592df"
+        }
+      ],
+      "overrides": {
+        "SubPatchLevel": "0 0",
+        "render_image_prefixes": "frames/preview",
+        "FrameSize": "8 8",
+        "ResolutionMultiplier": "1",
+        "Antialiasing": "0",
+        "EnhancedAA": "0",
+        "MotionBlur": "0",
+        "DepthOfField": "0",
+        "Radiosity": "0",
+        "SaveRGB": "0",
+        "SaveAlpha": "0",
+        "RenderThreads": "1"
+      },
+      "working_scene_sha256": "49726064cb1b443d6a7afaa241584a6e8e8fc174d5c363dd57ab813db05cb983"
+    }
+  ],
+  "dialogue_native_capture": {
+    "source": "content\\quatuor\\work\\3d\\dialogue01.lws",
+    "source_sha256": "e0cf485457f1899b0a8a86fdb9cc98ef1b0d268e600a55e23d2ed803e81c8f35",
+    "converter_sha256": "d6f7dafff184e6086e96cc5fb384720de333f78b572c27905899cba213805c66",
+    "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+    "helper_sha256": "a08d694d100a8476d589d67fde78654ce981291b80f7862cbc99e49c224592df",
+    "captures": [
+      {
+        "frame": 1,
+        "sha256": "1073319f03e74e67ee7aded18d66a5356e36a933d55ad3593d32b9665994e728"
+      },
+      {
+        "frame": 30,
+        "sha256": "9b86099538753977fe8845faed22908e053d1f5b59fe681c7fb6d2783ff4da2b"
+      },
+      {
+        "frame": 59,
+        "sha256": "171fbd90cc33e7799414432f6c231e4f7256a75b8bec89daba409ee0d1b31bce"
+      }
+    ],
+    "audit": {
+      "runtime_profile": "lightwave96",
+      "removed_display_plugins": [
+        {
+          "class": "ImageFilterHandler",
+          "name": "LW_Bloom"
+        },
+        {
+          "class": "ImageFilterHandler",
+          "name": "LW_Virtual_Darkroom2.0"
+        }
+      ],
+      "explicitly_skipped_plugins": [],
+      "retained_animation_plugins": [],
+      "modules": [
+        {
+          "class": "ImageFilterHandler",
+          "name": "LWConvertCapture",
+          "path": "S:/works/legacy-lightwave-projects/bin/win64/lw_capture.p",
+          "sha256": "a08d694d100a8476d589d67fde78654ce981291b80f7862cbc99e49c224592df"
+        }
+      ],
+      "overrides": {
+        "SubPatchLevel": "0 0",
+        "render_image_prefixes": "frames/preview",
+        "FrameSize": "8 8",
+        "ResolutionMultiplier": "1",
+        "Antialiasing": "0",
+        "EnhancedAA": "0",
+        "MotionBlur": "0",
+        "DepthOfField": "0",
+        "Radiosity": "0",
+        "SaveRGB": "0",
+        "SaveAlpha": "0",
+        "RenderThreads": "1"
+      },
+      "working_scene_sha256": "95aa318167843ec172882f999c2da8f7e7f7c6ebf8e5fbec55312d7da481d99e",
+      "empty_command_recorders_removed": 1,
+      "volume_parameters_removed": 0,
+      "morph_mixers_removed": 0
+    },
+    "rigs": [
+      {
+        "owner_item": 268435456,
+        "status": "procedural-weight-skin-approximation",
+        "issue": "",
+        "volume_corrections_omitted": 0,
+        "error": {
+          "samples": 11727,
+          "max": 4.982123615363888e-07,
+          "rms": 1.65306452598463e-07
+        }
+      },
+      {
+        "owner_item": 268435475,
+        "status": "procedural-weight-skin-approximation",
+        "issue": "",
+        "volume_corrections_omitted": 0,
+        "error": {
+          "samples": 11727,
+          "max": 4.240737616516039e-07,
+          "rms": 1.5604134545584173e-07
+        }
+      },
+      {
+        "owner_item": 268435494,
+        "status": "procedural-weight-skin-approximation",
+        "issue": "",
+        "volume_corrections_omitted": 0,
+        "error": {
+          "samples": 11727,
+          "max": 4.44682343129513e-07,
+          "rms": 1.453474946295399e-07
+        }
+      },
+      {
+        "owner_item": 268435513,
+        "status": "procedural-weight-skin-approximation",
+        "issue": "",
+        "volume_corrections_omitted": 0,
+        "error": {
+          "samples": 11727,
+          "max": 4.735327754233415e-07,
+          "rms": 1.4907073767030537e-07
+        }
+      }
+    ]
+  },
+  "dialogue_playback": {
+    "blender_version": "4.2.0",
+    "files": [
+      {
+        "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\quatuor\\IR\\work\\3d\\dialogue01.lws\\..\\..\\..\\..\\gltf\\work\\3d\\dialogue01.lws.rig-10000000.gltf",
+        "gltf_sha256": "442b64db5b34f0675e6dbba8671e0f80f79d632bde559de76b6cc3af65aa61b8",
+        "bin_sha256": "1eda39cacfaea0d78d5871e1061fc8e083f4d4d3288f22553fe63f9cbf38ef15",
+        "bake_sha256": "cb59b9e64f3f88e413e17fdc3ac05abeb008abe8eef784cd18f7033e6d57333c",
+        "frames": 60,
+        "joints": 80,
+        "vertices": 3909,
+        "maximum_playback_error": 1.1202660876043142e-06,
+        "rms_playback_error": 4.6297922342210073e-07,
+        "maximum_blender_vertex_movement": 0.06994147902072534,
+        "maximum_expected_vertex_movement": 0.06994134086978272,
+        "has_visible_motion": true,
+        "passed": true,
+        "native_cage_comparison": {
+          "frames": "S:\\works\\legacy-lightwave-projects\\build\\pivot-qa\\dialogue-native96\\evaluation\\frames",
+          "sampled_frames": [
+            1,
+            30,
+            59
+          ],
+          "maximum_vertex_error": 0.0008044506517672943,
+          "rms_vertex_error": 0.00024812810649285253,
+          "scope": "Difference from native deformed cage on available reference frames, including both IK and weight approximation; no equivalence asserted"
+        }
+      },
+      {
+        "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\quatuor\\IR\\work\\3d\\dialogue01.lws\\..\\..\\..\\..\\gltf\\work\\3d\\dialogue01.lws.rig-10000013.gltf",
+        "gltf_sha256": "c50a5d66e8b955486e66b97311bfe183472448857fae142199d5781824ddb5f3",
+        "bin_sha256": "054a74baa5bfe2a264951ea42d485c4503e45b9801510f42adf0983ac68d421b",
+        "bake_sha256": "cb59b9e64f3f88e413e17fdc3ac05abeb008abe8eef784cd18f7033e6d57333c",
+        "frames": 60,
+        "joints": 80,
+        "vertices": 3909,
+        "maximum_playback_error": 1.1075081930197504e-06,
+        "rms_playback_error": 4.812458226060981e-07,
+        "maximum_blender_vertex_movement": 4.594997218466656e-06,
+        "maximum_expected_vertex_movement": 4.653578007698311e-06,
+        "has_visible_motion": false,
+        "passed": true,
+        "native_cage_comparison": {
+          "frames": "S:\\works\\legacy-lightwave-projects\\build\\pivot-qa\\dialogue-native96\\evaluation\\frames",
+          "sampled_frames": [
+            1,
+            30,
+            59
+          ],
+          "maximum_vertex_error": 0.0019895393335382983,
+          "rms_vertex_error": 0.00034303745066825134,
+          "scope": "Difference from native deformed cage on available reference frames, including both IK and weight approximation; no equivalence asserted"
+        }
+      },
+      {
+        "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\quatuor\\IR\\work\\3d\\dialogue01.lws\\..\\..\\..\\..\\gltf\\work\\3d\\dialogue01.lws.rig-10000026.gltf",
+        "gltf_sha256": "537e4915051cd0f3d396eeceaac005c53a6d32173d1a04bcee3dcd5bafa693ff",
+        "bin_sha256": "a06100f930188dece6eab66067761bfef54a813293316ea457e0275db145dc3b",
+        "bake_sha256": "cb59b9e64f3f88e413e17fdc3ac05abeb008abe8eef784cd18f7033e6d57333c",
+        "frames": 60,
+        "joints": 80,
+        "vertices": 3909,
+        "maximum_playback_error": 1.1055014724130278e-06,
+        "rms_playback_error": 3.5158921731044923e-07,
+        "maximum_blender_vertex_movement": 0.08635598565168179,
+        "maximum_expected_vertex_movement": 0.08635598669434229,
+        "has_visible_motion": true,
+        "passed": true,
+        "native_cage_comparison": {
+          "frames": "S:\\works\\legacy-lightwave-projects\\build\\pivot-qa\\dialogue-native96\\evaluation\\frames",
+          "sampled_frames": [
+            1,
+            30,
+            59
+          ],
+          "maximum_vertex_error": 0.0057463044110965715,
+          "rms_vertex_error": 0.0007612004935371409,
+          "scope": "Difference from native deformed cage on available reference frames, including both IK and weight approximation; no equivalence asserted"
+        }
+      },
+      {
+        "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\quatuor\\IR\\work\\3d\\dialogue01.lws\\..\\..\\..\\..\\gltf\\work\\3d\\dialogue01.lws.rig-10000039.gltf",
+        "gltf_sha256": "3ea331ba4736796d4da5130a01c1325fb93b22fe92be1a799b8dd419598341cd",
+        "bin_sha256": "08b200b48da9308e7ed4b12ce1ffcbbf2d928abfe6310ad6ff98dadc0ced4739",
+        "bake_sha256": "cb59b9e64f3f88e413e17fdc3ac05abeb008abe8eef784cd18f7033e6d57333c",
+        "frames": 60,
+        "joints": 80,
+        "vertices": 3909,
+        "maximum_playback_error": 1.2772096804634509e-06,
+        "rms_playback_error": 5.528350791220085e-07,
+        "maximum_blender_vertex_movement": 0.1666789169888224,
+        "maximum_expected_vertex_movement": 0.16667860129337486,
+        "has_visible_motion": true,
+        "passed": true,
+        "native_cage_comparison": {
+          "frames": "S:\\works\\legacy-lightwave-projects\\build\\pivot-qa\\dialogue-native96\\evaluation\\frames",
+          "sampled_frames": [
+            1,
+            30,
+            59
+          ],
+          "maximum_vertex_error": 0.17804777108754075,
+          "rms_vertex_error": 0.046969162468617834,
+          "scope": "Difference from native deformed cage on available reference frames, including both IK and weight approximation; no equivalence asserted"
+        }
+      }
+    ],
+    "passed": true,
+    "scope": "Blender evaluated armature vertices at every C sample, compared with independently reconstructed C world poses and exported weights. Verifies glTF skin playback, not equivalence to LightWave; no subdivision added."
+  },
+  "smilla_playback": {
+    "blender_version": "4.2.0",
+    "files": [
+      {
+        "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\IR\\Smilla_IK.lws\\..\\..\\gltf\\Smilla_IK.lws.gltf",
+        "gltf_sha256": "e2aae3a94e438bc2e6f1cb4c2bc6558c7317918f6b2e4b5e7cf09caa9356ccb5",
+        "bin_sha256": "ce39b895a3afaaf755bbe93764886bf07b5e8e3c9fba592098c207492f0b1df2",
+        "bake_sha256": "9b09ad3bfbcefde7f123c342c40b12a74995979464bac8497e0887d588138e40",
+        "frames": 41,
+        "joints": 31,
+        "vertices": 11250,
+        "maximum_playback_error": 8.383144843003275e-07,
+        "rms_playback_error": 1.7620158592906545e-07,
+        "maximum_blender_vertex_movement": 0.7384071827506923,
+        "maximum_expected_vertex_movement": 0.7384071579396738,
+        "has_visible_motion": true,
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "scope": "Blender evaluated armature vertices at every C sample, compared with independently reconstructed C world poses and exported weights. Verifies glTF skin playback, not equivalence to LightWave; no subdivision added."
+  },
+  "smila_rest": {
+    "blender_version": "4.2.0",
+    "blender_build_hash": "a51f293548ad",
+    "files_checked": 8,
+    "files": [
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_export.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "79e98fe7d3150abe5eea0aa9ff4081735ef11b3c19041c6819346274ebff9b6f",
+        "buffer_sha256": {
+          "smila_export.lws.rig-10000000.bin": "1ba0488ccd5512db5f91ed60c706e7f0de0c915e9427812754d63cb795ca15ea"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_export_converted.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "ff571863e8ad8636eb8ea487eb979445472a918485383a960047b4b073fad8e4",
+        "buffer_sha256": {
+          "smila_export_converted.lws.rig-10000000.bin": "73bc1d70ab35d50f69cf79ba9ce54930eac36cdd0cd7fbf2ec61fdfbc131922c"
+        },
+        "maximum_vertex_error": 6.115038777322353e-07,
+        "rms_vertex_error": 1.8568527258484842e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_posing.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "c15106c5ca02e2ceb494c90ca8110901e318937a11e03d38f72ea09311da4d7c",
+        "buffer_sha256": {
+          "smila_posing.lws.rig-10000000.bin": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_posing_02.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "d49314483220c05084ea10182e0448be1f7eb4d1e68002c32e4153e3b51c2adf",
+        "buffer_sha256": {
+          "smila_posing_02.lws.rig-10000000.bin": "6af9f955b2a89739afe722b5055230616ce5dfbef6f8c0a84151ff012d9001b7"
+        },
+        "maximum_vertex_error": 6.09355471449862e-07,
+        "rms_vertex_error": 1.8151015900294914e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.0595716734115217e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_posing_toon.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "2214bbc5b30d32ee7164d39881a15ac8adc47ce501f93e50b9ecac5011b2ba28",
+        "buffer_sha256": {
+          "smila_posing_toon.lws.rig-10000000.bin": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_rig.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 11361,
+        "gltf_sha256": "fca5a3d6faccf294145f33bb8246716abc691b769e6e72c5968e6ef04fcde054",
+        "buffer_sha256": {
+          "smila_rig.lws.rig-10000000.bin": "6db87c9c8be7a1929685731557e700eab30957fc7744a38ae5e8285415a294ef"
+        },
+        "maximum_vertex_error": 9.83137917709749e-07,
+        "rms_vertex_error": 2.3501938062892588e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.3153087691312882e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_rig_converted.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "71c1366a9556659c3bf4e36b4827656635d47d00a51e049370a0cd481b14a744",
+        "buffer_sha256": {
+          "smila_rig_converted.lws.rig-10000000.bin": "8b78d7bfba6bac6af4c00634e914d75b6ff7f26c3361be946cf9265442fc753e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 2.0922847991568395e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133\\packages\\smila-by-moebius\\gltf\\smila_run_cycle.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "28ec97a01130e4bd3dd7acf009c58f3fc2299c3b3d56cc07ed09a8ddf55a0bd0",
+        "buffer_sha256": {
+          "smila_run_cycle.lws.rig-10000000.bin": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "scope": "Actual glTF rest hierarchy, inverse binds and Blender evaluated armature vertices, compared by vertex index. Optional Workbench images inspect geometry, not LightWave rendering fidelity."
+  },
+  "validator": {
+    "input": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 30,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 0,
+      "numHints": 0
+    },
+    "issue_codes": {},
+    "diagnostics": [],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "layout": {
+    "batch": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-181133",
+    "layout_version": "0.3",
+    "input_statuses": {
+      "partial": 14
+    },
+    "projects": 2,
+    "conversion_manifests": 14,
+    "native_sources_checked": 25,
+    "obj_mtl_pairs_checked": 18,
+    "gltf_buffer_pairs_checked": 30,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "preservation": {
+    "files": [
+      {
+        "file": "smila-by-moebius/gltf/smila_export.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "1ba0488ccd5512db5f91ed60c706e7f0de0c915e9427812754d63cb795ca15ea"
+      },
+      {
+        "file": "smila-by-moebius/gltf/smila_export_converted.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "73bc1d70ab35d50f69cf79ba9ce54930eac36cdd0cd7fbf2ec61fdfbc131922c"
+      },
+      {
+        "file": "smila-by-moebius/gltf/smila_posing.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+      },
+      {
+        "file": "smila-by-moebius/gltf/smila_posing_02.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "6af9f955b2a89739afe722b5055230616ce5dfbef6f8c0a84151ff012d9001b7"
+      },
+      {
+        "file": "smila-by-moebius/gltf/smila_posing_toon.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+      },
+      {
+        "file": "smila-by-moebius/gltf/smila_rig.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "6db87c9c8be7a1929685731557e700eab30957fc7744a38ae5e8285415a294ef"
+      },
+      {
+        "file": "smila-by-moebius/gltf/smila_rig_converted.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "8b78d7bfba6bac6af4c00634e914d75b6ff7f26c3361be946cf9265442fc753e"
+      },
+      {
+        "file": "smila-by-moebius/gltf/smila_run_cycle.lws.rig-10000000.gltf",
+        "buffer_identical": true,
+        "sha256": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+      },
+      {
+        "file": "smila-by-moebius/gltf/Smilla_IK.lws.gltf",
+        "buffer_identical": true,
+        "sha256": "ce39b895a3afaaf755bbe93764886bf07b5e8e3c9fba592098c207492f0b1df2"
+      }
+    ],
+    "original_sources_identical": true,
+    "original_animation_buffers_identical": true,
+    "converter_sha256": "552f42fe307f40680d7c181272035d22318afa51ac1e53c632170931ae0be9f3",
+    "dialogue_base_buffers": [
+      {
+        "file": "dialogue01.lws.rig-10000000.bin",
+        "original_bytes": 332576,
+        "unchanged_prefix": true
+      },
+      {
+        "file": "dialogue01.lws.rig-10000013.bin",
+        "original_bytes": 332576,
+        "unchanged_prefix": true
+      },
+      {
+        "file": "dialogue01.lws.rig-10000026.bin",
+        "original_bytes": 332576,
+        "unchanged_prefix": true
+      },
+      {
+        "file": "dialogue01.lws.rig-10000039.bin",
+        "original_bytes": 332576,
+        "unchanged_prefix": true
+      }
+    ]
+  },
+  "regression": {
+    "release_groups_passed": 11,
+    "asan_groups_passed": 11,
+    "new_oriented_pivot_signed_zero_scale_test": "Passed separately in both builds after extending the existing glTF regression fixture"
+  },
+  "remaining_smila_animation_issues": [
+    {
+      "scene": "smila_export.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    },
+    {
+      "scene": "smila_export_converted.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    },
+    {
+      "scene": "smila_posing.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    },
+    {
+      "scene": "smila_posing_02.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    },
+    {
+      "scene": "smila_posing_toon.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    },
+    {
+      "scene": "smila_rig.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    },
+    {
+      "scene": "smila_rig_converted.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    },
+    {
+      "scene": "smila_run_cycle.lws",
+      "issue": "IK: motion/channel plugins are outside the autonomous profile"
+    }
+  ],
+  "limits": "Pivot composition is qualified against native FK measurements; IK remains approximate. The fourth Dialogue character deviates by up to 0.178048 scene units on the three measured frames. Smila motion/channel plugins remain unsupported. Original subdivision cages retained."
+}

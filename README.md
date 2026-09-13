@@ -109,6 +109,9 @@ describe how to use LightWave as a research oracle toward an independent C solve
 with measured baselines and acceptance criteria. Since v0.11.0, a first bounded
 C implementation exports approximate skeletal IK and sampled FK automatically.
 See the [autonomous baking profile and Smilla QA](documentation/autonomous-ik.md).
+Since v0.15.0, oriented pivots and combined rest/pivot rotations are supported.
+Dialogue's four skins now receive autonomous animation; the 32-goal bound applies
+per chain group. See the [native measurements, playback QA and remaining limits](documentation/oriented-pivots.md).
 The [Redline corpus inventory](documentation/redline-animation-corpus.md) adds
 FK, IK and morph cases, with a separate roadmap for named morph targets and weights.
 
@@ -158,9 +161,10 @@ See the [Quatuor export simplification QA](documentation/quatuor-gltf-qa.md).
 
 Since v0.5.0, scene IR includes bone rest poses, weight-map assignments and native
 influence settings. Separate `*.rig-<item ID>.gltf` files export object-local rest
-skeletons and, for explicit normalized map-only bindings, standard glTF skins
-with all positive influences. Procedural bone influences remain unevaluated;
-the [Smila QA report](documentation/skin-and-smila-qa.md) describes that limitation.
+skeletons and standard glTF skins with all positive influences. The initial
+v0.5.0 profile handled explicit normalized map-only bindings; procedural and
+hybrid weights were added in v0.9.0. The [current Quatuor/Smila skin QA](documentation/quatuor-smila-skin-20260913-qa.md)
+distinguishes working rest skins from animations blocked by unsupported pivots.
 Subdivision is never baked into glTF: patch control cages and native IR settings
 are retained for a future Blender backend.
 

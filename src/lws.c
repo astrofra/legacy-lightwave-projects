@@ -447,7 +447,6 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
         else if(node&&(lw_string_is(key,"PivotPoint")||lw_string_is(key,"PivotPosition"))) LW_TRY(numbers(value,node->pivot,3,ls->v[i].offset,e));
         else if(node&&lw_string_is(key,"PivotRotation")) {
             LW_TRY(numbers(value,node->pivot_rotation,3,ls->v[i].offset,e));
-            if(node->pivot_rotation[0]||node->pivot_rotation[1]||node->pivot_rotation[2]) node->unsupported_transform=1;
         } else if(node&&lw_string_is(key,"ParentObject")) {
             uint32_t parent; LW_TRY(integer(value,&parent,ls->v[i].offset,e)); node->parent=parent?0x10000000|(parent-1):LW_NONE;
         } else if(node&&lw_string_is(key,"ParentItem")) {
@@ -567,14 +566,27 @@ static void multiply(double out[16],const double a[16],const double b[16]) {
     for(col=0;col<4;col++) for(row=0;row<4;row++) for(k=0;k<4;k++) result[4*col+row]+=a[4*k+row]*b[4*col+k];
     memcpy(out,result,sizeof result);
 }
-static void local_matrix(double out[16],const double v[9],const double pivot[3]) {
-    double y[16],x[16],z[16],scale[16],t[16]; unsigned i;
-    lw_identity(y); lw_identity(x); lw_identity(z); lw_identity(scale); lw_identity(t);
-    y[0]=y[10]=cos(v[3]); y[8]=sin(v[3]); y[2]=-y[8];
-    x[5]=x[10]=cos(v[4]); x[6]=sin(v[4]); x[9]=-x[6];
-    z[0]=z[5]=cos(v[5]); z[1]=sin(v[5]); z[4]=-z[1];
+void lw_hpb_matrix(double out[16],const double hpb[3]) {
+    double y[16],x[16],z[16];
+    lw_identity(y); lw_identity(x); lw_identity(z);
+    y[0]=y[10]=cos(hpb[0]); y[8]=sin(hpb[0]); y[2]=-y[8];
+    x[5]=x[10]=cos(hpb[1]); x[6]=sin(hpb[1]); x[9]=-x[6];
+    z[0]=z[5]=cos(hpb[2]); z[1]=sin(hpb[2]); z[4]=-z[1];
+    multiply(out,y,x); multiply(out,out,z);
+}
+static void local_matrix(double out[16],const double v[9],const double pivot[3],const double pivot_rotation[3]) {
+    double scale[16],t[16]; unsigned i;
+    lw_identity(scale); lw_identity(t);
+    lw_hpb_matrix(out,v+3);
+    /* Native LW6/9.6 probes qualify T * R(pivot) * R(channels) * S * T(-pivot).
+       PivotRotation and BoneRestDirection are degrees; motion v is radians. */
+    if(pivot_rotation[0]||pivot_rotation[1]||pivot_rotation[2]) {
+        double angles[3],rotation[16];
+        for(i=0;i<3;i++) angles[i]=pivot_rotation[i]*0.017453292519943295;
+        lw_hpb_matrix(rotation,angles); multiply(out,rotation,out);
+    }
     for(i=0;i<3;i++) { scale[5*i]=v[6+i]; t[12+i]=-pivot[i]; }
-    multiply(out,y,x); multiply(out,out,z); multiply(out,out,scale); multiply(out,out,t);
+    multiply(out,out,scale); multiply(out,out,t);
     for(i=0;i<3;i++) out[12+i]+=v[i];
 }
 static int node_values(const LWScene *s,size_t i,double frame,double v[9],LWError *e,unsigned depth) {
@@ -592,7 +604,7 @@ static int node_values(const LWScene *s,size_t i,double frame,double v[9],LWErro
         for(j=0;j<s->nodes.n;j++) if(s->nodes.v[j].id==node->follower_source) break;
         if(j==s->nodes.n) return lw_error(e,node->source_offset,"follower","missing source item %08x",node->follower_source);
         leader=&s->nodes.v[j];
-        if(leader->parent!=node->parent||memcmp(leader->pivot,node->pivot,sizeof node->pivot)) return lw_error(e,node->source_offset,"follower","mirrored-bank profile requires matching parents and pivots");
+        if(leader->parent!=node->parent||memcmp(leader->pivot,node->pivot,sizeof node->pivot)||memcmp(leader->pivot_rotation,node->pivot_rotation,sizeof node->pivot_rotation)) return lw_error(e,node->source_offset,"follower","mirrored-bank profile requires matching parents and pivots");
         LW_TRY(node_values(s,j,frame,source,e,depth+1));
         if(v[3]||v[4]||v[5]||source[3]||source[4]) return lw_error(e,node->source_offset,"follower","mirrored-bank profile requires bank-only source rotation and neutral follower rotation");
         v[5]=-source[5];
@@ -603,7 +615,7 @@ int lw_scene_node_matrix(const LWScene *s,size_t i,double frame,double m[16],LWE
     const LWNode *node=&s->nodes.v[i]; size_t j; double v[9];
     LW_TRY(node_values(s,i,frame,v,e,0));
     if(s->version==1) for(j=3;j<6;j++) v[j]*=0.017453292519943295;
-    local_matrix(m,v,node->pivot);
+    local_matrix(m,v,node->pivot,node->pivot_rotation);
     for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"transform","non-finite matrix");
     return 1;
 }
@@ -611,19 +623,27 @@ int lw_scene_node_trs(const LWScene *s,size_t i,double frame,double trs[10],LWEr
     double v[9],m[16],ch,sh,cp,sp,cb,sb; size_t j;
     LW_TRY(node_values(s,i,frame,v,e,0));
     if(s->version==1) for(j=3;j<6;j++) v[j]*=0.017453292519943295;
-    local_matrix(m,v,s->nodes.v[i].pivot);
-    /* qHeading * qPitch * qBank; keep native signed/zero scales. Translation
-       includes the animated pivot offset, exactly as in the matrix evaluator. */
-    ch=cos(v[3]/2); sh=sin(v[3]/2); cp=cos(v[4]/2); sp=sin(v[4]/2); cb=cos(v[5]/2); sb=sin(v[5]/2);
-    for(j=0;j<3;j++) { trs[j]=m[12+j]; trs[7+j]=v[6+j]; }
-    trs[3]=ch*sp*cb+sh*cp*sb; trs[4]=sh*cp*cb-ch*sp*sb;
-    trs[5]=ch*cp*sb-sh*sp*cb; trs[6]=ch*cp*cb+sh*sp*sb;
+    local_matrix(m,v,s->nodes.v[i].pivot,s->nodes.v[i].pivot_rotation);
+    if(s->nodes.v[i].pivot_rotation[0]||s->nodes.v[i].pivot_rotation[1]||s->nodes.v[i].pivot_rotation[2]) {
+        double rotation[16],unit_v[9]={0,0,0,0,0,0,1,1,1},zero[3]={0};
+        memcpy(unit_v+3,v+3,3*sizeof(double));
+        local_matrix(rotation,unit_v,zero,s->nodes.v[i].pivot_rotation);
+        LW_TRY(lw_matrix_trs(rotation,trs,e));
+        /* Decompose only the rotation, preserving zero and signed source scales. */
+        for(j=0;j<3;j++) { trs[j]=m[12+j]; trs[7+j]=v[6+j]; }
+    } else {
+        /* qHeading * qPitch * qBank; keep native signed/zero scales. Translation
+           includes the animated pivot offset, exactly as in the matrix evaluator. */
+        ch=cos(v[3]/2); sh=sin(v[3]/2); cp=cos(v[4]/2); sp=sin(v[4]/2); cb=cos(v[5]/2); sb=sin(v[5]/2);
+        for(j=0;j<3;j++) { trs[j]=m[12+j]; trs[7+j]=v[6+j]; }
+        trs[3]=ch*sp*cb+sh*cp*sb; trs[4]=sh*cp*cb-ch*sp*sb;
+        trs[5]=ch*cp*sb-sh*sp*cb; trs[6]=ch*cp*cb+sh*sp*sb;
+    }
     for(j=0;j<10;j++) if(!isfinite(trs[j])) return lw_error(e,0,"animation","non-finite TRS");
     return 1;
 }
 int lw_bone_rest_matrix(const LWNode *node,double m[16],LWError *e) {
     double v[9]={0,0,0,0,0,0,1,1,1},pivot[3]={0}; size_t j;
-    int rotated=node->pivot_rotation[0]||node->pivot_rotation[1]||node->pivot_rotation[2];
     for(j=0;j<node->rig_parameters.n;j++) if(lw_string_is(node->rig_parameters.v[j].name,"BoneType")) {
         uint32_t type; const LWTextureField *field=&node->rig_parameters.v[j];
         LW_TRY(integer(field->value,&type,field->offset,e));
@@ -631,12 +651,8 @@ int lw_bone_rest_matrix(const LWNode *node,double m[16],LWError *e) {
     }
     if((node->bone.present&3)!=3) return lw_error(e,node->source_offset,"bone","missing rest position or direction for %08x",node->id);
     if(node->pivot[0]||node->pivot[1]||node->pivot[2]) return lw_error(e,node->source_offset,"bone","translated bone pivot semantics are not qualified");
-    /* Record Pivot Rotation records the orientation while zeroing the channels.
-       With zero rest angles only that orientation remains; composing nonzero
-       rest and pivot rotations needs an independently qualified convention. */
-    if(rotated&&(node->bone.rest_rotation[0]||node->bone.rest_rotation[1]||node->bone.rest_rotation[2])) return lw_error(e,node->source_offset,"bone","combined rest and pivot rotation semantics are not qualified");
-    for(j=0;j<3;j++) { v[j]=node->bone.rest_position[j]; v[3+j]=(rotated?node->pivot_rotation[j]:node->bone.rest_rotation[j])*0.017453292519943295; }
-    local_matrix(m,v,pivot);
+    for(j=0;j<3;j++) { v[j]=node->bone.rest_position[j]; v[3+j]=node->bone.rest_rotation[j]*0.017453292519943295; }
+    local_matrix(m,v,pivot,node->pivot_rotation);
     for(j=0;j<16;j++) if(!isfinite(m[j])) return lw_error(e,node->source_offset,"bone","non-finite rest matrix");
     return 1;
 }

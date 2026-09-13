@@ -198,7 +198,6 @@ class SkinTests(unittest.TestCase):
     def test_unqualified_rest_and_cyclic_hierarchy_are_reported(self):
         cases = [
             (bone().replace("BoneRestDirection 0 0 0\n", ""), "missing rest"),
-            (bone(rotation="10 0 0", extra="PivotRotation 0 20 0\n"), "combined rest"),
             (bone(extra="PivotPosition 1 0 0\n"), "translated bone pivot"),
             (bone(parent=0x40000000), "cyclic"),
         ]

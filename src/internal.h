@@ -145,6 +145,7 @@ int lw_scene_node_trs(const LWScene *,size_t,double,double [10],LWError *);
 int lw_bone_rest_matrix(const LWNode *,double [16],LWError *);
 int lw_bake_ik(const LWScene *,LWIKBake *,LWError *);
 int lw_matrix_trs(const double [16],double [10],LWError *);
+void lw_hpb_matrix(double [16],const double [3]);
 int lw_write_ik_bake(const char *,const LWScene *,const LWIKBake *,LWError *);
 
 typedef struct { size_t source,parent; double local[16],world[16],inverse_bind[16]; } LWRigJoint;

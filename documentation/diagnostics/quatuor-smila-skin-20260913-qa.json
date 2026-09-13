@@ -1,0 +1,670 @@
+{
+  "batch": "output/batch-20260913-173025",
+  "converter_version": "0.14.0",
+  "rest": {
+    "blender_version": "4.2.0",
+    "blender_build_hash": "a51f293548ad",
+    "files_checked": 12,
+    "files": [
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\quatuor\\gltf\\work\\3d\\dialogue01.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 3909,
+        "gltf_sha256": "d9d13e865787a9a388154a5108c9f29d250edc9d16335d693fc41d0d1da14b95",
+        "buffer_sha256": {
+          "dialogue01.lws.rig-10000000.bin": "daa7f238144b873e6987ffc9d594c935d91f58cbacba8ecdfa373d907b70d470"
+        },
+        "maximum_vertex_error": 7.257435364300409e-07,
+        "rms_vertex_error": 2.3408302824906987e-07,
+        "tolerance": 8.732410255432718e-06,
+        "maximum_bind_identity_error": 6.349438552710751e-08,
+        "maximum_rest_position_error": 1.3281358448975941e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\quatuor\\gltf\\work\\3d\\dialogue01.lws.rig-10000013.gltf",
+        "mesh_count": 1,
+        "vertices": 3909,
+        "gltf_sha256": "dc932acee1ac0ab0db53f505ed1448b6f50851f6bd14c5bb50924c96ed0fb4ed",
+        "buffer_sha256": {
+          "dialogue01.lws.rig-10000013.bin": "04b75e390ba2d68e99433a0279bf1ff35516780455d67e795c053dddc60f46a3"
+        },
+        "maximum_vertex_error": 7.257435364300409e-07,
+        "rms_vertex_error": 2.3408302824906987e-07,
+        "tolerance": 8.732410255432718e-06,
+        "maximum_bind_identity_error": 6.349438552710751e-08,
+        "maximum_rest_position_error": 1.3281358448975941e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\quatuor\\gltf\\work\\3d\\dialogue01.lws.rig-10000026.gltf",
+        "mesh_count": 1,
+        "vertices": 3909,
+        "gltf_sha256": "eb8bf088fd5f69712c4c2e79d2ade59f2f10e5cc62c0dc438899541b90f1f123",
+        "buffer_sha256": {
+          "dialogue01.lws.rig-10000026.bin": "04b75e390ba2d68e99433a0279bf1ff35516780455d67e795c053dddc60f46a3"
+        },
+        "maximum_vertex_error": 7.257435364300409e-07,
+        "rms_vertex_error": 2.3408302824906987e-07,
+        "tolerance": 8.732410255432718e-06,
+        "maximum_bind_identity_error": 6.349438552710751e-08,
+        "maximum_rest_position_error": 1.3281358448975941e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\quatuor\\gltf\\work\\3d\\dialogue01.lws.rig-10000039.gltf",
+        "mesh_count": 1,
+        "vertices": 3909,
+        "gltf_sha256": "ea65e33d3738410156c7d7eccd7981b6b27da18555941752707300af217f5bff",
+        "buffer_sha256": {
+          "dialogue01.lws.rig-10000039.bin": "04b75e390ba2d68e99433a0279bf1ff35516780455d67e795c053dddc60f46a3"
+        },
+        "maximum_vertex_error": 7.257435364300409e-07,
+        "rms_vertex_error": 2.3408302824906987e-07,
+        "tolerance": 8.732410255432718e-06,
+        "maximum_bind_identity_error": 6.349438552710751e-08,
+        "maximum_rest_position_error": 1.3281358448975941e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_export.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "290967f58d2bb3285a8fc5344725a33095f554420267f067d61f209691d31310",
+        "buffer_sha256": {
+          "smila_export.lws.rig-10000000.bin": "1ba0488ccd5512db5f91ed60c706e7f0de0c915e9427812754d63cb795ca15ea"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_export_converted.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "12d16ccdbc2b0554ee9956207e2d6e00ed145bbe811d5644564aa1253d867df0",
+        "buffer_sha256": {
+          "smila_export_converted.lws.rig-10000000.bin": "73bc1d70ab35d50f69cf79ba9ce54930eac36cdd0cd7fbf2ec61fdfbc131922c"
+        },
+        "maximum_vertex_error": 6.115038777322353e-07,
+        "rms_vertex_error": 1.8568527258484842e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_posing.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "ea1e2d18f36fff5f1d8c51984af40b3d9c067a32b515fd881a5c475b5d25df31",
+        "buffer_sha256": {
+          "smila_posing.lws.rig-10000000.bin": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_posing_02.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "f7723aa8bb8330173b91877ce3c7ee181a1f25d5fd77a3f877557483e51e6a60",
+        "buffer_sha256": {
+          "smila_posing_02.lws.rig-10000000.bin": "6af9f955b2a89739afe722b5055230616ce5dfbef6f8c0a84151ff012d9001b7"
+        },
+        "maximum_vertex_error": 6.09355471449862e-07,
+        "rms_vertex_error": 1.8151015900294914e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.0595716734115217e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_posing_toon.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "e3e68c511918d86cd6ce9fbcbd47116772bcd6b2ad310726af79028012d2b614",
+        "buffer_sha256": {
+          "smila_posing_toon.lws.rig-10000000.bin": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_rig.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 11361,
+        "gltf_sha256": "8f74e8130d9868c28c3ee0bebe85d38ee2c578aee90d477e6b9a90bf272c812d",
+        "buffer_sha256": {
+          "smila_rig.lws.rig-10000000.bin": "6db87c9c8be7a1929685731557e700eab30957fc7744a38ae5e8285415a294ef"
+        },
+        "maximum_vertex_error": 9.83137917709749e-07,
+        "rms_vertex_error": 2.3501938062892588e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.3153087691312882e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_rig_converted.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "69e816af0114ea49d5df9e99d17c3613e2ff752db84532a70ff6756c936d60f0",
+        "buffer_sha256": {
+          "smila_rig_converted.lws.rig-10000000.bin": "8b78d7bfba6bac6af4c00634e914d75b6ff7f26c3361be946cf9265442fc753e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 2.0922847991568395e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_run_cycle.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "da78cbb2d631bccf0466e9286ea66622d9cfa0dbc6fe839256c2884eaad63996",
+        "buffer_sha256": {
+          "smila_run_cycle.lws.rig-10000000.bin": "d973973072bcf3db2b209771bc807f44a8b066792712545d3dd49d20ca856a5e"
+        },
+        "maximum_vertex_error": 6.167352821402215e-07,
+        "rms_vertex_error": 1.860158259961345e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.9291861420618375e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "scope": "Actual glTF rest hierarchy, inverse binds and Blender evaluated armature vertices, compared by vertex index. Optional Workbench images inspect geometry, not LightWave rendering fidelity."
+  },
+  "animation": {
+    "blender_version": "4.2.0",
+    "files": [
+      {
+        "gltf": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\Smilla_IK.lws\\..\\..\\gltf\\Smilla_IK.lws.gltf",
+        "gltf_sha256": "53b202174d661ace14c68d2201a23eb6211861d09d78ea022d7a42e07831d76a",
+        "bin_sha256": "ce39b895a3afaaf755bbe93764886bf07b5e8e3c9fba592098c207492f0b1df2",
+        "bake_sha256": "72c411a67b22a3ee298c96b88933b003e8028ef18cbb28827985ad546bca200e",
+        "frames": 41,
+        "joints": 31,
+        "vertices": 11250,
+        "maximum_playback_error": 8.383144843003275e-07,
+        "rms_playback_error": 1.7620158592906545e-07,
+        "maximum_blender_vertex_movement": 0.7384071827506923,
+        "passed": true
+      }
+    ],
+    "passed": true,
+    "scope": "Blender evaluated armature vertices at every C sample, compared with independently reconstructed C world poses and exported weights. Verifies glTF skin playback, not equivalence to LightWave; no subdivision added."
+  },
+  "renders": {
+    "blender_version": "4.2.0",
+    "blender_build_hash": "a51f293548ad",
+    "files_checked": 2,
+    "files": [
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\quatuor\\gltf\\work\\3d\\dialogue01.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 3909,
+        "gltf_sha256": "d9d13e865787a9a388154a5108c9f29d250edc9d16335d693fc41d0d1da14b95",
+        "buffer_sha256": {
+          "dialogue01.lws.rig-10000000.bin": "daa7f238144b873e6987ffc9d594c935d91f58cbacba8ecdfa373d907b70d470"
+        },
+        "maximum_vertex_error": 7.257435364300409e-07,
+        "rms_vertex_error": 2.3408302824906987e-07,
+        "tolerance": 8.732410255432718e-06,
+        "maximum_bind_identity_error": 6.349438552710751e-08,
+        "maximum_rest_position_error": 1.3281358448975941e-07,
+        "passed": true,
+        "render": "S:\\works\\legacy-lightwave-projects\\build\\skin-qa-20260913\\renders\\dialogue01.lws.rig-10000000.png"
+      },
+      {
+        "file": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf\\smila_export_converted.lws.rig-10000000.gltf",
+        "mesh_count": 1,
+        "vertices": 13341,
+        "gltf_sha256": "12d16ccdbc2b0554ee9956207e2d6e00ed145bbe811d5644564aa1253d867df0",
+        "buffer_sha256": {
+          "smila_export_converted.lws.rig-10000000.bin": "73bc1d70ab35d50f69cf79ba9ce54930eac36cdd0cd7fbf2ec61fdfbc131922c"
+        },
+        "maximum_vertex_error": 6.115038777322353e-07,
+        "rms_vertex_error": 1.8568527258484842e-07,
+        "tolerance": 8.10605744944288e-06,
+        "maximum_bind_identity_error": 5.943226200066931e-08,
+        "maximum_rest_position_error": 1.1869909221218016e-07,
+        "passed": true,
+        "render": "S:\\works\\legacy-lightwave-projects\\build\\skin-qa-20260913\\renders\\smila_export_converted.lws.rig-10000000.png"
+      }
+    ],
+    "passed": true,
+    "scope": "Actual glTF rest hierarchy, inverse binds and Blender evaluated armature vertices, compared by vertex index. Optional Workbench images inspect geometry, not LightWave rendering fidelity."
+  },
+  "validators": {
+    "smila": {
+      "input": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\smila-by-moebius\\gltf",
+      "validator_versions": [
+        "2.0.0-dev.3.10"
+      ],
+      "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+      "files_checked": 34,
+      "resource_validation": true,
+      "counts": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 0,
+        "numHints": 0
+      },
+      "issue_codes": {},
+      "diagnostics": [],
+      "passed": true,
+      "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+    },
+    "quatuor": {
+      "input": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-173025\\packages\\quatuor\\gltf",
+      "validator_versions": [
+        "2.0.0-dev.3.10"
+      ],
+      "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+      "files_checked": 81,
+      "resource_validation": true,
+      "counts": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 1,
+        "numHints": 0
+      },
+      "issue_codes": {
+        "UNUSED_OBJECT": 1
+      },
+      "diagnostics": [
+        {
+          "file": "work/aa.srf.gltf",
+          "code": "UNUSED_OBJECT",
+          "message": "This object may be unused.",
+          "severity": 2,
+          "pointer": "/materials/0"
+        }
+      ],
+      "passed": true,
+      "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+    }
+  },
+  "scene_statuses": [
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\quatuor\\IR\\work\\3d\\dialogue01.lws\\manifest.json",
+      "sha256": "18dd02da01629c978e4849c3dc36cb77bc0aedba153d67732a0b0adcd337e3b7",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 79,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        },
+        {
+          "owner_item": 268435475,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 79,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        },
+        {
+          "owner_item": 268435494,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 79,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        },
+        {
+          "owner_item": 268435513,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 79,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_export.lws\\manifest.json",
+      "sha256": "af47c556313ca2f2d6a5866c4d8de1dfa714632b7233f3ad4c28117dc5e6c628",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 107,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_export_converted.lws\\manifest.json",
+      "sha256": "eeaea859db74bc52d60d1987d71c6c279238a69100e89143ac51067702247902",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 107,
+          "influence_sets": 1,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_posing.lws\\manifest.json",
+      "sha256": "2fa5364c3ec2b03acc70673abd0ef0817e5c21c685813e87e0825a041f1078b7",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 107,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_posing_02.lws\\manifest.json",
+      "sha256": "6e5924603755092599c7db36a50700595f77f5bf445de10fd5de89c261a86eb8",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 107,
+          "influence_sets": 18,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_posing_toon.lws\\manifest.json",
+      "sha256": "267360416c7530ac079199582fa804189a520c01a0a4a1ab00f7dee8d65f1329",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 107,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_rig.lws\\manifest.json",
+      "sha256": "74418b3d3bfdba2d89cef3f9f505a78eea8f17ca12bd0d1ecf1ac2749984ade2",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 121,
+          "influence_sets": 1,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_rig_converted.lws\\manifest.json",
+      "sha256": "caa97e46997c2854c64518f5c5306ee4a9641bcffbcb28cbee95d7d4b6785781",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 107,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\smila_run_cycle.lws\\manifest.json",
+      "sha256": "f87316c91696698745340f191af5f85979120fb5fa4cba6dc5d9186299330668",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "unsupported",
+        "scene_exported": false,
+        "samples": 0,
+        "goals": 0,
+        "maximum_goal_position_error": 0,
+        "uri": null,
+        "issue": "IK: pivot rotation is outside the autonomous profile"
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": false,
+          "bones": 107,
+          "influence_sets": 2,
+          "pose": "rest; object-local; scene motion and IK not evaluated",
+          "issue": ""
+        }
+      ]
+    },
+    {
+      "manifest": "output\\batch-20260913-173025\\packages\\smila-by-moebius\\IR\\Smilla_IK.lws\\manifest.json",
+      "sha256": "096c758e6ae7faeb33b96515fa0b41a2ed16fb2ef8d58800633edef8858ac4e1",
+      "scene_format": {
+        "format": "LWSC",
+        "version": 3,
+        "reader_profile": "lwsc3-subset-0.1",
+        "support": "supported-subset",
+        "uninterpreted_statements": 0
+      },
+      "skin_profile": "lightwave6",
+      "autonomous_animation": {
+        "profile": "autonomous-hpb-ik-0.1",
+        "status": "baked-approximation",
+        "scene_exported": true,
+        "samples": 41,
+        "goals": 7,
+        "maximum_goal_position_error": 0.17695879309243343,
+        "uri": "baked-animation.json",
+        "issue": ""
+      },
+      "rigs": [
+        {
+          "owner_item": 268435456,
+          "status": "procedural-weight-skin-approximation",
+          "animated": true,
+          "bones": 30,
+          "influence_sets": 1,
+          "pose": "autonomous animated approximation",
+          "issue": ""
+        }
+      ]
+    }
+  ],
+  "regression": {
+    "command": "ctest --test-dir build -C Release --output-on-failure -R '^(skin|procedural_skin|animation|autonomous_ik)_regression$'",
+    "groups_passed": 4,
+    "groups_failed": 0
+  },
+  "conclusion": "The exact reported files preserve their rest geometry in Blender and in independent CPU skin evaluation. Smilla_IK plays a skin animation across all 41 frames. A viewer compatibility problem is likely but its trigger is unconfirmed. No exporter workaround or weight/IK change is justified by this QA.",
+  "limits": "These checks validate glTF rest geometry and playback of the exported C bake, not equivalence to LightWave deformation. The separate rest rigs have no animation because the autonomous profile rejects rotated pivots; additional motion plugins may also require support."
+}

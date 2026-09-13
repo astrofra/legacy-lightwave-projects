@@ -215,7 +215,7 @@ class GltfTests(unittest.TestCase):
         self.write("tri.lwo", lwob())
         source = "LWSC\n1\nFirstFrame 0\nLastFrame 10\nFramesPerSecond 10\nAddNullObject parent\n"
         source += motion1([(0,[0,0,0,0,0,0,1,2,1],1), (10,[5,1,2,360,30,40,2,1,3],1)])
-        source += "LoadObject tri.lwo\nParentObject 1\nPivotPoint 1 2 3\n"
+        source += "LoadObject tri.lwo\nParentObject 1\nPivotPoint 1 2 3\nPivotRotation 37 -28 19\n"
         source += motion1([(0,[1,2,3,10,20,30,-1,1,1],1), (10,[3,4,5,40,50,60,1,2,1],1)])
         path = self.write("moving", source)
         out, manifest = self.convert(path)

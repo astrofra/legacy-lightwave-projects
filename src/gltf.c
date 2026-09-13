@@ -485,12 +485,12 @@ static void json_animation(FILE *f,const GDocument *doc,const char *name) {
         if(i||j) fputc(',',f);
         fprintf(f,"{\"sampler\":%zu,\"target\":{\"node\":%zu,\"path\":\"%s\"}}",3*i+j,doc->animation.v[i].node,paths[j]);
     }
-    fprintf(f,"],\"extras\":{\"profile\":\"%s\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"sampling\":\"one source-frame interval; LINEAR translation/scale and quaternion slerp between samples; includes pivot offsets; skeletal TRS when a skin is present; no morph or material animation\"}}]",doc->autonomous?"autonomous-hpb-ik-0.1":"sampled-scene-transforms-0.1",doc->first_frame,doc->last_frame,doc->package->scene.fps,doc->sample_count);
+    fprintf(f,"],\"extras\":{\"profile\":\"%s\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"sampling\":\"one source-frame interval; LINEAR translation/scale and quaternion slerp between samples; includes pivot offsets; skeletal TRS when a skin is present; no morph or material animation\"}}]",doc->autonomous?"autonomous-hpb-ik-0.2":"sampled-scene-transforms-0.1",doc->first_frame,doc->last_frame,doc->package->scene.fps,doc->sample_count);
 }
 static void json_document(FILE *f,const GDocument *doc,const char *name,int scene,size_t asset) {
     const LWSource *source=scene?&doc->package->scene.source:&doc->package->objects.v[asset].source;
     size_t i,j; int comma=0;
-    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,doc->autonomous?"autonomous-hpb-ik-0.1":doc->rig?"rest-skeleton-0.1":doc->animation.n?"sampled-scene-transforms-0.1":"static-base-geometry-0.1",source->sha256); lw_json_string(f,source->path);
+    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,doc->autonomous?"autonomous-hpb-ik-0.2":doc->rig?"rest-skeleton-0.1":doc->animation.n?"sampled-scene-transforms-0.1":"static-base-geometry-0.1",source->sha256); lw_json_string(f,source->path);
     if(doc->rig) {
         fprintf(f,",\"pose\":\"%s\",\"skin_status\":\"%s\",\"missing_map_procedural_fallbacks\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"skin_issue\":",doc->autonomous?"sampled autonomous IK/FK; approximation":"native-rest; object-local",doc->rig->weighted?(doc->rig->procedural_bones?(doc->package->legacy_bone_maps?"lightwave6-procedural-weights-0.1; approximation":"lightwave96-procedural-weights-0.1; approximation"):"explicit-normalized-weight-maps"):"skeleton-only; native influences not evaluated",doc->package->legacy_bone_maps?doc->rig->missing_maps:0,doc->rig->unweighted_points);
         lw_json_string(f,doc->rig->issue);

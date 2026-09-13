@@ -1,5 +1,10 @@
 # Baking autonome — v0.11.0
 
+**Mise à jour v0.15.0 :** les pivots orientés et leur composition avec les
+rotations de repos sont désormais pris en charge. La limite de 32 cibles IK
+s'applique par groupe de chaînes. Voir le [profil 0.2 et sa QA](oriented-pivots.md).
+Le texte ci-dessous décrit le profil initial 0.1 et ses mesures historiques.
+
 Le convertisseur C calcule maintenant un premier profil d'animation FK/IK sans
 LightWave, ScreamerNet, plugin de capture, Python embarqué ou SDK à l'exécution.
 Le `.bat` active ce calcul par défaut. Il s'agit d'une approximation bornée,

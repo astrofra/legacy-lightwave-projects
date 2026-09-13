@@ -11,8 +11,8 @@
 #define IK_GOALS 32
 typedef struct {
     size_t parent,goal,anchor,depth;
-    int control[3],limited[3],solve[3],stop,full,match;
-    double low[3],high[3],stiff[3],strength,v[9],local[16],world[16];
+    int control[3],limited[3],solve[3],stop,full,match,rotated_pivot;
+    double low[3],high[3],stiff[3],strength,v[9],local[16],world[16],pivot_rotation[16];
 } IKNode;
 typedef struct { size_t node; unsigned axis; } IKVar;
 typedef struct {
@@ -24,13 +24,14 @@ static void mul(double out[16],const double a[16],const double b[16]) {
     for(c=0;c<4;c++) for(r=0;r<4;r++) for(k=0;k<4;k++) t[c*4+r]+=a[k*4+r]*b[c*4+k];
     memcpy(out,t,sizeof t);
 }
-static void matrix(double m[16],const double v[9],const double pivot[3]) {
+static void matrix(double m[16],const double v[9],const double pivot[3],const double *pivot_rotation) {
     double y[16],x[16],z[16]; size_t r,c;
     lw_identity(y); lw_identity(x); lw_identity(z);
     y[0]=y[10]=cos(v[3]); y[8]=sin(v[3]); y[2]=-y[8];
     x[5]=x[10]=cos(v[4]); x[6]=sin(v[4]); x[9]=-x[6];
     z[0]=z[5]=cos(v[5]); z[1]=sin(v[5]); z[4]=-z[1];
     mul(m,y,x); mul(m,m,z);
+    if(pivot_rotation) mul(m,pivot_rotation,m);
     for(c=0;c<3;c++) for(r=0;r<3;r++) m[c*4+r]*=v[6+c];
     for(r=0;r<3;r++) { m[12+r]=v[r]; for(c=0;c<3;c++) m[12+r]-=m[c*4+r]*pivot[c]; }
 }
@@ -105,7 +106,12 @@ static int prepare(IKScene *s,LWIKBake *b,LWError *e) {
         const LWNode *source=&scene->nodes.v[i]; IKNode *n=&s->nodes[i];
         n->parent=source->parent==LW_NONE?SIZE_MAX:find(scene,source->parent); n->goal=n->anchor=SIZE_MAX; n->strength=1;
         if(source->parent!=LW_NONE&&n->parent==SIZE_MAX) return lw_error(e,source->source_offset,"IK","missing parent");
-        if(source->pivot_rotation[0]||source->pivot_rotation[1]||source->pivot_rotation[2]) return lw_error(e,source->source_offset,"IK","pivot rotation is outside the autonomous profile");
+        n->rotated_pivot=source->pivot_rotation[0]||source->pivot_rotation[1]||source->pivot_rotation[2];
+        if(n->rotated_pivot) {
+            double angles[3];
+            for(j=0;j<3;j++) angles[j]=source->pivot_rotation[j]*IK_PI/180;
+            lw_hpb_matrix(n->pivot_rotation,angles);
+        }
         if(source->mirrored_bank_follower) return lw_error(e,source->source_offset,"IK","Follower in a skeletal bake is not qualified");
         for(j=0;j<source->rig_parameters.n;j++) {
             const LWTextureField *f=&source->rig_parameters.v[j]; double v[2]; int recovered=0;
@@ -162,7 +168,7 @@ static int prepare(IKScene *s,LWIKBake *b,LWError *e) {
     for(i=0;i<scene->nodes.n;i++) {
         IKNode *n=&s->nodes[i];
         if(n->goal==SIZE_MAX||!n->full||!n->strength) { n->goal=SIZE_MAX; continue; }
-        if(++b->goals>IK_GOALS) return lw_error(e,0,"IK","more than 32 active goals");
+        b->goals++;
         for(j=n->parent;j!=SIZE_MAX;j=s->nodes[j].parent) if(s->nodes[j].stop) break;
         n->anchor=j;
         for(j=i;j!=n->anchor&&j!=SIZE_MAX;j=s->nodes[j].parent)
@@ -174,7 +180,7 @@ static void update(IKScene *s) {
     size_t i;
     for(i=0;i<s->count;i++) {
         size_t index=s->order[i]; IKNode *n=&s->nodes[index];
-        matrix(n->local,n->v,s->scene->nodes.v[index].pivot);
+        matrix(n->local,n->v,s->scene->nodes.v[index].pivot,n->rotated_pivot?n->pivot_rotation:NULL);
         if(n->parent==SIZE_MAX) memcpy(n->world,n->local,sizeof n->world);
         else mul(n->world,s->nodes[n->parent].world,n->local);
     }
@@ -210,7 +216,10 @@ static int linear(double a[IK_VARS][IK_VARS],double *rhs,size_t n) {
 static int solve_group(IKScene *s,size_t anchor,LWIKBake *b,LWError *e) {
     size_t goals[IK_GOALS],ng=0,nv=0,i,j,k,it,nr; IKVar vars[IK_VARS];
     double r[IK_GOALS*12],trial[IK_GOALS*12],jac[IK_VARS][IK_GOALS*12],normal[IK_VARS][IK_VARS],step[IK_VARS],old[IK_VARS],lambda=.001;
-    for(i=0;i<s->count;i++) if(s->nodes[i].goal!=SIZE_MAX&&s->nodes[i].anchor==anchor) goals[ng++]=i;
+    for(i=0;i<s->count;i++) if(s->nodes[i].goal!=SIZE_MAX&&s->nodes[i].anchor==anchor) {
+        if(ng==IK_GOALS) return lw_error(e,0,"IK","more than 32 active goals in one chain group");
+        goals[ng++]=i;
+    }
     for(i=0;i<ng;i++) for(j=goals[i];j!=anchor&&j!=SIZE_MAX;j=s->nodes[j].parent) for(k=0;k<3;k++) if(s->nodes[j].control[k]&&(!s->nodes[j].limited[k]||s->nodes[j].low[k]<s->nodes[j].high[k])) {
         size_t v; for(v=0;v<nv;v++) if(vars[v].node==j&&vars[v].axis==k) break;
         if(v<nv) continue;
@@ -334,7 +343,7 @@ int lw_write_ik_bake(const char *directory,const LWScene *scene,const LWIKBake *
     ok=lw_close(f,path,e); free(path); if(!ok) return 0;
     path=lw_join(directory,"baked-animation.json"); if(!path) return lw_error(e,0,"allocation","cannot allocate bake path");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create bake metadata"); }
-    fprintf(f,"{\"schema_version\":\"0.1\",\"kind\":\"derived-animation\",\"profile\":\"autonomous-hpb-ik-0.1\",\"approximation\":true,\"source_sha256\":\"%s\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"goals\":%zu,\"recovered_constraint_fields\":%zu,\"iterations\":%zu,\"maximum_goal_position_error\":%.17g,\"buffer\":{\"uri\":\"baked-animation.bin\",\"byte_length\":%zu,\"layout\":\"sample-major, source node order, local then world TRS (translation xyz, quaternion xyzw, scale xyz), little-endian float32\",\"node_stride\":80},\"node_ids\":[",scene->source.sha256,b->first,b->last,scene->fps,b->samples,b->goals,b->recovered_fields,b->iterations,b->max_goal_error,b->samples*b->nodes*80);
+    fprintf(f,"{\"schema_version\":\"0.1\",\"kind\":\"derived-animation\",\"profile\":\"autonomous-hpb-ik-0.2\",\"approximation\":true,\"source_sha256\":\"%s\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"goals\":%zu,\"recovered_constraint_fields\":%zu,\"iterations\":%zu,\"maximum_goal_position_error\":%.17g,\"buffer\":{\"uri\":\"baked-animation.bin\",\"byte_length\":%zu,\"layout\":\"sample-major, source node order, local then world TRS (translation xyz, quaternion xyzw, scale xyz), little-endian float32\",\"node_stride\":80},\"node_ids\":[",scene->source.sha256,b->first,b->last,scene->fps,b->samples,b->goals,b->recovered_fields,b->iterations,b->max_goal_error,b->samples*b->nodes*80);
     for(i=0;i<b->nodes;i++) fprintf(f,"%s%u",i?",":"",scene->nodes.v[i].id);
     fputs("],\"limits\":\"Numerical H/P/B goal approximation; stiffness influences damping; previous solved angles initialize subsequent frames. KeepGoalWithinReach does not move targets; matching orientation is approximated only on goal items with IK rotation axes. Original keys and constraints remain in scene.json. Deformation plugins, joint compensation and muscle flex are not evaluated.\"}\n",f);
     ok=lw_close(f,path,e); free(path); return ok;
