@@ -89,7 +89,7 @@ def prepare_projects(records, content, run, rig_policy="skins"):
         groups.setdefault(project, []).append(source)
         record["content_root"] = str(project)
     names = Names(output_name(project.name) for project in groups)
-    return {str(project): ProjectOutput(run / "packages" / names.get(str(project), output_name(project.name)), sources, project, rig_policy)
+    return {str(project): ProjectOutput(run / "packages" / names.get(str(project), output_name(project.name)), sources, project, rig_policy, defer_texture_names=True)
             for project, sources in sorted(groups.items())}
 
 
@@ -289,6 +289,14 @@ def main(argv=None):
                 write_report(run, report)
     except KeyboardInterrupt:
         interrupted = True
+    print("Finalizing readable texture names...", flush=True)
+    for root, project in projects.items():
+        try:
+            project.finalize_textures()
+        except (OSError, ValueError) as error:
+            for record in eligible:
+                if record["content_root"] == root and record["status"] in ("converted", "partial"):
+                    record.update(status="failed", reason=f"Texture publication: {error}")
     work = run / ".work"
     if work.exists() and not any(work.iterdir()):
         work.rmdir()

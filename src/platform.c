@@ -39,6 +39,14 @@ FILE *lw_fopen(const char *path,const char *mode) {
     return fopen(path,mode);
 #endif
 }
+int lw_remove_file(const char *path,LWError *e) {
+#ifdef _WIN32
+    wchar_t *w=wide(path); int ok=w&&DeleteFileW(w); free(w);
+#else
+    int ok=remove(path)==0;
+#endif
+    return ok?1:lw_error(e,0,"output","cannot remove generated file %s",path);
+}
 static void slashes(char *s) { for(;*s;s++) if(*s=='\\') *s='/'; }
 char *lw_join(const char *base,const char *name) {
     size_t a=strlen(base),b=strlen(name); char *p;

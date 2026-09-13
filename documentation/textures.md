@@ -1,4 +1,4 @@
-# Texture profile — v0.13.0
+# Texture profile — v0.14.0
 
 The motivating project is `content/orange-juice-signage`. Its scene loads the
 textured LWOB object `oj_tv_mesh_t.lwo`: `screen.iff` supplies the screen's color;
@@ -72,12 +72,49 @@ are sampled at the pixel centers of the largest image using nearest resampling.
 These material operations are explicit approximations requiring comparison with
 an original LightWave render for fidelity claims.
 
-`derived_maps` holds the PNG maps used by the exporters. Their relative URIs are
-`textures/<PNG SHA-256>.png`; identical content shares a filename. These files
-are present in the owning IR directory and in each format's texture directory.
-Batch publication preserves links, verifies content hashes, deduplicates shared
-maps and checks collisions. Moving `obj/` with its textures or `gltf/` with its
-buffers and textures needs no source path or IR directory.
+`derived_maps` holds the readable PNG URIs used by the exporters. The parallel
+`derived_map_sha256` dictionary records each role's full PNG content hash.
+These files are present in the owning IR directory and in the export texture
+directories. Batch publication preserves links, verifies content hashes and
+checks collisions. Moving `obj/` with its textures or `gltf/` with its buffers
+and textures needs no source path or IR directory.
+
+## Readable texture names
+
+Version 0.14.0 names derived PNGs `folder__image.png` by default. When different
+contents would occupy the same path, all conflicting names gain a role suffix
+(`base_color`, `opacity`, `emissive`, `specular`, `bump`, `normal`), then a material
+name, then an object name if needed. Remaining conflicts gain 12 hexadecimal
+characters of their content hash, extended to the full hash if necessary.
+Candidate names are rechecked after every step, including collisions with other
+images' natural names. Identical contents may share a name; differing contents
+never overwrite each other. Meaningful aliases can also refer to identical pixels.
+
+The C converter uses the input scene's folder, or the object's folder for a
+standalone conversion. Batch publication uses each scene's folder for scene/rig
+exports and the LWO's own folder for standalone object exports. Shared object
+exports therefore do not depend on which scene first referenced the object.
+The batch assigns final names after collecting all conversions in each project,
+so late collisions are handled across previously published objects too.
+
+Names preserve accents, replace spaces and Windows/OBJ-unsafe characters with
+underscores, and protect reserved Windows device names. Each descriptive
+component is limited to 36 UTF-8 bytes without splitting a character; any resulting
+collision follows the same suffix rules. glTF URIs percent-encode filenames.
+Names are deterministic for a given set of inputs; adding a conflicting asset
+in a later batch can require longer names.
+
+Full hashes remain in the IR's `derived_map_sha256`, glTF image `extras.sha256`,
+and MTL `# texture-sha256 <hash> <uri>` comments. The publisher verifies bytes
+before copying and stages renamed files before updating references. Temporary
+hash filenames are removed from completed exports. Archived native images and
+their existing provenance remain intact. Previous packages using hash filenames
+can still be consumed by the publisher and QA checker.
+
+The naming rule for composite maps, collision measurements and replay command
+are recorded in the [naming audit](texture-naming-audit.md).
+
+## Target bindings
 
 | Native channel | OBJ/MTL | glTF 2.0 |
 |---|---|---|

@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.13.0"
+#define LWCONVERT_VERSION "0.14.0"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -65,6 +65,7 @@ typedef struct {
     uint32_t flags, side, present, float_fields;
     size_t projection_texture;
     char *base_texture, *opacity_texture, *emissive_texture, *specular_texture, *bump_texture, *normal_texture;
+    char texture_sha256[6][65]; /* Derived PNG bytes, independently of presentation names. */
     int textured, texture_alpha;
 } LWMaterial;
 typedef struct {

@@ -310,6 +310,11 @@ all dependencies, or copy a glTF with its `.bin` and local `textures/` folder.
 Direct `lwconvert convert` calls retain their existing layout 0.2; the hierarchy
 is applied when assembling batch projects.
 
+Since v0.14.0, texture PNGs use readable `folder__image.png` names by default.
+Conflicting variants gain role, material and object suffixes as needed; content
+hashes remain in metadata. The batch resolves names across the whole project
+and updates glTF/MTL links automatically. See the [texture naming rules](documentation/textures.md#readable-texture-names).
+
 Existing exports are preserved. The batch continues after individual failures
 and writes an overall report, with per-file logs and links to manifests, OBJ and
 glTF files. Failed temporary packages remain under `.work/` for inspection and are

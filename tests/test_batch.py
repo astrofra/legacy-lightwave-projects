@@ -366,7 +366,8 @@ class BatchTests(unittest.TestCase):
             uri = data["images"][0]["uri"]
             image = path.parent / unquote(uri)
             self.assertTrue(image.resolve().is_relative_to(relocated))
-            self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(), image.stem)
+            self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(), data["images"][0]["extras"]["sha256"])
+            self.assertEqual(image.stem, (Path(name).parent.name if "/" in name else "project") + "__screen")
             obj = project / "obj" / (name + ".obj")
             self.assertIn("map_Kd " + uri, obj.with_suffix(".mtl").read_text("utf-8"))
             self.assertEqual((obj.parent / uri).read_bytes(), image.read_bytes())

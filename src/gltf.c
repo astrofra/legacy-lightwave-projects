@@ -448,6 +448,15 @@ static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
     fprintf(f,",\"source_smoothing_angle_radians\":%.9g,\"effective_smoothing_angle_radians\":%.9g",m?m->smoothing:0,lw_smoothing_angle(o,entry->index,NULL,NULL));
     fputs(",\"interpretation\":\"color/diffuse/emission/opacity approximation; neutral rough dielectric; compatible LWOB projections and LWO2 UV image maps; height bump and environment reflection preserved in IR; source-corner normals carry smoothing\"}}",f);
 }
+static void texture_uri(FILE *f,const char *name) {
+    const unsigned char *p=(const unsigned char *)name;
+    fputc('"',f);
+    for(;*p;p++) {
+        if((*p>='a'&&*p<='z')||(*p>='A'&&*p<='Z')||(*p>='0'&&*p<='9')||strchr("/-._~",*p)) fputc(*p,f);
+        else fprintf(f,"%%%02X",(unsigned)*p);
+    }
+    fputc('"',f);
+}
 static void buffer_uri(FILE *f,const char *name) {
     const unsigned char *p=(const unsigned char *)name;
     fputc('"',f);
@@ -542,7 +551,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
     }
     if(doc->textures.n) {
         fputs(",\n\"samplers\":[{\"magFilter\":9729,\"minFilter\":9987,\"wrapS\":10497,\"wrapT\":10497}],\"images\":[",f);
-        for(i=0;i<doc->textures.n;i++) { if(i) fputc(',',f); fputs("{\"uri\":",f); lw_json_string(f,doc->textures.v[i]); fputc('}',f); }
+        for(i=0;i<doc->textures.n;i++) { if(i) fputc(',',f); fputs("{\"uri\":",f); texture_uri(f,doc->textures.v[i]); fprintf(f,",\"extras\":{\"sha256\":\"%s\"}}",lw_texture_digest(doc->package,doc->textures.v[i])); }
         fputs("],\"textures\":[",f);
         for(i=0;i<doc->textures.n;i++) { if(i) fputc(',',f); fprintf(f,"{\"source\":%zu,\"sampler\":0}",i); }
         fputc(']',f);

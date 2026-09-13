@@ -21,6 +21,10 @@ static void materials(FILE *f,const LWObject *o,size_t asset) {
             m->base_texture?1:unit(m->color[0]*m->diffuse),m->base_texture?1:unit(m->color[1]*m->diffuse),m->base_texture?1:unit(m->color[2]*m->diffuse),
             m->specular_texture?1:unit(m->specular),m->specular_texture?1:unit(m->specular),m->specular_texture?1:unit(m->specular),
             m->emissive_texture?1:(double)m->color[0]*m->luminosity,m->emissive_texture?1:(double)m->color[1]*m->luminosity,m->emissive_texture?1:(double)m->color[2]*m->luminosity,m->opacity_texture?1:unit(1-m->transparency));
+        {
+            const char *uris[]={m->base_texture,m->opacity_texture,m->emissive_texture,m->specular_texture,m->bump_texture,m->normal_texture};
+            for(j=0;j<5;j++) if(uris[j]) fprintf(f,"# texture-sha256 %s %s\n",m->texture_sha256[j],uris[j]);
+        }
         if(m->base_texture) fprintf(f,"map_Kd %s\n",m->base_texture);
         if(m->opacity_texture) fprintf(f,"map_d %s\n",m->opacity_texture);
         if(m->emissive_texture) fprintf(f,"map_Ke %s\n",m->emissive_texture);

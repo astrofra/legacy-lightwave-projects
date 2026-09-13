@@ -4,7 +4,8 @@ import hashlib
 import os
 from pathlib import Path
 import shutil
-from urllib.parse import quote
+from urllib.parse import quote, unquote
+from texture_names import publish_names
 
 FORMATS = {"obj": "generated", "IR": "generated", "gltf": "generated", "blender": "not-implemented"}
 LAYOUT_VERSION = "0.3"
@@ -95,10 +96,20 @@ def copy_file(source, destination):
 
 def copy_obj(source, mtl_source, destination):
     destination.parent.mkdir(parents=True, exist_ok=True)
-    copy_file(mtl_source, destination.with_suffix(".mtl"))
-    for line in mtl_source.read_text("utf-8").splitlines():
+    lines = mtl_source.read_text("utf-8").splitlines()
+    hashes = {line.split()[3]: line.split()[2] for line in lines if line.startswith("# texture-sha256 ")}
+    result = []
+    for line in lines:
+        if line.startswith("# texture-sha256 "):
+            continue
         if line.startswith(("map_Kd ", "map_d ", "map_Ke ", "map_Ks ", "bump ")):
-            copy_texture(mtl_source.parent, line.split()[-1], destination.parent)
+            uri = line.split()[-1]
+            target = copy_texture(mtl_source.parent, uri, destination.parent, digest=hashes.get(uri), canonical=True)
+            digest = hashes.get(uri) or Path(uri).stem
+            result.append(f"# texture-sha256 {digest} {target}")
+            line = line.rsplit(None, 1)[0] + " " + target
+        result.append(line)
+    destination.with_suffix(".mtl").write_text("\n".join(result) + "\n", encoding="utf-8")
     with source.open("rb") as reader, destination.open("xb") as writer:
         # Current converter headers contain mtllib before all geometry. Stream
         # the remaining bytes unchanged, including UVs, groups and face order.
@@ -112,13 +123,15 @@ def copy_obj(source, mtl_source, destination):
             raise ValueError(f"Missing mtllib in {source}")
 
 
-def copy_texture(source_directory, uri, destination, content_addressed=True):
+def copy_texture(source_directory, uri, destination, content_addressed=True, digest=None, canonical=False):
     local = Path(uri)
     if local.is_absolute() or local.drive or len(local.parts) != 2 or local.parts[0] != "textures" or local.parts[1] in {".", ".."}:
         raise ValueError(f"Invalid texture URI: {uri}")
     source = package_file(source_directory, uri)
-    if content_addressed and (local.suffix != ".png" or hashlib.sha256(source.read_bytes()).hexdigest() != local.stem):
+    if content_addressed and (local.suffix != ".png" or hashlib.sha256(source.read_bytes()).hexdigest() != (digest or local.stem)):
         raise ValueError(f"Texture content hash mismatch: {uri}")
+    if canonical:
+        local = Path("textures") / ((digest or local.stem) + ".png")
     target = destination / local
     target.parent.mkdir(exist_ok=True)
     if target.exists():
@@ -126,6 +139,7 @@ def copy_texture(source_directory, uri, destination, content_addressed=True):
             raise ValueError(f"Texture collision: {target}")
     else:
         copy_file(source, target)
+    return local.as_posix()
 
 
 def copy_ir(package, data, destination, filenames):
@@ -163,9 +177,11 @@ def apply_rig_policy(manifest, policy):
 
 
 class ProjectOutput:
-    def __init__(self, directory, sources, source_root=None, rig_policy="skins"):
+    def __init__(self, directory, sources, source_root=None, rig_policy="skins", defer_texture_names=False):
         self.directory = directory
         self.rig_policy = rig_policy
+        self.defer_texture_names = defer_texture_names
+        self.texture_exports = []
         ordered = sorted((Path(path).resolve() for path in sources), key=str)
         self.source_root = Path(source_root or os.path.commonpath([path.parent for path in ordered])).resolve()
         self.bases = {source_key(path): source_output_name(path) for path in ordered}
@@ -236,7 +252,7 @@ class ProjectOutput:
                 (self.directory / name).mkdir()
             self.initialized = True
 
-    def publish_gltf(self, package, uri, bin_uri, name, ir):
+    def publish_gltf(self, package, uri, bin_uri, name, ir, owner, objects):
         destination = self.directory / "gltf" / (name + ".gltf")
         destination.parent.mkdir(parents=True, exist_ok=True)
         binary = destination.with_suffix(".bin")
@@ -247,12 +263,21 @@ class ProjectOutput:
             buffer["uri"] = quote(binary.name, safe="-._~")
         source_directory = package_file(package, uri).parent
         for image in data.get("images", []):
-            copy_texture(source_directory, image["uri"], destination.parent)
+            digest = image.get("extras", {}).get("sha256")
+            image["uri"] = copy_texture(source_directory, unquote(image["uri"]), destination.parent, digest=digest, canonical=True)
+            image.setdefault("extras", {})["sha256"] = digest or Path(image["uri"]).stem
         copy_file(package_file(package, bin_uri), binary)
         with destination.open("x", encoding="utf-8") as writer:
             json.dump(data, writer, ensure_ascii=False, separators=(",", ":"))
             writer.write("\n")
+        if data.get("images"):
+            self.texture_exports.append((destination, owner, objects))
         return relative(destination, ir), relative(binary, ir)
+
+    def finalize_textures(self):
+        if self.texture_exports:
+            return publish_names(self.directory, self.texture_exports)
+        return {"policy": "readable-textures-1", "bindings": 0, "files": 0}
 
     def publish(self, package, manifest):
         if manifest.get("layout_version") != "0.2" or manifest.get("formats", {}).get("gltf") != "generated":
@@ -262,7 +287,9 @@ class ProjectOutput:
         name = self.name_for(manifest["input"])
         ir = self.directory / "IR" / name
         ir.mkdir(parents=True, exist_ok=True)
-        for asset in manifest["assets"]:
+        native_objects = [json.loads(package_file(package, a["uri"]).read_text("utf-8")) for a in manifest["assets"]]
+        native_objects = [{key: obj[key] for key in ("source", "materials", "image_references")} for obj in native_objects]
+        for asset_index, asset in enumerate(manifest["assets"]):
             key = source_key(asset["source_path"])
             asset_name = self.name_for(asset["source_path"])
             asset_ir = self.directory / "IR" / asset_name
@@ -275,7 +302,8 @@ class ProjectOutput:
                 asset_ir.mkdir(parents=True, exist_ok=True)
                 copy_ir(package, data, asset_ir, ("object.json", "geometry.bin", "source.bin"))
                 copy_obj(package_file(package, asset["obj"]), package_file(package, asset["mtl"]), obj)
-                self.publish_gltf(package, asset["gltf"], asset["gltf_bin"], asset_name, ir)
+                self.texture_exports.append((obj.with_suffix(".mtl"), asset["source_path"], [native_objects[asset_index]]))
+                self.publish_gltf(package, asset["gltf"], asset["gltf_bin"], asset_name, ir, asset["source_path"], [native_objects[asset_index]])
                 self.assets[key] = asset["id"]
             asset.update(name=asset_name, uri=relative(asset_ir / "object.json", ir), obj=relative(obj, ir), mtl=relative(obj.with_suffix(".mtl"), ir))
             gltf = self.directory / "gltf" / (asset_name + ".gltf")
@@ -301,10 +329,11 @@ class ProjectOutput:
         if manifest["scene_obj"]:
             obj = self.directory / "obj" / (name + ".obj")
             copy_obj(package_file(package, manifest["scene_obj"]), package_file(package, manifest["scene_mtl"]), obj)
+            self.texture_exports.append((obj.with_suffix(".mtl"), manifest["input"], native_objects))
             manifest.update(scene_obj=relative(obj, ir), scene_mtl=relative(obj.with_suffix(".mtl"), ir))
         primary_gltf = manifest["scene_gltf"]
         if manifest["scene_gltf"]:
-            manifest["scene_gltf"], manifest["scene_gltf_bin"] = self.publish_gltf(package, manifest["scene_gltf"], manifest["scene_gltf_bin"], name, ir)
+            manifest["scene_gltf"], manifest["scene_gltf_bin"] = self.publish_gltf(package, manifest["scene_gltf"], manifest["scene_gltf_bin"], name, ir, manifest["input"], native_objects)
         for rig in manifest.get("gltf_rigs", []):
             if rig.get("derived_skin"):
                 source_skin = package_file(package, rig["derived_skin"])
@@ -316,10 +345,10 @@ class ProjectOutput:
                     rig["gltf"], rig["gltf_bin"] = manifest["scene_gltf"], manifest["scene_gltf_bin"]
                 else:
                     rig_name = self.derived_name_for(manifest["input"], f".rig-{rig['owner_item']:08x}")
-                    rig["gltf"], rig["gltf_bin"] = self.publish_gltf(package, rig["gltf"], rig["gltf_bin"], rig_name, ir)
+                    rig["gltf"], rig["gltf_bin"] = self.publish_gltf(package, rig["gltf"], rig["gltf_bin"], rig_name, ir, manifest["input"], native_objects)
         for animation in manifest.get("gltf_animations", []):
             animation_name = self.derived_name_for(manifest["input"], f".anim-{animation['owner_item']:08x}")
-            animation["gltf"], animation["gltf_bin"] = self.publish_gltf(package, animation["gltf"], animation["gltf_bin"], animation_name, ir)
+            animation["gltf"], animation["gltf_bin"] = self.publish_gltf(package, animation["gltf"], animation["gltf_bin"], animation_name, ir, manifest["input"], native_objects)
         manifest_path = ir / "manifest.json"
         if manifest_path.exists():
             raise FileExistsError(f"Conversion manifest already exists: {manifest_path}")
@@ -327,4 +356,6 @@ class ProjectOutput:
         write_json(manifest_path, manifest)
         self.conversions.append({"source": manifest["input"], "name": name, "status": manifest["status"], "manifest": relative(manifest_path, self.directory)})
         write_json(self.directory / "manifest.json", {"layout_version": LAYOUT_VERSION, "kind": "project", "source_root": str(self.source_root), "formats": FORMATS, "conversions": self.conversions})
+        if not self.defer_texture_names:
+            self.finalize_textures()
         return manifest_path

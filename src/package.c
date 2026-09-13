@@ -329,11 +329,18 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     for(i=0;i<p.objects.n;i++) {
         LWObject *o=&p.objects.v[i]; size_t k;
         dir=lw_join(assets,p.names.v[i]); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
-        if(!lw_mkdir(dir,e)||!lw_package_images(dir,o->source.path,o->images.v,o->images.n,e)||!lw_prepare_textures(dir,opts->output,o,opts,e)||!lw_prepare_normal_maps(dir,opts->output,o,opts,e)||!lw_write_object(dir,o,e)) goto done;
+        if(!lw_mkdir(dir,e)||!lw_package_images(dir,o->source.path,o->images.v,o->images.n,e)||!lw_prepare_textures(dir,opts->output,o,opts,e)||!lw_prepare_normal_maps(dir,opts->output,o,opts,e)) goto done;
         free(dir); dir=NULL;
         if(o->images.n||o->texture_blocks||o->legacy_textures||o->invalid_map_references||o->missing_materials||o->non_finite_map_values) partial=1;
         for(k=0;k<o->chunks.n;k++) if(o->chunks.v[k].tag==LW_TAG('C','R','V','S')) partial=1;
         for(k=0;k<o->materials.n;k++) if(o->materials.v[k].source.size) partial=1;
+    }
+    if(!lw_name_textures(opts->output,&p,e)) goto done;
+    for(i=0;i<p.objects.n;i++) {
+        dir=lw_join(assets,p.names.v[i]);
+        if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
+        if(!lw_write_object(dir,&p.objects.v[i],e)) goto done;
+        free(dir); dir=NULL;
     }
     if(p.is_scene) {
         for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform||p.scene.nodes.v[i].key_count_mismatches||p.scene.nodes.v[i].clip_maps.n||p.scene.nodes.v[i].object_dissolve.size) partial=1;

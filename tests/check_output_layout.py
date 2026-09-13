@@ -64,9 +64,9 @@ def check(run):
                     image = linked(path.parent, decoded["png_uri"], project)
                     assert hashlib.sha256(image.read_bytes()).hexdigest() == decoded["png_sha256"], image
             for material in data.get("materials", []):
-                for uri in material.get("derived_maps", {}).values():
+                for role, uri in material.get("derived_maps", {}).items():
                     image = linked(path.parent, uri, project)
-                    assert hashlib.sha256(image.read_bytes()).hexdigest() == image.stem, image
+                    assert hashlib.sha256(image.read_bytes()).hexdigest() == material.get("derived_map_sha256", {}).get(role, image.stem), image
             source = linked(path.parent, data["source"]["uri"], project)
             digest = hashlib.sha256(source.read_bytes()).hexdigest()
             assert digest == data["source"]["sha256"], source
@@ -118,7 +118,7 @@ def check(run):
                         assert bin_path.stat().st_size == buffer["byteLength"]
                     for image in data.get("images", []):
                         image_path = linked(path.parent, unquote(image["uri"]), project)
-                        assert hashlib.sha256(image_path.read_bytes()).hexdigest() == image_path.stem, image_path
+                        assert hashlib.sha256(image_path.read_bytes()).hexdigest() == image.get("extras", {}).get("sha256", image_path.stem), image_path
                     for texture in data.get("textures", []):
                         assert 0 <= texture["source"] < len(data["images"])
                         assert 0 <= texture["sampler"] < len(data["samplers"])
@@ -140,10 +140,12 @@ def check(run):
         assert libraries == [obj.with_suffix(".mtl")], obj
         materials = {line.split()[1] for line in libraries[0].read_text("utf-8").splitlines() if line.startswith("newmtl ")}
         assert used <= materials, (obj, used - materials)
-        for line in libraries[0].read_text("utf-8").splitlines():
+        lines = libraries[0].read_text("utf-8").splitlines()
+        hashes = {line.split()[3]: line.split()[2] for line in lines if line.startswith("# texture-sha256 ")}
+        for line in lines:
             if line.startswith(("map_Kd ", "map_d ", "map_Ke ", "map_Ks ", "bump ")):
                 image = linked(obj.parent, line.split()[-1], obj.parent)
-                assert hashlib.sha256(image.read_bytes()).hexdigest() == image.stem, image
+                assert hashlib.sha256(image.read_bytes()).hexdigest() == hashes.get(line.split()[-1], image.stem), image
     for project, manifests in projects.items():
         index = json.loads((project / "manifest.json").read_text("utf-8"))
         assert manifests == {linked(project, item["manifest"], project) for item in index["conversions"]}, project

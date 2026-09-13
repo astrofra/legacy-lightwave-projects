@@ -39,6 +39,9 @@ char *lw_dirname(const char *);
 const char *lw_basename(const char *);
 int lw_path_exists(const char *);
 int lw_mkdir(const char *, LWError *);
+int lw_remove_file(const char *, LWError *);
+extern const char *lw_texture_roles[6];
+char **lw_texture_slot(LWMaterial *,size_t);
 int lw_path_inside(const char *, const char *);
 int lw_path_equal(const char *, const char *);
 typedef LW_ARRAY(char *) LWPaths;
@@ -73,6 +76,8 @@ typedef struct {
     size_t content_references, content_matches;
     size_t unresolved, approximation_count;
 } LWPackage;
+const char *lw_texture_digest(const LWPackage *,const char *);
+int lw_name_textures(const char *,LWPackage *,LWError *);
 int lw_infer_content_root(LWPackage *, const LWOptions *, LWError *);
 int lw_convert(const LWOptions *, LWError *);
 void lw_free_package(LWPackage *);

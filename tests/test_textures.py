@@ -17,6 +17,8 @@ from test_converter import EXE, U16, F32, s0, chunk, form, vx
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 from output_layout import copy_texture
+from texture_names import allocate
+from urllib.parse import unquote
 
 
 def ilbm(rows, planes=24, compression=1, mask=0, transparent=0, palette=b"", camg=0):
@@ -387,6 +389,74 @@ class TextureTests(unittest.TestCase):
         self.write("textures/not-a-hash.png",b"pixels")
         for uri in ("../escape.png","textures/../../escape.png","textures/not-a-hash.png"):
             with self.assertRaises(ValueError): copy_texture(source,uri,destination)
+
+    def test_readable_names_preserve_material_variants_and_batch_links(self):
+        self.write("project/maps/screen.iff",ilbm([[(255,255,255)]]))
+        for name, strength in (("one",64),("two",128),("three",256)):
+            self.write(f"project/{name}.lwo",textured(scalar=chunk("DIFF",U16(strength),True)))
+        scene=self.write("project/shot.lws","LWSC\n1\nLoadObject one.lwo\nLoadObject two.lwo\nLoadObject three.lwo\n")
+        # The C package must disambiguate materials with identical surface names.
+        out,manifest=self.convert(scene,code=2)
+        direct,_=gltf.load(out/manifest["scene_gltf"])
+        colors=[]
+        for ref in direct["images"]:
+            path=(out/manifest["scene_gltf"]).parent/unquote(ref["uri"])
+            self.assertIn("__surface__base_color",path.name)
+            self.assertEqual(hashlib.sha256(path.read_bytes()).hexdigest(),ref["extras"]["sha256"])
+            colors.append(png(path)[0][0][0])
+        self.assertEqual(len(set(colors)),3)
+        # Separate C conversions initially choose the same short name. Publication
+        # must resolve those later collisions across all objects and both formats.
+        target=self.base/"named-batch"
+        result=subprocess.run([sys.executable,"-X","utf8",str(ROOT/"tools/batch_convert.py"),"--content",str(self.root),
+                               "--output-root",str(target),"--converter",EXE],capture_output=True,text=True,encoding="utf-8",timeout=60)
+        self.assertEqual(result.returncode,2,result.stdout+result.stderr)
+        project=next(target.iterdir())/"packages/project"
+        for path in (project/"gltf").glob("*.gltf"):
+            data,_=gltf.load(path)
+            for ref in data["images"]:
+                image=path.parent/unquote(ref["uri"])
+                self.assertIn("__surface__base_color",image.name)
+                self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(),ref["extras"]["sha256"])
+        self.assertEqual(len(list((project/"gltf/textures").glob("*.png"))),3)
+        self.assertEqual(len(list((project/"obj/textures").glob("*.png"))),3)
+        for path in (project/"IR").rglob("object.json"):
+            data=json.loads(path.read_text("utf-8"))
+            for m in data["materials"]:
+                for role,uri in m["derived_maps"].items():
+                    self.assertEqual(hashlib.sha256((path.parent/uri).read_bytes()).hexdigest(),m["derived_map_sha256"][role])
+
+    def test_texture_name_allocator_case_sanitization_and_order(self):
+        row=dict(directory_path="textures",directory="CON",image="photo",object="mesh",material="surface",
+                 role="base_color",sha256="a"*64)
+        records=[row,dict(row,image="PHOTO",sha256="b"*64),dict(row,image="photo__base_color",sha256="c"*64)]
+        names=allocate(records)
+        self.assertEqual(names,list(reversed(allocate(list(reversed(records))))))
+        self.assertEqual(len({n.casefold() for n in names}),3)
+        self.assertTrue(all(n.startswith("_CON__") for n in names))
+        self.assertTrue(any("a"*12 in name for name in names))
+        self.assertEqual(allocate([row,row]),["_CON__photo.png"]*2)
+        # Long UTF-8 names and ambiguous sanitized labels reach a bounded fallback.
+        long=dict(row,image="\u00e9"*200,material="a/b")
+        names=allocate([long,dict(long,material="a\\b",sha256="b"*64)])
+        self.assertEqual(len(set(names)),2)
+        self.assertTrue(all(len(n.encode("utf-8"))<=255 for n in names))
+
+    def test_readable_c_names_encode_unicode_and_percent_in_gltf_uris(self):
+        folder="\u00e9tude %"
+        self.write(folder+"/maps/\u00e9cran%.iff",ilbm([[(255,0,0)]]))
+        source=self.write(folder+"/mesh.lwo",textured(texture(path="maps/\u00e9cran%.iff")))
+        scene=self.write("shot.lws","LWSC\n1\nLoadObject "+folder+"/mesh.lwo\n")
+        for path in (source,scene):
+            out,manifest=self.convert(path,code=2)
+            gltf_path=out/(manifest["scene_gltf"] or manifest["assets"][0]["gltf"])
+            data,_=gltf.load(gltf_path)
+            uri=data["images"][0]["uri"]
+            self.assertIn("%25",uri)
+            self.assertIn("%C3%A9",uri)
+            image=gltf_path.parent/unquote(uri)
+            self.assertEqual(png(image)[0][0],(255,0,0,255))
+            self.assertEqual(hashlib.sha256(image.read_bytes()).hexdigest(),data["images"][0]["extras"]["sha256"])
 
 
 if __name__ == "__main__": unittest.main()

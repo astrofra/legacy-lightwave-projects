@@ -1,0 +1,44 @@
+{
+  "date": "2026-09-13",
+  "feature": "readable-textures-1",
+  "converter_version": "0.14.0",
+  "converter_sha256": "0f8d22242b53a09cde85218833b6c2541eefe082a88a5ce10fe8e4269102801e",
+  "release_regression_groups_passed": 11,
+  "address_sanitizer_regression_groups_passed": 11,
+  "texture_regression_tests_passed": 20,
+  "corpus_check": {
+    "batch": "S:\\works\\legacy-lightwave-projects\\build\\texture-names-qa\\batch-20260913-172132",
+    "layout_version": "0.3",
+    "input_statuses": {
+      "skipped": 378,
+      "partial": 136,
+      "converted": 11
+    },
+    "projects": 5,
+    "conversion_manifests": 147,
+    "native_sources_checked": 147,
+    "obj_mtl_pairs_checked": 144,
+    "gltf_buffer_pairs_checked": 144,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  },
+  "comparison_with_previous_batch": {
+    "batch": "output/batch-20260913-163728",
+    "unchanged_binary_buffers": 438,
+    "unchanged_gltf_material_texture_bindings_exports": 144
+  },
+  "final_default_bat_check": {
+    "batch": "S:\\works\\legacy-lightwave-projects\\build\\texture-names-final\\batch-20260913-172824",
+    "layout_version": "0.3",
+    "input_statuses": {
+      "partial": 2
+    },
+    "projects": 2,
+    "conversion_manifests": 2,
+    "native_sources_checked": 11,
+    "obj_mtl_pairs_checked": 11,
+    "gltf_buffer_pairs_checked": 11,
+    "passed": true,
+    "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+  }
+}
