@@ -103,6 +103,19 @@ int lw_triangulate(const LWObject *o,const LWPrimitive *p,LWTriangulation *t,LWE
         }
     }
     if(fabs(area)<=epsilon) { reject(t,"projected area is numerically degenerate"); goto done; }
+    /* A -> B -> A is an empty excursion, not an area-bearing hole. Leaving
+       it in the ear loop can clip across the repeated A and leave a negative
+       final triangle, incorrectly rejecting the entire face. Remove the tip
+       and one copy of A only after checking the complete boundary for invalid
+       crossings. Iterate to handle nested excursions. Compare source point
+       IDs: distinct coincident points (including nonplanar folds) stay intact.
+       Only the working contour changes; original corners remain in the IR. */
+    for(i=0;i<p->count&&remaining>4;) {
+        if(v[i].active&&o->indices.v[p->first+v[i].prev]==o->indices.v[p->first+v[i].next]) {
+            uint32_t next=v[i].next;
+            remove_corner(v,i); remove_corner(v,next); remaining-=2; i=0;
+        } else i++;
+    }
     sign=area>0?1:-1; cursor=0;
     while(!v[cursor].active) cursor++;
     while(remaining>3) {

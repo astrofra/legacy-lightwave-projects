@@ -785,6 +785,68 @@ class Converter(unittest.TestCase):
         out, manifest = self.convert(self.write("two-holes",self.polygon_fixture(points,boundary)))
         self.assertEqual(len(self.check_polygon_triangles(out,manifest,points,boundary)), 14)
 
+    def test_retraced_spur_preserves_concave_face_and_source_corners(self):
+        # An A -> B -> A excursion can remain after all area-bearing ears.
+        # It must not discard a complete face or fill its concave cutout.
+        points = [(0,0,0),(4,0,0),(4,4,0),(3,4,0),(3,1,0),
+                  (1,1,0),(1,4,0),(0,4,0),(3,4.001,0)]
+        boundary = [0,1,2,3,8,3,4,5,6,7]
+        maps = chunk("VMAP", b"TXUV"+U16(2)+s0("uv")+b"".join(vx(i)+F32(i/16,i/32) for i in range(len(points))))
+        maps += chunk("VMAD", b"TXUV"+U16(2)+s0("uv")+vx(3)+vx(0)+F32(.75,.25))
+        for reverse in (False,True):
+            for start in range(len(boundary)):
+                order = boundary[start:]+boundary[:start]
+                if reverse: order = order[::-1]
+                with self.subTest(reverse=reverse,start=start):
+                    raw = self.polygon_fixture(points,order,maps)
+                    out,manifest = self.convert(self.write("spur.lwo",raw),"--uv-map","uv")
+                    self.assertEqual(manifest["obj_triangulation_failures"],0)
+                    self.assertEqual(manifest["gltf_triangulation_failures"],0)
+                    triangles = self.check_polygon_triangles(out,manifest,points,order)
+                    self.assertEqual(len(triangles),6)
+                    directory,ir = self.object_data(out,manifest)
+                    self.assertEqual((directory/"source.bin").read_bytes(),raw)
+                    native = (directory/ir["buffer"]["uri"]).read_bytes()
+                    self.assertEqual(struct.unpack_from("<10I",native,ir["indices"]["offset"]),tuple(order))
+                    path = out/manifest["assets"][0]["gltf"]
+                    gltf = json.loads(path.read_text())
+                    buffer = (path.parent/unquote(gltf["buffers"][0]["uri"])).read_bytes()
+                    primitive = gltf["meshes"][0]["primitives"][0]
+                    mapping = primitive["extras"]["source_map"]
+                    self.assertEqual(mapping["count"],18)
+                    exported_points = []
+                    for i in range(mapping["count"]):
+                        polygon,corner,point = struct.unpack_from("<3I",buffer,mapping["byteOffset"]+12*i)
+                        self.assertEqual(polygon,0)
+                        self.assertEqual(order[corner],point)
+                        exported_points.append(point)
+                        for semantic,expected in (("POSITION",(points[point][0],points[point][1],-points[point][2])),
+                                                  ("TEXCOORD_0",(.75,.75) if point==3 else (point/16,1-point/32))):
+                            accessor = gltf["accessors"][primitive["attributes"][semantic]]
+                            view = gltf["bufferViews"][accessor["bufferView"]]
+                            offset = view.get("byteOffset",0)+accessor.get("byteOffset",0)+i*view["byteStride"]
+                            self.assertEqual(struct.unpack_from("<"+"f"*len(expected),buffer,offset),expected)
+                    self.assertEqual(exported_points,[int(corner.split('/')[0])-1 for triangle in triangles for corner in triangle])
+
+    def test_nested_retraced_spur_keeps_bridged_hole_open(self):
+        points = [(0,0,0),(4,0,0),(4,4,0),(0,4,0),
+                  (1,1,0),(1,3,0),(3,3,0),(3,1,0),(-1,-1,0),(-1,-2,0)]
+        boundary = [0,8,9,8,0,4,5,6,7,4,0,1,2,3]
+        for order in (boundary,boundary[::-1]):
+            out,manifest = self.convert(self.write("nested-spur.lwo",self.polygon_fixture(points,order)))
+            self.assertEqual(len(self.check_polygon_triangles(out,manifest,points,order)),8)
+            self.assertEqual(manifest["gltf_triangles"],8)
+
+    def test_spur_cleanup_does_not_hide_crossings_or_weld_distinct_points(self):
+        square = [(0,0,0),(4,0,0),(4,4,0),(0,4,0)]
+        cases = [(square+[(-1,3,0)], [0,1,4,1,2,3]),
+                 (square+[(5,5,0),(4,4,0)], [0,1,2,4,5,3]),
+                 (square+[(5,5,0),(4,4,.1)], [0,1,2,4,5,3])]
+        for points,boundary in cases:
+            out,manifest = self.convert(self.write("invalid-spur.lwo",self.polygon_fixture(points,boundary)),code=2)
+            self.assertEqual(manifest["obj_triangulation_failures"],1)
+            self.assertEqual(manifest["gltf_triangles"],0)
+
     def test_projection_scale_and_explicit_closing_corner(self):
         for scale,offset in ((1e-8,0),(16,1e6)):
             points = [(7*scale,offset+x*scale,offset+y*scale) for x,y in ((0,0),(4,0),(4,4),(1,1),(0,4))]

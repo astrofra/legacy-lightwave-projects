@@ -73,6 +73,9 @@ The converter runs without Blender, addons or a graphical interface.
 Since v0.1.1, OBJ exports triangulate ordinary face polygons in C, including
 concave outlines and bridged holes. Native polygons remain in LWIR. See the
 [van triangulation diagnosis](documentation/van-triangulation.md) for an example.
+Since v0.15.1, retraced `A -> B -> A` contour excursions no longer cause
+otherwise valid faces to disappear in OBJ or glTF. Original points, corners
+and UV bindings remain preserved; see the [Cyber-bot QA](documentation/cyber-bot-ngons-20260913-qa.md).
 
 Since v0.3.0, every conversion also writes `gltf/<source filename>.gltf` and its
 `.bin`. It exports base geometry, material approximations and UVs. Scene snapshots
