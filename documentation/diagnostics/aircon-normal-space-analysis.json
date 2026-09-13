@@ -1,0 +1,130 @@
+{
+  "gltf": "build\\aircon-textures-qa\\batch-20260912-224012\\packages\\collosus-concept-design\\gltf\\items\\aircon\\aircon.lwo.gltf",
+  "image": "content\\collosus-concept-design\\items\\aircon\\aircon_norm.jpg",
+  "material": "aircon_target",
+  "gltf_sha256": "f44d0fdbbb8c63427d17d2df1f76e02565aa55fb9471b984b9b69237469fdab3",
+  "image_sha256": "99e20fd29af4f38925018060e60a83f8f8325fd9d1a634ca345ad51cf62cf409",
+  "size": [
+    512,
+    512
+  ],
+  "triangles": 213,
+  "uv_degenerate_triangles": 0,
+  "out_of_unit_square_triangles": 2,
+  "strict_interior_covered_texels": 147053,
+  "overlapping_strict_interior_texels": 0,
+  "scoring_samples": 121915,
+  "unit_length_accepted_samples": 121406,
+  "decoded_length": {
+    "mean": 0.9815527098848913,
+    "p50": 0.9922343610746371,
+    "p95": 1.0155197077440736
+  },
+  "best_object_coordinate_candidates": [
+    {
+      "rgb_permutation": [
+        0,
+        1,
+        2
+      ],
+      "signs": [
+        1,
+        1,
+        1
+      ],
+      "angle_degrees": {
+        "mean": 34.150574331954,
+        "p50": 34.008541034989996,
+        "p95": 59.35671358689689
+      },
+      "within_30_degrees": 0.42437770785628387
+    },
+    {
+      "rgb_permutation": [
+        0,
+        1,
+        2
+      ],
+      "signs": [
+        1,
+        -1,
+        1
+      ],
+      "angle_degrees": {
+        "mean": 56.04344930908569,
+        "p50": 46.57197859944263,
+        "p95": 154.0313636816607
+      },
+      "within_30_degrees": 0.2260431939113388
+    },
+    {
+      "rgb_permutation": [
+        0,
+        2,
+        1
+      ],
+      "signs": [
+        1,
+        -1,
+        -1
+      ],
+      "angle_degrees": {
+        "mean": 59.67978309529858,
+        "p50": 49.80114048756999,
+        "p95": 131.31685728184135
+      },
+      "within_30_degrees": 0.21137340823353046
+    },
+    {
+      "rgb_permutation": [
+        0,
+        2,
+        1
+      ],
+      "signs": [
+        1,
+        -1,
+        1
+      ],
+      "angle_degrees": {
+        "mean": 62.408232936331906,
+        "p50": 56.80193494506315,
+        "p95": 124.82768062829734
+      },
+      "within_30_degrees": 0.16071693326524225
+    },
+    {
+      "rgb_permutation": [
+        0,
+        2,
+        1
+      ],
+      "signs": [
+        1,
+        1,
+        -1
+      ],
+      "angle_degrees": {
+        "mean": 64.25720508035019,
+        "p50": 58.25335831445945,
+        "p95": 124.8820703317394
+      },
+      "within_30_degrees": 0.1615323789598537
+    }
+  ],
+  "direct_rgb_object_angle_degrees": {
+    "mean": 34.150574331954,
+    "p50": 34.008541034989996,
+    "p95": 59.35671358689689
+  },
+  "object_normal_same_hemisphere_fraction": 1.0,
+  "tangent_positive_z_fraction": 0.5530698647513302,
+  "tangent_flat_direction_angle_degrees": {
+    "mean": 87.58313253860493,
+    "p50": 89.77353741662365,
+    "p95": 168.1500169309861
+  },
+  "smooth_normal_mean_vector_length": 0.1127266957238065,
+  "interpretation": "Heuristic evidence for object-aligned vectors versus conventional tangent RGB. A world bake with identity/equivalent orientation is indistinguishable. No production conversion or MikkTSpace tangents generated.",
+  "sampling": "Nearest decoded JPEG sample at pixel centers inside selected UV triangles; no sRGB transfer. Orientation scores exclude a 3% barycentric border and decoded lengths outside (0.7,1.3). Overlapping samples are not deduplicated for scoring. UVs outside [0,1] are reported and skipped."
+}

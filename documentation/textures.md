@@ -138,6 +138,8 @@ image (`aircon_norm.tga`, available as JPG) belongs to a private `NormalShader`
 payload with a plugin-local CLIP, not the object's global CLIP table. That shader
 is named and reported as preserved-only; its normal-map behavior is not inferred
 from a filename. `FPrime` likewise remains a preserved shader.
+See the [normal-map conversion feasibility study](normal-map-conversion-feasibility.md)
+for measured object-space evidence and the proposed MikkTSpace conversion path.
 
 QA batch: `build/aircon-textures-qa/batch-20260912-224012` (kept outside the
 regular output cleanup). The LWO and LWS were converted through
