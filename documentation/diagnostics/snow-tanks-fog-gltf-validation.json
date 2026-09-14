@@ -1,0 +1,36 @@
+{
+  "input": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260914-135413\\packages\\snow-tanks\\gltf\\large_shot_fprime.lws.gltf",
+  "validator_versions": [
+    "2.0.0-dev.3.10"
+  ],
+  "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+  "files_checked": 1,
+  "resource_validation": true,
+  "counts": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 2,
+    "numHints": 0
+  },
+  "issue_codes": {
+    "IMAGE_NPOT_DIMENSIONS": 2
+  },
+  "diagnostics": [
+    {
+      "file": "large_shot_fprime.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "large_shot_fprime.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 66x66.",
+      "severity": 2,
+      "pointer": "/images/4"
+    }
+  ],
+  "passed": true,
+  "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+}

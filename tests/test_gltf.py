@@ -294,6 +294,76 @@ class GltfTests(unittest.TestCase):
         self.assertNotIn("animations",data)
         self.assertEqual(manifest["gltf_animation_channels"],0)
 
+    def test_lwo2_morf_spot_targets_and_morph_mixer_animation(self):
+        maps = chunk("VMAP", b"MORF"+U16(3)+s0("smile")+vx(0)+F32(1,2,3))
+        maps += chunk("VMAP", b"SPOT"+U16(3)+s0("absolute")+vx(1)+F32(4,5,6))
+        self.write("morph.lwo", form("LWO2", layer(0), maps))
+        plugin = ("Plugin DisplacementHandler 1 LW_MorphMixer\n1\n1\n{ Group\n1\n\"Miscellaneous\"\n}\n"
+                  "{ MorfForm\n\"smile\"\n0\n{ Envelope\n2\n"
+                  "Key 0 0 3 0 0 0 0 0 0\nKey 1 1 3 0 0 0 0 0 0\nBehaviors 1 1\n}\n}\nEndPlugin\n")
+        still_motion = ("ObjectMotion\nNumChannels 1\nChannel 0\n{ Envelope\n2\n"
+                        "Key 2 0 3 0 0 0 0 0 0\nKey 2 1 3 0 0 0 0 0 0\nBehaviors 1 1\n}\n")
+        scene = "LWSC\n3\nFirstFrame 0\nLastFrame 10\nFramesPerSecond 10\nLoadObject morph.lwo\n" + still_motion + plugin
+        out, manifest = self.convert(self.write("mixer.lws", scene), code=2)
+        standalone, _ = self.exported(out, manifest)
+        self.assertEqual(standalone["extras"]["profile"], "static-morph-geometry-0.2")
+        data, buffers = self.exported(out, manifest, scene=True)
+        self.assertEqual(data["extras"]["profile"], "sampled-scene-and-morph-0.2")
+        mesh = data["meshes"][data["nodes"][0]["mesh"]]
+        self.assertEqual(mesh["extras"]["targetNames"], ["smile", "absolute"])
+        primitive = mesh["primitives"][0]
+        self.assertEqual(values(data,buffers,primitive["targets"][0]["POSITION"]), [(0,0,0),(0,0,0),(1,2,-3)])
+        self.assertEqual(values(data,buffers,primitive["targets"][1]["POSITION"]), [(0,0,0),(3,5,-5),(0,0,0)])
+        self.assertEqual(data["nodes"][0]["weights"], [0,0])
+        channels = [c for c in data["animations"][0]["channels"] if c["target"]["path"] == "weights"]
+        self.assertEqual(len(channels), 1)
+        sampler = data["animations"][0]["samplers"][channels[0]["sampler"]]
+        weights = values(data,buffers,sampler["output"])
+        self.assertEqual(len(weights), 22)
+        self.assertEqual([weights[i][0] for i in (0,1,10,11,20,21)], [0,0,.5,0,1,0])
+        scene_ir = json.loads((out/manifest["scene"]).read_text("utf-8"))
+        self.assertEqual(scene_ir["plugins"][0]["status"], "morph-mixer-interpreted")
+        self.assertEqual(scene_ir["nodes"][0]["morph_deformation"]["forms"][0]["envelope"]["keys"][1]["value"], 1)
+
+    def test_external_object_morph_is_animated_and_dissolved_target_is_hidden(self):
+        self.write("base.lwo", form("LWO2", layer(0)))
+        target = form("LWO2", chunk("LAYR", U16(0)+U16(0)+F32(0,0,0)+s0("layer0")),
+                      chunk("PNTS", F32(0,0,1, 3,0,1, 0,1,1)),
+                      chunk("POLS", b"FACE"+U16(3)+vx(0)+vx(1)+vx(2)))
+        self.write("target.lwo", target)
+        envelope = ("MorphAmount (envelope)\n{ Envelope\n2\n"
+                    "Key 0 0 3 0 0 0 0 0 0\nKey 1 1 3 0 0 0 0 0 0\nBehaviors 1 1\n}\n")
+        scene = ("LWSC\n3\nFirstFrame 0\nLastFrame 10\nFramesPerSecond 10\nLoadObject base.lwo\n"+
+                 envelope+"MorphTarget 2\nMorphSurfaces 0\nLoadObject target.lwo\nObjectDissolve 1\n")
+        out, manifest = self.convert(self.write("external.lws", scene))
+        data, buffers = self.exported(out, manifest, scene=True)
+        self.assertEqual(len(data["meshes"]), 1)
+        self.assertEqual(sum("mesh" in node for node in data["nodes"]), 1)
+        source = next(node for node in data["nodes"] if "mesh" in node)
+        primitive = data["meshes"][source["mesh"]]["primitives"][0]
+        self.assertEqual(values(data,buffers,primitive["targets"][0]["POSITION"]), [(0,0,0),(2,0,0),(0,0,0)])
+        channel = next(c for c in data["animations"][0]["channels"] if c["target"]["path"] == "weights")
+        weights = values(data,buffers,data["animations"][0]["samplers"][channel["sampler"]]["output"])
+        self.assertEqual([weights[i][0] for i in (0,5,10)], [0,.5,1])
+
+    def test_external_morph_target_references_follow_lwsc1_and_lwsc5_rules(self):
+        for version,expected_id,loads in (
+            (1,0x10000001,"LoadObject base1.lwo\nMorphAmount 1\nMorphTarget 2\nLoadObject target1.lwo\n"),
+            (5,0x1000004d,"LoadObject 1000004c base5.lwo\nMorphAmount 1\nMorphTarget 1000004d\nLoadObject 1000004d target5.lwo\n"),
+        ):
+            self.write(f"base{version}.lwo", form("LWO2", layer(0)))
+            target = form("LWO2", chunk("LAYR", U16(0)+U16(0)+F32(0,0,0)+s0("layer0")),
+                          chunk("PNTS", F32(0,0,1, 3,0,1, 0,1,1)),
+                          chunk("POLS", b"FACE"+U16(3)+vx(0)+vx(1)+vx(2)))
+            self.write(f"target{version}.lwo", target)
+            out, manifest = self.convert(self.write(f"target-v{version}.lws", f"LWSC\n{version}\n"+loads+"ObjectDissolve 1\n"), code=2 if version==5 else 0)
+            scene_ir = json.loads((out/manifest["scene"]).read_text("utf-8"))
+            self.assertEqual(scene_ir["nodes"][0]["morph_deformation"]["target_item"], expected_id)
+            data, _ = self.exported(out, manifest, scene=True)
+            source = next(node for node in data["nodes"] if "mesh" in node)
+            mesh = data["meshes"][source["mesh"]]
+            self.assertEqual(mesh["extras"]["targetNames"], [f"ObjectMorph_{expected_id:08x}"])
+
 
 if __name__ == "__main__":
     unittest.main()

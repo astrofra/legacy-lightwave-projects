@@ -128,7 +128,10 @@ Since v0.15.0, oriented pivots and combined rest/pivot rotations are supported.
 Dialogue's four skins now receive autonomous animation; the 32-goal bound applies
 per chain group. See the [native measurements, playback QA and remaining limits](documentation/oriented-pivots.md).
 The [Redline corpus inventory](documentation/redline-animation-corpus.md) adds
-FK, IK and morph cases, with a separate roadmap for named morph targets and weights.
+FK, IK and morph cases. Since v0.19.0, the autonomous C exporter translates
+LWO2 `MORF`/`SPOT`, compatible external-object targets, `LW_MorphMixer` and
+`MorphAmount` to standard glTF morph targets and sampled weight tracks. See
+the [morph profile and Snow Tanks/Red Line QA](documentation/morph-targets.md).
 
 Image references now resolve within the owning LWS/LWO directory and its
 descendants, including an alternative image extension when the filename stem
@@ -169,8 +172,9 @@ Since v0.9.0, the standalone C converter also derives editable skin weights
 from procedural bone influences and hybrid weight maps. It exports standard
 glTF skins and separate, explicitly derived weights in the IR. The measured
 LightWave 9.6 approximation includes falloff, strength, limited ranges and
-Faster Bones. It needs no LightWave installation. Joint compensation, muscle
-flexing, scene morphs and IK animation remain outside this fixed-weight profile.
+Faster Bones. It needs no LightWave installation. Joint compensation and muscle
+flexing remain outside this fixed-weight profile; morph targets are combined
+with the derived skin by the glTF runtime before skeletal deformation.
 See the [algorithm and measured QA](documentation/procedural-skinning.md).
 See the [Quatuor export simplification QA](documentation/quatuor-gltf-qa.md).
 
@@ -198,7 +202,8 @@ roles, native parameter trees and source byte ranges. Since **v0.17.0**, static
 image masks aligned with a material's planar/spherical mapping produce glTF
 `MASK` (cutoff 0.5) and an OBJ `map_d`. Grayscale PSD masks are decoded in C.
 Standalone objects can recover a unanimous clip appearance from neighboring
-scenes. Object dissolve remains separate; Blender's native backend is deferred.
+scenes. Static `ObjectDissolve 1` instances are omitted from scene glTF since
+v0.19.0; partial or animated dissolve remains separate. Blender's native backend is deferred.
 Version **0.18.0** also evaluates legacy LWSC1 planar clips and independent
 planar mask placement on finite Reset/Edge color atlases, including Dora Maar.
 See [clip-map scope and Butterfly/Dora QA](documentation/clip-maps.md).

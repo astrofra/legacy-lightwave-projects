@@ -1,0 +1,340 @@
+{
+  "inspection_completed": true,
+  "visual_fidelity_passed": false,
+  "project": "output\\batch-20260914-135413\\packages\\snow-tanks",
+  "converter": "lwconvert 0.18.0",
+  "scene_sha256": "9980b3798950575a41cfad8530bafe9381b97f15211ff1249c05d819715e7f94",
+  "gltf_sha256": "8a6e60879ac34ee4a01c44e39a17bc28280e84de9a5f99ca696dc8414f8cad77",
+  "nodes": [
+    {
+      "object": "obj_layered_tiled_fog.lwo",
+      "source_sha256": "857ac2e343898fc624f29f29faeb38b19f55a3966836eb169d50dee593bb7cf4",
+      "native_surfaces": [
+        {
+          "name": "layered_fog",
+          "fields": {
+            "LUMI": {
+              "value": 1.0,
+              "envelope": 0,
+              "source_offset": 18892,
+              "source_bytes": 12
+            },
+            "DIFF": {
+              "value": 0.0,
+              "envelope": 0,
+              "source_offset": 18904,
+              "source_bytes": 12
+            },
+            "ADTR": {
+              "value": 1.0,
+              "envelope": 0,
+              "source_offset": 18916,
+              "source_bytes": 12
+            }
+          }
+        }
+      ],
+      "source_node_id": 268435476,
+      "native_object_dissolve": null,
+      "exported_as_mesh": true,
+      "exported_morph_targets": false,
+      "native_points": 810,
+      "native_polygons": 640,
+      "materials": [
+        {
+          "index": 13,
+          "alpha_mode": "OPAQUE",
+          "base_color_factor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "emissive_factor": [
+            1,
+            1,
+            1
+          ],
+          "images": {
+            "base_color": {
+              "uri": "textures/snow-tanks__map_layered_fog__base_color.png",
+              "sha256": "18886ab6a52fd64a058e540909cf6cc5ce2a6e7297f20d3bc182679182db734a",
+              "size": [
+                128,
+                128
+              ],
+              "rgba_extrema": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  255,
+                  255
+                ]
+              ]
+            },
+            "emissive": {
+              "uri": "textures/snow-tanks__map_layered_fog__emissive.png",
+              "sha256": "4c8f653d092b47a845293907e8b7fbde748c844029109a8ebb01c29e7433cf17",
+              "size": [
+                128,
+                128
+              ],
+              "rgba_extrema": [
+                [
+                  0,
+                  3
+                ],
+                [
+                  0,
+                  3
+                ],
+                [
+                  0,
+                  3
+                ],
+                [
+                  255,
+                  255
+                ]
+              ]
+            }
+          }
+        }
+      ],
+      "image_references": [
+        {
+          "path": {
+            "text": "snow/NEW/map_layered_fog.jpg",
+            "raw_hex": "736e6f772f4e45572f6d61705f6c6179657265645f666f672e6a7067",
+            "decoding": "utf8"
+          },
+          "role": "unspecified",
+          "source_offset": 18820,
+          "clip": 1,
+          "clip_scope": 0,
+          "status": "decoded",
+          "resolution": "unique-image-suffix",
+          "resolved_path": "S:/works/legacy-lightwave-projects/content/snow-tanks/NEW/map_layered_fog.jpg",
+          "uri": "textures/1-map_layered_fog.jpg",
+          "sha256": "5b89e9e52e364412dfa1429a5e0c822447c65ee2835297dfd48b73112039376f",
+          "issue": "",
+          "decoded_image": {
+            "width": 128,
+            "height": 128,
+            "channels": "RGBA8",
+            "png_uri": null,
+            "png_sha256": null
+          },
+          "decode_issue": "",
+          "candidates": [
+            "S:/works/legacy-lightwave-projects/content/snow-tanks/NEW/map_layered_fog.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "object": "obj_layered_tiled_fog_morph_target.lwo",
+      "source_sha256": "fcebd8201dcf3b540b8cc1f0acb09727de80c01e94e4a5766793b12cd0086bc9",
+      "native_surfaces": [
+        {
+          "name": "layered_fog",
+          "fields": {
+            "LUMI": {
+              "value": 1.0,
+              "envelope": 0,
+              "source_offset": 18892,
+              "source_bytes": 12
+            },
+            "DIFF": {
+              "value": 0.0,
+              "envelope": 0,
+              "source_offset": 18904,
+              "source_bytes": 12
+            },
+            "ADTR": {
+              "value": 1.0,
+              "envelope": 0,
+              "source_offset": 18916,
+              "source_bytes": 12
+            }
+          }
+        }
+      ],
+      "source_node_id": 268435477,
+      "native_object_dissolve": {
+        "status": "preserved-not-evaluated",
+        "native_statement": {
+          "text": "ObjectDissolve 1",
+          "raw_hex": "4f626a656374446973736f6c76652031",
+          "decoding": "utf8"
+        },
+        "source_offset": 19764
+      },
+      "exported_as_mesh": true,
+      "exported_morph_targets": false,
+      "native_points": 810,
+      "native_polygons": 640,
+      "materials": [
+        {
+          "index": 14,
+          "alpha_mode": "OPAQUE",
+          "base_color_factor": [
+            1,
+            1,
+            1,
+            1
+          ],
+          "emissive_factor": [
+            1,
+            1,
+            1
+          ],
+          "images": {
+            "base_color": {
+              "uri": "textures/snow-tanks__map_layered_fog__base_color.png",
+              "sha256": "18886ab6a52fd64a058e540909cf6cc5ce2a6e7297f20d3bc182679182db734a",
+              "size": [
+                128,
+                128
+              ],
+              "rgba_extrema": [
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  0,
+                  0
+                ],
+                [
+                  255,
+                  255
+                ]
+              ]
+            },
+            "emissive": {
+              "uri": "textures/snow-tanks__map_layered_fog__emissive.png",
+              "sha256": "4c8f653d092b47a845293907e8b7fbde748c844029109a8ebb01c29e7433cf17",
+              "size": [
+                128,
+                128
+              ],
+              "rgba_extrema": [
+                [
+                  0,
+                  3
+                ],
+                [
+                  0,
+                  3
+                ],
+                [
+                  0,
+                  3
+                ],
+                [
+                  255,
+                  255
+                ]
+              ]
+            }
+          }
+        }
+      ],
+      "image_references": [
+        {
+          "path": {
+            "text": "snow/NEW/map_layered_fog.jpg",
+            "raw_hex": "736e6f772f4e45572f6d61705f6c6179657265645f666f672e6a7067",
+            "decoding": "utf8"
+          },
+          "role": "unspecified",
+          "source_offset": 18820,
+          "clip": 1,
+          "clip_scope": 0,
+          "status": "decoded",
+          "resolution": "unique-image-suffix",
+          "resolved_path": "S:/works/legacy-lightwave-projects/content/snow-tanks/NEW/map_layered_fog.jpg",
+          "uri": "textures/1-map_layered_fog.jpg",
+          "sha256": "5b89e9e52e364412dfa1429a5e0c822447c65ee2835297dfd48b73112039376f",
+          "issue": "",
+          "decoded_image": {
+            "width": 128,
+            "height": 128,
+            "channels": "RGBA8",
+            "png_uri": null,
+            "png_sha256": null
+          },
+          "decode_issue": "",
+          "candidates": [
+            "S:/works/legacy-lightwave-projects/content/snow-tanks/NEW/map_layered_fog.jpg"
+          ]
+        }
+      ]
+    }
+  ],
+  "scene_statements": [
+    {
+      "line": 1404,
+      "text": "MorphAmount 1"
+    },
+    {
+      "line": 1405,
+      "text": "MorphTarget 22"
+    },
+    {
+      "line": 1406,
+      "text": "MorphSurfaces 0"
+    },
+    {
+      "line": 1468,
+      "text": "ObjectDissolve 1"
+    },
+    {
+      "line": 1653,
+      "text": "ObjectDissolve 0.3"
+    },
+    {
+      "line": 2444,
+      "text": "FogType 2"
+    },
+    {
+      "line": 2445,
+      "text": "FogMinDistance 15.8"
+    },
+    {
+      "line": 2446,
+      "text": "FogMaxDistance 41.8"
+    },
+    {
+      "line": 2449,
+      "text": "FogColor 0.509804 0.509804 0.54902"
+    }
+  ],
+  "morph_geometry": {
+    "same_point_count": true,
+    "same_index_stream": true,
+    "changed_points": 810,
+    "maximum_position_difference": 42.5297167370541
+  },
+  "diagnosis": [
+    "Native ADTR=1 is not interpreted; both fog meshes have OPAQUE materials and alpha 255.",
+    "The morph target has ObjectDissolve 1 but is still an independently visible mesh.",
+    "MorphAmount 1 / MorphTarget 22 is not exported as a glTF morph target."
+  ],
+  "scope": "Source bytes, IR, resolved images and glTF inspection. No changes to assets or exports; no original LightWave render performed. beresina.jpg is a visual reference, not a verified frame of this exact scene."
+}

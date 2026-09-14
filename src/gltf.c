@@ -6,26 +6,37 @@ typedef LWRenderVertex GVertex;
 typedef struct { uint32_t material,mode; int uv; LW_ARRAY(GVertex) vertices; } GGroup;
 typedef LW_ARRAY(GGroup) GGroups;
 typedef struct {
+    char *name;
+    uint32_t kind,external_item;
+    float *positions;
+    LWNormals normals;
+} GMorphTarget;
+typedef LW_ARRAY(GMorphTarget) GMorphTargets;
+typedef struct {
     size_t offset,map_offset,count,accessor,material; uint32_t mode,stride;
     size_t skin_offset,skin_view,skin_accessor,skin_sets;
+    size_t morph_offset,morph_view,morph_accessor,morph_targets,morph_stride;
+    float *morph_low,*morph_high;
     int uv,tangent; float low[3],high[3];
 } GPrimitive;
-typedef struct { size_t asset,first,count; uint32_t layer,node; } GMesh;
+typedef struct { size_t asset,first,count; uint32_t layer,node; GMorphTargets targets; } GMesh;
 typedef struct { size_t asset; uint32_t index; int uv; size_t base,emissive,specular,normal; const LWClipBinding *clip; } GMaterial;
-typedef struct { size_t source,mesh,parent; int skinned,animated; double matrix[16],trs[10]; } GNode;
+typedef struct { size_t source,mesh,parent; int skinned,animated; double matrix[16],trs[10]; float *weights; size_t weight_count; } GNode;
 typedef struct { size_t node,offset[3],accessor[3]; float *samples; } GAnimation;
+typedef struct { size_t node,offset,accessor,count; float *samples; } GMorphAnimation;
 typedef struct {
     const LWPackage *package; const LWOptions *options; LWGltfStats *stats;
     FILE *bin; size_t bytes,accessors;
     const LWRig *rig;
     int autonomous;
-    size_t skin_views,bind_offset,bind_accessor;
+    size_t skin_views,morph_views,bind_offset,bind_accessor;
     LW_ARRAY(GPrimitive) primitives;
     LW_ARRAY(GMesh) meshes;
     LW_ARRAY(GMaterial) materials;
     LW_ARRAY(const char *) textures;
     LW_ARRAY(GNode) nodes;
     LW_ARRAY(GAnimation) animation;
+    LW_ARRAY(GMorphAnimation) morph_animation;
     size_t sample_count,time_offset,time_accessor;
     double first_frame,last_frame;
     float duration;
@@ -121,6 +132,94 @@ static int derive(GDocument *doc,size_t asset,uint32_t request,GGroups *groups,L
 done:
     free(uv); free(used); lw_free_normals(&normals); return ok;
 }
+static int target_name_equal(const GMorphTarget *target,LWString name) {
+    size_t n=strlen(target->name);
+    return n==name.size&&!memcmp(target->name,name.data,n);
+}
+static int target_normals(const LWObject *base,GMorphTarget *target,LWError *e) {
+    LWObject deformed=*base;
+    deformed.positions.v=target->positions;
+    deformed.maps.n=0;
+    deformed.normal_first=NULL;
+    deformed.normal_vertices.v=NULL; deformed.normal_vertices.n=deformed.normal_vertices.cap=0;
+    return lw_corner_normals(&deformed,&target->normals,e);
+}
+static int add_map_target(GDocument *doc,size_t asset,uint32_t request,const LWMap *map,GMorphTargets *targets,LWError *e) {
+    const LWObject *o=&doc->package->objects.v[asset]; const LWPointBlock *block; GMorphTarget *target=NULL; size_t i,j,points=o->positions.n/3;
+    if(map->dimension!=3||map->discontinuous||map->point_block>=o->point_blocks.n) { doc->stats->morph_issues++; return 1; }
+    block=&o->point_blocks.v[map->point_block];
+    if(!selected(o,block->layer,request)) return 1;
+    for(i=0;i<targets->n;i++) if(target_name_equal(&targets->v[i],map->name)) {
+        if(targets->v[i].kind!=map->type) { doc->stats->morph_issues++; return 1; }
+        target=&targets->v[i]; break;
+    }
+    if(!target) {
+        GMorphTarget value={0}; value.kind=map->type; value.external_item=LW_NONE;
+        value.name=lw_text(map->name); value.positions=malloc((points?points:1)*3*sizeof(float));
+        if(!value.name||!value.positions) { free(value.name); free(value.positions); return lw_error(e,0,"allocation","out of memory building morph target"); }
+        memcpy(value.positions,o->positions.v,points*3*sizeof(float));
+        if(!LW_ADD(*targets,value,e)) { free(value.name); free(value.positions); return 0; }
+        target=&targets->v[targets->n-1];
+    }
+    for(j=0;j<map->entries.n;j++) {
+        uint32_t local=map->entries.v[j].point; size_t point,k;
+        if(local>=block->count) { doc->stats->morph_issues++; continue; }
+        point=block->first+local;
+        for(k=0;k<3;k++) if(!isfinite(map->values.v[3*j+k])) break;
+        if(k<3) { doc->stats->morph_issues++; continue; }
+        for(k=0;k<3;k++) {
+            float value=map->values.v[3*j+k];
+            target->positions[3*point+k]=map->type==LW_TAG('M','O','R','F')?o->positions.v[3*point+k]+value:value;
+        }
+    }
+    return 1;
+}
+static int compatible_external(const LWObject *a,const LWObject *b) {
+    size_t i;
+    if(a->positions.n!=b->positions.n||a->indices.n!=b->indices.n||a->primitives.n!=b->primitives.n) return 0;
+    if(a->indices.n&&memcmp(a->indices.v,b->indices.v,a->indices.n*sizeof(uint32_t))) return 0;
+    for(i=0;i<a->primitives.n;i++) if(a->primitives.v[i].first!=b->primitives.v[i].first||a->primitives.v[i].count!=b->primitives.v[i].count||a->primitives.v[i].type!=b->primitives.v[i].type) return 0;
+    return 1;
+}
+static int build_morph_targets(GDocument *doc,size_t asset,uint32_t request,uint32_t node,GMorphTargets *targets,LWError *e) {
+    const LWObject *o=&doc->package->objects.v[asset]; size_t i;
+    for(i=0;i<o->maps.n;i++) {
+        const LWMap *map=&o->maps.v[i];
+        if(map->type==LW_TAG('M','O','R','F')||map->type==LW_TAG('S','P','O','T')) if(!add_map_target(doc,asset,request,map,targets,e)) return 0;
+    }
+    if(node!=LW_NONE&&doc->package->is_scene) {
+        const LWScene *scene=&doc->package->scene; const LWNode *owner=NULL,*other=NULL;
+        for(i=0;i<scene->nodes.n;i++) if(scene->nodes.v[i].id==node) { owner=&scene->nodes.v[i]; break; }
+        if(owner&&owner->morph_target!=LW_NONE) {
+            for(i=0;i<scene->nodes.n;i++) if(scene->nodes.v[i].id==owner->morph_target) { other=&scene->nodes.v[i]; break; }
+            if(owner->mtse_morphing||!other||other->asset==SIZE_MAX||!compatible_external(o,&doc->package->objects.v[other->asset])) doc->stats->morph_issues++;
+            else {
+                GMorphTarget target={0}; size_t bytes=o->positions.n*sizeof(float),length=48;
+                target.kind=LW_TAG('O','B','J','T'); target.external_item=owner->morph_target;
+                target.name=malloc(length); target.positions=malloc(bytes?bytes:sizeof(float));
+                if(!target.name||!target.positions) { free(target.name); free(target.positions); return lw_error(e,0,"allocation","out of memory building external morph target"); }
+                snprintf(target.name,length,"ObjectMorph_%08x",owner->morph_target);
+                memcpy(target.positions,doc->package->objects.v[other->asset].positions.v,bytes);
+                if(!LW_ADD(*targets,target,e)) { free(target.name); free(target.positions); return 0; }
+                if(owner->morph_surfaces) doc->stats->morph_issues++;
+            }
+        }
+    }
+    if(targets->n>256) return lw_error(e,0,"morph","more than 256 morph targets on one mesh");
+    for(i=0;i<targets->n;i++) if(!target_normals(o,&targets->v[i],e)) return 0;
+    return 1;
+}
+static void free_morph_targets(GMorphTargets *targets) {
+    size_t i;
+    for(i=0;i<targets->n;i++) { free(targets->v[i].name); free(targets->v[i].positions); lw_free_normals(&targets->v[i].normals); }
+    LW_FREE(*targets);
+}
+static int same_targets(const GMesh *mesh,const GMorphTargets *targets) {
+    size_t i;
+    if(mesh->targets.n!=targets->n) return 0;
+    for(i=0;i<targets->n;i++) if(mesh->targets.v[i].kind!=targets->v[i].kind||mesh->targets.v[i].external_item!=targets->v[i].external_item||strcmp(mesh->targets.v[i].name,targets->v[i].name)) return 0;
+    return 1;
+}
 static int texture_index(GDocument *doc,const char *uri,size_t *index,LWError *e) {
     size_t i; *index=SIZE_MAX; if(!uri) return 1;
     for(i=0;i<doc->textures.n;i++) if(!strcmp(doc->textures.v[i],uri)) { *index=i; return 1; }
@@ -142,7 +241,7 @@ static int material_index(GDocument *doc,size_t asset,uint32_t index,int uv,uint
     }
     return LW_ADD(doc->materials,m,e);
 }
-static int write_group(GDocument *doc,const GGroup *g,size_t asset,uint32_t node,LWError *e) {
+static int write_group(GDocument *doc,const GGroup *g,size_t asset,uint32_t node,const GMorphTargets *targets,LWError *e) {
     GPrimitive p={0}; size_t i,j,bytes; uint32_t stride=12+(g->mode==4?12:0)+(g->uv?8:0);
     if(!g->vertices.n) return 1;
     p.tangent=g->mode==4&&g->uv&&g->material<doc->package->objects.v[asset].materials.n&&doc->package->objects.v[asset].materials.v[g->material].normal_texture!=NULL;
@@ -156,6 +255,14 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,uint32_t node
         skin_stride=24*p.skin_sets;
         if(g->vertices.n>(UINT32_MAX-bytes)/skin_stride) return lw_error(e,0,"skin","skin buffer exceeds 4 GiB");
         bytes+=g->vertices.n*skin_stride;
+    }
+    p.morph_targets=targets->n; p.morph_stride=g->mode==4?24:12;
+    if(p.morph_targets) {
+        size_t morph_bytes;
+        if(g->vertices.n>UINT32_MAX/p.morph_stride||p.morph_targets>UINT32_MAX/(g->vertices.n*p.morph_stride)) return lw_error(e,0,"morph","morph buffer exceeds 4 GiB");
+        morph_bytes=p.morph_targets*g->vertices.n*p.morph_stride;
+        if(morph_bytes>UINT32_MAX-bytes) return lw_error(e,0,"morph","morph buffer exceeds 4 GiB");
+        bytes+=morph_bytes;
     }
     if(doc->bytes>UINT32_MAX-bytes) return lw_error(e,0,"glTF","document buffer exceeds 4 GiB");
     p.offset=doc->bytes; p.map_offset=p.offset+g->vertices.n*stride; p.count=g->vertices.n;
@@ -184,26 +291,98 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,uint32_t node
         }
         doc->skin_views+=p.skin_sets;
     }
-    if(ferror(doc->bin)) return lw_error(e,0,"glTF","cannot write geometry buffer");
-    doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0)+(p.tangent?1:0)+2*p.skin_sets;
-    return LW_ADD(doc->primitives,p,e);
+    if(p.morph_targets) {
+        size_t target_index; p.morph_offset=p.offset+g->vertices.n*stride+12*p.count+g->vertices.n*24*p.skin_sets;
+        p.morph_low=malloc(p.morph_targets*3*sizeof(float)); p.morph_high=malloc(p.morph_targets*3*sizeof(float));
+        if(!p.morph_low||!p.morph_high) { free(p.morph_low); free(p.morph_high); return lw_error(e,0,"allocation","out of memory computing morph bounds"); }
+        p.morph_view=doc->morph_views;
+        p.morph_accessor=doc->accessors+1+(g->mode==4?1:0)+(g->uv?1:0)+(p.tangent?1:0)+2*p.skin_sets;
+        for(target_index=0;target_index<p.morph_targets;target_index++) {
+            const GMorphTarget *target=&targets->v[target_index];
+            for(i=0;i<g->vertices.n;i++) {
+                const GVertex *v=&g->vertices.v[i]; const float *position=target->positions+3*v->point;
+                float delta[3]={position[0]-v->p[0],position[1]-v->p[1],-position[2]-v->p[2]};
+                for(j=0;j<3;j++) {
+                    if(!isfinite(delta[j])) { free(p.morph_low); free(p.morph_high); return lw_error(e,0,"morph","position delta exceeds float32 range"); }
+                    if(!i) p.morph_low[3*target_index+j]=p.morph_high[3*target_index+j]=delta[j];
+                    else { p.morph_low[3*target_index+j]=fminf(p.morph_low[3*target_index+j],delta[j]); p.morph_high[3*target_index+j]=fmaxf(p.morph_high[3*target_index+j],delta[j]); }
+                    f32(doc->bin,delta[j]);
+                }
+                if(g->mode==4) {
+                    const LWPrimitive *source=&doc->package->objects.v[asset].primitives.v[v->polygon];
+                    const LWNormal *normal=&target->normals.corners[source->first+v->corner];
+                    float converted[3]={v->n[0],v->n[1],v->n[2]};
+                    if(normal->valid) { converted[0]=normal->v[0]; converted[1]=normal->v[1]; converted[2]=-normal->v[2]; }
+                    for(j=0;j<3;j++) f32(doc->bin,converted[j]-v->n[j]);
+                }
+            }
+        }
+        doc->morph_views+=p.morph_targets;
+    }
+    if(ferror(doc->bin)) { free(p.morph_low); free(p.morph_high); return lw_error(e,0,"glTF","cannot write geometry buffer"); }
+    doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0)+(p.tangent?1:0)+2*p.skin_sets+p.morph_targets*(g->mode==4?2:1);
+    if(!LW_ADD(doc->primitives,p,e)) { free(p.morph_low); free(p.morph_high); return 0; }
+    return 1;
 }
 static int mesh_index(GDocument *doc,size_t asset,uint32_t layer,uint32_t node,size_t *result,LWError *e) {
-    size_t i,j; GGroups groups={0}; GMesh mesh={asset,doc->primitives.n,0,layer,node}; int ok=0;
+    size_t i,j; GGroups groups={0}; GMesh mesh={0}; int ok=0;
     const LWObject *o=&doc->package->objects.v[asset];
+    mesh.asset=asset; mesh.first=doc->primitives.n; mesh.layer=layer; mesh.node=node;
+    if(!build_morph_targets(doc,asset,layer,node,&mesh.targets,e)) goto done;
     for(i=0;i<doc->meshes.n;i++) if(doc->meshes.v[i].asset==asset&&doc->meshes.v[i].layer==layer) {
         for(j=0;j<o->materials.n;j++) if(!same_clip(lw_clip_binding(o,node,(uint32_t)j),lw_clip_binding(o,doc->meshes.v[i].node,(uint32_t)j))) break;
-        if(j==o->materials.n) { *result=i; return 1; }
+        if(j==o->materials.n&&same_targets(&doc->meshes.v[i],&mesh.targets)) { *result=i; free_morph_targets(&mesh.targets); return 1; }
     }
     if(!derive(doc,asset,layer,&groups,e)) goto done;
-    for(i=0;i<groups.n;i++) if(!write_group(doc,&groups.v[i],asset,node,e)) goto done;
+    for(i=0;i<groups.n;i++) if(!write_group(doc,&groups.v[i],asset,node,&mesh.targets,e)) goto done;
     mesh.count=doc->primitives.n-mesh.first;
     *result=SIZE_MAX;
-    if(mesh.count) { *result=doc->meshes.n; if(!LW_ADD(doc->meshes,mesh,e)) goto done; }
+    if(mesh.count) {
+        *result=doc->meshes.n;
+        if(!LW_ADD(doc->meshes,mesh,e)) goto done;
+        doc->stats->morph_targets+=mesh.targets.n;
+        mesh.targets.v=NULL; mesh.targets.n=mesh.targets.cap=0;
+    }
     ok=1;
 done:
     for(i=0;i<groups.n;i++) LW_FREE(groups.v[i].vertices);
-    LW_FREE(groups); return ok;
+    LW_FREE(groups); free_morph_targets(&mesh.targets); return ok;
+}
+static int morph_value(const LWScene *scene,const LWNode *node,const GMorphTarget *target,double frame,double *value) {
+    size_t i; double time=scene->version==1?frame:frame/scene->fps;
+    *value=0;
+    if(target->kind==LW_TAG('O','B','J','T')) {
+        if(node->morph_amount_envelope) return lw_channel_value(&node->morph_amount_channel,time,value);
+        if(node->morph_amount_present) *value=node->morph_amount;
+        return 1;
+    }
+    for(i=0;i<node->morph_forms.n;i++) {
+        const LWMorphForm *form=&node->morph_forms.v[i]; size_t length=strlen(target->name);
+        if(form->name.size==length&&!memcmp(form->name.data,target->name,length)) {
+            if(form->has_envelope) return lw_channel_value(&form->envelope,time,value);
+            *value=form->value; return isfinite(*value);
+        }
+    }
+    return 1;
+}
+static int node_weights(GDocument *doc,GNode *node,double frame,LWError *e) {
+    const GMesh *mesh; const LWNode *source; size_t i;
+    if(node->mesh==SIZE_MAX) return 1;
+    mesh=&doc->meshes.v[node->mesh]; if(!mesh->targets.n) return 1;
+    node->weights=calloc(mesh->targets.n,sizeof(float));
+    if(!node->weights) return lw_error(e,0,"allocation","out of memory building morph weights");
+    node->weight_count=mesh->targets.n; source=&doc->package->scene.nodes.v[node->source];
+    for(i=0;i<mesh->targets.n;i++) {
+        double value;
+        if(!morph_value(&doc->package->scene,source,&mesh->targets.v[i],frame,&value)||!isfinite((float)value)) {
+            doc->stats->morph_issues++; value=0;
+        }
+        node->weights[i]=(float)value;
+    }
+    return 1;
+}
+static int fully_dissolved(const LWNode *node) {
+    return node->object_dissolve_static&&node->object_dissolve_value>=1.0;
 }
 static int scene_nodes(GDocument *doc,LWError *e) {
     const LWScene *s=&doc->package->scene; size_t i,j,k,*map=NULL,*parents=NULL;
@@ -228,11 +407,19 @@ static int scene_nodes(GDocument *doc,LWError *e) {
             lw_identity(m);
             for(j=0;j<10;j++) n.trs[j]=doc->package->bake.poses[i*20+j]*((j==2||j==3||j==4)?-1:1);
             n.animated=1;
-        } else if(!lw_scene_node_matrix(s,i,doc->options->frame,m,e)) goto done;
+        } else {
+            double native[10];
+            if(!lw_scene_node_matrix(s,i,doc->options->frame,m,e)||!lw_scene_node_trs(s,i,doc->options->frame,native,e)) goto done;
+            for(j=0;j<10;j++) n.trs[j]=native[j]*((j==2||j==3||j==4)?-1:1);
+            n.animated=1;
+        }
         /* C M C with C=diag(1,1,-1,1), while geometry already uses C p. */
         for(j=0;j<16;j++) n.matrix[j]=m[j]*((j%4==2)^(j/4==2)?-1:1);
-        if(source->asset!=SIZE_MAX&&!mesh_index(doc,source->asset,source->layer,source->id,&n.mesh,e)) goto done;
-        map[i]=doc->nodes.n; if(!LW_ADD(doc->nodes,n,e)) goto done;
+        if(source->asset!=SIZE_MAX&&!fully_dissolved(source)&&!mesh_index(doc,source->asset,source->layer,source->id,&n.mesh,e)) goto done;
+        if(source->asset!=SIZE_MAX&&fully_dissolved(source)) doc->stats->hidden_dissolved_nodes++;
+        if(n.mesh!=SIZE_MAX&&!node_weights(doc,&n,doc->options->frame,e)) goto done;
+        map[i]=doc->nodes.n;
+        if(!LW_ADD(doc->nodes,n,e)) { free(n.weights); goto done; }
     }
     for(i=0;i<s->nodes.n;i++) if(active[i]&&parents[i]!=SIZE_MAX) doc->nodes.v[map[i]].parent=map[parents[i]];
     doc->stats->omitted_nodes+=s->nodes.n-doc->nodes.n;
@@ -253,7 +440,8 @@ static int rig_nodes(GDocument *doc,LWError *e) {
     }
     mesh.source=rig->owner; mesh.parent=SIZE_MAX; mesh.skinned=rig->weighted; lw_identity(mesh.matrix);
     LW_TRY(mesh_index(doc,rig->asset,owner->layer,owner->id,&mesh.mesh,e));
-    LW_TRY(LW_ADD(doc->nodes,mesh,e));
+    LW_TRY(node_weights(doc,&mesh,doc->options->frame,e));
+    if(!LW_ADD(doc->nodes,mesh,e)) { free(mesh.weights); return 0; }
     if(rig->weighted) {
         size_t bytes=(rig->joints.n+1)*64;
         if(bytes>UINT32_MAX-doc->bytes) return lw_error(e,0,"skin","inverse bind buffer exceeds 4 GiB");
@@ -403,7 +591,11 @@ static int scene_animation(GDocument *doc,LWError *e) {
         if(!lw_scene_node_trs(scene,node->source,doc->options->frame,node->trs,&local)) goto unsupported;
         node->trs[2]=-node->trs[2]; node->trs[3]=-node->trs[3]; node->trs[4]=-node->trs[4];
     }
-    if(!doc->animation.n) { doc->stats->animated_channels-=handled; free(times); return 1; }
+    if(!doc->animation.n) {
+        doc->stats->animated_channels-=handled;
+        doc->sample_count=0; doc->duration=0; doc->first_frame=doc->last_frame=0;
+        free(times); return 1;
+    }
     if(memory+doc->sample_count*4>UINT32_MAX-doc->bytes) {
         lw_error(&local,0,"animation","animation buffer exceeds 4 GiB"); goto unsupported;
     }
@@ -426,7 +618,7 @@ static int scene_animation(GDocument *doc,LWError *e) {
     free(times); return 1;
 unsupported:
     snprintf(doc->stats->animation_issue,sizeof doc->stats->animation_issue,"%.40s: %.210s",local.context,local.message);
-    clear_animation(doc); free(times); return 1;
+    clear_animation(doc); doc->sample_count=0; doc->duration=0; free(times); return 1;
 failed:
     free(times); return 0;
 }
@@ -467,6 +659,74 @@ static void texture_uri(FILE *f,const char *name) {
     }
     fputc('"',f);
 }
+static void clear_morph_animation(GDocument *doc) {
+    size_t i;
+    for(i=0;i<doc->morph_animation.n;i++) free(doc->morph_animation.v[i].samples);
+    LW_FREE(doc->morph_animation);
+}
+static const LWChannel *morph_channel(const LWNode *node,const GMorphTarget *target) {
+    size_t i;
+    if(target->kind==LW_TAG('O','B','J','T')) return node->morph_amount_envelope?&node->morph_amount_channel:NULL;
+    for(i=0;i<node->morph_forms.n;i++) {
+        const LWMorphForm *form=&node->morph_forms.v[i]; size_t length=strlen(target->name);
+        if(form->name.size==length&&!memcmp(form->name.data,target->name,length)) return form->has_envelope?&form->envelope:NULL;
+    }
+    return NULL;
+}
+static int morph_animation(GDocument *doc,LWError *e) {
+    const LWScene *scene=&doc->package->scene; size_t i,j,k,sample,candidates=0; double first=scene->first_frame,last=scene->last_frame;
+    for(i=0;i<doc->nodes.n;i++) if(doc->nodes.v[i].mesh!=SIZE_MAX) {
+        const GMesh *mesh=&doc->meshes.v[doc->nodes.v[i].mesh]; const LWNode *node=&scene->nodes.v[doc->nodes.v[i].source];
+        for(j=0;j<mesh->targets.n;j++) { const LWChannel *channel=morph_channel(node,&mesh->targets.v[j]); if(channel&&channel->keys.n>1) candidates++; }
+    }
+    if(!candidates) return 1;
+    if(first>=last) {
+        int found=0;
+        for(i=0;i<doc->nodes.n;i++) if(doc->nodes.v[i].mesh!=SIZE_MAX) {
+            const GMesh *mesh=&doc->meshes.v[doc->nodes.v[i].mesh]; const LWNode *node=&scene->nodes.v[doc->nodes.v[i].source];
+            for(j=0;j<mesh->targets.n;j++) {
+                const LWChannel *channel=morph_channel(node,&mesh->targets.v[j]); if(!channel) continue;
+                for(k=0;k<channel->keys.n;k++) {
+                    double frame=(channel->keys.v[k].time+channel->offset)*(scene->version==1?1:scene->fps);
+                    if(!found||frame<first) first=frame;
+                    if(!found||frame>last) last=frame;
+                    found=1;
+                }
+            }
+        }
+    }
+    if(!(last>first)||!isfinite(last-first)||last-first>100000) { doc->stats->morph_issues++; return 1; }
+    if(doc->time_accessor==SIZE_MAX) {
+        doc->first_frame=first; doc->last_frame=last; doc->sample_count=(size_t)ceil(last-first)+1;
+        doc->duration=(float)((last-first)/scene->fps); doc->time_offset=doc->bytes; doc->time_accessor=doc->accessors++;
+        if(doc->sample_count*4>UINT32_MAX-doc->bytes) return lw_error(e,0,"morph","morph time buffer exceeds 4 GiB");
+        for(sample=0;sample<doc->sample_count;sample++) f32(doc->bin,(float)((fmin(first+(double)sample,last)-first)/scene->fps));
+        doc->bytes+=doc->sample_count*4;
+    } else { first=doc->first_frame; last=doc->last_frame; }
+    for(i=0;i<doc->nodes.n;i++) if(doc->nodes.v[i].mesh!=SIZE_MAX) {
+        const GMesh *mesh=&doc->meshes.v[doc->nodes.v[i].mesh]; const LWNode *node=&scene->nodes.v[doc->nodes.v[i].source]; GMorphAnimation track={0}; int candidate=0,changed=0,valid=1;
+        for(j=0;j<mesh->targets.n;j++) { const LWChannel *channel=morph_channel(node,&mesh->targets.v[j]); if(channel&&channel->keys.n>1) candidate=1; }
+        if(!candidate) continue;
+        if(mesh->targets.n&&doc->sample_count>(64*1024*1024)/(mesh->targets.n*sizeof(float))) { doc->stats->morph_issues++; continue; }
+        track.node=i; track.count=mesh->targets.n; track.samples=malloc(doc->sample_count*track.count*sizeof(float));
+        if(!track.samples) return lw_error(e,0,"allocation","out of memory building morph animation");
+        for(sample=0;sample<doc->sample_count&&valid;sample++) for(j=0;j<track.count;j++) {
+            double value; float *destination=&track.samples[sample*track.count+j];
+            if(!morph_value(scene,node,&mesh->targets.v[j],fmin(first+(double)sample,last),&value)||!isfinite((float)value)) { valid=0; break; }
+            *destination=(float)value; if(sample&&*destination!=track.samples[j]) changed=1;
+        }
+        if(!valid||!changed) { doc->stats->morph_issues+=!valid; free(track.samples); continue; }
+        if(doc->sample_count*track.count*4>UINT32_MAX-doc->bytes) { free(track.samples); return lw_error(e,0,"morph","morph animation exceeds 4 GiB"); }
+        track.offset=doc->bytes; track.accessor=doc->accessors++;
+        for(sample=0;sample<doc->sample_count*track.count;sample++) f32(doc->bin,track.samples[sample]);
+        doc->bytes+=doc->sample_count*track.count*4;
+        if(!LW_ADD(doc->morph_animation,track,e)) { free(track.samples); return 0; }
+    }
+    doc->stats->morph_animation_channels+=doc->morph_animation.n;
+    if(doc->morph_animation.n&&doc->stats->animation_samples<doc->sample_count) doc->stats->animation_samples=doc->sample_count;
+    if(ferror(doc->bin)) return lw_error(e,0,"morph","cannot write morph animation");
+    return 1;
+}
 static void buffer_uri(FILE *f,const char *name) {
     const unsigned char *p=(const unsigned char *)name;
     fputc('"',f);
@@ -482,34 +742,50 @@ static void accessor(FILE *f,size_t view,size_t offset,size_t count,unsigned com
     fputc('}',f);
 }
 static void json_animation(FILE *f,const GDocument *doc,const char *name) {
-    static const char *paths[]={"translation","rotation","scale"}; size_t i,j;
-    if(!doc->animation.n) return;
+    static const char *paths[]={"translation","rotation","scale"}; size_t i,j,index=0;
+    const char *profile=doc->autonomous?(doc->morph_views?"autonomous-hpb-ik-morph-0.3":"autonomous-hpb-ik-0.2"):
+        doc->morph_views?"sampled-scene-and-morph-0.2":"sampled-scene-transforms-0.1";
+    if(!doc->animation.n&&!doc->morph_animation.n) return;
     fputs(",\n\"animations\":[{\"name\":",f); lw_json_string(f,name);
     fputs(",\"samplers\":[",f);
     for(i=0;i<doc->animation.n;i++) for(j=0;j<3;j++) {
-        if(i||j) fputc(',',f);
+        if(index++) fputc(',',f);
         fprintf(f,"{\"input\":%zu,\"output\":%zu,\"interpolation\":\"LINEAR\"}",doc->time_accessor,doc->animation.v[i].accessor[j]);
     }
-    fputs("],\"channels\":[",f);
-    for(i=0;i<doc->animation.n;i++) for(j=0;j<3;j++) {
-        if(i||j) fputc(',',f);
-        fprintf(f,"{\"sampler\":%zu,\"target\":{\"node\":%zu,\"path\":\"%s\"}}",3*i+j,doc->animation.v[i].node,paths[j]);
+    for(i=0;i<doc->morph_animation.n;i++) {
+        if(index++) fputc(',',f);
+        fprintf(f,"{\"input\":%zu,\"output\":%zu,\"interpolation\":\"LINEAR\"}",doc->time_accessor,doc->morph_animation.v[i].accessor);
     }
-    fprintf(f,"],\"extras\":{\"profile\":\"%s\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"sampling\":\"one source-frame interval; LINEAR translation/scale and quaternion slerp between samples; includes pivot offsets; skeletal TRS when a skin is present; no morph or material animation\"}}]",doc->autonomous?"autonomous-hpb-ik-0.2":"sampled-scene-transforms-0.1",doc->first_frame,doc->last_frame,doc->package->scene.fps,doc->sample_count);
+    fputs("],\"channels\":[",f);
+    index=0;
+    for(i=0;i<doc->animation.n;i++) for(j=0;j<3;j++) {
+        if(index) fputc(',',f);
+        fprintf(f,"{\"sampler\":%zu,\"target\":{\"node\":%zu,\"path\":\"%s\"}}",3*i+j,doc->animation.v[i].node,paths[j]);
+        index++;
+    }
+    for(i=0;i<doc->morph_animation.n;i++) {
+        if(index) fputc(',',f);
+        fprintf(f,"{\"sampler\":%zu,\"target\":{\"node\":%zu,\"path\":\"weights\"}}",3*doc->animation.n+i,doc->morph_animation.v[i].node); index++;
+    }
+    fprintf(f,"],\"extras\":{\"profile\":\"%s\",\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g,\"samples\":%zu,\"morph_channels\":%zu,\"sampling\":\"one source-frame interval; LINEAR translation/scale, quaternion slerp and morph weights between samples; includes pivot offsets; skeletal TRS when a skin is present; material animation is not exported\"}}]",profile,doc->first_frame,doc->last_frame,doc->package->scene.fps,doc->sample_count,doc->morph_animation.n);
 }
 static void json_document(FILE *f,const GDocument *doc,const char *name,int scene,size_t asset) {
     const LWSource *source=scene?&doc->package->scene.source:&doc->package->objects.v[asset].source;
-    size_t i,j; int comma=0;
-    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,doc->autonomous?"autonomous-hpb-ik-0.2":doc->rig?"rest-skeleton-0.1":doc->animation.n?"sampled-scene-transforms-0.1":"static-base-geometry-0.1",source->sha256); lw_json_string(f,source->path);
+    size_t i,j; int comma=0,morph=doc->morph_views!=0; const char *profile;
+    if(doc->autonomous) profile=morph?"autonomous-hpb-ik-morph-0.3":"autonomous-hpb-ik-0.2";
+    else if(doc->rig) profile=morph?"rest-skeleton-morph-0.2":"rest-skeleton-0.1";
+    else if(doc->animation.n||doc->morph_animation.n) profile=morph?"sampled-scene-and-morph-0.2":"sampled-scene-transforms-0.1";
+    else profile=morph?"static-morph-geometry-0.2":"static-base-geometry-0.1";
+    fprintf(f,"{\n\"asset\":{\"version\":\"2.0\",\"generator\":\"lwconvert %s\"},\n\"extras\":{\"profile\":\"%s\",\"source_sha256\":\"%s\",\"source_path\":",LWCONVERT_VERSION,profile,source->sha256); lw_json_string(f,source->path);
     if(doc->rig) {
         fprintf(f,",\"pose\":\"%s\",\"skin_status\":\"%s\",\"missing_map_procedural_fallbacks\":%zu,\"unweighted_points_on_object_anchor\":%zu,\"skin_issue\":",doc->autonomous?"sampled autonomous IK/FK; approximation":"native-rest; object-local",doc->rig->weighted?(doc->rig->procedural_bones?(doc->package->legacy_bone_maps?"lightwave6-procedural-weights-0.1; approximation":"lightwave96-procedural-weights-0.1; approximation"):"explicit-normalized-weight-maps"):"skeleton-only; native influences not evaluated",doc->package->legacy_bone_maps?doc->rig->missing_maps:0,doc->rig->unweighted_points);
         lw_json_string(f,doc->rig->issue);
-        if(doc->rig->weighted&&doc->rig->procedural_bones) fprintf(f,",\"skin_approximation\":true,\"volume_corrections_omitted\":%zu,\"skin_limitations\":\"fixed weights derived from the native rest cage; joint compensation and muscle flexing omitted; morphs not evaluated; IK profile described in animation metadata\"",doc->rig->volume_corrections);
+        if(doc->rig->weighted&&doc->rig->procedural_bones) fprintf(f,",\"skin_approximation\":true,\"volume_corrections_omitted\":%zu,\"skin_limitations\":\"fixed weights derived from the native rest cage; joint compensation and muscle flexing omitted; morph targets are evaluated before skinning by glTF; IK profile described in animation metadata\"",doc->rig->volume_corrections);
     }
     if(!doc->rig) fprintf(f,",\"snapshot_frame\":%.17g",doc->options->frame);
     fputs(",\"normal_profile\":\"source-corner-normals-0.1\",\"normals\":\"unique NORM map per point block with VMAD precedence, otherwise unit polygon normals averaged by owner SMAN and SMGP among smoothing-enabled faces; angle cuts retained at source corners\"",f);
     if(scene&&!doc->rig&&doc->stats->animation_issue[0]) { fputs(",\"animation_issue\":",f); lw_json_string(f,doc->stats->animation_issue); }
-    fprintf(f,",\"coordinates\":\"right-handed Y-up; source Z reflected\",\"uv_conversion\":\"u, 1-v\",\"animation\":\"%s\",\"subdivision\":\"control cage retained; never baked\",\"textures\":\"LWOB compatible planar/spherical image maps; repeat sampling; PNG derivatives; approximate scalar channels\"},\n\"scene\":0,\"scenes\":[{\"name\":",doc->animation.n?"sampled local object/parent TRS":doc->rig?"not-exported; native rest pose":"none; static pose"); lw_json_string(f,name);
+    fprintf(f,",\"coordinates\":\"right-handed Y-up; source Z reflected\",\"uv_conversion\":\"u, 1-v\",\"animation\":\"%s\",\"morphing\":\"LWO2 MORF/SPOT and compatible external object targets; sampled LW_MorphMixer/MorphAmount weights\",\"subdivision\":\"control cage retained; never baked\",\"textures\":\"LWOB compatible planar/spherical image maps; repeat sampling; PNG derivatives; approximate scalar channels\"},\n\"scene\":0,\"scenes\":[{\"name\":",(doc->animation.n||doc->morph_animation.n)?"sampled local transforms and morph weights":doc->rig?"native rest pose":"static pose"); lw_json_string(f,name);
     for(i=0;i<doc->nodes.n;i++) if(doc->nodes.v[i].parent==SIZE_MAX) {
         if(!comma) fputs(",\"nodes\":[",f); else fputc(',',f);
         fprintf(f,"%zu",i); comma=1;
@@ -525,6 +801,7 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
             else lw_json_string(f,name);
             if(n->mesh!=SIZE_MAX) fprintf(f,",\"mesh\":%zu",n->mesh);
             if(n->skinned) fputs(",\"skin\":0",f);
+            if(n->weight_count) { fputs(",\"weights\":[",f); for(j=0;j<n->weight_count;j++) { if(j) fputc(',',f); fprintf(f,"%.9g",n->weights[j]); } fputc(']',f); }
             for(j=0;j<16;j++) if(n->matrix[j]!=(j%5==0?1:0)) identity=0;
             if(n->animated) {
                 fprintf(f,",\"translation\":[%.17g,%.17g,%.17g],\"rotation\":[%.17g,%.17g,%.17g,%.17g],\"scale\":[%.17g,%.17g,%.17g]",n->trs[0],n->trs[1],n->trs[2],n->trs[3],n->trs[4],n->trs[5],n->trs[6],n->trs[7],n->trs[8],n->trs[9]);
@@ -574,7 +851,8 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
             fputs("{\"name\":",f); lw_json_string(f,doc->package->names.v[m->asset]);
             fprintf(f,",\"extras\":{\"source_asset_index\":%zu,\"source_sha256\":\"%s\",\"source_layer_request\":",m->asset,doc->package->objects.v[m->asset].source.sha256);
             if(m->layer==LW_NONE) fputs("null",f); else fprintf(f,"%u",m->layer);
-            fputs("},\"primitives\":[",f);
+            fputs(",\"targetNames\":[",f); for(j=0;j<m->targets.n;j++) { if(j) fputc(',',f); lw_json_string(f,m->targets.v[j].name); } fputs("]}",f);
+            fputs(",\"primitives\":[",f);
             for(j=0;j<m->count;j++) {
                 const GPrimitive *p=&doc->primitives.v[m->first+j]; if(j) fputc(',',f);
                 fprintf(f,"{\"attributes\":{\"POSITION\":%zu",p->accessor);
@@ -582,7 +860,17 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
                 if(p->uv) fprintf(f,",\"TEXCOORD_0\":%zu",p->accessor+2);
                 if(p->tangent) fprintf(f,",\"TANGENT\":%zu",p->accessor+3);
                 { size_t set; for(set=0;set<p->skin_sets;set++) fprintf(f,",\"JOINTS_%zu\":%zu,\"WEIGHTS_%zu\":%zu",set,p->skin_accessor+2*set,set,p->skin_accessor+2*set+1); }
-                fprintf(f,"},\"mode\":%u,\"material\":%zu,\"extras\":{\"source_map\":{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"count\":%zu,\"stride\":12,\"component_type\":\"uint32\",\"byte_order\":\"little\",\"fields\":[\"polygon\",\"corner\",\"point\"],\"null_index\":4294967295}}}",p->mode,p->material,p->map_offset,p->count*12,p->count);
+                fputc('}',f);
+                if(p->morph_targets) {
+                    size_t target,access=p->morph_accessor; fputs(",\"targets\":[",f);
+                    for(target=0;target<p->morph_targets;target++) {
+                        if(target) fputc(',',f); fprintf(f,"{\"POSITION\":%zu",access++);
+                        if(p->mode==4) fprintf(f,",\"NORMAL\":%zu",access++);
+                        fputc('}',f);
+                    }
+                    fputc(']',f);
+                }
+                fprintf(f,",\"mode\":%u,\"material\":%zu,\"extras\":{\"source_map\":{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"count\":%zu,\"stride\":12,\"component_type\":\"uint32\",\"byte_order\":\"little\",\"fields\":[\"polygon\",\"corner\",\"point\"],\"null_index\":4294967295}}}",p->mode,p->material,p->map_offset,p->count*12,p->count);
             }
             fputs("]}",f);
         }
@@ -604,11 +892,16 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
             const GPrimitive *p=&doc->primitives.v[i]; size_t set;
             for(set=0;set<p->skin_sets;set++) fprintf(f,",{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"byteStride\":24,\"target\":34962}",p->skin_offset+set*p->count*24,p->count*24);
         }
+        for(i=0;i<doc->primitives.n;i++) {
+            const GPrimitive *p=&doc->primitives.v[i]; size_t target;
+            for(target=0;target<p->morph_targets;target++) fprintf(f,",{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu,\"byteStride\":%zu,\"target\":34962}",p->morph_offset+target*p->count*p->morph_stride,p->count*p->morph_stride,p->morph_stride);
+        }
         if(doc->rig&&doc->rig->weighted) fprintf(f,",{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu}",doc->bind_offset,(doc->rig->joints.n+1)*64);
-        if(doc->animation.n) {
-            if(doc->primitives.n) fputc(',',f);
+        if(doc->animation.n||doc->morph_animation.n) {
+            if(doc->primitives.n||doc->skin_views||doc->morph_views||(doc->rig&&doc->rig->weighted)) fputc(',',f);
             fprintf(f,"{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu}",doc->time_offset,doc->sample_count*4);
             for(i=0;i<doc->animation.n;i++) for(j=0;j<3;j++) fprintf(f,",{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu}",doc->animation.v[i].offset[j],doc->sample_count*(j==1?4:3)*4);
+            for(i=0;i<doc->morph_animation.n;i++) fprintf(f,",{\"buffer\":0,\"byteOffset\":%zu,\"byteLength\":%zu}",doc->morph_animation.v[i].offset,doc->sample_count*doc->morph_animation.v[i].count*4);
         }
         fputs("],\n\"accessors\":[",f);
         for(i=0;i<doc->primitives.n;i++) {
@@ -622,13 +915,19 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
                 fprintf(f,",{\"bufferView\":%zu,\"byteOffset\":0,\"componentType\":5123,\"count\":%zu,\"type\":\"VEC4\"},",view,p->count);
                 accessor(f,view,8,p->count,4,NULL,NULL);
             } }
+            { size_t target; for(target=0;target<p->morph_targets;target++) {
+                size_t view=doc->primitives.n+doc->skin_views+p->morph_view+target;
+                fputc(',',f); accessor(f,view,0,p->count,3,p->morph_low+3*target,p->morph_high+3*target);
+                if(p->mode==4) { fputc(',',f); accessor(f,view,12,p->count,3,NULL,NULL); }
+            } }
         }
-        if(doc->rig&&doc->rig->weighted) fprintf(f,",{\"bufferView\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"MAT4\"}",doc->primitives.n+doc->skin_views,doc->rig->joints.n+1);
-        if(doc->animation.n) {
-            size_t view=doc->primitives.n+doc->skin_views+(doc->rig&&doc->rig->weighted?1:0);
-            if(doc->primitives.n) fputc(',',f);
+        if(doc->rig&&doc->rig->weighted) fprintf(f,",{\"bufferView\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"MAT4\"}",doc->primitives.n+doc->skin_views+doc->morph_views,doc->rig->joints.n+1);
+        if(doc->animation.n||doc->morph_animation.n) {
+            size_t view=doc->primitives.n+doc->skin_views+doc->morph_views+(doc->rig&&doc->rig->weighted?1:0);
+            if(doc->primitives.n||(doc->rig&&doc->rig->weighted)) fputc(',',f);
             fprintf(f,"{\"bufferView\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"SCALAR\",\"min\":[0],\"max\":[%.9g]}",view,doc->sample_count,doc->duration);
             for(i=0;i<doc->animation.n;i++) for(j=0;j<3;j++) { fputc(',',f); accessor(f,++view,0,doc->sample_count,j==1?4:3,NULL,NULL); }
+            for(i=0;i<doc->morph_animation.n;i++) { fputc(',',f); fprintf(f,"{\"bufferView\":%zu,\"componentType\":5126,\"count\":%zu,\"type\":\"SCALAR\"}",++view,doc->sample_count*doc->morph_animation.v[i].count); }
         }
         fputc(']',f);
     }
@@ -637,12 +936,13 @@ static void json_document(FILE *f,const GDocument *doc,const char *name,int scen
 static int write_document(const char *dir,const char *name,const LWPackage *package,const LWOptions *opts,int scene,size_t asset,const LWRig *rig,LWGltfStats *stats,LWError *e) {
     GDocument doc={0}; char *bin=NULL,*json=NULL; FILE *f=NULL; size_t i; int ok=0;
     doc.package=package; doc.options=opts; doc.stats=stats; doc.rig=rig;
+    doc.bind_accessor=doc.time_accessor=SIZE_MAX;
     doc.autonomous=scene&&package->bake.poses&&(!rig||scene==2);
     bin=lw_named_path(dir,name,".bin"); json=lw_named_path(dir,name,".gltf");
     if(!bin||!json) { lw_error(e,0,"allocation","out of memory"); goto done; }
     doc.bin=lw_fopen(bin,"wb"); if(!doc.bin) { lw_error(e,0,"glTF","cannot create %s",bin); goto done; }
-    if(rig) { if(!rig_nodes(&doc,e)||(doc.autonomous&&!baked_animation(&doc,e))) goto done; }
-    else if(scene) { if(!scene_nodes(&doc,e)||!(doc.autonomous?baked_animation(&doc,e):scene_animation(&doc,e))) goto done; }
+    if(rig) { if(!rig_nodes(&doc,e)||(doc.autonomous&&!baked_animation(&doc,e))||!morph_animation(&doc,e)) goto done; }
+    else if(scene) { if(!scene_nodes(&doc,e)||!(doc.autonomous?baked_animation(&doc,e):scene_animation(&doc,e))||!morph_animation(&doc,e)) goto done; }
     else {
         GNode node={0}; node.parent=SIZE_MAX; lw_identity(node.matrix);
         if(!mesh_index(&doc,asset,LW_NONE,LW_NONE,&node.mesh,e)||!LW_ADD(doc.nodes,node,e)) goto done;
@@ -658,6 +958,10 @@ done:
     if(f) fclose(f);
     if(doc.bin) fclose(doc.bin);
     clear_animation(&doc);
+    clear_morph_animation(&doc);
+    for(i=0;i<doc.meshes.n;i++) free_morph_targets(&doc.meshes.v[i].targets);
+    for(i=0;i<doc.nodes.n;i++) free(doc.nodes.v[i].weights);
+    for(i=0;i<doc.primitives.n;i++) { free(doc.primitives.v[i].morph_low); free(doc.primitives.v[i].morph_high); }
     LW_FREE(doc.primitives); LW_FREE(doc.meshes); LW_FREE(doc.materials); LW_FREE(doc.nodes); LW_FREE(doc.textures);
     free(bin); free(json); return ok;
 }

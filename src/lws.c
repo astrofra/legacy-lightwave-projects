@@ -102,6 +102,47 @@ static int channel_append(LWNode *node,uint32_t index,LWError *e) {
     LWChannel c={0}; c.index=index; c.pre=c.post=1;
     return LW_ADD(node->channels,c,e);
 }
+static int scalar_envelope(LWChannel *ch,const Lines *ls,size_t *i,size_t end,LWError *e,const char *context) {
+    LWString key,value; uint32_t nkeys;
+    ch->pre=ch->post=1;
+    split(ls->v[*i],&key,&value);
+    if(!lw_string_is(key,"{")||!lw_string_is(value,"Envelope")) return lw_error(e,ls->v[*i].offset,context,"expected { Envelope");
+    if(*i+1>end) return lw_error(e,ls->v[*i].offset,context,"truncated envelope");
+    ++*i; LW_TRY(integer(ls->v[*i].text,&nkeys,ls->v[*i].offset,e)); ch->declared_keys=nkeys;
+    for(;;) {
+        double a[9]; LWKey frame={0};
+        if(*i+1>end) return lw_error(e,ls->v[*i].offset,context,"truncated envelope");
+        ++*i; split(ls->v[*i],&key,&value);
+        if(lw_string_is(key,"Behaviors")) break;
+        if(!lw_string_is(key,"Key")) return lw_error(e,ls->v[*i].offset,context,"expected Key");
+        LW_TRY(numbers(value,a,9,ls->v[*i].offset,e));
+        if(a[2]<0||a[2]>UINT32_MAX||floor(a[2])!=a[2]) return lw_error(e,ls->v[*i].offset,context,"invalid span type");
+        frame.value=a[0]; frame.time=a[1]; frame.shape=(uint32_t)a[2]; memcpy(frame.parameters,a+3,6*sizeof(double));
+        if(ch->keys.n&&frame.time<=ch->keys.v[ch->keys.n-1].time) return lw_error(e,ls->v[*i].offset,context,"key times are not strictly increasing");
+        LW_TRY(LW_ADD(ch->keys,frame,e));
+    }
+    {
+        double b[2]; LW_TRY(numbers(value,b,2,ls->v[*i].offset,e));
+        if(b[0]<0||b[0]>5||b[1]<0||b[1]>5||floor(b[0])!=b[0]||floor(b[1])!=b[1]) return lw_error(e,ls->v[*i].offset,context,"invalid envelope behavior");
+        ch->pre=(uint32_t)b[0]; ch->post=(uint32_t)b[1];
+    }
+    if(ch->keys.n!=nkeys) return lw_error(e,ls->v[*i].offset,context,"envelope key count mismatch");
+    if(*i+1>end) return lw_error(e,ls->v[*i].offset,context,"missing envelope closing brace");
+    ++*i; split(ls->v[*i],&key,&value);
+    while(lw_string_is(key,"{")) {
+        unsigned depth=1; ch->opaque_modifiers++;
+        while(depth) {
+            if(*i+1>end) return lw_error(e,ls->v[*i].offset,context,"truncated envelope modifier");
+            ++*i; split(ls->v[*i],&key,&value);
+            if(lw_string_is(key,"{")) depth++;
+            else if(lw_string_is(key,"}")) depth--;
+        }
+        if(*i+1>end) return lw_error(e,ls->v[*i].offset,context,"missing envelope closing brace");
+        ++*i; split(ls->v[*i],&key,&value);
+    }
+    if(!lw_string_is(key,"}")) return lw_error(e,ls->v[*i].offset,context,"expected envelope closing brace");
+    return 1;
+}
 static int motion_v1(LWNode *node,const Lines *ls,size_t *i,LWError *e) {
     uint32_t channels,count,k,c; double values[64],meta[5];
     LW_TRY(next_line(ls,i,e)); LW_TRY(integer(ls->v[*i].text,&channels,ls->v[*i].offset,e));
@@ -185,6 +226,42 @@ static int motion_v3(LWNode *node,const Lines *ls,size_t *i,LWError *e) {
     }
     return 1;
 }
+static void free_morph_forms_from(LWNode *node,size_t first) {
+    size_t i;
+    for(i=first;i<node->morph_forms.n;i++) LW_FREE(node->morph_forms.v[i].envelope.keys);
+    node->morph_forms.n=first;
+}
+static int morph_mixer(LWNode *node,const Lines *ls,size_t start,size_t end,LWError *e) {
+    size_t i,first=node->morph_forms.n; uint32_t declared=0;
+    if(start+1>=end||!integer(ls->v[start+1].text,&declared,ls->v[start+1].offset,e)||!declared||declared>1024) return 0;
+    for(i=start+2;i<end;i++) {
+        LWString key,value; split(ls->v[i],&key,&value);
+        if(lw_string_is(key,"{")&&lw_string_is(value,"MorfForm")) {
+            LWMorphForm form={0}; double scalar;
+            form.envelope.pre=form.envelope.post=1; form.source_offset=ls->v[i].offset;
+            if(i+2>=end) goto malformed;
+            form.name=unquote(ls->v[++i].text);
+            if(!form.name.size||!numbers(ls->v[++i].text,&scalar,1,ls->v[i].offset,e)) goto malformed;
+            form.value=scalar;
+            if(i+1<end) {
+                size_t envelope=i+1; split(ls->v[envelope],&key,&value);
+                if(lw_string_is(key,"{")&&lw_string_is(value,"Envelope")) {
+                    i=envelope;
+                    if(!scalar_envelope(&form.envelope,ls,&i,end,e,"morph-mixer")) { LW_FREE(form.envelope.keys); goto malformed; }
+                    form.has_envelope=1;
+                }
+            }
+            if(i+1>=end||!lw_string_is(trim(ls->v[i+1].text),"}")) { LW_FREE(form.envelope.keys); goto malformed; }
+            ++i;
+            if(!LW_ADD(node->morph_forms,form,e)) { LW_FREE(form.envelope.keys); free_morph_forms_from(node,first); return 0; }
+        }
+    }
+    if(node->morph_forms.n-first!=declared) goto malformed;
+    return 1;
+malformed:
+    free_morph_forms_from(node,first);
+    return 0;
+}
 /* Qualified legacy LW_Follower profile: a sibling's bank mirrored at the same
    time. The full plugin payload remains archived. This does not claim general
    Follower, world-space, timing, IK or arbitrary channel-remapping support. */
@@ -216,7 +293,7 @@ static int mirrored_bank_follower(LWNode *node,const Lines *ls,size_t start,size
 }
 static int add_node(LWScene *s,uint32_t id,Line line,LWString name,size_t *current,LWError *e) {
     size_t i;
-    LWNode n={0}; n.id=id; n.parent=LW_NONE; n.layer=LW_NONE; n.name=unquote(name);
+    LWNode n={0}; n.id=id; n.parent=LW_NONE; n.layer=LW_NONE; n.name=unquote(name); n.morph_target=LW_NONE;
     for(i=0;i<s->nodes.n;i++) if(s->nodes.v[i].id==id) return lw_error(e,line.offset,"item","duplicate scene item ID");
     n.bone.owner=LW_NONE; n.bone_falloff=LW_NONE;
     n.bone.active=n.bone.normalize=n.bone.scale_strength=1; n.bone.strength=1;
@@ -238,6 +315,19 @@ static int explicit_item_id(LWString *value,uint32_t kind,uint32_t *id,size_t of
     }
     if(result>>28!=kind) return lw_error(e,offset,"item","item ID type does not match its declaration");
     *id=result; return 1;
+}
+static int item_reference(LWString value,unsigned version,uint32_t *id,size_t offset,LWError *e) {
+    if(version!=5) {
+        uint32_t ordinal; LW_TRY(integer(value,&ordinal,offset,e));
+        *id=ordinal?0x10000000|(ordinal-1):LW_NONE; return 1;
+    }
+    {
+        char buffer[32],*end; unsigned long result;
+        if(!value.size||value.size>=sizeof buffer) return lw_error(e,offset,"morph","invalid target item ID");
+        memcpy(buffer,value.data,value.size); buffer[value.size]=0; errno=0; result=strtoul(buffer,&end,16);
+        if(*end||errno||result>UINT32_MAX||(result>>28)!=1) return lw_error(e,offset,"morph","invalid object target item ID");
+        *id=(uint32_t)result; return 1;
+    }
 }
 static uint32_t motion_kind(LWString key) {
     if(lw_string_is(key,"ObjectMotion")) return 1;
@@ -342,6 +432,15 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
                     owner->unsupported_transform=1;
                     snprintf(owner->transform_issue,sizeof owner->transform_issue,"unsupported item motion plugin or Follower configuration");
                 }
+            } else if(current!=SIZE_MAX&&lw_string_is(plugin.name,"DisplacementHandler 1 LW_MorphMixer")) {
+                LWNode *owner=&s->nodes.v[current]; int enabled=1; LWError local={0};
+                if(i+1<ls->n) {
+                    LWString next_key,next_value; split(ls->v[i+1],&next_key,&next_value);
+                    if(lw_string_is(next_key,"PluginEnabled")&&!lw_string_is(next_value,"1")) enabled=0;
+                }
+                if(enabled&&morph_mixer(owner,ls,start,i,&local)) plugin.interpreted=2;
+                else if(enabled&&!strcmp(local.context,"allocation")) { *e=local; return 0; }
+                else if(enabled) snprintf(owner->morph_issue,sizeof owner->morph_issue,"LW_MorphMixer preserved but not interpreted: %.120s",local.message[0]?local.message:"unrecognized payload");
             }
             LW_TRY(LW_ADD(s->plugins,plugin,e)); continue;
         }
@@ -426,10 +525,13 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             continue;
         }
         if(node&&lw_string_is(key,"ObjectDissolve")) {
-            size_t start=ls->v[i].offset;
+            size_t start=ls->v[i].offset; LWError numeric={0};
+            double dissolve;
+            if(numbers(value,&dissolve,1,ls->v[i].offset,&numeric)) { node->object_dissolve_value=dissolve; node->object_dissolve_static=1; }
             if(i+1<ls->n) {
                 LWString next_key,next_value; split(ls->v[i+1],&next_key,&next_value);
                 if(lw_string_is(next_key,"{")&&lw_string_is(next_value,"Envelope")) {
+                    node->object_dissolve_static=0;
                     ++i; LW_TRY(texture_block(s,ls,&i,NULL,e));
                 }
             }
@@ -455,7 +557,26 @@ static int scene_lines(LWScene *s,const Lines *ls,LWError *e) {
             memcpy(buffer,value.data,value.size); buffer[value.size]=0; errno=0; parent=strtoul(buffer,&end,16);
             if(*end||errno||parent>UINT32_MAX) return lw_error(e,ls->v[i].offset,"parent","invalid hexadecimal item ID");
             node->parent=parent?(uint32_t)parent:LW_NONE;
-        } else if(lw_string_is(key,"MorphTarget")||lw_string_is(key,"DisplacementMap")||lw_string_is(key,"DisplacementMaps")) {
+        } else if(node&&lw_string_is(key,"MorphAmount")) {
+            LWString next_key,next_value; LWError numeric={0};
+            node->morph_amount_present=1;
+            if(numbers(value,&node->morph_amount,1,ls->v[i].offset,&numeric)) {
+                node->morph_amount_envelope=0;
+            } else {
+                if(i+1>=ls->n) return lw_error(e,ls->v[i].offset,"morph","missing MorphAmount envelope");
+                split(ls->v[i+1],&next_key,&next_value);
+                if(!lw_string_is(next_key,"{")||!lw_string_is(next_value,"Envelope")) return lw_error(e,ls->v[i].offset,"morph","invalid MorphAmount");
+                ++i; LW_TRY(scalar_envelope(&node->morph_amount_channel,ls,&i,ls->n-1,e,"morph"));
+                node->morph_amount_envelope=1;
+            }
+        } else if(node&&lw_string_is(key,"MorphTarget")) {
+            LW_TRY(item_reference(value,s->version,&node->morph_target,ls->v[i].offset,e));
+        } else if(node&&lw_string_is(key,"MorphSurfaces")) {
+            LW_TRY(integer(value,&node->morph_surfaces,ls->v[i].offset,e));
+        } else if(node&&lw_string_is(key,"MTSEMorphing")) {
+            LW_TRY(integer(value,&node->mtse_morphing,ls->v[i].offset,e));
+            if(node->mtse_morphing) snprintf(node->morph_issue,sizeof node->morph_issue,"MTSEMorphing is preserved but not evaluated");
+        } else if(lw_string_is(key,"DisplacementMap")||lw_string_is(key,"DisplacementMaps")) {
             s->unsupported_features++;
             LW_TRY(preserve_statement(s,ls,i,i,e));
         } else LW_TRY(preserve_statement(s,ls,i,i,e));
@@ -487,6 +608,9 @@ void lw_free_scene(LWScene *s) {
     for(i=0;i<s->nodes.n;i++) {
         LWNode *n=&s->nodes.v[i];
         for(j=0;j<n->channels.n;j++) LW_FREE(n->channels.v[j].keys);
+        LW_FREE(n->morph_amount_channel.keys);
+        for(j=0;j<n->morph_forms.n;j++) LW_FREE(n->morph_forms.v[j].envelope.keys);
+        LW_FREE(n->morph_forms);
         for(j=0;j<n->candidates.n;j++) free(n->candidates.v[j]);
         for(j=0;j<n->clip_maps.n;j++) { LW_FREE(n->clip_maps.v[j].fields); LW_FREE(n->clip_maps.v[j].images); }
         LW_FREE(n->clip_maps);
@@ -497,12 +621,13 @@ void lw_free_scene(LWScene *s) {
     LW_FREE(s->images); LW_FREE(s->nodes); LW_FREE(s->plugins); LW_FREE(s->uninterpreted_statements); lw_free_source(&s->source); memset(s,0,sizeof *s);
 }
 void lw_scene_summary(FILE *f,const LWScene *s) {
-    size_t i,j,objects=0,bones=0,keys=0;
+    size_t i,j,objects=0,bones=0,keys=0,morphs=0;
     for(i=0;i<s->nodes.n;i++) {
         objects+=s->nodes.v[i].object_path.size!=0; bones+=(s->nodes.v[i].id>>28)==4;
         for(j=0;j<s->nodes.v[i].channels.n;j++) keys+=s->nodes.v[i].channels.v[j].keys.n;
+        morphs+=s->nodes.v[i].morph_forms.n+(s->nodes.v[i].morph_target!=LW_NONE);
     }
-    fprintf(f,"{\"kind\":\"scene\",\"version\":%u,\"reader_profile\":\"%s\",\"uninterpreted_statements\":%zu,\"sha256\":\"%s\",\"nodes\":%zu,\"object_loads\":%zu,\"bones\":%zu,\"keys\":%zu,\"plugins\":%zu,\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g}\n",s->version,lw_scene_reader_profile(s),s->uninterpreted_statements.n,s->source.sha256,s->nodes.n,objects,bones,keys,s->plugins.n,s->first_frame,s->last_frame,s->fps);
+    fprintf(f,"{\"kind\":\"scene\",\"version\":%u,\"reader_profile\":\"%s\",\"uninterpreted_statements\":%zu,\"sha256\":\"%s\",\"nodes\":%zu,\"object_loads\":%zu,\"bones\":%zu,\"keys\":%zu,\"morphs\":%zu,\"plugins\":%zu,\"first_frame\":%.17g,\"last_frame\":%.17g,\"fps\":%.17g}\n",s->version,lw_scene_reader_profile(s),s->uninterpreted_statements.n,s->source.sha256,s->nodes.n,objects,bones,keys,morphs,s->plugins.n,s->first_frame,s->last_frame,s->fps);
 }
 
 /* Span tangents are expressed in the current span's normalized time, with

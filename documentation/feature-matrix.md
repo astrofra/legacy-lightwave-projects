@@ -1,9 +1,12 @@
-# Matrice des fonctionnalités — lwconvert 0.18.0
+# Matrice des fonctionnalités — lwconvert 0.19.0
 
 État vérifié le **14 septembre 2026**, à partir du code, des tests et du
 [batch du 13 septembre à 22:11](batch-20260913-221149-priorities.md), complété par
 la [QA des projections de la version 0.16.0](texture-projections.md) et la
 [QA des clip maps Butterfly et Dora, versions 0.17.0–0.18.0](clip-maps.md).
+La [QA Snow Tanks](snow-tanks-fog-qa.md) précise les limites de transparence
+additive et la [QA morph Snow Tanks/Red Line](morph-targets.md) couvre le
+dissolve par instance et le morphing LWS.
 Cette page décrit le comportement actuel ; les autres rapports de QA peuvent
 décrire une version antérieure. Les versions ci-dessous sont celles des
 **fichiers**, pas celles du logiciel LightWave qui les a enregistrés.
@@ -72,7 +75,7 @@ détection certaine de la version du logiciel. Aucun preset n'est sauvegardé.
 | Courbes `CURV` | — | S | S | P, polyligne de contrôle | P, polyligne de contrôle |
 | Maps génériques `VMAP`/`VMAD` | — | S | S, type/nom/dimension/valeurs | P, seulement maps exploitées | P, seulement maps exploitées |
 | Couleurs de sommets `RGB `/`RGBA` | — | S, map générique | S | N | N, pas de `COLOR_0` |
-| Morphs `MORF`/`SPOT` | — | S, map générique | S, valeurs natives | N, pas de déformation morph | N dans le C, voir animation |
+| Morphs `MORF`/`SPOT` | — | S | S, valeurs natives et noms | N, pas de déformation morph | S depuis 0.19.0, cibles `POSITION` et `NORMAL`, valeurs absentes = déplacement nul |
 
 **La subdivision n'est volontairement pas figée dans les exports.** Les
 paramètres LWS `SubPatchLevel` et `SubdivisionOrder` restent également dans
@@ -89,6 +92,7 @@ Références : [lecteur LWO](../src/lwo.c), [triangulation](../src/triangulate.c
 | --- | --- | --- | --- | --- | --- |
 | Noms et attributions de surfaces `SRFS`/`SURF`/`PTAG` | S | S | S | S | S |
 | Couleur, diffuse, luminosité, spécularité, transparence scalaires | S | S | S | P, approximation MTL | P, approximation de matériau PBR |
+| Transparence additive de surface (`ADTR` LWO2, flags LWOB) | P, flags bruts | B, sous-bloc non interprété | P/B, flags ou octets source ; pas de champ additif structuré | N | N, export potentiellement opaque ; voir Snow Tanks |
 | Glossiness, réfraction et shader LightWave complet | B | B/P selon bloc | B/P | N, pas de restitution complète | N, pas de restitution complète |
 | Face avant/double face, `FLAG`/`SIDE` | S | S | S | N, pas de liaison MTL explicite | P, dont `doubleSided` ; variantes signalées |
 | Angle de lissage `SMAN` et activation du lissage LWOB | S | S | S, valeur brute et interprétation effective | S, normales `vn` | S, attribut `NORMAL` et métadonnées |
@@ -208,9 +212,9 @@ Références : [profil texture](textures.md), [NormalShader/MikkTSpace](normal-m
 | Autres contrôleurs de position/rotation, spline/path | P | P | P | S/B, paramètres préservés | N si requis | N si requis |
 | `LW_Follower`, cas de miroir de bank qualifié | P | P | P | S/B | P, profil spécifique | P, animation ordinaire ; pas d'acceptation générale par le baker IK |
 | Expressions, MotionMixer, plugins de mouvement/canal généraux | B | B | B | B, blocs et références source | N si requis | N si requis ; peuvent bloquer le bake |
-| `MorphTarget` / `LW_MorphMixer` / animation des `MORF` | B | B/P | B/P | Maps structurées côté LWO2 ; blocs/énoncés LWS préservés | N | N, cibles nommées et pistes `weights` à implémenter |
+| `MorphTarget` / `LW_MorphMixer` / animation des `MORF` | P | S/P | P | S, cible externe, formes, valeurs, enveloppes, paramètres et source brute | N | P depuis 0.19.0 : cible objet compatible, formes nommées et pistes `weights` échantillonnées |
 | Clip maps binaires par instance | P | P | P | S/P, arbre natif, provenance et évaluation distincte | P, image `map_d` seuillée | P, images statiques compatibles, dont `ClipMap` plan LWSC1 ; `MASK` à 0,5 |
-| `ObjectDissolve` et son enveloppe | B | B | B | B, champ source distinct | N | N |
+| `ObjectDissolve` et son enveloppe | B | B | B | S/P, valeur statique structurée ; enveloppe brute | N | P, une valeur statique ≥ 1 masque l'instance ; valeurs partielles et enveloppes non traduites |
 | Caméras, lumières, mouvements associés | P | P | P | P, items et canaux ; paramètres complets dans la source | N pour caméra/éclairage natifs | N pour caméra/éclairage natifs |
 | Filtres d'image, profondeur de champ, effets de rendu, cheveux | B | B | B | B, plugins/énoncés source | N | N |
 | Énoncés inconnus indexés par plage d'octets | B | B | S | LWSC 5 : index consultable ; autres : source brute | N | N |
@@ -224,6 +228,15 @@ est borné à 4 096 nœuds, 1 001 poses, 64 MiB de poses, 96 axes libres et
 32 cibles **par groupe**, avec 120 itérations par groupe. Son résultat est
 approximatif. Les clés/contraintes natives restent séparées de
 `baked-animation.json/bin` et des poids procéduraux dérivés.
+
+Depuis la v0.19.0, les morphs LWO2 `MORF` (déplacement relatif) et `SPOT`
+(position absolue) deviennent des cibles glTF par point source, puis par coin
+de rendu après triangulation et coutures UV. `LW_MorphMixer` et `MorphAmount`
+sont échantillonnés à la cadence de la scène. Les cibles objet exigent une
+topologie et un ordre des points identiques. `MorphSurfaces`, `MTSEMorphing`,
+les maps discontinues et les modificateurs d'enveloppe restent signalés.
+Le glTF applique ces morphs avant le skinning, conformément à son modèle.
+Voir [le profil et la QA morph](morph-targets.md).
 
 Un seul skin compatible peut être publié dans le glTF principal de la scène.
 Les scènes à plusieurs skins gardent des dérivés par rig ; une animation

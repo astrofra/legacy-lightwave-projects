@@ -221,6 +221,23 @@ class SkinTests(unittest.TestCase):
         self.assertEqual(sum(data["accessors"][p["attributes"]["POSITION"]]["count"] for p in data["meshes"][0]["primitives"]), 6)
         self.assertEqual(data["extras"]["subdivision"], "control cage retained; never baked")
 
+    def test_morph_targets_and_skin_attributes_share_the_same_primitives(self):
+        maps = weight_map("weight0", [(0,1),(1,1),(2,1),(3,1)])
+        maps += chunk("VMAP", b"MORF"+U16(3)+s0("smile")+vx(0)+F32(.25,.5,.75))
+        plugin = ("Plugin DisplacementHandler 1 LW_MorphMixer\n1\n1\n{ Group\n1\n\"Miscellaneous\"\n}\n"
+                  "{ MorfForm\n\"smile\"\n0.75\n}\nEndPlugin\n")
+        _, _, result, data, buffers = self.rig(bones=bone(), maps=maps, extra=plugin)
+        self.assertEqual(result["status"], "explicit-weight-map-skin")
+        self.assertEqual(data["extras"]["profile"], "rest-skeleton-morph-0.2")
+        mesh_node = next(node for node in data["nodes"] if "mesh" in node)
+        self.assertEqual(mesh_node["weights"], [.75])
+        self.assertEqual(data["meshes"][0]["extras"]["targetNames"], ["smile"])
+        for primitive in data["meshes"][0]["primitives"]:
+            self.assertIn("JOINTS_0", primitive["attributes"])
+            self.assertIn("WEIGHTS_0", primitive["attributes"])
+            self.assertEqual(len(primitive["targets"]), 1)
+            self.assertTrue(any(any(abs(v) > 0 for v in row) for row in accessor(data,buffers,primitive["targets"][0]["POSITION"])))
+
     def test_layer_selected_maps_and_multiple_object_instances(self):
         from test_converter import layer
         self.write("rig.lwo", form("LWO2", layer(0)+weight_map("weight0", [(0, -1)]), layer(1)+weight_map("weight0", [(0, 1), (1, 1), (2, 1)])))

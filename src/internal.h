@@ -136,6 +136,7 @@ typedef struct {
     LWExportStats geometry;
     size_t files,points,lines,materials,animated_channels,omitted_nodes,unsupported_sidedness;
     size_t animation_channels,animation_samples;
+    size_t morph_targets,morph_animation_channels,morph_issues,hidden_dissolved_nodes;
     char animation_issue[256];
     struct LWRigExports *rigs;
 } LWGltfStats;

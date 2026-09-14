@@ -194,7 +194,10 @@ recovered native threshold. Original values and their byte ranges remain intact.
 `object_dissolve` is retained independently as its complete native statement and
 optional envelope. For example, `aliens@newtek/01.lws` has both a clip map and
 `ObjectDissolve 0.5` on the same instance. The two effects must not be collapsed
-into one assumed alpha-test setting.
+into one assumed alpha-test setting. Since v0.19.0, an instance with a static
+`ObjectDissolve` value of 1 or greater keeps its glTF hierarchy node but omits its
+mesh. Partial values and animated dissolve envelopes remain preserved in LWIR
+and are reported as unsupported rather than guessed.
 
 The target mapping is documented in each manifest's `clip_map_targets`:
 
@@ -621,10 +624,23 @@ snapshot, writes `gltf_animation_issue` and returns partial status (2).
 The glTF animation specification is documented by
 [Khronos](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#animations).
 
-This profile animates object placement, not vertex deformation, materials,
-cameras or light definitions. Native bone/IK/morph/plugin deformation still
-requires the separate evaluated-animation workflow below. Missing dependencies
-and geometry omissions/approximations retain their existing partial status.
+Since v0.19.0, standard LightWave morph deformation is exported autonomously.
+Continuous three-component LWO2 `MORF` maps become relative glTF POSITION and
+NORMAL targets, while `SPOT` maps are converted from absolute alternate point
+positions to glTF deltas. Scene `MorphTarget` links can also use another object
+when its topology matches exactly. `MorphAmount` and interpreted
+`LW_MorphMixer` forms become sampled glTF `weights` animation channels; their
+native keys, curve parameters and plugin bytes remain in LWIR. Target names are
+written in `mesh.extras.targetNames`, initial values in node `weights`, and morph
+and skin attributes can coexist on the same primitive. glTF evaluates morphs
+before skinning, which matches the required order for these scenes.
+
+The autonomous mapping does not yet evaluate `MorphSurfaces`, `MTSEMorphing`,
+discontinuous morph VMADs, envelope modifiers or morph targets whose topology
+differs. These cases remain explicit in the IR and package manifest and cause a
+partial result. Materials, cameras, light definitions and arbitrary deformation
+plugins also remain outside this profile. See [morph target support and QA](morph-targets.md)
+for the exact mapping, limits and validated Red Line/Snow Tanks examples.
 
 The optional `lightwave-evaluated-cage-0.1` profile adds separate animated rig
 derivatives, listed in `gltf_animations`. It samples final LightWave bone poses

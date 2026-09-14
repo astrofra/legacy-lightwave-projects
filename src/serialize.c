@@ -17,6 +17,17 @@ static void source_json(FILE *f,const LWSource *s) {
 static void view(FILE *f,size_t offset,size_t count,size_t stride,const char *type,unsigned components) {
     fprintf(f,"{\"offset\":%zu,\"count\":%zu,\"stride\":%zu,\"component_type\":\"%s\",\"components\":%u}",offset,count,stride,type,components);
 }
+static void native_envelope_json(FILE *f,const LWChannel *c) {
+    size_t i,j;
+    fprintf(f,"{\"pre\":%u,\"post\":%u,\"declared_keys\":%u,\"opaque_modifiers\":%zu,\"time_offset\":%.17g,\"keys\":[",c->pre,c->post,c->declared_keys,c->opaque_modifiers,c->offset);
+    for(i=0;i<c->keys.n;i++) {
+        const LWKey *key=&c->keys.v[i]; if(i) fputc(',',f);
+        fprintf(f,"{\"time\":%.17g,\"value\":%.17g,\"shape\":%u,\"parameters\":[",key->time,key->value,key->shape);
+        for(j=0;j<6;j++) { if(j) fputc(',',f); fprintf(f,"%.17g",key->parameters[j]); }
+        fputs("]}",f);
+    }
+    fputs("]}",f);
+}
 int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
     char *path=lw_join(dir,"geometry.bin"); FILE *f; size_t i,j,offset,primitive_offset; char format[5];
     if(!path) return lw_error(e,0,"allocation","out of memory");
@@ -187,9 +198,22 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
         fputs("],\"clip_maps\":",f); clip_maps_json(f,n);
         fputs(",\"object_dissolve\":",f);
         if(n->object_dissolve.size) {
-            fputs("{\"status\":\"preserved-not-evaluated\",\"native_statement\":",f); lw_json_name(f,n->object_dissolve);
+            fprintf(f,"{\"status\":\"%s\",\"native_statement\":",n->object_dissolve_static?"static-value-interpreted":"preserved-not-evaluated"); lw_json_name(f,n->object_dissolve);
+            fputs(",\"static_value\":",f); if(n->object_dissolve_static) fprintf(f,"%.17g",n->object_dissolve_value); else fputs("null",f);
             fprintf(f,",\"source_offset\":%zu}",(size_t)(n->object_dissolve.data-s->source.data));
         } else fputs("null",f);
+        fputs(",\"morph_deformation\":{\"target_item\":",f); index_json(f,n->morph_target);
+        fprintf(f,",\"morph_surfaces\":%u,\"mtse_morphing\":%u,\"amount_present\":%s,\"amount\":%.17g,\"amount_envelope\":",n->morph_surfaces,n->mtse_morphing,n->morph_amount_present?"true":"false",n->morph_amount);
+        if(n->morph_amount_envelope) native_envelope_json(f,&n->morph_amount_channel); else fputs("null",f);
+        fputs(",\"forms\":[",f);
+        for(j=0;j<n->morph_forms.n;j++) {
+            const LWMorphForm *form=&n->morph_forms.v[j]; if(j) fputc(',',f);
+            fputs("{\"name\":",f); lw_json_name(f,form->name);
+            fprintf(f,",\"value\":%.17g,\"source_offset\":%zu,\"envelope\":",form->value,form->source_offset);
+            if(form->has_envelope) native_envelope_json(f,&form->envelope); else fputs("null",f);
+            fputc('}',f);
+        }
+        fputs("],\"issue\":",f); lw_json_string(f,n->morph_issue); fputc('}',f);
         fputs(",\"channels\":[",f);
         for(j=0;j<n->channels.n;j++) {
             const LWChannel *c=&n->channels.v[j]; if(j) fputc(',',f);
@@ -202,7 +226,7 @@ int lw_write_scene(const char *dir,const LWScene *s,LWError *e) {
     fputs(",\n\"plugins\":[",f);
     for(i=0;i<s->plugins.n;i++) {
         const LWPlugin *plugin=&s->plugins.v[i]; if(i) fputc(',',f); fputs("{\"name\":",f); lw_json_name(f,plugin->name);
-        fprintf(f,",\"offset\":%zu,\"bytes\":%zu,\"status\":\"%s\"}",plugin->offset,plugin->size,plugin->interpreted?"mirrored-bank-preview":"preserved-opaque");
+        fprintf(f,",\"offset\":%zu,\"bytes\":%zu,\"status\":\"%s\"}",plugin->offset,plugin->size,plugin->interpreted==2?"morph-mixer-interpreted":plugin->interpreted?"mirrored-bank-preview":"preserved-opaque");
     }
     fputs("],\n\"uninterpreted_statements\":[",f);
     for(i=0;i<s->uninterpreted_statements.n;i++) {

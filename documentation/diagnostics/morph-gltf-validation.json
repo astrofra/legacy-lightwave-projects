@@ -1,0 +1,411 @@
+{
+  "batch": "S:\\works\\legacy-lightwave-projects\\output\\qa-morphs-019-final\\batch-20260914-213147",
+  "converter_sha256": "ebed694914d2bf6dcbb2102ce381ad69696e6c4955dd7c784970178e7aad191b",
+  "converter_generators": {
+    "lwconvert 0.19.0": 54
+  },
+  "morph_documents": 54,
+  "morph_animated_documents": 41,
+  "morph_animation_channels": 89,
+  "maximum_targets_on_one_mesh": 23,
+  "morph_mixer_plugins_interpreted": 103,
+  "manifests_with_morph_issues": 11,
+  "manifest_morph_issue_count": 11,
+  "internal_shape_errors": [],
+  "validator_versions": [
+    "2.0.0-dev.3.10"
+  ],
+  "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+  "validator_counts": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 214,
+    "numHints": 0
+  },
+  "validator_issue_codes": {
+    "IMAGE_NPOT_DIMENSIONS": 214
+  },
+  "validator_failures": [],
+  "passed": true,
+  "documents": [
+    {
+      "file": "packages/demo-redline-assets-main/gltf/01_seq_stonehenge_01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_01_seq_pueblo_01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_02_seq_pueblo_01break.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_02_seq_pueblo_01break02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_02_seq_pueblo_01break03.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_02_seq_pueblo_01break04.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_02_seq_pueblo_01break05.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_03_seq_pueblo_02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/02_04_seq_stonehenge_02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/03_01_seq_01_ride.lws.gltf",
+      "meshes_with_targets": 2,
+      "targets": 24,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/03_02_seq_02_ride_break01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/03_03_seq_03_ride_break02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/03_04_seq_04_ride_break03.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/03_04_seq_04_ride_break04.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/04_01_seq_pueblo_03.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/04_02_seq_pueblo_04.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/A01.seq_stonehenge_01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/B01.seq_pueblo_01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/D01.seq_03_ride.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/F01.seq_stonehenge_02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/H03.seq_pueblo_03.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/I03.seq_pueblo_02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/J01.seq_02_ride.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/J02.seq_stonehenge_04.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/J03.seq_04_ride.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/J04.seq_01_ride.lws.gltf",
+      "meshes_with_targets": 2,
+      "targets": 24,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/fra/M01.seq_takeoff_01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 10,
+      "maximum_targets": 10,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/maps/mesh_pueblo_trail.lwo.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/maps/work_pueblo_trail.lwo.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/mesh_pueblo_trail.lwo.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/mesh_redlines_central.lwo.gltf",
+      "meshes_with_targets": 1,
+      "targets": 10,
+      "maximum_targets": 10,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/scene_pueblo_show_02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/scene_pueblo_show_03.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/scene_pueblo_show_04.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/scene_robots.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/sceneswork/scene_pueblo_show_02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/sceneswork/scene_pueblo_show_03.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/sceneswork/scene_pueblo_show_04.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 4
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/sceneswork/scene_ride.lws.gltf",
+      "meshes_with_targets": 2,
+      "targets": 24,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/sceneswork/scene_ride_particles.lws.gltf",
+      "meshes_with_targets": 2,
+      "targets": 24,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/sceneswork/scene_robots.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/seq_stonehenge_04.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/seq_takeoff_01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 10,
+      "maximum_targets": 10,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/temp/work_pueblo_morphmix.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/temp/work_trail.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/work_pueblo_morphmix.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/work_pueblo_trail.lwo.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/demo-redline-assets-main/gltf/work_trail.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 23,
+      "maximum_targets": 23,
+      "weight_animation_channels": 1
+    },
+    {
+      "file": "packages/snow-tanks/gltf/large_shot.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/snow-tanks/gltf/large_shot_fprime.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/snow-tanks/gltf/large_shot_fprime_01.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/snow-tanks/gltf/large_shot_fprime_02.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/snow-tanks/gltf/NEW/scene_volume_spot_combo.lws.gltf",
+      "meshes_with_targets": 3,
+      "targets": 3,
+      "maximum_targets": 1,
+      "weight_animation_channels": 0
+    },
+    {
+      "file": "packages/snow-tanks/gltf/NEW/truc.lws.gltf",
+      "meshes_with_targets": 1,
+      "targets": 1,
+      "maximum_targets": 1,
+      "weight_animation_channels": 0
+    }
+  ],
+  "scope": "Structural glTF morph checks and official Khronos resource validation. This does not establish visual equivalence with LightWave."
+}

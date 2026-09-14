@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.18.0"
+#define LWCONVERT_VERSION "0.19.0"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -126,6 +126,13 @@ typedef struct LWObject {
 
 typedef struct { double time, value, parameters[6]; uint32_t shape; } LWKey;
 typedef struct { uint32_t index, pre, post, declared_keys; size_t opaque_modifiers; double offset; LW_ARRAY(LWKey) keys; } LWChannel;
+typedef struct {
+    LWString name;
+    double value;
+    size_t source_offset;
+    int has_envelope;
+    LWChannel envelope;
+} LWMorphForm;
 /* Ordered native parameter tree; numeric text and unknown fields stay lossless. */
 typedef struct {
     LWString name, value;
@@ -163,6 +170,15 @@ typedef struct {
     uint32_t bone_falloff;
     int faster_bones;
     LWString object_dissolve; /* Complete statement and optional envelope. */
+    double object_dissolve_value;
+    int object_dissolve_static;
+    uint32_t morph_target; /* Explicit item ID in LWSC5, one-based object ordinal otherwise. */
+    uint32_t morph_surfaces, mtse_morphing;
+    double morph_amount;
+    int morph_amount_present, morph_amount_envelope;
+    LWChannel morph_amount_channel;
+    LW_ARRAY(LWMorphForm) morph_forms;
+    char morph_issue[192];
     int unsupported_transform;
     size_t key_count_mismatches;
     char transform_issue[192];
