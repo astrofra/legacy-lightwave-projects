@@ -4,7 +4,12 @@
 Run it directly, or use `convert_content.bat` at the repository root (Python 3
 is required for batching).
 
-Version 0.17.0 adds aligned image clip maps as glTF alpha cut (`MASK`), OBJ
+Version 0.18.0 adds legacy LWSC1 planar clip maps and independent mask size,
+center and wrapping on compatible finite color atlases. Dora, Picasso and the
+camera eye are now cut out in both their scene and object glTFs. Conversion
+remains autonomous C. See [Dora QA and limits](../../documentation/clip-maps.md).
+
+Version 0.17.0 added aligned image clip maps as glTF alpha cut (`MASK`), OBJ
 opacity images, grayscale PSD decoding and conservative standalone-object
 clip inference. See [Butterfly QA and limits](../../documentation/clip-maps.md).
 

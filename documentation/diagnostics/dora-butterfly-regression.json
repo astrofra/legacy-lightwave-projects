@@ -1,0 +1,163 @@
+{
+  "passed": true,
+  "project": "output\\qa-dora-clipmaps-20260914\\batch-20260914-111125\\packages\\butterfly-tank",
+  "source_object_sha256": "56ebf9e8d75a7fbac597897e461c2a7deee5588c74acafeb61363ed4697eeab0",
+  "source_mask_sha256": "135950f488e880356862f97444e920d36f4b097eccc95cc9cab802c2bbf674c1",
+  "mask_size": [
+    215,
+    190
+  ],
+  "opaque_pixels_at_cutoff": 25454,
+  "discarded_pixels_at_cutoff": 15396,
+  "scene_clip_maps_evaluated": 14,
+  "scene_clip_maps_not_evaluated": 0,
+  "object_ir_archived_bindings_checked": 2,
+  "geometry_buffer_unchanged": true,
+  "materials": [
+    {
+      "file": "01.lws.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "01.lws.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "01_butterfly.lws.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "01_butterfly.lws.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02.lws.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02.lws.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02_butterfly.lws.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02_butterfly.lws.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02_grass.lws.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02_grass.lws.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02_NAB.lws.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "02_NAB.lws.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "03.lws.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "03.lws.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "butterfly.lwo.gltf",
+      "material": "butter_01",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    },
+    {
+      "file": "butterfly.lwo.gltf",
+      "material": "butter_02",
+      "alpha_mode": "MASK",
+      "cutoff": 0.5,
+      "png_sha256": "470790e456c82b927e92a8ccc9c8f2d4c1c98ca1f6cc052af89b6c02050bbe68",
+      "alpha_matches_native_mask": true,
+      "rgb_matches_previous_export": true
+    }
+  ],
+  "scope": "Pixels and structural provenance, not a LightWave lighting comparison."
+}

@@ -220,6 +220,10 @@ PNG alpha for glTF `MASK`, and thresholds an OBJ `map_d` image. Unsupported
 maps remain counted by `scene_clip_maps_not_evaluated`; maps applied to at least
 one material also count in `scene_clip_maps_evaluated`. A partially evaluated
 map appears in both counters. See [qualification, provenance and QA](clip-maps.md).
+Version 0.18.0 adds legacy LWSC1 planar image clips, including their distinct
+`TextureFlags` encoding, and independent planar mask placement on a complete
+Reset/Edge base-color atlas. Derived `mask_uv_transform` stores U/V scales and
+offsets before mask wrapping; native scene/object parameters remain unchanged.
 
 References: [LightWave object clip mapping](https://docs.lightwave3d.com/lw2020/reference/layout/object-properties/render-tab.html),
 [glTF 2.0 alpha coverage](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#alpha-coverage),

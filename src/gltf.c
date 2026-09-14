@@ -453,7 +453,7 @@ static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
     fprintf(f,",\"extras\":{\"source_asset_index\":%zu,\"source_surface_index\":",entry->asset);
     if(m) fprintf(f,"%u",entry->index); else fputs("null",f);
     fprintf(f,",\"source_sha256\":\"%s\",\"source_sidedness\":%u",o->source.sha256,m?m->side:1);
-    if(entry->clip) fprintf(f,",\"derived_clip_map\":{\"profile\":\"aligned-image-clip-0.1\",\"scope\":\"%s\",\"evidence_count\":%zu,\"details\":\"object IR derived_clip_maps\"}",entry->clip->node==LW_NONE?"unanimous-object-preview":"scene-instance",entry->clip->evidence_count);
+    if(entry->clip) fprintf(f,",\"derived_clip_map\":{\"profile\":\"projected-image-clip-0.2\",\"scope\":\"%s\",\"evidence_count\":%zu,\"details\":\"object IR derived_clip_maps\"}",entry->clip->node==LW_NONE?"unanimous-object-preview":"scene-instance",entry->clip->evidence_count);
     fputs(",\"native_texture_bindings\":",f); lw_json_textures(f,o,entry->index);
     fprintf(f,",\"source_smoothing_angle_radians\":%.9g,\"effective_smoothing_angle_radians\":%.9g",m?m->smoothing:0,lw_smoothing_angle(o,entry->index,NULL,NULL));
     fputs(",\"interpretation\":\"color/diffuse/emission/opacity approximation; neutral rough dielectric; compatible LWOB projections and LWO2 UV image maps; height bump and environment reflection preserved in IR; source-corner normals carry smoothing\"}}",f);

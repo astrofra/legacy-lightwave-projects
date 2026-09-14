@@ -2,8 +2,8 @@
 #include <ctype.h>
 #include <math.h>
 
-/* One static object-space image mask, aligned with the material's existing UV
-   projection. Native instance trees remain untouched; only derived maps differ. */
+/* One static object-space image mask. Native instance trees remain untouched;
+   compatible projections are composed into derived maps only. */
 static int numbers(LWString text,double *out,size_t capacity,size_t *count) {
     char buf[256],*p,*end; size_t n=0;
     if(text.size>=sizeof buf) return 0;
@@ -30,13 +30,55 @@ static int values(const LWClipMap *c,size_t i,double *v,size_t expected) {
 static int named(LWString name,const char *const *names,size_t n) {
     size_t i; for(i=0;i<n;i++) if(lw_string_is(name,names[i])) return 1; return 0;
 }
+static int parse_legacy_mask(LWClipMap *c,LWTexture *t) {
+    const char *issue=NULL; size_t i,j; int axis=-1; unsigned flags=0;
+    if(!lw_string_is(c->declaration,"Planar Image Map")) issue="legacy clip projection requires a planar image map";
+    if(c->images.n!=1) issue="clip map requires exactly one still image";
+    for(i=0;i<c->fields.n&&!issue;i++) {
+        const LWTextureField *f=&c->fields.v[i]; double v[3];
+        if(f->block) { issue="legacy clip blocks require evaluation"; break; }
+        if(lw_string_is(f->name,"TextureImage")) continue;
+        if(lw_string_is(f->name,"TextureFlags")) {
+            if(!values(c,i,v,1)||v[0]<0||v[0]>15||floor(v[0])!=v[0]) issue="unsupported legacy clip flags";
+            else flags=(unsigned)v[0];
+        } else if(lw_string_is(f->name,"TextureAxis")) {
+            if(!values(c,i,v,1)||(v[0]!=0&&v[0]!=1&&v[0]!=2)) issue="invalid legacy clip axis";
+            else axis=(int)v[0];
+        } else if(lw_string_is(f->name,"TextureWrapModes")) {
+            if(!values(c,i,v,2)||v[0]<0||v[0]>3||v[1]<0||v[1]>3||floor(v[0])!=v[0]||floor(v[1])!=v[1]) issue="invalid clip wrapping";
+            else { t->wrap[0]=(uint32_t)v[0]; t->wrap[1]=(uint32_t)v[1]; }
+        } else if(lw_string_is(f->name,"TextureSize")||lw_string_is(f->name,"TextureCenter")) {
+            float *dst=lw_string_is(f->name,"TextureSize")?t->size:t->center;
+            if(!values(c,i,v,3)) issue="malformed legacy clip projection";
+            else for(j=0;j<3;j++) { dst[j]=(float)v[j]; if(!isfinite(dst[j])) issue="clip projection exceeds float range"; }
+        } else if(lw_string_is(f->name,"TextureFalloff")||lw_string_is(f->name,"TextureVelocity")) {
+            if(!values(c,i,v,3)||v[0]!=0||v[1]!=0||v[2]!=0) issue="legacy clip falloff/velocity requires evaluation";
+        } else if(lw_string_is(f->name,"TextureValue")) {
+            /* LWSC1 image import keeps opacity 1 for values 0, .5 and 1.
+               This scalar is neither image opacity nor the alpha cutoff. */
+            if(!values(c,i,v,1)) issue="invalid legacy clip value";
+        } else issue="unsupported legacy clip parameter; native tree preserved";
+    }
+    /* LWSC1 flags differ from LWOB TFLG: world=1, negative=2,
+       pixel blending=4, antialiasing=8. TextureAxis is independent. */
+    t->flags=((flags&2)?16u:0)|((flags&4)?32u:0)|((flags&8)?64u:0);
+    c->negative=(flags&2)!=0;
+    if(!issue&&axis<0) issue="legacy clip requires an explicit projection axis";
+    if(!issue&&(flags&1)) issue="world-space clip map requires evaluation";
+    if(!issue) {
+        t->flags|=1u<<(unsigned)axis;
+        for(j=0;j<3;j++) if(j!=(size_t)axis&&!t->size[j]) issue="zero planar clip size";
+    }
+    if(issue) { snprintf(c->issue,sizeof c->issue,"%s",issue); return 0; }
+    return 1;
+}
 static int parse_mask(LWClipMap *c,LWTexture *t) {
     size_t i,j,textures=0,images=0; int axis=0,projection=0; const char *issue=NULL;
     const char *const containers[]={"TextureBlock","TextureMap","Image","Clip","Still"};
     const char *const ignored[]={"Channel","AntiAliasing","PixelBlending"};
     memset(t,0,sizeof *t); t->block_type=LW_TAG('I','M','A','P'); t->enabled=1; t->opacity=1;
     t->size[0]=t->size[1]=t->size[2]=1; t->wrap[0]=t->wrap[1]=1; t->tiles[0]=t->tiles[1]=1;
-    if(c->declaration.size) issue="legacy ClipMap evaluator not qualified";
+    if(c->declaration.size) return parse_legacy_mask(c,t);
     if(c->images.n!=1) issue="clip map requires exactly one still image";
     for(i=0;i<c->fields.n&&!issue;i++) {
         const LWTextureField *f=&c->fields.v[i]; double v[5]={0};
@@ -91,6 +133,26 @@ static int aligned(const LWTexture *a,const LWTexture *b) {
     for(i=0;i<2;i++) if(sphere&&!close_value(a->tiles[i],b->tiles[i])) return 0;
     return 1;
 }
+static int compatible(const LWMaterial *m,const LWTexture *a,const LWTexture *b,LWClipBinding *binding) {
+    size_t i; unsigned axis,axes[2];
+    if(aligned(a,b)) return 1;
+    /* A Reset/Edge atlas covers the entire rendered domain. Repeat/Mirror
+       atlases encode periodicity: a different mask period cannot share them. */
+    if(!m->texture_atlas||a->wrap[0]==1||a->wrap[0]==2||a->wrap[1]==1||a->wrap[1]==2) return 0;
+    if(b->projection!=0||(a->block_type?a->projection!=0:!lw_string_is(a->type,"Planar Image Map"))) return 0;
+    if((a->flags&7)!=(b->flags&7)) return 0;
+    for(i=0;i<3;i++) if(a->rotation[i]||b->rotation[i]) return 0;
+    axis=(a->flags&1)?0:(a->flags&2)?1:2; axes[0]=axis==0?2:0; axes[1]=axis==1?2:1;
+    for(i=0;i<2;i++) {
+        unsigned k=axes[i]; double scale,offset;
+        if(!b->size[k]) return 0;
+        scale=(double)a->size[k]/b->size[k];
+        offset=.5-.5*scale+((double)a->center[k]-b->center[k])/b->size[k];
+        if(!isfinite(scale)||!isfinite(offset)) return 0;
+        binding->mask_uv_transform[i]=scale; binding->mask_uv_transform[i+2]=offset;
+    }
+    binding->remapped=1; return 1;
+}
 static int used_material(const LWObject *o,const LWNode *n,size_t material) {
     size_t i;
     for(i=0;i<o->primitives.n;i++) {
@@ -134,7 +196,7 @@ int lw_prepare_clip_scene(const char *output,LWPackage *p,LWScene *s,LWError *e)
             if(!dst->scene_path) { free(dir); return lw_error(e,0,"allocation","out of memory"); }
             if(!n->clip_maps.n) snprintf(dst->issue,sizeof dst->issue,"no clip map on this instance");
             else if(!valid) snprintf(dst->issue,sizeof dst->issue,"%s",c?c->issue:"multiple clip maps require compositing");
-            else if(!m->base_texture||!m->textured||m->projection_texture>=o->textures.n||!aligned(&o->textures.v[m->projection_texture],&mask))
+            else if(!m->base_texture||!m->textured||m->projection_texture>=o->textures.n||!compatible(m,&o->textures.v[m->projection_texture],&mask,dst))
                 snprintf(dst->issue,sizeof dst->issue,"clip projection differs from the material image projection");
             if(n->clip_maps.n&&!archive(dir,&s->source,".lws",&dst->scene_uri,e)) { free(dir); return 0; }
             if(dst->issue[0]) { if(c) c->skipped_materials++; continue; }
@@ -193,7 +255,7 @@ const LWClipBinding *lw_clip_binding(const LWObject *o,uint32_t node,uint32_t ma
 }
 void lw_json_clip_bindings(FILE *f,const LWObject *o) {
     size_t i;
-    fputs("{\"profile\":\"aligned-image-clip-0.1\",\"context_issue\":",f); lw_json_string(f,o->clip_context_issue);
+    fputs("{\"profile\":\"projected-image-clip-0.2\",\"context_issue\":",f); lw_json_string(f,o->clip_context_issue);
     fputs(",\"bindings\":[",f);
     for(i=0;i<o->clip_bindings.n;i++) {
         const LWClipBinding *b=&o->clip_bindings.v[i]; if(i) fputc(',',f);
@@ -208,6 +270,7 @@ void lw_json_clip_bindings(FILE *f,const LWObject *o) {
         if(b->scene_uri) { fputs(",\"scene_uri\":",f); lw_json_string(f,b->scene_uri); }
         if(b->image_uri) { fputs(",\"image_uri\":",f); lw_json_string(f,b->image_uri); fprintf(f,",\"image_sha256\":\"%s\"",b->image_sha256); }
         if(b->base_texture) {
+            if(b->remapped) fprintf(f,",\"mask_uv_transform\":[%.17g,%.17g,%.17g,%.17g]",b->mask_uv_transform[0],b->mask_uv_transform[1],b->mask_uv_transform[2],b->mask_uv_transform[3]);
             fprintf(f,",\"alphaMode\":\"MASK\",\"alphaCutoff\":0.5,\"negative\":%s,\"base_color\":",b->negative?"true":"false");
             lw_json_string(f,b->base_texture); fputs(",\"opacity\":",f); lw_json_string(f,b->opacity_texture);
             fprintf(f,",\"base_color_sha256\":\"%s\",\"opacity_sha256\":\"%s\"",b->texture_sha256[0],b->texture_sha256[1]);

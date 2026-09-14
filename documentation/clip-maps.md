@@ -1,4 +1,4 @@
-# Clip maps vers alpha cut — v0.17.0
+# Clip maps vers alpha cut — v0.18.0
 
 Le convertisseur C compose désormais les clip maps d'image compatibles dans
 l'alpha de la texture de couleur, puis exporte **`alphaMode: "MASK"` et
@@ -8,7 +8,75 @@ pixels conservés sont opaques. Cela fait partie du
 sans extension. OBJ reçoit une image d'opacité binaire via `map_d` ; son importeur
 reste libre de filtrer cette image et ne garantit pas un mode alpha test.
 
-## Cas Butterfly
+## Cas Dora Maar : syntaxe LWSC1
+
+La scène `content/dora-maar/dora&picasso.lws` porte trois clip maps plans :
+`dora_mask.JPG`, `picass_mask.jpg` et `oeil_mask.JPG`. Les deux portraits
+conservent le noir du masque ; l'œil utilise l'inversion pour conserver le blanc.
+Ces attributs se trouvent dans la scène, pas dans les surfaces des `.lwo`.
+
+L'ancienne syntaxe `ClipMap Planar Image Map / Texture...` est évaluée depuis
+la v0.18.0. Ses `TextureFlags` diffèrent des `TFLG` du format LWOB :
+
+| Bit | Sens LWSC1 |
+| --- | --- |
+| 1 | Coordonnées monde, préservées sans évaluation |
+| 2 | Inversion du masque |
+| 4 | Pixel blending |
+| 8 | Antialiasing |
+
+L'axe vient de `TextureAxis`, indépendamment de ces bits. Ces observations
+proviennent de **21 imports de scènes synthétiques LWSC1 dans LightWave 9.6**,
+lus par `LWTextureFuncs` avec le SDK 9. Les valeurs `TextureValue` 0, 0,5 et 1
+laissent l'opacité de la couche image à 1. Ce champ reste conservé dans l'IR ;
+il n'est pas utilisé comme opacité ou seuil d'export. Le test ne mesure pas le
+seuil de rendu historique ni les filtres : le profil emploie un
+rééchantillonnage au texel le plus proche et le seuil glTF choisi de 0,5.
+[Observations natives](diagnostics/legacy-clip-parameters.json),
+[sonde reproductible](../tests/probe_legacy_clips.py) et
+[lecture SDK](../tests/legacy_clip_probe.h).
+LightWave intervient uniquement pour cette qualification, jamais à l'exécution
+du convertisseur C ou du batch ordinaire.
+
+Le masque de Dora mesure 3,98 × 3,98 dans l'espace de l'objet, contre 4 × 4
+pour la couleur, avec Mirror pour le masque et Reset pour la couleur. On
+rééchantillonne donc chaque masque selon **son propre placement et son propre
+wrapping**, avant de composer l'alpha. L'ajustement est enregistré séparément
+dans `derived_clip_maps/bindings/mask_uv_transform` : échelles U/V, puis
+décalages U/V, appliqués avant le wrapping du masque. Les coordonnées source
+et les paramètres natifs ne sont pas réécrits.
+
+Lot corrigé :
+`output/qa-dora-clipmaps-20260914/batch-20260914-111125/packages/dora-maar/`.
+Ouvrir **`gltf/dora&picasso.lws.gltf`** avec son `.bin` et `textures/`.
+Les trois objets exportés séparément reprennent également le détourage.
+
+![Scène glTF importée dans Blender, éclairage de contrôle](diagnostics/dora-clipmap.png)
+
+Contrôles v0.18.0 :
+
+- Trois clip maps évalués, aucun ignoré dans la scène Dora.
+- Alpha vérifié indépendamment à partir des JPEG natifs et des positions sur
+  les plans : écart maximal d'un niveau sur 255 entre décodeurs JPEG,
+  **aucune différence de décision au seuil 0,5** sur les trois images.
+- RGB et buffers de géométrie/normales/UV identiques au batch 10:42 précédent.
+- Six imports isolés OBJ/glTF dans Blender : les trois branchements alpha
+  sont présents dans chaque format. OBJ reçoit des `map_d` binaires.
+- Régression Butterfly : ses 14 clip maps restent évalués ; ses pixels alpha,
+  RGB et son buffer de géométrie sont inchangés.
+- 17 glTF Dora + Butterfly validés sans erreur ni avertissement par Khronos ;
+  les 18 informations concernent les images de dimensions non puissances de deux.
+- 13 groupes CTest réussis en Release et avec AddressSanitizer.
+
+Rapports : [pixels et provenance](diagnostics/dora-clipmap-qa.json),
+[Blender](diagnostics/dora-clipmap-blender.json),
+[Khronos](diagnostics/dora-clipmap-gltf-validation.json),
+[portabilité du batch](diagnostics/dora-clipmap-layout.json),
+[régression Butterfly](diagnostics/dora-butterfly-regression.json).
+Le rendu de contrôle confirme le détourage, pas une équivalence d'éclairage
+avec LightWave. Les lots antérieurs ne sont pas modifiés.
+
+## Cas Butterfly — qualification v0.17.0
 
 `content/butterfly-tank/butterfly.lwo` contient la couleur des ailes, mais son
 clip map se trouve sur les instances des scènes LWS. Deux obstacles empêchaient
@@ -103,17 +171,21 @@ et son animation restent distincts et non évalués.
 | `ClipMaps / TextureBlock`, une image active, mode normal à 100 % | Oui |
 | Projection plane ou sphérique, axes X/Y/Z, transformation statique | Oui, alignée sur la projection existante du matériau |
 | Matériau projeté d'un objet LWOB ou LWO2 | Oui |
-| Repeat, Mirror, Reset, Edge | Oui, modes identiques au matériau ; réutilisation de son atlas éventuel |
-| Projections différentes entre couleur et masque, matériau sans projection d'image | Préservées, sans composition |
+| Repeat, Mirror, Reset, Edge | Oui si alignés ; indépendants dans le cas plan décrit ci-dessous |
+| Taille ou centre différents, même axe, plans sans rotation | Oui si la couleur utilise un atlas Reset/Edge sur les deux axes, couvrant toute la géométrie |
+| Autres différences de projection, matériau sans projection d'image | Préservées, sans composition |
 | Projection UV explicite du clip, cubique, cylindrique, frontale | Préservées, sans évaluation par ce profil |
 | Référence à un autre objet, coordonnées monde, falloff, enveloppes | Préservés, sans évaluation |
 | Plusieurs couches, procédurales, gradients, modes de mélange complexes | Préservés, sans évaluation |
-| Ancienne syntaxe `ClipMap` suivie de `Texture...` | Préservée ; évaluateur legacy non qualifié |
+| Ancienne syntaxe `ClipMap Planar Image Map` suivie de `Texture...` | Oui, une image statique en coordonnées objet, axe explicite ; sphérique legacy encore préservée sans évaluation |
 | Backend `.blend` natif | Différé ; le glTF exporté est importable dans Blender |
 
 La comparaison des paramètres emploie une tolérance de 10⁻⁶ pour les écarts
 d'arrondi entre le texte LWS et les flottants LWO. Aucun remeshing ni subdivision
 n'est introduit. Les limites de raster du convertisseur restent applicables.
+Un atlas couleur Repeat/Mirror ne peut pas recevoir arbitrairement un masque
+de période différente : cette composition reste refusée, même si les axes
+coïncident. Les ajustements plans ne modifient ni la géométrie ni ses UV exportés.
 
 Code : [qualification et provenance](../src/clipmaps.c),
 [composition](../src/textures.c), [PSD gris](../src/raster.c),
@@ -121,6 +193,7 @@ Code : [qualification et provenance](../src/clipmaps.c),
 
 ```powershell
 python -X utf8 tools/batch_convert.py --project butterfly-tank --output-root output/qa-clipmaps-new
+python -X utf8 tools/batch_convert.py --project dora-maar --output-root output/qa-dora-new
 python -X utf8 tests/test_clipmaps.py bin/win64/lwconvert.exe
 python -X utf8 documentation/diagnostics/check_butterfly_clipmap.py --project output/qa-clipmaps-20260914/batch-20260914-095021/packages/butterfly-tank --source content/butterfly-tank --baseline output/qa-projections-20260914/batch-20260914-085207/packages/butterfly-tank --report documentation/diagnostics/butterfly-clipmap-qa.json
 ```

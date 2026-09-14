@@ -1,0 +1,58 @@
+{
+  "passed": true,
+  "project": "output\\qa-dora-clipmaps-20260914\\batch-20260914-111125\\packages\\dora-maar",
+  "baseline": "output\\batch-20260914-104218\\packages\\dora-maar",
+  "scene_clip_maps_evaluated": 3,
+  "scene_clip_maps_not_evaluated": 0,
+  "objects": [
+    {
+      "object": "dora",
+      "mask_source_sha256": "6be63ac856d5f1bbb7cdba44b978489e2b1bc60d6d7890930179eff397d399ee",
+      "size": [
+        424,
+        586
+      ],
+      "alpha_max_delta_vs_pillow": 1,
+      "cutoff_differences_vs_pillow": 0,
+      "discarded_pixels": 124918,
+      "rgb_and_geometry_unchanged": true,
+      "gltf_checked": [
+        "dora.lwo.gltf",
+        "dora&picasso.lws.gltf"
+      ]
+    },
+    {
+      "object": "picasso",
+      "mask_source_sha256": "d450bbd3dac27b60316af3f1f225b51d7796bfdd61815ff3396446e10a7319c6",
+      "size": [
+        567,
+        767
+      ],
+      "alpha_max_delta_vs_pillow": 1,
+      "cutoff_differences_vs_pillow": 0,
+      "discarded_pixels": 39546,
+      "rgb_and_geometry_unchanged": true,
+      "gltf_checked": [
+        "picasso.lwo.gltf",
+        "dora&picasso.lws.gltf"
+      ]
+    },
+    {
+      "object": "oeil",
+      "mask_source_sha256": "3ef3de29b7ef500653c62c27c917ccd5666d332fc28bf00270a1114c7ff4c1fe",
+      "size": [
+        193,
+        186
+      ],
+      "alpha_max_delta_vs_pillow": 1,
+      "cutoff_differences_vs_pillow": 0,
+      "discarded_pixels": 14919,
+      "rgb_and_geometry_unchanged": true,
+      "gltf_checked": [
+        "oeil.lwo.gltf",
+        "dora&picasso.lws.gltf"
+      ]
+    }
+  ],
+  "scope": "Native clip JPEGs sampled at plane positions using independently derived mapping; raw source provenance, glTF MASK, OBJ opacity pixels and unchanged RGB/geometry. Does not compare native LightWave lighting or image filtering."
+}

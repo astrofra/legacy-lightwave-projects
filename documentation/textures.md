@@ -1,4 +1,4 @@
-# Texture profile — v0.17.0
+# Texture profile — v0.18.0
 
 The motivating project is `content/orange-juice-signage`. Its scene loads the
 textured LWOB object `oj_tv_mesh_t.lwo`: `screen.iff` supplies the screen's color;
@@ -139,6 +139,10 @@ clip maps instead use `MASK` and coverage composed into base-color alpha;
 OBJ receives thresholded `map_d` pixels. Grayscale PSD merged images (one
 channel, 8/16 bits, raw or PackBits) are also decoded in C. See
 [clip-map scope and QA](clip-maps.md) for instance isolation and object inference.
+Version 0.18.0 also evaluates legacy LWSC1 planar `ClipMap / Texture...` masks,
+with their independent flag encoding. Static unrotated planar masks may differ
+in size, center and wrapping when the base-color Reset/Edge atlas covers the
+full geometry; their mapping is recorded separately in the derived IR.
 
 ## LWO2 UV image layers
 

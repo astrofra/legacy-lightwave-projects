@@ -1,0 +1,16 @@
+{
+  "batch": "S:\\works\\legacy-lightwave-projects\\output\\qa-dora-clipmaps-20260914\\batch-20260914-111125",
+  "layout_version": "0.3",
+  "input_statuses": {
+    "partial": 15,
+    "skipped": 36,
+    "converted": 2
+  },
+  "projects": 2,
+  "conversion_manifests": 17,
+  "native_sources_checked": 17,
+  "obj_mtl_pairs_checked": 17,
+  "gltf_buffer_pairs_checked": 17,
+  "passed": true,
+  "scope": "Published relative links, project indexes, source and PNG hashes, buffer sizes, OBJ/MTL material references and glTF buffer/image/material bindings. Does not assess LightWave visual fidelity."
+}

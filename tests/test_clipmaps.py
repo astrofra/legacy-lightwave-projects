@@ -27,6 +27,18 @@ def psd(rows, compression=1, depth=8):
     return header + bytes(12) + struct.pack('>H', compression) + data
 
 
+def legacy_clip(flags=4, value=.5, size='1 1 1', center='0 0 0', wrap='1 1', axis=2, extra=''):
+    return f'''ClipMap Planar Image Map
+TextureImage maps/mask.psd
+TextureWrapModes {wrap}
+TextureFlags {flags}
+TextureAxis {axis}
+TextureSize {size}
+TextureCenter {center}
+TextureValue {value}
+{extra}'''
+
+
 def clip(negative=1, center='0 0 0', extra='', wrap='1 1', projection=0, axis=2):
     return f'''ClipMaps
 {{ TextureBlock
@@ -139,6 +151,77 @@ class ClipTests(unittest.TestCase):
         standalone, sm = self.convert(self.base / 'content/mesh.lwo', code=2)
         sd, _ = load(standalone / sm['assets'][0]['gltf'])
         self.assertEqual(sd['materials'][0]['alphaMode'], 'OPAQUE')
+
+    def test_lwsc1_flags_are_independent_of_axis_and_value(self):
+        # Native LWSC1 import probe: bit 1 world, 2 invert, 4 pixel, 8 AA.
+        for kind in ('LWOB', 'LWO2'):
+            source = self.fixture(kind)
+            for flags in (0,2,4,6,8,14):
+                for value in (0,.5,1):
+                    text = legacy_clip(flags=flags, value=value)
+                    scene = self.write('shot.lws', 'LWSC\n1\nLoadObject mesh.lwo\n' + text)
+                    out, manifest = self.convert(scene, code=2)
+                    directory, native = self.object_data(out, manifest)
+                    binding = native['derived_clip_maps']['bindings'][0]
+                    self.assertEqual(manifest['scene_clip_maps_evaluated'], 1)
+                    expected = [0,127,128,255] if flags&2 else [255,128,127,0]
+                    self.assertEqual([p[3] for p in tx.png(directory/binding['base_color'])[0]], expected)
+                    raw = (directory/binding['scene_uri']).read_bytes()
+                    self.assertEqual(raw[binding['source_offset']:binding['source_offset']+binding['source_bytes']], text.strip().encode())
+            self.assertEqual((directory/'source.bin').read_bytes(), source.read_bytes())
+
+    def test_legacy_unsupported_parameters_preserved_without_guessing(self):
+        self.fixture()
+        for text in (legacy_clip(flags=1), legacy_clip(flags=16), legacy_clip(axis=3),
+                     legacy_clip(size='0 1 1'), legacy_clip(size='1e300 1 1'),
+                     legacy_clip(extra='TextureVelocity 1 0 0'), legacy_clip(extra='TextureUnknown 1'),
+                     legacy_clip().replace('Planar','Spherical')):
+            scene = self.write('shot.lws', 'LWSC\n1\nLoadObject mesh.lwo\n' + text)
+            out, manifest = self.convert(scene, code=2)
+            data, _ = load(out/manifest['scene_gltf'])
+            self.assertEqual(data['materials'][0]['alphaMode'], 'OPAQUE')
+            self.assertEqual(manifest['scene_clip_maps_not_evaluated'], 1)
+
+    def test_independent_planar_mask_size_center_and_wrapping(self):
+        # A full physical unit square: each atlas sample corresponds to a known
+        # point on this plane. Check the mask at that point, not at color UVs.
+        import math
+        for kind in ('LWOB', 'LWO2'):
+            for axis in (0,1,2):
+                for size, center in ((.5,.125),(-.5,-.125),(.995,0)):
+                    for wrap in (0,1,2,3):
+                        self.fixture(kind, wrap=(0,3), mask=psd([[0,64,192,255]]))
+                        ua,va = (2 if axis==0 else 0), (2 if axis==1 else 1)
+                        case=dict(axis=axis,projection=0,size=[1,1,1],center=[0,0,0],rotation=[0,0,0],tiles=[1,1])
+                        points=[]
+                        for u,v in ((-.5,-.5),(.5,-.5),(.5,.5),(-.5,.5)):
+                            p=[0,0,0]; p[ua]=u; p[va]=v; points.append(p)
+                        source=self.write('mesh.lwo',projections.projected(kind,case,points=points,wrap=(0,3)))
+                        sz=[1,1,1]; sz[ua]=size
+                        ct=[0,0,0]; ct[ua]=center
+                        mask=legacy_clip(flags=6,axis=axis,size=' '.join(map(str,sz)),center=' '.join(map(str,ct)),wrap=f'{wrap} 3')
+                        self.write('shot.lws','LWSC\n1\nLoadObject mesh.lwo\n'+mask)
+                        out,manifest=self.convert(source,code=2)
+                        directory,native=self.object_data(out,manifest)
+                        b=next(b for b in native['derived_clip_maps']['bindings'] if b['node_id'] is None)
+                        self.assertIn('mask_uv_transform',b)
+                        result=tx.png(directory/b['base_color'])
+                        # 4x1 base image + one-pixel gutter on every side.
+                        self.assertEqual((len(result[0]),len(result)),(6,3))
+                        expected=[]
+                        for x in range(6):
+                            physical_x=(x-1+.5)/4-.5
+                            u=.5+(physical_x-center)/size
+                            reset=wrap==0 and not 0<=u<=1
+                            if wrap==0 or wrap==3: u=max(0,min(1,u))
+                            elif wrap==1: u-=math.floor(u)
+                            else:
+                                u-=2*math.floor(u/2)
+                                if u>1: u=2-u
+                            expected.append(0 if reset else [0,64,192,255][min(3,int(u*4))])
+                        self.assertEqual([p[3] for p in result[1]],expected)
+                        base=tx.png(directory/native['materials'][0]['derived_maps']['base_color'])
+                        self.assertEqual([[p[:3] for p in row] for row in result],[[p[:3] for p in row] for row in base])
 
     def test_incompatible_or_animated_projection_not_silently_applied(self):
         for mask in (clip(center='1 0 0'), clip(extra='FutureSetting 1'), clip().replace('0 0 0\n    0','0 0 0\n    1'), clip(extra='{ Procedural\nType Checkerboard\n}')):

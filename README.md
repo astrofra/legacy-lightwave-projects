@@ -199,7 +199,9 @@ image masks aligned with a material's planar/spherical mapping produce glTF
 `MASK` (cutoff 0.5) and an OBJ `map_d`. Grayscale PSD masks are decoded in C.
 Standalone objects can recover a unanimous clip appearance from neighboring
 scenes. Object dissolve remains separate; Blender's native backend is deferred.
-See [clip-map scope and Butterfly QA](documentation/clip-maps.md).
+Version **0.18.0** also evaluates legacy LWSC1 planar clips and independent
+planar mask placement on finite Reset/Edge color atlases, including Dora Maar.
+See [clip-map scope and Butterfly/Dora QA](documentation/clip-maps.md).
 
 Build on Windows with CMake and Visual Studio 2022:
 

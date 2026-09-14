@@ -1,0 +1,55 @@
+{
+  "blender_version": "4.2.0",
+  "passed": true,
+  "imports": [
+    {
+      "format": "gltf",
+      "file": "dora.lwo",
+      "material_count": 1,
+      "loaded_texture_nodes": 1,
+      "clip_alpha_links_checked": 1,
+      "portable_import": true
+    },
+    {
+      "format": "gltf",
+      "file": "picasso.lwo",
+      "material_count": 1,
+      "loaded_texture_nodes": 1,
+      "clip_alpha_links_checked": 1,
+      "portable_import": true
+    },
+    {
+      "format": "gltf",
+      "file": "oeil.lwo",
+      "material_count": 1,
+      "loaded_texture_nodes": 3,
+      "clip_alpha_links_checked": 1,
+      "portable_import": true
+    },
+    {
+      "format": "obj",
+      "file": "dora.lwo",
+      "material_count": 1,
+      "loaded_texture_nodes": 2,
+      "clip_alpha_links_checked": 1,
+      "portable_import": true
+    },
+    {
+      "format": "obj",
+      "file": "picasso.lwo",
+      "material_count": 1,
+      "loaded_texture_nodes": 2,
+      "clip_alpha_links_checked": 1,
+      "portable_import": true
+    },
+    {
+      "format": "obj",
+      "file": "oeil.lwo",
+      "material_count": 1,
+      "loaded_texture_nodes": 4,
+      "clip_alpha_links_checked": 1,
+      "portable_import": true
+    }
+  ],
+  "scope": "Isolated format directories, loaded material texture nodes, UVs and polygon assignments; alpha links checked for derived clip maps and the sol.lwo fixture. Preview uses diagnostic lighting, not original LightWave shading."
+}

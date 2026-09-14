@@ -1,0 +1,388 @@
+{
+  "passed": true,
+  "host": "S:\\works\\legacy-lightwave-projects\\_tmp\\_extern\\LightWave\\LW9.6\\Programs\\lwsn.exe",
+  "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+  "input_lwsc_version": 1,
+  "source_scene_sha256": "c19fb2ac302ddd866c22767911de5c95252f977c59ca675eec181c56e8414a49",
+  "cases": [
+    {
+      "name": "f0_v0",
+      "flags": 0,
+      "value": 0,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f0_v0.5",
+      "flags": 0,
+      "value": 0.5,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f0_v1",
+      "flags": 0,
+      "value": 1,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f1_v0",
+      "flags": 1,
+      "value": 0,
+      "observed": {
+        "axis": "2",
+        "coord": "1",
+        "invert": "0",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f1_v0.5",
+      "flags": 1,
+      "value": 0.5,
+      "observed": {
+        "axis": "2",
+        "coord": "1",
+        "invert": "0",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f1_v1",
+      "flags": 1,
+      "value": 1,
+      "observed": {
+        "axis": "2",
+        "coord": "1",
+        "invert": "0",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f2_v0",
+      "flags": 2,
+      "value": 0,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "1",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f2_v0.5",
+      "flags": 2,
+      "value": 0.5,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "1",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f2_v1",
+      "flags": 2,
+      "value": 1,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "1",
+        "pix": "0",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f4_v0",
+      "flags": 4,
+      "value": 0,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "1",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f4_v0.5",
+      "flags": 4,
+      "value": 0.5,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "1",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f4_v1",
+      "flags": 4,
+      "value": 1,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "1",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f6_v0",
+      "flags": 6,
+      "value": 0,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "1",
+        "pix": "1",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f6_v0.5",
+      "flags": 6,
+      "value": 0.5,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "1",
+        "pix": "1",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f6_v1",
+      "flags": 6,
+      "value": 1,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "1",
+        "pix": "1",
+        "aa": "0",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f8_v0",
+      "flags": 8,
+      "value": 0,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "0",
+        "aa": "1",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f8_v0.5",
+      "flags": 8,
+      "value": 0.5,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "0",
+        "aa": "1",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f8_v1",
+      "flags": 8,
+      "value": 1,
+      "observed": {
+        "axis": "2",
+        "coord": "0",
+        "invert": "0",
+        "pix": "0",
+        "aa": "1",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f15_v0",
+      "flags": 15,
+      "value": 0,
+      "observed": {
+        "axis": "2",
+        "coord": "1",
+        "invert": "1",
+        "pix": "1",
+        "aa": "1",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f15_v0.5",
+      "flags": 15,
+      "value": 0.5,
+      "observed": {
+        "axis": "2",
+        "coord": "1",
+        "invert": "1",
+        "pix": "1",
+        "aa": "1",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    },
+    {
+      "name": "f15_v1",
+      "flags": 15,
+      "value": 1,
+      "observed": {
+        "axis": "2",
+        "coord": "1",
+        "invert": "1",
+        "pix": "1",
+        "aa": "1",
+        "wrap": "2,3",
+        "proj": "0",
+        "blend": "0",
+        "opacity": "1",
+        "size": "3.9800000190734863,3.9800000190734863,1",
+        "center": "0,0,0"
+      }
+    }
+  ],
+  "scope": "LWSC1 image-clip parameter import read via LWTextureFuncs. No image is assigned; this measures flags, mapping and layer opacity, not rendered cutoff or image filtering."
+}

@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.17.0"
+#define LWCONVERT_VERSION "0.18.0"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -95,6 +95,8 @@ typedef struct {
     char scene_sha256[65], image_sha256[65];
     size_t offset, bytes, evidence_count;
     int negative;
+    int remapped;
+    double mask_uv_transform[4]; /* scale U/V, offset U/V, before mask wrapping */
     char issue[192];
 } LWClipBinding;
 typedef struct LWObject {

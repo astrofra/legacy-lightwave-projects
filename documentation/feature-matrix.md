@@ -1,9 +1,9 @@
-# Matrice des fonctionnalités — lwconvert 0.17.0
+# Matrice des fonctionnalités — lwconvert 0.18.0
 
 État vérifié le **14 septembre 2026**, à partir du code, des tests et du
 [batch du 13 septembre à 22:11](batch-20260913-221149-priorities.md), complété par
 la [QA des projections de la version 0.16.0](texture-projections.md) et la
-[QA des clip maps de la version 0.17.0](clip-maps.md).
+[QA des clip maps Butterfly et Dora, versions 0.17.0–0.18.0](clip-maps.md).
 Cette page décrit le comportement actuel ; les autres rapports de QA peuvent
 décrire une version antérieure. Les versions ci-dessous sont celles des
 **fichiers**, pas celles du logiciel LightWave qui les a enregistrés.
@@ -209,7 +209,7 @@ Références : [profil texture](textures.md), [NormalShader/MikkTSpace](normal-m
 | `LW_Follower`, cas de miroir de bank qualifié | P | P | P | S/B | P, profil spécifique | P, animation ordinaire ; pas d'acceptation générale par le baker IK |
 | Expressions, MotionMixer, plugins de mouvement/canal généraux | B | B | B | B, blocs et références source | N si requis | N si requis ; peuvent bloquer le bake |
 | `MorphTarget` / `LW_MorphMixer` / animation des `MORF` | B | B/P | B/P | Maps structurées côté LWO2 ; blocs/énoncés LWS préservés | N | N, cibles nommées et pistes `weights` à implémenter |
-| Clip maps binaires par instance | P | P | P | S/P, arbre natif, provenance et évaluation distincte | P, image `map_d` seuillée | P, images statiques alignées, `MASK` à 0,5 |
+| Clip maps binaires par instance | P | P | P | S/P, arbre natif, provenance et évaluation distincte | P, image `map_d` seuillée | P, images statiques compatibles, dont `ClipMap` plan LWSC1 ; `MASK` à 0,5 |
 | `ObjectDissolve` et son enveloppe | B | B | B | B, champ source distinct | N | N |
 | Caméras, lumières, mouvements associés | P | P | P | P, items et canaux ; paramètres complets dans la source | N pour caméra/éclairage natifs | N pour caméra/éclairage natifs |
 | Filtres d'image, profondeur de champ, effets de rendu, cheveux | B | B | B | B, plugins/énoncés source | N | N |
@@ -234,10 +234,13 @@ défaut (`--gltf-rigs all` permet de les demander).
 Les clip maps sont conservées avec leur sémantique de découpe binaire. En
 v0.17.0, un `TextureBlock` avec une image statique plane/sphérique alignée sur
 le matériau produit `map_d` pour OBJ et l'alpha de base color avec `MASK` pour
-glTF. Le format legacy `ClipMap Texture...`, les procédurales, les piles,
-les projections différentes, les références monde/objet et les enveloppes
-restent préservés sans évaluation. La transparence ordinaire reste en `BLEND`.
-Voir le [périmètre exact et la QA Butterfly](clip-maps.md).
+glTF. La v0.18.0 ajoute le format legacy `ClipMap Planar Image Map / Texture...`
+et les différences de taille/centre/wrapping entre plans de même axe sans
+rotation, si l'atlas couleur Reset/Edge couvre toute la géométrie. Les
+procédurales, les piles, les autres projections incompatibles, les références
+monde/objet et les enveloppes restent préservées sans évaluation.
+La transparence ordinaire reste en `BLEND`.
+Voir le [périmètre exact et la QA Butterfly/Dora](clip-maps.md).
 
 Références : [lecteur/évaluateur LWS](../src/lws.c), [skinning](../src/skin.c),
 [IK](../src/ik.c), [poids procéduraux](procedural-skinning.md),

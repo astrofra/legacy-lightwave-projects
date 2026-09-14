@@ -85,20 +85,10 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
 /* Material maps share one generated UV set only when their native projections
    agree. Scalar maps interpolate the surface value (black) toward TVAL (white).
    This is a documented preview approximation, not a LightWave shader evaluator. */
-static void sample(const LWObject *o,const LWTexture *t,int x,int y,int w,int h,double color[4]) {
-    const LWImageReference *image=lw_texture_pixels(o,t->image); size_t k;
-    const LWMaterial *m=&o->materials.v[t->material];
-    double uv[2]={((double)x+.5)/w,1-((double)y+.5)/h}; int reset=0;
+static void sample_uv(const LWImageReference *image,const LWTexture *t,double uv[2],double color[4]) {
+    size_t k; int reset=0;
     size_t sx,sy;
-    if(!m->texture_atlas) {
-        sx=((size_t)x*2+1)*(size_t)image->width/((size_t)w*2);
-        sy=((size_t)y*2+1)*(size_t)image->height/((size_t)h*2);
-        for(k=0;k<4;k++) color[k]=image->rgba[4*(sy*(size_t)image->width+sx)+k]/255.0;
-        if(t->flags&16) for(k=0;k<3;k++) color[k]=1-color[k];
-        return;
-    }
     for(k=0;k<2;k++) {
-        if(m->texture_atlas) uv[k]=m->texture_domain[k]+uv[k]*m->texture_domain[k+2];
         if(t->wrap[k]==0) { if(uv[k]<0||uv[k]>1) reset=1; uv[k]=unit(uv[k]); }
         else if(t->wrap[k]==3) uv[k]=unit(uv[k]);
         else if(t->wrap[k]==2) { uv[k]-=2*floor(uv[k]/2); if(uv[k]>1) uv[k]=2-uv[k]; }
@@ -109,6 +99,20 @@ static void sample(const LWObject *o,const LWTexture *t,int x,int y,int w,int h,
     if(sy>=(size_t)image->height) sy=(size_t)image->height-1;
     for(k=0;k<4;k++) color[k]=reset?(k==3?1:0):image->rgba[4*(sy*(size_t)image->width+sx)+k]/255.0;
     if(t->flags&16) for(k=0;k<3;k++) color[k]=1-color[k];
+}
+static void sample(const LWObject *o,const LWTexture *t,int x,int y,int w,int h,double color[4]) {
+    const LWImageReference *image=lw_texture_pixels(o,t->image); size_t k;
+    const LWMaterial *m=&o->materials.v[t->material];
+    double uv[2]={((double)x+.5)/w,1-((double)y+.5)/h};
+    if(!m->texture_atlas) {
+        size_t sx=((size_t)x*2+1)*(size_t)image->width/((size_t)w*2);
+        size_t sy=((size_t)y*2+1)*(size_t)image->height/((size_t)h*2);
+        for(k=0;k<4;k++) color[k]=image->rgba[4*(sy*(size_t)image->width+sx)+k]/255.0;
+        if(t->flags&16) for(k=0;k<3;k++) color[k]=1-color[k];
+        return;
+    }
+    for(k=0;k<2;k++) uv[k]=m->texture_domain[k]+uv[k]*m->texture_domain[k+2];
+    sample_uv(image,t,uv,color);
 }
 /* Bake non-repeat addressing into a finite image domain shared by OBJ/glTF.
    Mirroring needs two tiles. Reset/edge include all rendered UVs and a gutter;
@@ -248,7 +252,14 @@ int lw_composite_clip(const char *dir,const char *output,const LWObject *o,size_
     context.images.v=(LWImageReference *)image; context.images.n=1; t.image=0; t.material=(uint32_t)material;
     for(y=0;y<base.height;y++) for(x=0;x<base.width;x++) {
         double c[4],coverage; unsigned char *pixel=base.rgba+4*((size_t)y*base.width+x);
-        sample(&context,&t,x,y,base.width,base.height,c);
+        if(binding->remapped) {
+            double uv[2]={((double)x+.5)/base.width,1-((double)y+.5)/base.height}; size_t k;
+            for(k=0;k<2;k++) {
+                uv[k]=m->texture_domain[k]+uv[k]*m->texture_domain[k+2];
+                uv[k]=uv[k]*binding->mask_uv_transform[k]+binding->mask_uv_transform[k+2];
+            }
+            sample_uv(image,&t,uv,c);
+        } else sample(&context,&t,x,y,base.width,base.height,c);
         /* LightWave clip white removes the surface; Negative reverses it.
            The image is a scalar mask, sampled without sRGB conversion. */
         coverage=1-(c[0]+c[1]+c[2])/3*c[3];

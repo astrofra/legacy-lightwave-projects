@@ -33,22 +33,28 @@ def worker(args):
                     assert all(image.size) and image.has_data, (path,image.name)
                 native = json.loads((args.project/"IR"/filename/"object.json").read_text("utf-8"))
                 names = [m["name"]["text"] for m in native["materials"]]
+                def material_name(index):
+                    if format_name == 'gltf': return names[index]
+                    # Shared batch objects may retain any scene asset index.
+                    candidates = [m.name for m in materials if m.name.endswith(f'_m{index}')]
+                    assert len(candidates) == 1, (path,index,candidates)
+                    return candidates[0]
                 textured_names = [m["name"]["text"] for m in native["materials"] if m["derived_maps"]]
                 assert textured_names, path
                 for name in textured_names:
-                    expected = name if format_name == "gltf" else f"a0_m{names.index(name)}"
+                    expected = material_name(names.index(name))
                     material = next(m for m in materials if m.name == expected)
                     assert any(n.type == "TEX_IMAGE" and n.image for n in material.node_tree.nodes), expected
                     meshes = [o.data for o in bpy.context.scene.objects if o.type == "MESH" and material.name in o.data.materials]
                     assert meshes and all(mesh.uv_layers for mesh in meshes), expected
                     assert any(any(mesh.materials[p.material_index] == material for p in mesh.polygons) for mesh in meshes), expected
                 if filename == "sol.lwo":
-                    material = next(m for m in materials if m.name == ("sol" if format_name=="gltf" else "a0_m0"))
+                    material = next(m for m in materials if m.name == material_name(names.index('sol')))
                     shader = next(n for n in material.node_tree.nodes if n.type == "BSDF_PRINCIPLED")
                     assert shader.inputs["Alpha"].is_linked, path
                 masked = [b['material'] for b in native.get('derived_clip_maps',{}).get('bindings',[]) if b['node_id'] is None and b.get('base_color')]
                 for index in masked:
-                    expected = names[index] if format_name == 'gltf' else f'a0_m{index}'
+                    expected = material_name(index)
                     material = next(m for m in materials if m.name == expected)
                     shader = next(n for n in material.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
                     assert shader.inputs['Alpha'].is_linked, (path, expected, 'missing clip alpha link')
