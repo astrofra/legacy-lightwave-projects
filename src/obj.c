@@ -12,15 +12,22 @@ static FILE *create_file(const char *dir,const char *name,const char *suffix,LWE
     free(path); return f;
 }
 static double unit(double x) { return x<0?0:x>1?1:x; }
-static void materials(FILE *f,const LWObject *o,size_t asset) {
+static void materials(FILE *f,const LWObject *o,size_t asset,uint32_t node) {
     size_t i,j;
     fprintf(f,"newmtl a%zu_default\nKd 0.8 0.8 0.8\nillum 1\n\n",asset);
     for(i=0;i<o->materials.n;i++) {
-        const LWMaterial *m=&o->materials.v[i];
+        LWMaterial appearance=o->materials.v[i]; const LWMaterial *m=&appearance;
+        const LWClipBinding *clip=lw_clip_binding(o,node,(uint32_t)i);
+        if(clip) {
+            appearance.base_texture=clip->base_texture; appearance.opacity_texture=clip->opacity_texture;
+            memcpy(appearance.texture_sha256,clip->texture_sha256,sizeof clip->texture_sha256);
+            fputs("# binary clip map: map_d contains thresholded coverage (cutoff 0.5)\n",f);
+        }
         fprintf(f,"newmtl a%zu_m%zu\nKd %.9g %.9g %.9g\nKs %.9g %.9g %.9g\nKe %.9g %.9g %.9g\nd %.9g\nillum 2\n",asset,i,
             m->base_texture?1:unit(m->color[0]*m->diffuse),m->base_texture?1:unit(m->color[1]*m->diffuse),m->base_texture?1:unit(m->color[2]*m->diffuse),
             m->specular_texture?1:unit(m->specular),m->specular_texture?1:unit(m->specular),m->specular_texture?1:unit(m->specular),
             m->emissive_texture?1:(double)m->color[0]*m->luminosity,m->emissive_texture?1:(double)m->color[1]*m->luminosity,m->emissive_texture?1:(double)m->color[2]*m->luminosity,m->opacity_texture?1:unit(1-m->transparency));
+        fprintf(f,"# source_asset_sha256 %s\n",o->source.sha256);
         {
             const char *uris[]={m->base_texture,m->opacity_texture,m->emissive_texture,m->specular_texture,m->bump_texture,m->normal_texture};
             for(j=0;j<5;j++) if(uris[j]) fprintf(f,"# texture-sha256 %s %s\n",m->texture_sha256[j],uris[j]);
@@ -137,13 +144,20 @@ static int mesh(FILE *f,const LWObject *o,size_t asset,size_t instance,uint32_t 
 done:
     free(uv); free(vertices); free(used); lw_free_normals(&normals); return ok;
 }
+static size_t instance_material_id(const LWPackage *p,size_t index) {
+    const LWNode *n=&p->scene.nodes.v[index]; size_t i;
+    if(n->asset>=p->objects.n) return n->asset;
+    for(i=0;i<p->objects.v[n->asset].materials.n;i++)
+        if(lw_clip_binding(&p->objects.v[n->asset],n->id,(uint32_t)i)) return p->objects.n+index;
+    return n->asset;
+}
 int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExportStats *stats,LWError *e) {
     size_t i,j,v=0,vt=0,vn=0,bad=SIZE_MAX; double identity[16],*matrices=NULL; FILE *f=NULL,*mtl=NULL; char *obj_dir=NULL; int ok=0; LWError local={0};
     lw_identity(identity); obj_dir=lw_join(dir,"obj");
     if(!obj_dir) return lw_error(e,0,"allocation","out of memory");
     for(i=0;i<p->objects.n;i++) {
         mtl=create_file(obj_dir,p->names.v[i],".mtl",e); if(!mtl) goto done;
-        materials(mtl,&p->objects.v[i],i);
+        materials(mtl,&p->objects.v[i],i,LW_NONE);
         { int closed=lw_close(mtl,"materials.mtl",e); mtl=NULL; if(!closed) goto done; }
         f=create_file(obj_dir,p->names.v[i],".obj",e); if(!f) goto done;
         fprintf(f,"# lwconvert: FACE polygons triangulated; patches are control cages\n# source-corner-normals-0.1: explicit vn preserve angle cuts; s preserves native group partitions\nmtllib %s.mtl\n",p->names.v[i]); v=vt=vn=0;
@@ -173,13 +187,18 @@ int lw_write_obj(const char *dir,const LWPackage *p,const LWOptions *opts,LWExpo
         }
     }
     mtl=create_file(obj_dir,p->scene_name,".mtl",e); if(!mtl) goto done;
-    for(i=0;i<p->objects.n;i++) materials(mtl,&p->objects.v[i],i);
+    for(i=0;i<p->objects.n;i++) materials(mtl,&p->objects.v[i],i,0);
+    for(i=0;i<p->scene.nodes.n;i++) {
+        const LWNode *n=&p->scene.nodes.v[i];
+        size_t id=instance_material_id(p,i);
+        if(n->asset!=SIZE_MAX&&id!=n->asset) materials(mtl,&p->objects.v[n->asset],id,n->id);
+    }
     { int closed=lw_close(mtl,"scene.mtl",e); mtl=NULL; if(!closed) goto done; }
     f=create_file(obj_dir,p->scene_name,".obj",e); if(!f) goto done;
     fprintf(f,"# base geometry snapshot, frame %.17g; see conversion manifest\nmtllib %s.mtl\n",opts->frame,p->scene_name); v=vt=vn=0;
     for(i=0;i<p->scene.nodes.n;i++) {
         const LWNode *n=&p->scene.nodes.v[i];
-        if(n->asset!=SIZE_MAX&&!mesh(f,&p->objects.v[n->asset],n->asset,i,n->layer,matrices+16*i,opts->uv_map,&v,&vt,&vn,stats,e)) goto done;
+        if(n->asset!=SIZE_MAX&&!mesh(f,&p->objects.v[n->asset],instance_material_id(p,i),i,n->layer,matrices+16*i,opts->uv_map,&v,&vt,&vn,stats,e)) goto done;
     }
     { int closed=lw_close(f,"scene.obj",e); f=NULL; if(!closed) goto done; }
     stats->scene_written=1; ok=1;

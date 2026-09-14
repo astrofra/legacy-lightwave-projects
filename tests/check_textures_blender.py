@@ -46,7 +46,16 @@ def worker(args):
                     material = next(m for m in materials if m.name == ("sol" if format_name=="gltf" else "a0_m0"))
                     shader = next(n for n in material.node_tree.nodes if n.type == "BSDF_PRINCIPLED")
                     assert shader.inputs["Alpha"].is_linked, path
-                results.append({"format":format_name,"file":filename,"material_count":len(materials),"loaded_texture_nodes":len(images),"portable_import":True})
+                masked = [b['material'] for b in native.get('derived_clip_maps',{}).get('bindings',[]) if b['node_id'] is None and b.get('base_color')]
+                for index in masked:
+                    expected = names[index] if format_name == 'gltf' else f'a0_m{index}'
+                    material = next(m for m in materials if m.name == expected)
+                    shader = next(n for n in material.node_tree.nodes if n.type == 'BSDF_PRINCIPLED')
+                    assert shader.inputs['Alpha'].is_linked, (path, expected, 'missing clip alpha link')
+                    if format_name == 'gltf':
+                        gltf_material = json.loads(path.read_text('utf-8'))['materials'][index]
+                        assert gltf_material['alphaMode'] == 'MASK' and gltf_material['alphaCutoff'] == .5
+                results.append({"format":format_name,"file":filename,"material_count":len(materials),"loaded_texture_nodes":len(images),"clip_alpha_links_checked":len(masked),"portable_import":True})
                 if args.preview and format_name == "gltf" and filename == (args.asset[0] if args.asset else "oj_tv_mesh_t.lwo"):
                     scene = bpy.context.scene
                     pts = [o.matrix_world @ Vector(c) for o in scene.objects if o.type=="MESH" for c in o.bound_box]
@@ -63,7 +72,7 @@ def worker(args):
                     scene.render.engine='CYCLES'; scene.cycles.samples=16; scene.view_settings.view_transform='Standard'
                     scene.render.resolution_x=900; scene.render.resolution_y=900; scene.render.resolution_percentage=100
                     scene.render.filepath=str(args.preview.resolve()); bpy.ops.render.render(write_still=True)
-    args.report.write_text(json.dumps({"blender_version":bpy.app.version_string,"passed":True,"imports":results,"scope":"Isolated format directories, loaded material texture nodes, UVs and polygon assignments; opacity checked for the sol.lwo fixture when selected. Preview uses diagnostic lighting, not original LightWave shading."},indent=2)+"\n",encoding="utf-8")
+    args.report.write_text(json.dumps({"blender_version":bpy.app.version_string,"passed":True,"imports":results,"scope":"Isolated format directories, loaded material texture nodes, UVs and polygon assignments; alpha links checked for derived clip maps and the sol.lwo fixture. Preview uses diagnostic lighting, not original LightWave shading."},indent=2)+"\n",encoding="utf-8")
 
 
 def main():

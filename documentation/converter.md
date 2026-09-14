@@ -1,5 +1,9 @@
 # LWS/LWO converter in C — v0.8.1
 
+For current support by file version and export target, see the
+[feature matrix](feature-matrix.md). This page retains the v0.8.1 milestone
+description and command reference; later behavior is qualified in the matrix.
+
 Status as of 12 September 2026. This milestone provides a C17 library and
 the `lwconvert` executable, with no Blender dependency. It extracts native
 structures and produces OBJ/MTL and glTF 2.0 files. The `.blend` backend remains
@@ -182,9 +186,10 @@ has a `parent` index (null at the root), `block`, `name`, `value` and source off
 Values retain their original text/bytes. This preserves layer boundaries,
 Enable/Negative, projection/axis, coordinate transforms, wrapping, opacity
 envelopes and unknown settings without flattening repeated parameters.
-The normalized `coverage.cutoff` stays null and `polarity` stays `not-evaluated`:
-neither a source threshold nor black/white polarity is inferred from a filename,
-legacy `TextureValue`, or glTF's default. Original native values remain available.
+For unsupported maps, `coverage.cutoff` stays null and `polarity` stays
+`not-evaluated`. Since v0.17.0, evaluated static image maps report the target
+cutoff 0.5 and their `Negative` polarity. This is an export threshold, not a
+recovered native threshold. Original values and their byte ranges remain intact.
 
 `object_dissolve` is retained independently as its complete native statement and
 optional envelope. For example, `aliens@newtek/01.lws` has both a clip map and
@@ -209,11 +214,12 @@ cutoff of 0.5 separates them; that is an export choice, not a recovered LightWav
 threshold. An instance-specific clip map can also require material/mesh variants
 instead of reusing an unmodified material shared by several instances.
 
-This change preserves the semantics and records target capabilities. Texture
-evaluation, baking and rendered OBJ/glTF mask bindings remain unimplemented;
-`scene_clip_maps_not_evaluated` reports their count and keeps such conversions
-partial. Exporters do not emit a misleading `MASK` or `map_d` without an evaluated
-texture and its mapping.
+Version 0.17.0 evaluates one static planar/spherical image `TextureBlock` when
+its mapping agrees with an existing material image. It composites coverage into
+PNG alpha for glTF `MASK`, and thresholds an OBJ `map_d` image. Unsupported
+maps remain counted by `scene_clip_maps_not_evaluated`; maps applied to at least
+one material also count in `scene_clip_maps_evaluated`. A partially evaluated
+map appears in both counters. See [qualification, provenance and QA](clip-maps.md).
 
 References: [LightWave object clip mapping](https://docs.lightwave3d.com/lw2020/reference/layout/object-properties/render-tab.html),
 [glTF 2.0 alpha coverage](https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#alpha-coverage),

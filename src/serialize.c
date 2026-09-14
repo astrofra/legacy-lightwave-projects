@@ -66,7 +66,8 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
         fprintf(f,"{\"type\":%u,\"type_name\":",a.type); lw_json_string(f,type);
         fprintf(f,",\"polygon_block\":%u,\"polygon\":%u,\"tag\":%u}",a.block,a.polygon,a.tag);
     }
-    fputs("],\n\"materials\":[",f);
+    fputs("],\n\"derived_clip_maps\":",f); lw_json_clip_bindings(f,o);
+    fputs(",\n\"materials\":[",f);
     for(i=0;i<o->materials.n;i++) {
         const LWMaterial *m=&o->materials.v[i]; if(i) fputc(',',f);
         fputs("{\"name\":",f); lw_json_name(f,m->name); fputs(",\"source_name\":",f); lw_json_name(f,m->source);
@@ -76,6 +77,7 @@ int lw_write_object(const char *dir,const LWObject *o,LWError *e) {
             const char *origin; int issue=0; float angle=lw_smoothing_angle(o,(uint32_t)i,&origin,&issue);
             fprintf(f,",\"smoothing\":{\"angle_unit\":\"radians\",\"angle_present\":%s,\"enabled\":%s,\"effective_angle\":%.9g,\"origin\":\"%s\",\"inheritance_issue\":%s}",m->present&32?"true":"false",angle>0?"true":"false",angle,origin,issue?"true":"false");
         }
+        if(m->texture_atlas) fprintf(f,",\"derived_texture_mapping\":{\"profile\":\"finite-wrap-atlas-0.1\",\"source_uv_min\":[%.17g,%.17g],\"source_uv_span\":[%.17g,%.17g]}",m->texture_domain[0],m->texture_domain[1],m->texture_domain[2],m->texture_domain[3]);
         fputs(",\"derived_maps\":{",f);
         {
             const char *keys[]={"base_color","opacity","emissive","specular","bump","normal"};
@@ -116,7 +118,8 @@ static void clip_maps_json(FILE *f,const LWNode *node) {
     for(i=0;i<node->clip_maps.n;i++) {
         const LWClipMap *clip=&node->clip_maps.v[i];
         if(i) fputc(',',f);
-        fputs("{\"scope\":\"object-instance\",\"coverage\":{\"mode\":\"binary-cutout\",\"cutoff\":null,\"polarity\":\"not-evaluated\"},\"status\":\"preserved-not-evaluated\",\"declaration\":",f);
+        if(clip->evaluated_materials) fprintf(f,"{\"scope\":\"object-instance\",\"coverage\":{\"mode\":\"binary-cutout\",\"cutoff\":0.5,\"polarity\":\"%s\"},\"status\":\"%s\",\"declaration\":",clip->negative?"white-keeps":"white-clips",clip->skipped_materials?"partially-evaluated":"approximated");
+        else fputs("{\"scope\":\"object-instance\",\"coverage\":{\"mode\":\"binary-cutout\",\"cutoff\":null,\"polarity\":\"not-evaluated\"},\"status\":\"preserved-not-evaluated\",\"declaration\":",f);
         lw_json_name(f,clip->declaration);
         fprintf(f,",\"native_source\":{\"uri\":\"source.bin\",\"offset\":%zu,\"bytes\":%zu},\"image_references\":[",clip->offset,clip->size);
         for(j=0;j<clip->images.n;j++) { if(j) fputc(',',f); fprintf(f,"%zu",clip->images.v[j]); }
@@ -129,7 +132,8 @@ static void clip_maps_json(FILE *f,const LWNode *node) {
             if(field->name.size) lw_json_name(f,field->name); else fputs("null",f);
             fputs(",\"value\":",f); lw_json_name(f,field->value); fputc('}',f);
         }
-        fputs("]}",f);
+        fprintf(f,"],\"evaluated_materials\":%zu,\"skipped_materials\":%zu,\"issue\":",clip->evaluated_materials,clip->skipped_materials);
+        lw_json_string(f,clip->issue); fputc('}',f);
     }
     fputc(']',f);
 }

@@ -11,6 +11,11 @@ char **lw_texture_slot(LWMaterial *m,size_t role) {
 }
 const char *lw_texture_digest(const LWPackage *p,const char *uri) {
     size_t i,j,k;
+    for(i=0;i<p->objects.n;i++) for(j=0;j<p->objects.v[i].clip_bindings.n;j++) {
+        const LWClipBinding *b=&p->objects.v[i].clip_bindings.v[j];
+        if(b->base_texture&&!strcmp(b->base_texture,uri)) return b->texture_sha256[0];
+        if(b->opacity_texture&&!strcmp(b->opacity_texture,uri)) return b->texture_sha256[1];
+    }
     for(i=0;i<p->objects.n;i++) for(j=0;j<p->objects.v[i].materials.n;j++) {
         const LWMaterial *m=&p->objects.v[i].materials.v[j];
         const char *uris[]={m->base_texture,m->opacity_texture,m->emissive_texture,m->specular_texture,m->bump_texture,m->normal_texture};
@@ -89,17 +94,25 @@ int lw_name_textures(const char *output,LWPackage *p,LWError *e) {
     if(!formats[0]||!formats[1]) { lw_error(e,0,"allocation","out of memory"); goto done; }
     for(i=0;i<p->objects.n;i++) {
         LWObject *o=&p->objects.v[i];
-        for(j=0;j<o->materials.n;j++) for(k=0;k<6;k++) {
-            TextureName n={0}; LWMaterial *m=&o->materials.v[j]; char *dir,*mat,*ir;
-            n.slot=lw_texture_slot(m,k); if(!*n.slot) continue;
-            n.digest=m->texture_sha256[k];
+        for(j=0;j<o->materials.n+o->clip_bindings.n;j++) for(k=0;k<6;k++) {
+            LWClipBinding *clip=j<o->materials.n?NULL:&o->clip_bindings.v[j-o->materials.n];
+            size_t material=clip?clip->material:j;
+            TextureName n={0}; LWMaterial *m=&o->materials.v[material]; char *dir,*mat,*ir;
+            if(clip&&k>=2) continue;
+            n.slot=clip?(k?&clip->opacity_texture:&clip->base_texture):lw_texture_slot(m,k); if(!*n.slot) continue;
+            n.digest=clip?clip->texture_sha256[k]:m->texture_sha256[k];
             if(strlen(*n.slot)!=77||strncmp(*n.slot,"textures/",9)) { lw_error(e,0,"texture-name","expected temporary PNG content identity"); goto done; }
             memcpy(n.digest,*n.slot+9,64); n.digest[64]=0;
             n.role=k; n.old=lw_dup(*n.slot);
             dir=lw_dirname(p->is_scene?p->scene.source.path:o->source.path); mat=lw_text(m->name); ir=lw_join(output,"IR");
             if(dir&&mat&&ir) {
                 n.directory=component(lw_basename(dir),0); n.material=component(mat,0);
-                n.object=component(lw_basename(o->source.path),1); n.image=image_name(o,j,k,*mat?mat:lw_basename(o->source.path));
+                n.object=component(lw_basename(o->source.path),1); n.image=image_name(o,material,k,*mat?mat:lw_basename(o->source.path));
+                if(clip&&n.image) {
+                    size_t len=strlen(n.image); char *cut=malloc(len+9);
+                    if(cut) { memcpy(cut,n.image,len); memcpy(cut+len,"_cutout",8); }
+                    free(n.image); n.image=cut;
+                }
                 n.ir=lw_join(ir,p->names.v[i]);
             }
             free(dir); free(mat); free(ir);

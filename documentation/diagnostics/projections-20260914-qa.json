@@ -1,0 +1,988 @@
+{
+  "baseline": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260913-221149",
+  "batch": "S:\\works\\legacy-lightwave-projects\\output\\qa-projections-20260914\\batch-20260914-085207",
+  "converter_sha256": "7ed1e3ce0d3edefcacbc7a7e4b8d6d1552ab682cb0d356f6a725b9f3e9285a2a",
+  "batch_counts": {
+    "converted": 1,
+    "partial": 102
+  },
+  "source_objects_verified": 103,
+  "lwo2_projection_blocks": {
+    "planar": 164,
+    "preserved-only": 69,
+    "approximated": 97,
+    "spherical": 2
+  },
+  "newly_bound_blocks": 97,
+  "objects_with_new_bindings": 55,
+  "lost_bindings": [],
+  "remaining_lwo2_projection_issues": {
+    "LWO2 blending requires normal mode at 100% opacity": 10,
+    "image unresolved or cannot be decoded; see image_references": 22,
+    "LWO2 texture channel not supported by target material": 29,
+    "multiple enabled LWO2 layers on one channel require compositing": 1,
+    "animated LWO2 texture parameters require evaluation": 1,
+    "unsupported LWO2 texture attribute STCK; preserved only": 6
+  },
+  "wrap_atlases": [
+    {
+      "source": "demo-redline-assets-main/mesh_solbig_opti.lwo",
+      "material": "sol"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_lunette_resto.lwo",
+      "material": "oeil_lunette"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_lunette_resto.lwo",
+      "material": "rouge_lunette"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_drinc"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_enseigne"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_food"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_star"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "rouge_resto"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "rouge_resto_2"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "rouge_resto_sombre"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "vitres_resto"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto.lwo",
+      "material": "ballon"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto.lwo",
+      "material": "ballon_back"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto_morf2.lwo",
+      "material": "ballon"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto_morf2.lwo",
+      "material": "ballon_back"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_lunette_resto.lwo",
+      "material": "oeil_lunette"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_lunette_resto.lwo",
+      "material": "rouge_lunette"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_resto.lwo",
+      "material": "rouge_resto"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_resto.lwo",
+      "material": "rouge_resto_sombre"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_resto.lwo",
+      "material": "vitres_resto"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_shadowpoly.lwo",
+      "material": "shadowpoly"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_sign_1.lwo",
+      "material": "food"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_sign_2.lwo",
+      "material": "drinc"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_signe_resto.lwo",
+      "material": "ens"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_solbig_opti.lwo",
+      "material": "sol"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_star.lwo",
+      "material": "star"
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_tour_2.lwo",
+      "material": "2_vitres_resto"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_sign_1.lwo",
+      "material": "food"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_sign_2.lwo",
+      "material": "drinc"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_signe_resto.lwo",
+      "material": "resto_enseigne"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_star.lwo",
+      "material": "star"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_tour_2.lwo",
+      "material": "2_rouge_resto"
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_tour_2.lwo",
+      "material": "2_vitres_resto"
+    },
+    {
+      "source": "nxng-experiments/shadowpoly.lwo",
+      "material": "shadowpoly"
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "piedestal"
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "piedestal_x"
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "pipe_outside[ADDEVMAP]"
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "wallz[ADDEVMAP]"
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_4.lwo",
+      "material": "jointure"
+    },
+    {
+      "source": "orange-juice-signage/oj_tv_mesh_t.lwo",
+      "material": "orange_skin"
+    },
+    {
+      "source": "orange-juice-signage/oj_tv_mesh_t.lwo",
+      "material": "screen"
+    },
+    {
+      "source": "orange-juice-signage/oj_tv_mesh_t.lwo",
+      "material": "vert"
+    },
+    {
+      "source": "orange-juice-signage/sol.lwo",
+      "material": "sol"
+    },
+    {
+      "source": "snow-tanks/NEW/obj_barrel_lo.lwo",
+      "material": "barrel_shadow"
+    },
+    {
+      "source": "snow-tanks/NEW/obj_tank_detailled.lwo",
+      "material": "shadow"
+    }
+  ],
+  "binding_changes": [
+    {
+      "source": "butterfly-tank/butterfly.lwo",
+      "material": "butter_01",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "butterfly-tank/butterfly.lwo",
+      "material": "butter_02",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_title.lwo",
+      "material": "title",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_gfx_01.lwo",
+      "material": "title",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_solbig_opti.lwo",
+      "material": "sol",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_lunette_resto.lwo",
+      "material": "oeil_lunette",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_lunette_resto.lwo",
+      "material": "rouge_lunette",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "fog",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_drinc",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_enseigne",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_food",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "resto_star",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "rouge_resto",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "rouge_resto_2",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "rouge_resto_sombre",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_resto.lwo",
+      "material": "vitres_resto",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_cab.lwo",
+      "material": "cab_chrome",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_cab.lwo",
+      "material": "cab_feux",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_cab.lwo",
+      "material": "cab_front",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_cab.lwo",
+      "material": "cab_rear",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_cab.lwo",
+      "material": "cab_steel",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_gfx_02.lwo",
+      "material": "title",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_gfx_03.lwo",
+      "material": "title",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_gfx_05.lwo",
+      "material": "title",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_astroport_redflow.lwo",
+      "material": "redflow",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_planet_sky.lwo",
+      "material": "stars",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto.lwo",
+      "material": "ballon",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto.lwo",
+      "material": "ballon_back",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto_morf2.lwo",
+      "material": "ballon",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_ballon_resto_morf2.lwo",
+      "material": "ballon_back",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_cab.lwo",
+      "material": "car_steel",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_cab.lwo",
+      "material": "chrome",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_cab.lwo",
+      "material": "front",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_cab.lwo",
+      "material": "glasses",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_cab.lwo",
+      "material": "rear",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_fogbox.lwo",
+      "material": "fog",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_lunette_resto.lwo",
+      "material": "oeil_lunette",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_lunette_resto.lwo",
+      "material": "rouge_lunette",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_resto.lwo",
+      "material": "rouge_resto",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_resto.lwo",
+      "material": "rouge_resto_sombre",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_resto.lwo",
+      "material": "vitres_resto",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_shadowpoly.lwo",
+      "material": "shadowpoly",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_sign_1.lwo",
+      "material": "food",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_sign_2.lwo",
+      "material": "drinc",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_signe_resto.lwo",
+      "material": "ens",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_simple_trail.lwo",
+      "material": "black",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_solbig_opti.lwo",
+      "material": "sol",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_star.lwo",
+      "material": "star",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/maps/mesh_tour_2.lwo",
+      "material": "2_vitres_resto",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_fogbox.lwo",
+      "material": "fog",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_hallo.lwo",
+      "material": "hallo",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_sign_1.lwo",
+      "material": "food",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_sign_2.lwo",
+      "material": "drinc",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_signe_resto.lwo",
+      "material": "resto_enseigne",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_star.lwo",
+      "material": "star",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_tour_2.lwo",
+      "material": "2_rouge_resto",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "demo-redline-assets-main/mesh_tour_2.lwo",
+      "material": "2_vitres_resto",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/shadowpoly.lwo",
+      "material": "shadowpoly",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/shadowpoly.lwo",
+      "material": "shadowpoly",
+      "texture": 1,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/solcarro.lwo",
+      "material": "solcarrele",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/bus.lwo",
+      "material": "front_bus",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/bus.lwo",
+      "material": "rear_bus",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/bus.lwo",
+      "material": "red_bus",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/bus.lwo",
+      "material": "winglet_l",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/bus.lwo",
+      "material": "winglet_r",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/cab.lwo",
+      "material": "car_steel",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/cab.lwo",
+      "material": "front",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/cab.lwo",
+      "material": "glasses",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/maps_psd/cab.lwo",
+      "material": "rear",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "piedestal",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "piedestal_x",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "pipe_outside[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/roomwires.lwo",
+      "material": "wallz[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy.lwo",
+      "material": "ufo[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy.lwo",
+      "material": "vitre_hublot[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_2.lwo",
+      "material": "ufo[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_2.lwo",
+      "material": "vitre_hublot[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_3.lwo",
+      "material": "ufo[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_3.lwo",
+      "material": "vitre_hublot[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_4.lwo",
+      "material": "jointure",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_4.lwo",
+      "material": "ufo[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "nxng-experiments/ufo_edy_4.lwo",
+      "material": "vitre_hublot[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_barrel_hi.lwo",
+      "material": "barel_dirt_around",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_barrel_lo.lwo",
+      "material": "barrel_shadow",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_cemetery.lwo",
+      "material": "cemetery_wood",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_dirty_layer.lwo",
+      "material": "simple_dirt",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_ground_tesselated_1.lwo",
+      "material": "ground",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_layered_tiled_fog.lwo",
+      "material": "layered_fog",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_layered_tiled_fog_morph_target.lwo",
+      "material": "layered_fog",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_pebbles_around.lwo",
+      "material": "pebbles_around",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_peebles.lwo",
+      "material": "rough_peebles",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_peebles_02.lwo",
+      "material": "rough_peebles",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_robot.lwo",
+      "material": "bot[ADDEVMAP]",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_tank_detailled.lwo",
+      "material": "shadow",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_tank_detailled.lwo",
+      "material": "shadow",
+      "texture": 1,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "snow-tanks/NEW/obj_tank_detailled.lwo",
+      "material": "tank_dirt_around",
+      "texture": 0,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    },
+    {
+      "source": "the-arrival/engine_render.lwo",
+      "material": "glass",
+      "texture": 2,
+      "before": "preserved-only",
+      "after": "approximated",
+      "issue": ""
+    }
+  ],
+  "scope": "Selected native files SHA-verified against archived batch. Standalone conversion; no inferred missing images, no scene-space baking."
+}

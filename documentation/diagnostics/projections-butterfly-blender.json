@@ -1,0 +1,21 @@
+{
+  "blender_version": "4.2.0",
+  "passed": true,
+  "imports": [
+    {
+      "format": "gltf",
+      "file": "butterfly.lwo",
+      "material_count": 2,
+      "loaded_texture_nodes": 2,
+      "portable_import": true
+    },
+    {
+      "format": "obj",
+      "file": "butterfly.lwo",
+      "material_count": 2,
+      "loaded_texture_nodes": 2,
+      "portable_import": true
+    }
+  ],
+  "scope": "Isolated format directories, loaded material texture nodes, UVs and polygon assignments; opacity checked for the sol.lwo fixture when selected. Preview uses diagnostic lighting, not original LightWave shading."
+}

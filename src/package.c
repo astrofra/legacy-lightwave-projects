@@ -157,6 +157,59 @@ static int collect(LWPackage *p,const LWOptions *opts,LWError *e) {
     }
     return 1;
 }
+/* A standalone LWO has no native clip-map channel. Inspect only neighboring
+   LWS files (owner directory and descendants), resolving actual object links.
+   All uses participate in consensus, including uses without a clip map. */
+static int clip_context(LWPackage *p,const LWOptions *opts,LWError *e) {
+    LWPaths files={0}; LWPackage lookup={0}; LWObject *o=&p->objects.v[0];
+    char *root=lw_dirname(o->source.path); size_t i,j,scenes=0; int ok=0;
+    if(!root) return lw_error(e,0,"allocation","out of memory");
+    for(i=0;i<o->materials.n;i++) if(o->materials.v[i].base_texture) break;
+    if(i==o->materials.n) { free(root); return 1; }
+    if(!lw_walk(root,&files,e)) goto done;
+    for(i=0;i<files.n;i++) if(object_file(files.v[i])) {
+        char *path=lw_dup(files.v[i]);
+        if(!path) { lw_error(e,0,"allocation","out of memory"); goto done; }
+        if(!LW_ADD(lookup.files,path,e)) { free(path); goto done; }
+    }
+    for(i=0;i<files.n;i++) {
+        LWScene scene={0}; LWError local={0}; FILE *f=lw_fopen(files.v[i],"rb"); char sig[4]; size_t n; int uses=0,clips=0;
+        if(!f) continue;
+        n=fread(sig,1,4,f); fclose(f); if(n!=4||memcmp(sig,"LWSC",4)) continue;
+        if(++scenes>128) { snprintf(o->clip_context_issue,sizeof o->clip_context_issue,"more than 128 neighboring scenes; object clip inference disabled"); break; }
+        if(!lw_load_scene(files.v[i],&scene,&local)) {
+            lw_free_scene(&scene);
+            snprintf(o->clip_context_issue,sizeof o->clip_context_issue,"an unreadable neighboring scene prevents unanimous clip inference"); continue;
+        }
+        for(j=0;j<scene.nodes.n;j++) {
+            LWNode *node=&scene.nodes.v[j]; if(!node->object_path.size) continue;
+            if(!resolve_node(node,opts,&lookup,e)) { lw_free_scene(&scene); goto done; }
+            if(node->resolved_path&&lw_path_equal(node->resolved_path,o->source.path)) {
+                node->asset=0; uses=1; if(node->clip_maps.n) clips=1;
+            }
+            else for(n=0;n<node->candidates.n;n++) if(lw_path_equal(node->candidates.v[n],o->source.path))
+                snprintf(o->clip_context_issue,sizeof o->clip_context_issue,"ambiguous neighboring object reference prevents clip inference");
+        }
+        if(uses) {
+            if(clips) {
+                char *ir=lw_join(opts->output,"IR"),*asset=ir?lw_join(ir,p->names.v[0]):NULL;
+                char *folder=asset?lw_join(asset,"clipmaps"):NULL,*dir=NULL;
+                free(ir); free(asset);
+                if(!folder) { lw_free_scene(&scene); lw_error(e,0,"allocation","out of memory"); goto done; }
+                if(!lw_path_exists(folder)&&!lw_mkdir(folder,e)) { free(folder); lw_free_scene(&scene); goto done; }
+                { char label[96]; snprintf(label,sizeof label,"%s-%zu",scene.source.sha256,i); dir=lw_join(folder,label); } free(folder);
+                if(!dir) { lw_free_scene(&scene); lw_error(e,0,"allocation","out of memory"); goto done; }
+                if(!lw_mkdir(dir,e)||!lw_package_images(dir,scene.source.path,scene.images.v,scene.images.n,e)||!lw_write_scene(dir,&scene,e)) { free(dir); lw_free_scene(&scene); goto done; }
+                free(dir);
+            }
+            if(!lw_prepare_clip_scene(opts->output,p,&scene,e)) { lw_free_scene(&scene); goto done; }
+        }
+        lw_free_scene(&scene);
+    }
+    ok=1;
+done:
+    free(root); lw_free_paths(&files); lw_free_paths(&lookup.files); return ok;
+}
 static char *source_output_name(const LWSource *source) {
     char *name=lw_output_name(source->path),*extended;
     const char *dot,*extension=NULL; size_t n;
@@ -209,7 +262,7 @@ static int json_output_path(FILE *f,const char *format,const char *name,const ch
     lw_json_string(f,path); free(path); return 1;
 }
 static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExportStats *stats,const LWGltfStats *gltf,int partial,LWError *e) {
-    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0,clip_maps=0,decoded_images=0,png_images=0,opaque_plugins=0;
+    char *path=lw_join(opts->output,"manifest.json"); FILE *f; size_t i,j,packaged_images=0,unresolved_images=0,clip_maps=0,decoded_images=0,png_images=0,opaque_plugins=0,clips_evaluated=0;
     if(!path) return lw_error(e,0,"allocation","out of memory");
     f=lw_fopen(path,"wb"); if(!f) { free(path); return lw_error(e,0,"output","cannot create package manifest"); }
     fprintf(f,"{\n\"schema_version\":\"0.1\",\"generator\":\"lwconvert %s\",\"status\":\"%s\",\n\"input\":",LWCONVERT_VERSION,partial?"partial":"converted-supported-subset"); lw_json_string(f,opts->input);
@@ -227,9 +280,12 @@ static int write_manifest(const LWOptions *opts,const LWPackage *p,const LWExpor
         size_t count=i<p->objects.n?p->objects.v[i].images.n:p->scene.images.n;
         for(j=0;j<count;j++) { if(refs[j].uri) packaged_images++; else unresolved_images++; if(refs[j].width) decoded_images++; if(refs[j].png_uri) png_images++; }
     }
-    for(i=0;i<p->scene.nodes.n;i++) clip_maps+=p->scene.nodes.v[i].clip_maps.n;
+    for(i=0;i<p->scene.nodes.n;i++) for(j=0;j<p->scene.nodes.v[i].clip_maps.n;j++) {
+        const LWClipMap *c=&p->scene.nodes.v[i].clip_maps.v[j];
+        clip_maps+=!c->evaluated_materials||c->skipped_materials; clips_evaluated+=c->evaluated_materials!=0;
+    }
     for(i=0;i<p->scene.plugins.n;i++) opaque_plugins+=!p->scene.plugins.v[i].interpreted;
-    fprintf(f,"],\n\"scene_clip_maps_not_evaluated\":%zu,\"clip_map_targets\":{\"obj\":{\"representation\":\"MTL map_d\",\"portable_binary_cutoff\":false,\"status\":\"requires-texture-evaluation\"},\"gltf\":{\"representation\":\"baseColorTexture alpha with alphaMode MASK and alphaCutoff\",\"requires_extension\":false,\"status\":\"requires-texture-evaluation\"},\"blender\":{\"status\":\"deferred\"}}",clip_maps);
+    fprintf(f,"],\n\"scene_clip_maps_not_evaluated\":%zu,\"scene_clip_maps_evaluated\":%zu,\"clip_map_targets\":{\"obj\":{\"representation\":\"MTL map_d with thresholded coverage\",\"portable_binary_cutoff\":false,\"status\":\"aligned-static-image-subset\"},\"gltf\":{\"representation\":\"baseColorTexture alpha with alphaMode MASK and alphaCutoff\",\"requires_extension\":false,\"alphaCutoff\":0.5,\"status\":\"aligned-static-image-subset\"},\"blender\":{\"status\":\"deferred\"}}",clip_maps,clips_evaluated);
     {
         size_t mismatches=0,followers=0;
         for(i=0;i<p->scene.nodes.n;i++) { mismatches+=p->scene.nodes.v[i].key_count_mismatches; followers+=p->scene.nodes.v[i].mirrored_bank_follower!=0; }
@@ -335,6 +391,13 @@ int lw_convert(const LWOptions *opts,LWError *e) {
         for(k=0;k<o->chunks.n;k++) if(o->chunks.v[k].tag==LW_TAG('C','R','V','S')) partial=1;
         for(k=0;k<o->materials.n;k++) if(o->materials.v[k].source.size) partial=1;
     }
+    if(p.is_scene) {
+        dir=lw_join(assets,p.scene_name);
+        if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
+        if(!lw_mkdir(dir,e)||!lw_package_images(dir,p.scene.source.path,p.scene.images.v,p.scene.images.n,e)||!lw_prepare_clip_scene(opts->output,&p,&p.scene,e)) goto done;
+        free(dir); dir=NULL;
+    } else if(!clip_context(&p,opts,e)) goto done;
+    for(i=0;i<p.objects.n;i++) if(!lw_clip_consensus(&p.objects.v[i],e)) goto done;
     if(!lw_name_textures(opts->output,&p,e)) goto done;
     for(i=0;i<p.objects.n;i++) {
         dir=lw_join(assets,p.names.v[i]);
@@ -345,7 +408,7 @@ int lw_convert(const LWOptions *opts,LWError *e) {
     if(p.is_scene) {
         for(i=0;i<p.scene.nodes.n;i++) if(p.scene.nodes.v[i].unsupported_transform||p.scene.nodes.v[i].key_count_mismatches||p.scene.nodes.v[i].clip_maps.n||p.scene.nodes.v[i].object_dissolve.size) partial=1;
         dir=lw_join(assets,p.scene_name); if(!dir) { lw_error(e,0,"allocation","out of memory"); goto done; }
-        if(!lw_mkdir(dir,e)||!lw_package_images(dir,p.scene.source.path,p.scene.images.v,p.scene.images.n,e)||!lw_write_scene(dir,&p.scene,e)) goto done;
+        if(!lw_write_scene(dir,&p.scene,e)) goto done;
         if(!opts->no_bake_ik) {
             for(i=0;i<p.scene.nodes.n;i++) {
                 size_t k; const LWNode *n=&p.scene.nodes.v[i];

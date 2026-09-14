@@ -65,10 +65,22 @@ so the launcher works from any current directory. On other systems, run
 
 ## C converter
 
-`lwconvert` reads LWOB/LWO2 objects, PST_ presets and LWS 1/3 scenes.
+`lwconvert` reads LWOB/LWO2 objects, PST_ presets and LWSC 1/3 scenes,
+with partial support for LWSC 5.
 It produces an LWIR package that preserves the sources, alongside OBJ/MTL and
 glTF 2.0 exports. Blender `.blend` output remains to be implemented.
 The converter runs without Blender, addons or a graphical interface.
+
+The [feature matrix](documentation/feature-matrix.md) distinguishes native
+file versions, IR preservation and actual OBJ/glTF support across geometry,
+surfaces, textures and animation. The [batch audit and priorities](documentation/batch-20260913-221149-priorities.md)
+identify the next coverage improvements using deduplicated corpus diagnostics.
+
+Since v0.16.0, planar and spherical image projections work for both **LWOB and
+LWO2**, including all axes, center, planar size, LWO2 texture rotation, spherical
+repetition and seam/pole handling. Reset, mirror and edge wrapping use bounded
+derived images in OBJ and glTF. Native parameters remain in IR. See the
+[native measurements, supported scope and corpus QA](documentation/texture-projections.md).
 
 Since v0.1.1, OBJ exports triangulate ordinary face polygons in C, including
 concave outlines and bridged holes. Native polygons remain in LWIR. See the
@@ -182,10 +194,12 @@ The C executable exports object/parent motion, snapshots and rest rigs. See the
 preserved IR, supported plugins and the distinction from editable skinning.
 
 Scene clip maps are preserved explicitly on their owning instances, with image
-roles, native parameter trees and source byte ranges. Object dissolve remains a
-separate attribute. The IR supports future target interpretation: MTL `map_d`
-for opacity, or core glTF 2.0 `MASK` plus a baked base-color alpha texture; Blender
-is deferred. See [clip-map semantics and target limits](documentation/converter.md#clip-maps-and-target-interpretation).
+roles, native parameter trees and source byte ranges. Since **v0.17.0**, static
+image masks aligned with a material's planar/spherical mapping produce glTF
+`MASK` (cutoff 0.5) and an OBJ `map_d`. Grayscale PSD masks are decoded in C.
+Standalone objects can recover a unanimous clip appearance from neighboring
+scenes. Object dissolve remains separate; Blender's native backend is deferred.
+See [clip-map scope and Butterfly QA](documentation/clip-maps.md).
 
 Build on Windows with CMake and Visual Studio 2022:
 

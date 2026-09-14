@@ -73,9 +73,62 @@ static int ilbm(const LWSource *s,LWImageReference *image,LWError *e) {
 done:
     free(row); free(rgba); return ok;
 }
+/* PSD merged grayscale pixels (stb only accepts RGB PSDs). Adobe's file format
+   specifies bounded length sections and per-channel, per-row PackBits counts.
+   Extra channels are intentionally not guessed to be merged transparency. */
+static uint32_t be32(const unsigned char *p) { return ((uint32_t)p[0]<<24)|((uint32_t)p[1]<<16)|((uint32_t)p[2]<<8)|p[3]; }
+static int psd_gray(const LWSource *s,LWImageReference *image,LWError *e) {
+    size_t pos=26,i,y,x,rowbytes,table=0; unsigned width,height,depth,compression;
+    unsigned char *rgba=NULL,*row=NULL; int ok=0;
+    if(s->size<26||be16(s->data+4)!=1||memcmp(s->data+6,"\0\0\0\0\0\0",6)||be16(s->data+12)!=1)
+        return lw_error(e,0,"PSD","grayscale PSD requires version 1 and one merged channel");
+    height=be32(s->data+14); width=be32(s->data+18); depth=be16(s->data+22);
+    if(!dimensions(width,height)||(depth!=8&&depth!=16)) return lw_error(e,0,"PSD","unsupported grayscale depth or excessive dimensions");
+    for(i=0;i<3;i++) {
+        uint32_t len; if(s->size-pos<4) return lw_error(e,pos,"PSD","truncated section length");
+        len=be32(s->data+pos); pos+=4;
+        if(len>s->size-pos) return lw_error(e,pos,"PSD","truncated section");
+        pos+=len;
+    }
+    if(s->size-pos<2) return lw_error(e,pos,"PSD","missing compression");
+    compression=be16(s->data+pos); pos+=2;
+    if(compression>1) return lw_error(e,pos,"PSD","grayscale ZIP compression not supported");
+    rowbytes=(size_t)width*(depth/8);
+    if(compression) {
+        if((size_t)height*2>s->size-pos) return lw_error(e,pos,"PSD","truncated RLE row table");
+        table=pos; pos+=(size_t)height*2;
+    }
+    rgba=malloc((size_t)width*height*4); row=malloc(rowbytes);
+    if(!rgba||!row) { lw_error(e,0,"allocation","out of memory"); goto done; }
+    for(y=0;y<height;y++) {
+        size_t len=compression?be16(s->data+table+2*y):rowbytes,end,k=0;
+        if(len>s->size-pos) { lw_error(e,pos,"PSD","truncated pixel row"); goto done; }
+        end=pos+len;
+        if(!compression) { memcpy(row,s->data+pos,rowbytes); pos=end; }
+        else while(pos<end) {
+            unsigned code=s->data[pos++]; size_t count;
+            if(code==128) continue;
+            count=code<128?code+1:257-code;
+            if(count>rowbytes-k||(code<128?count:1)>end-pos) { lw_error(e,pos,"PSD","invalid PackBits row"); goto done; }
+            if(code<128) { memcpy(row+k,s->data+pos,count); pos+=count; }
+            else memset(row+k,s->data[pos++],count);
+            k+=count;
+        }
+        if(compression&&k!=rowbytes) { lw_error(e,pos,"PSD","short PackBits row"); goto done; }
+        for(x=0;x<width;x++) {
+            unsigned char *p=rgba+4*(y*width+x);
+            p[0]=p[1]=p[2]=depth==8?row[x]:(unsigned char)((be16(row+2*x)+128)/257); p[3]=255;
+        }
+    }
+    if(pos!=s->size) { lw_error(e,pos,"PSD","surplus merged pixel data"); goto done; }
+    image->rgba=rgba; rgba=NULL; image->width=(int)width; image->height=(int)height; ok=1;
+done:
+    free(rgba); free(row); return ok;
+}
 int lw_decode_raster(const LWSource *source,LWImageReference *image,LWError *e) {
     int width,height,channels;
     if(source->size>=4&&!memcmp(source->data,"FORM",4)) return ilbm(source,image,e);
+    if(source->size>=26&&!memcmp(source->data,"8BPS",4)&&be16(source->data+24)==1) return psd_gray(source,image,e);
     if(source->size>INT_MAX||!stbi_info_from_memory(source->data,(int)source->size,&width,&height,&channels)||!dimensions((unsigned)width,(unsigned)height))
         return lw_error(e,0,"image","unsupported image or excessive dimensions");
     image->rgba=stbi_load_from_memory(source->data,(int)source->size,&width,&height,&channels,4);

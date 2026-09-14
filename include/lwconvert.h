@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.15.1"
+#define LWCONVERT_VERSION "0.17.0"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -67,6 +67,8 @@ typedef struct {
     char *base_texture, *opacity_texture, *emissive_texture, *specular_texture, *bump_texture, *normal_texture;
     char texture_sha256[6][65]; /* Derived PNG bytes, independently of presentation names. */
     int textured, texture_alpha;
+    int texture_atlas;
+    double texture_domain[4]; /* Derived UV min U,V and spans; native mapping stays intact. */
 } LWMaterial;
 typedef struct {
     LWString path;
@@ -82,6 +84,19 @@ typedef struct {
     unsigned char *rgba;
     int width, height;
 } LWImageReference;
+
+/* Derived instance appearance, separate from native surface/texture records.
+   node == LW_NONE denotes a unanimous object preview inferred from its scenes. */
+typedef struct {
+    uint32_t node, material;
+    char *base_texture, *opacity_texture;
+    char texture_sha256[2][65];
+    char *scene_path, *scene_uri, *image_uri;
+    char scene_sha256[65], image_sha256[65];
+    size_t offset, bytes, evidence_count;
+    int negative;
+    char issue[192];
+} LWClipBinding;
 typedef struct LWObject {
     LWSource source;
     uint32_t format;
@@ -99,6 +114,8 @@ typedef struct LWObject {
     LW_ARRAY(LWMap) maps;
     LW_ARRAY(LWImageReference) images;
     LW_ARRAY(LWTexture) textures;
+    LW_ARRAY(LWClipBinding) clip_bindings;
+    char clip_context_issue[192];
     LWRenderVertices normal_vertices; /* Derived final glTF triangles; native arrays stay intact. */
     size_t *normal_first; /* Per source polygon, SIZE_MAX if no converted normal map. */
     size_t texture_blocks, legacy_textures, opaque_chunks, repeated_primitives;
@@ -118,6 +135,9 @@ typedef struct {
     size_t offset, size;
     LW_ARRAY(LWTextureField) fields;
     LW_ARRAY(size_t) images; /* Indices into the owning scene's images. */
+    size_t evaluated_materials, skipped_materials;
+    int negative;
+    char issue[192];
 } LWClipMap;
 
 typedef struct {

@@ -4,6 +4,15 @@
 Run it directly, or use `convert_content.bat` at the repository root (Python 3
 is required for batching).
 
+Version 0.17.0 adds aligned image clip maps as glTF alpha cut (`MASK`), OBJ
+opacity images, grayscale PSD decoding and conservative standalone-object
+clip inference. See [Butterfly QA and limits](../../documentation/clip-maps.md).
+
+Version 0.16.0 added planar and spherical LWO2 image projections, corrected LWOB
+spherical mapping, and translated reset/mirror/edge wrapping into bounded
+derived images for OBJ/glTF. It runs autonomously with the default batch options.
+See the [projection support and QA](../../documentation/texture-projections.md).
+
 Refresh it from the current sources:
 
 ```powershell

@@ -10,8 +10,8 @@ typedef struct {
     size_t skin_offset,skin_view,skin_accessor,skin_sets;
     int uv,tangent; float low[3],high[3];
 } GPrimitive;
-typedef struct { size_t asset,first,count; uint32_t layer; } GMesh;
-typedef struct { size_t asset; uint32_t index; int uv; size_t base,emissive,specular,normal; } GMaterial;
+typedef struct { size_t asset,first,count; uint32_t layer,node; } GMesh;
+typedef struct { size_t asset; uint32_t index; int uv; size_t base,emissive,specular,normal; const LWClipBinding *clip; } GMaterial;
 typedef struct { size_t source,mesh,parent; int skinned,animated; double matrix[16],trs[10]; } GNode;
 typedef struct { size_t node,offset[3],accessor[3]; float *samples; } GAnimation;
 typedef struct {
@@ -126,19 +126,23 @@ static int texture_index(GDocument *doc,const char *uri,size_t *index,LWError *e
     for(i=0;i<doc->textures.n;i++) if(!strcmp(doc->textures.v[i],uri)) { *index=i; return 1; }
     *index=doc->textures.n; return LW_ADD(doc->textures,uri,e);
 }
-static int material_index(GDocument *doc,size_t asset,uint32_t index,int uv,size_t *result,LWError *e) {
+static int same_clip(const LWClipBinding *a,const LWClipBinding *b) {
+    return (!a&&!b)||(a&&b&&!strcmp(a->base_texture,b->base_texture));
+}
+static int material_index(GDocument *doc,size_t asset,uint32_t index,int uv,uint32_t node,size_t *result,LWError *e) {
     GMaterial m={0}; size_t i; m.asset=asset; m.index=index; m.uv=uv; m.base=m.emissive=m.specular=m.normal=SIZE_MAX;
-    for(i=0;i<doc->materials.n;i++) if(doc->materials.v[i].asset==asset&&doc->materials.v[i].index==index&&doc->materials.v[i].uv==uv) { *result=i; return 1; }
+    m.clip=uv?lw_clip_binding(&doc->package->objects.v[asset],node,index):NULL;
+    for(i=0;i<doc->materials.n;i++) if(doc->materials.v[i].asset==asset&&doc->materials.v[i].index==index&&doc->materials.v[i].uv==uv&&same_clip(doc->materials.v[i].clip,m.clip)) { *result=i; return 1; }
     *result=doc->materials.n;
     if(index<doc->package->objects.v[asset].materials.n) {
         uint32_t side=doc->package->objects.v[asset].materials.v[index].side;
         const LWMaterial *native=&doc->package->objects.v[asset].materials.v[index];
         if(side!=1&&side!=3) doc->stats->unsupported_sidedness++;
-        if(uv&&(!texture_index(doc,native->base_texture,&m.base,e)||!texture_index(doc,native->emissive_texture,&m.emissive,e)||!texture_index(doc,native->specular_texture,&m.specular,e)||!texture_index(doc,native->normal_texture,&m.normal,e))) return 0;
+        if(uv&&(!texture_index(doc,m.clip?m.clip->base_texture:native->base_texture,&m.base,e)||!texture_index(doc,native->emissive_texture,&m.emissive,e)||!texture_index(doc,native->specular_texture,&m.specular,e)||!texture_index(doc,native->normal_texture,&m.normal,e))) return 0;
     }
     return LW_ADD(doc->materials,m,e);
 }
-static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
+static int write_group(GDocument *doc,const GGroup *g,size_t asset,uint32_t node,LWError *e) {
     GPrimitive p={0}; size_t i,j,bytes; uint32_t stride=12+(g->mode==4?12:0)+(g->uv?8:0);
     if(!g->vertices.n) return 1;
     p.tangent=g->mode==4&&g->uv&&g->material<doc->package->objects.v[asset].materials.n&&doc->package->objects.v[asset].materials.v[g->material].normal_texture!=NULL;
@@ -156,7 +160,7 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
     if(doc->bytes>UINT32_MAX-bytes) return lw_error(e,0,"glTF","document buffer exceeds 4 GiB");
     p.offset=doc->bytes; p.map_offset=p.offset+g->vertices.n*stride; p.count=g->vertices.n;
     p.mode=g->mode; p.uv=g->uv; p.stride=stride; p.accessor=doc->accessors;
-    if(!material_index(doc,asset,g->material,g->uv,&p.material,e)) return 0;
+    if(!material_index(doc,asset,g->material,g->uv,node,&p.material,e)) return 0;
     memcpy(p.low,g->vertices.v[0].p,sizeof p.low); memcpy(p.high,p.low,sizeof p.high);
     for(i=0;i<g->vertices.n;i++) {
         const GVertex *v=&g->vertices.v[i];
@@ -184,11 +188,15 @@ static int write_group(GDocument *doc,const GGroup *g,size_t asset,LWError *e) {
     doc->bytes+=bytes; doc->accessors+=1+(g->mode==4?1:0)+(g->uv?1:0)+(p.tangent?1:0)+2*p.skin_sets;
     return LW_ADD(doc->primitives,p,e);
 }
-static int mesh_index(GDocument *doc,size_t asset,uint32_t layer,size_t *result,LWError *e) {
-    size_t i; GGroups groups={0}; GMesh mesh={asset,doc->primitives.n,0,layer}; int ok=0;
-    for(i=0;i<doc->meshes.n;i++) if(doc->meshes.v[i].asset==asset&&doc->meshes.v[i].layer==layer) { *result=i; return 1; }
+static int mesh_index(GDocument *doc,size_t asset,uint32_t layer,uint32_t node,size_t *result,LWError *e) {
+    size_t i,j; GGroups groups={0}; GMesh mesh={asset,doc->primitives.n,0,layer,node}; int ok=0;
+    const LWObject *o=&doc->package->objects.v[asset];
+    for(i=0;i<doc->meshes.n;i++) if(doc->meshes.v[i].asset==asset&&doc->meshes.v[i].layer==layer) {
+        for(j=0;j<o->materials.n;j++) if(!same_clip(lw_clip_binding(o,node,(uint32_t)j),lw_clip_binding(o,doc->meshes.v[i].node,(uint32_t)j))) break;
+        if(j==o->materials.n) { *result=i; return 1; }
+    }
     if(!derive(doc,asset,layer,&groups,e)) goto done;
-    for(i=0;i<groups.n;i++) if(!write_group(doc,&groups.v[i],asset,e)) goto done;
+    for(i=0;i<groups.n;i++) if(!write_group(doc,&groups.v[i],asset,node,e)) goto done;
     mesh.count=doc->primitives.n-mesh.first;
     *result=SIZE_MAX;
     if(mesh.count) { *result=doc->meshes.n; if(!LW_ADD(doc->meshes,mesh,e)) goto done; }
@@ -223,7 +231,7 @@ static int scene_nodes(GDocument *doc,LWError *e) {
         } else if(!lw_scene_node_matrix(s,i,doc->options->frame,m,e)) goto done;
         /* C M C with C=diag(1,1,-1,1), while geometry already uses C p. */
         for(j=0;j<16;j++) n.matrix[j]=m[j]*((j%4==2)^(j/4==2)?-1:1);
-        if(source->asset!=SIZE_MAX&&!mesh_index(doc,source->asset,source->layer,&n.mesh,e)) goto done;
+        if(source->asset!=SIZE_MAX&&!mesh_index(doc,source->asset,source->layer,source->id,&n.mesh,e)) goto done;
         map[i]=doc->nodes.n; if(!LW_ADD(doc->nodes,n,e)) goto done;
     }
     for(i=0;i<s->nodes.n;i++) if(active[i]&&parents[i]!=SIZE_MAX) doc->nodes.v[map[i]].parent=map[parents[i]];
@@ -244,7 +252,7 @@ static int rig_nodes(GDocument *doc,LWError *e) {
         LW_TRY(LW_ADD(doc->nodes,node,e));
     }
     mesh.source=rig->owner; mesh.parent=SIZE_MAX; mesh.skinned=rig->weighted; lw_identity(mesh.matrix);
-    LW_TRY(mesh_index(doc,rig->asset,owner->layer,&mesh.mesh,e));
+    LW_TRY(mesh_index(doc,rig->asset,owner->layer,owner->id,&mesh.mesh,e));
     LW_TRY(LW_ADD(doc->nodes,mesh,e));
     if(rig->weighted) {
         size_t bytes=(rig->joints.n+1)*64;
@@ -437,13 +445,15 @@ static void json_material(FILE *f,const GDocument *doc,const GMaterial *entry) {
     if(entry->emissive!=SIZE_MAX) for(j=0;j<3;j++) emissive[j]=1;
     fprintf(f,",\"pbrMetallicRoughness\":{\"baseColorFactor\":[%.9g,%.9g,%.9g,%.9g],\"metallicFactor\":0,\"roughnessFactor\":1",color[0],color[1],color[2],alpha);
     if(entry->base!=SIZE_MAX) fprintf(f,",\"baseColorTexture\":{\"index\":%zu}",entry->base);
-    fprintf(f,"},\"emissiveFactor\":[%.9g,%.9g,%.9g],\"alphaMode\":\"%s\",\"doubleSided\":%s",emissive[0],emissive[1],emissive[2],alpha<1||(entry->base!=SIZE_MAX&&m->texture_alpha)?"BLEND":"OPAQUE",two_sided?"true":"false");
+    fprintf(f,"},\"emissiveFactor\":[%.9g,%.9g,%.9g],\"alphaMode\":\"%s\",\"doubleSided\":%s",emissive[0],emissive[1],emissive[2],entry->clip?"MASK":alpha<1||(entry->base!=SIZE_MAX&&m->texture_alpha)?"BLEND":"OPAQUE",two_sided?"true":"false");
+    if(entry->clip) fputs(",\"alphaCutoff\":0.5",f);
     if(entry->normal!=SIZE_MAX) fprintf(f,",\"normalTexture\":{\"index\":%zu}",entry->normal);
     if(entry->emissive!=SIZE_MAX) fprintf(f,",\"emissiveTexture\":{\"index\":%zu}",entry->emissive);
     if(entry->specular!=SIZE_MAX) fprintf(f,",\"extensions\":{\"KHR_materials_specular\":{\"specularFactor\":1,\"specularTexture\":{\"index\":%zu}}}",entry->specular);
     fprintf(f,",\"extras\":{\"source_asset_index\":%zu,\"source_surface_index\":",entry->asset);
     if(m) fprintf(f,"%u",entry->index); else fputs("null",f);
     fprintf(f,",\"source_sha256\":\"%s\",\"source_sidedness\":%u",o->source.sha256,m?m->side:1);
+    if(entry->clip) fprintf(f,",\"derived_clip_map\":{\"profile\":\"aligned-image-clip-0.1\",\"scope\":\"%s\",\"evidence_count\":%zu,\"details\":\"object IR derived_clip_maps\"}",entry->clip->node==LW_NONE?"unanimous-object-preview":"scene-instance",entry->clip->evidence_count);
     fputs(",\"native_texture_bindings\":",f); lw_json_textures(f,o,entry->index);
     fprintf(f,",\"source_smoothing_angle_radians\":%.9g,\"effective_smoothing_angle_radians\":%.9g",m?m->smoothing:0,lw_smoothing_angle(o,entry->index,NULL,NULL));
     fputs(",\"interpretation\":\"color/diffuse/emission/opacity approximation; neutral rough dielectric; compatible LWOB projections and LWO2 UV image maps; height bump and environment reflection preserved in IR; source-corner normals carry smoothing\"}}",f);
@@ -635,9 +645,9 @@ static int write_document(const char *dir,const char *name,const LWPackage *pack
     else if(scene) { if(!scene_nodes(&doc,e)||!(doc.autonomous?baked_animation(&doc,e):scene_animation(&doc,e))) goto done; }
     else {
         GNode node={0}; node.parent=SIZE_MAX; lw_identity(node.matrix);
-        if(!mesh_index(&doc,asset,LW_NONE,&node.mesh,e)||!LW_ADD(doc.nodes,node,e)) goto done;
+        if(!mesh_index(&doc,asset,LW_NONE,LW_NONE,&node.mesh,e)||!LW_ADD(doc.nodes,node,e)) goto done;
         /* A geometry-free surface preset still exports its material library. */
-        if(!doc.meshes.n) for(i=0;i<package->objects.v[asset].materials.n;i++) { size_t index; if(!material_index(&doc,asset,(uint32_t)i,0,&index,e)) goto done; }
+        if(!doc.meshes.n) for(i=0;i<package->objects.v[asset].materials.n;i++) { size_t index; if(!material_index(&doc,asset,(uint32_t)i,0,LW_NONE,&index,e)) goto done; }
     }
     { int closed=lw_close(doc.bin,bin,e); doc.bin=NULL; if(!closed) goto done; }
     f=lw_fopen(json,"wb"); if(!f) { lw_error(e,0,"glTF","cannot create %s",json); goto done; }

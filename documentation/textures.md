@@ -1,4 +1,4 @@
-# Texture profile — v0.14.0
+# Texture profile — v0.17.0
 
 The motivating project is `content/orange-juice-signage`. Its scene loads the
 textured LWOB object `oj_tv_mesh_t.lwo`: `screen.iff` supplies the screen's color;
@@ -51,7 +51,7 @@ procedural layers. `RIMG` is distinguished as a reflection environment.
 `export_status` and `issue` identify approximated and preserved-only records.
 The semantic scopes follow the [original LWOB specification](https://www.martinreddy.net/gfx/3d/LWOB.txt).
 
-Planar and spherical object-space image projections generate UVs per polygon
+Planar and spherical object-space image projections in **LWOB and LWO2** generate UVs per polygon
 corner, before instance transforms. Spherical seams are split before repetition;
 pole longitude is derived from the surrounding corners. Compatible channels
 share one UV set. Color, then diffuse, take precedence when projections differ;
@@ -59,11 +59,16 @@ additional layers or incompatible projections are retained and reported.
 An explicit `--uv-map` disables automatic bindings, avoiding the application of
 a planar image to unrelated UV coordinates. World-space projection, falloff,
 velocity, unsupported projections and procedural evaluation remain outside this
-profile. The LWO2 UV subset is described below.
+profile. Version 0.16.0 adds LWO2 projected image maps and corrects the existing
+LWOB spherical axes and size handling against native SDK measurements. See the
+[projection profile, oracle measurements and corpus QA](texture-projections.md).
+The LWO2 UV subset is described below.
 
-The preview sampler repeats in both directions with linear filtering. Native
-`TWRP`, antialias and filter flags are retained, but their exact legacy rendering
-semantics are not claimed. Scalar image maps use mean RGB brightness to
+The preview sampler uses linear filtering. Native `TWRP`/`WRAP` reset, repeat,
+mirror and edge modes are translated through a bounded image atlas when needed;
+`derived_texture_mapping` records its affine UV domain independently of the
+native parameters. Antialias and filter flags are retained, but their exact
+legacy rendering semantics are not claimed. Scalar image maps use mean RGB brightness to
 interpolate from the surface value at black toward `TVAL` at white; image alpha
 weights that contribution. Negative-image flags invert RGB. Color image pixels
 are assumed sRGB, with diffuse/emission intensity applied in linear light.
@@ -129,8 +134,11 @@ glTF specular factors follow the
 [Khronos extension](https://github.com/KhronosGroup/glTF/tree/main/extensions/2.0/Khronos/KHR_materials_specular);
 the optional extension does not reproduce LightWave glossiness. Materials still
 use the existing rough dielectric approximation and source-corner normals.
-Transparency images are distinct from scene clip maps: the latter remain in
-the IR with binary-cutout semantics and are not evaluated by this change.
+Transparency images retain `BLEND`. Since v0.17.0, aligned static scene image
+clip maps instead use `MASK` and coverage composed into base-color alpha;
+OBJ receives thresholded `map_d` pixels. Grayscale PSD merged images (one
+channel, 8/16 bits, raw or PackBits) are also decoded in C. See
+[clip-map scope and QA](clip-maps.md) for instance isolation and object inference.
 
 ## LWO2 UV image layers
 
@@ -147,8 +155,8 @@ enable state, opacity mode/value, envelope presence, reference object,
 coordinate system, rotation, falloff type and shader name. Original block bytes,
 including all envelope indices and plugin payloads, remain in `source.bin`.
 
-The initial export subset accepts one enabled image layer per channel, normal
-blending at 100% opacity, repeat wrapping, static parameters and identity texture
+The export subset accepts one enabled image layer per channel, normal
+blending at 100% opacity, static parameters and identity texture
 transforms. The named UV map must cover all corners of the material. Other
 compositing modes, animated parameters, partial/missing UVs, duplicate CLIP IDs,
 procedurals and shaders receive explicit issues; no arbitrary layer is selected.
@@ -157,6 +165,12 @@ Channels sharing the same mapping use the derivative pipeline above. Modern
 scalar maps replace the base scalar with mean RGB brightness, weighted by image
 alpha, rather than using LWOB's black-to-`TVAL` rule. Image filtering, alpha
 interpretation and the target BRDF remain preview approximations.
+
+Since v0.16.0, `PROJ 0` and `PROJ 2` instead calculate planar and spherical
+coordinates from geometry, without requiring a named UV map. All three axes,
+centering, planar scale, LWO2 texture rotation and spherical repetition are
+qualified by the [projection tests](texture-projections.md). Wrapping modes
+0–3 work for both projected and explicit UV image bindings, within atlas bounds.
 
 ### Aircon regression
 

@@ -1,0 +1,512 @@
+{
+  "input": "S:\\works\\legacy-lightwave-projects\\output\\qa-projections-20260914\\batch-20260914-085207\\packages",
+  "validator_versions": [
+    "2.0.0-dev.3.10"
+  ],
+  "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+  "files_checked": 103,
+  "resource_validation": true,
+  "counts": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 70,
+    "numHints": 0
+  },
+  "issue_codes": {
+    "IMAGE_NPOT_DIMENSIONS": 70
+  },
+  "diagnostics": [
+    {
+      "file": "butterfly-tank/gltf/butterfly.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_ballon_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_ballon_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_ballon_resto_morf2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x386.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_ballon_resto_morf2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x386.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_lunette_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 66x66.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_lunette_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_lunette_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x130.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 66x514.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x258.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/3"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_shadowpoly.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_sign_1.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_sign_1.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_sign_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_sign_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_signe_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_solbig_opti.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x514.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_solbig_opti.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x514.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_star.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_star.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_tour_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/maps/mesh_tour_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_gfx_01.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 478x232.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_gfx_01.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 478x232.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_lunette_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 66x66.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_lunette_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_lunette_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x130.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x770.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x258.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x706.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x706.",
+      "severity": 2,
+      "pointer": "/images/3"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/4"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/5"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/6"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/7"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x66.",
+      "severity": 2,
+      "pointer": "/images/8"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x66.",
+      "severity": 2,
+      "pointer": "/images/9"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x258.",
+      "severity": 2,
+      "pointer": "/images/10"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x258.",
+      "severity": 2,
+      "pointer": "/images/11"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x258.",
+      "severity": 2,
+      "pointer": "/images/14"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_sign_1.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_sign_1.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_sign_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_sign_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_signe_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_signe_resto.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_solbig_opti.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x514.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_solbig_opti.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x514.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_star.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_star.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_tour_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 64x514.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_tour_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "demo-redline-assets-main/gltf/mesh_tour_2.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "nxng-experiments/gltf/maps_psd/bus.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 195x234.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "nxng-experiments/gltf/maps_psd/bus.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 738x323.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "nxng-experiments/gltf/maps_psd/bus.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 195x236.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "nxng-experiments/gltf/maps_psd/bus.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 150x157.",
+      "severity": 2,
+      "pointer": "/images/3"
+    },
+    {
+      "file": "nxng-experiments/gltf/roomwires.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "nxng-experiments/gltf/roomwires.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 258x258.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "nxng-experiments/gltf/roomwires.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/2"
+    },
+    {
+      "file": "nxng-experiments/gltf/roomwires.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 194x514.",
+      "severity": 2,
+      "pointer": "/images/3"
+    },
+    {
+      "file": "nxng-experiments/gltf/shadowpoly.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x130.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "nxng-experiments/gltf/ufo_edy_4.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 514x130.",
+      "severity": 2,
+      "pointer": "/images/1"
+    },
+    {
+      "file": "orange-juice-signage/gltf/oj_tv_mesh_t.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 1774x1398.",
+      "severity": 2,
+      "pointer": "/images/3"
+    },
+    {
+      "file": "orange-juice-signage/gltf/oj_tv_mesh_t.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 1774x1398.",
+      "severity": 2,
+      "pointer": "/images/4"
+    },
+    {
+      "file": "orange-juice-signage/gltf/sol.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 800x800.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "snow-tanks/gltf/NEW/obj_barrel_lo.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 66x66.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "snow-tanks/gltf/NEW/obj_tank_detailled.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 130x66.",
+      "severity": 2,
+      "pointer": "/images/1"
+    }
+  ],
+  "passed": true,
+  "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+}

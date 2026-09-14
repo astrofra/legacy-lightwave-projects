@@ -403,6 +403,11 @@ void lw_free_object(LWObject *o) {
     for(i=0;i<o->images.n;i++) lw_free_image(&o->images.v[i]);
     for(i=0;i<o->materials.n;i++) { LWMaterial *m=&o->materials.v[i]; free(m->base_texture); free(m->opacity_texture); free(m->emissive_texture); free(m->specular_texture); free(m->bump_texture); free(m->normal_texture); }
     for(i=0;i<o->textures.n;i++) free(o->textures.v[i].normal);
+    for(i=0;i<o->clip_bindings.n;i++) {
+        LWClipBinding *b=&o->clip_bindings.v[i];
+        free(b->base_texture); free(b->opacity_texture); free(b->scene_path); free(b->scene_uri); free(b->image_uri);
+    }
+    LW_FREE(o->clip_bindings);
     LW_FREE(o->normal_vertices); free(o->normal_first);
     LW_FREE(o->textures);
     LW_FREE(o->materials); LW_FREE(o->images); LW_FREE(o->assignments); LW_FREE(o->chunks);

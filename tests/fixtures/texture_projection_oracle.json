@@ -1,0 +1,9775 @@
+{
+  "scope": "Native Texture Functions evaluateUV measurements, LW6 and LW9.6; repeat addressing. Regenerate using tests/probe_texture_projection.py. UV reduction modulo one differs between hosts. Polygon pole/seam reconstruction tested separately.",
+  "hosts": [
+    {
+      "runtime": "lightwave6",
+      "host_sha256": "b21283799f0645cbeca908737251be6c87820031a681a427f75fe7244f90f702",
+      "helper_sha256": "b32d9d12e5a9f99b6c35e5bdef4d8921e69e787e14038c11a12aa0055c5360cd",
+      "inputs_sha256": "fba95a8c03dbb0c154df6d1dd8535244dabf44df187de74f1cda18aaddc40db3",
+      "observations_sha256": "d3f39b597040490103dd4c660770eb5611e8cf9e39cf312264265f69d7cbe15e",
+      "scope": "Native SDK Texture Functions evaluateUV; raw UVs before polygon seam/pole reconstruction.",
+      "cases": [
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.9,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.525,
+            0.6666666666666666
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4,
+            0.6333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.425,
+            0.8999999999999999
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.425,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.675,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5382821691696784,
+            0.6490716130657086
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5096670726088645,
+            0.6849364730658869
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5043597400322058,
+            0.9135979288900942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.3545551388453507,
+            0.5649306549933942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.6769273520709191,
+            0.5068352782487354
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.0714285714285716,
+            0.6
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.3571428571428571,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.8333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.9285714285714286,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.9,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7,
+            0.9
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.19999999999999996,
+            0.4
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.55,
+            0.525
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.10000000000000003,
+            0.4
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.45,
+            0.425
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.95,
+            0.425
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.45,
+            0.675
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.607877819755169,
+            0.5382821691696784
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.09667281529620603,
+            0.5096670726088645
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.505627202458735,
+            0.5043597400322058
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.8753627472853547,
+            0.3545551388453507
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5983957623174512,
+            0.6769273520709191
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4,
+            1.0714285714285716
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.85,
+            0.3571428571428571
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.0,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.9285714285714286
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7,
+            0.9
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.19999999999999996,
+            0.4
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.19999999999999996,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.55,
+            0.6666666666666666
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.10000000000000003,
+            0.6333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.45,
+            0.8999999999999999
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.95,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.45,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.607877819755169,
+            0.6490716130657086
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.09667281529620603,
+            0.6849364730658869
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.505627202458735,
+            0.9135979288900942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.8753627472853547,
+            0.5649306549933942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5983957623174512,
+            0.5068352782487354
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4,
+            0.6
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.85,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.8333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.0,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.19999999999999996,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.352416382349234,
+            0.6211189415904499
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5737918088257892,
+            0.09841928969469071
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.25,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4685835209047893,
+            0.5616433528149755
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.6250000000004061,
+            0.1959132829346224
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5389895651893702,
+            0.47432201695366816
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.6564164790948046,
+            0.8787118346098821
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.29429276639130847,
+            0.45654869299526246
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.447495918328111,
+            0.636296067491934
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.48892536189662533,
+            0.19213711689931245
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.49776327540671034,
+            0.502886810274484
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.698578814029738,
+            0.7819049997657195
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.25461021440040726,
+            0.5862964252800676
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.881040955873085,
+            0.4658392061928374
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.434479522064473,
+            0.07381446727101804
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.25,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.25,
+            0.75
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.625,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.352416382349234,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.5737918088257892,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.25,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.07379180882578917,
+            0.6880806396105572
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.2725836176503599,
+            0.5877398294723164
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.25,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.0,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.12500000000040612,
+            0.9122601681092325
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.3237918088249769,
+            0.6338602378205974
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.44879180882457076,
+            0.9179825970612471
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.698791808825383,
+            0.566137154595773
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.022583617651172117,
+            0.5877398294723164
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.15176516457771916,
+            0.8299520602328405
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.24237648453412264,
+            0.6916063230578082
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.09121270724400787,
+            0.9946760098306187
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.6450718898320389,
+            0.564390715243556
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.043165447473141216,
+            0.5088835604825348
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.18447952206447293,
+            0.5160604797079179
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.6814590441258996,
+            0.4408048721042373
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.25,
+            0.75
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.625,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.0,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.07379180882578917,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.2725836176503599,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.25,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.0,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5935835209060076,
+            0.7664938059467736
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.29429276639130847,
+            0.45654869299526246
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.25,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5,
+            1.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5314164790952107,
+            0.5616433528149755
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.3237918088249769,
+            0.3661397621794026
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4867676619694358,
+            0.4222796350687666
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7151977563635811,
+            0.399862975589133
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.4262081911742108,
+            0.9015807103053093
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5715407138791131,
+            0.5952184778372488
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.3458884271029038,
+            0.5125655725090172
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.5014435477319714,
+            0.5044732651327547
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7095948447808698,
+            0.2951434840364101
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7334755614481008,
+            0.9132244460867366
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.4839588022650192,
+            0.5748703544600802
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.7357319159782711,
+            0.34241151974644685
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.25,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.625,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            1.25,
+            0.75
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.5935835209060076,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.29429276639130847,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "setter_result": 0,
+          "uv": [
+            0.25,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "setter_result": 0,
+          "uv": [
+            -0.5,
+            0.0
+          ]
+        }
+      ]
+    },
+    {
+      "runtime": "lightwave96",
+      "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+      "helper_sha256": "4a01167c3085b4c9da50ba6a915ee5b0d698c0730459103aee7b96eebbb713fd",
+      "inputs_sha256": "fba95a8c03dbb0c154df6d1dd8535244dabf44df187de74f1cda18aaddc40db3",
+      "observations_sha256": "6e1daaa2fc230a470ac00c5b61c7c9bb7f5809cb25ab545a314cee7eb5f3058e",
+      "scope": "Native SDK Texture Functions evaluateUV; raw UVs before polygon seam/pole reconstruction.",
+      "cases": [
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.9,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.4,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.525,
+            0.6666666666666666
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.4,
+            0.6333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.425,
+            0.8999999999999999
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.425,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.675,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.5382821691696784,
+            0.6490716130657086
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.5096670726088645,
+            0.6849364730658869
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5043597400322058,
+            0.9135979288900942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.3545551388453507,
+            0.5649306549933942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.6769273520709191,
+            0.5068352782487354
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            1.0714285714285716,
+            0.6
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.3571428571428571,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.8333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            1.9285714285714286,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.9,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.4,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.7,
+            0.9
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            -0.19999999999999996,
+            0.4
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.55,
+            0.525
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.10000000000000003,
+            0.4
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.45,
+            0.425
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.95,
+            0.425
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.45,
+            0.675
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.607877819755169,
+            0.5382821691696784
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.09667281529620603,
+            0.5096670726088645
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.505627202458735,
+            0.5043597400322058
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.8753627472853547,
+            0.3545551388453507
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5983957623174512,
+            0.6769273520709191
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.4,
+            1.0714285714285716
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.85,
+            0.3571428571428571
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.0,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            1.9285714285714286
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.7,
+            0.9
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            -0.19999999999999996,
+            0.4
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.7,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            -0.19999999999999996,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.55,
+            0.6666666666666666
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.10000000000000003,
+            0.6333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.45,
+            0.8999999999999999
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.95,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.45,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.607877819755169,
+            0.6490716130657086
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.09667281529620603,
+            0.6849364730658869
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.505627202458735,
+            0.9135979288900942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.8753627472853547,
+            0.5649306549933942
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5983957623174512,
+            0.5068352782487354
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.4,
+            0.6
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.85,
+            0.5666666666666667
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.8333333333333333
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.0,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.7,
+            0.8
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            -0.19999999999999996,
+            0.7
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            1.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            1.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 0,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.3524163823127052,
+            0.6211189415750286
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.5737918088599689,
+            0.09841928974582159
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.24999999996021127,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.46858352087195826,
+            0.5616433528071267
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.625000000036216,
+            0.19591328297333993
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5389895652224422,
+            0.4743220169569376
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.6564164791316145,
+            0.878711834561663
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.2942927663529296,
+            0.45654869300079487
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.4474959182946087,
+            0.6362960674745801
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.4889253618644418,
+            0.19213711693851077
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.4977632753748082,
+            0.5028868102741164
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.6985788140678899,
+            0.7819049997298262
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.25461021436076525,
+            0.58629642526908
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.8810409557817631,
+            0.4658392061812714
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.43447952214992247,
+            0.0738144673093662
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.25,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.25,
+            0.75
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.6249999999005282,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.6475836176872948,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.42620819114003106,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 0,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.7500000000397887,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.9262081910604535,
+            0.6880806395866101
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.27258361761129,
+            0.587739829461145
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.7499999998806337,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.9999999999204225,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.8749999998842065,
+            0.9122601680567419
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.323791808787537,
+            0.6338602378035538
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.4487918087911098,
+            0.917982597008028
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.6987918088635418,
+            0.5661371545873521
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.022583617604144512,
+            0.587739829461145
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.8482348353060416,
+            0.8299520601908297
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.24237648449409122,
+            0.6916063230334122
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.9087872926416805,
+            0.9946760097676346
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.6450718898684877,
+            0.5643907152353576
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.9568345524140763,
+            0.5088835604814037
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.8155204776511338,
+            0.5160604796899576
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.6814590440282251,
+            0.4408048720958587
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.25,
+            0.75
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.37499999970158426,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.9999999998010564,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.07379180893954651,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.72741638238871,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.2500000001193663,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 1,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            7.957745573605735e-11,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.5935835209408175,
+            0.7664938059128426
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.2942927663529296,
+            0.45654869300079487
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.7499999998806337,
+            0.5
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.5314164791280418,
+            0.5616433528071268
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.323791808787537,
+            0.36613976219644623
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.4867676619371836,
+            0.4222796350786623
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.715197756402262,
+            0.39986297560188283
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.426208191140031,
+            0.9015807102541784
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.5715407139132213,
+            0.5952184778251253
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.34588842706616724,
+            0.5125655725074173
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5014435477638484,
+            0.5044732651321852
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.7095948448193723,
+            0.29514348406249324
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0.1,
+            -0.2,
+            0.3
+          ],
+          "rotation": [
+            0.37,
+            -0.28,
+            0.19
+          ],
+          "size": [
+            2,
+            3,
+            4
+          ],
+          "tiles": [
+            1,
+            1
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.7334755614873635,
+            0.9132244460341232
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.4839588023520436,
+            0.5748703544346319
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.735731915882324,
+            0.34241151975059614
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.25,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.37499999970158426,
+            0.375
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            -2,
+            3,
+            0.7
+          ],
+          "tiles": [
+            2.5,
+            0.75
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.25,
+            0.75
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0.2,
+            0.3,
+            0.4
+          ],
+          "uv": [
+            0.40641647905918254,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            -0.7,
+            0.2,
+            -0.1
+          ],
+          "uv": [
+            0.7057072336470704,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            1,
+            0
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            1,
+            0,
+            0
+          ],
+          "uv": [
+            0.2500000001193663,
+            0.0
+          ]
+        },
+        {
+          "projection": 2,
+          "axis": 2,
+          "center": [
+            0,
+            0,
+            0
+          ],
+          "rotation": [
+            0,
+            0,
+            0
+          ],
+          "size": [
+            1,
+            1,
+            1
+          ],
+          "tiles": [
+            -1,
+            0
+          ],
+          "point": [
+            0,
+            0,
+            1
+          ],
+          "uv": [
+            0.5,
+            0.0
+          ]
+        }
+      ]
+    }
+  ]
+}

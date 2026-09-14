@@ -152,8 +152,19 @@ def copy_ir(package, data, destination, filenames):
         uris.add((reference.get("decoded_image") or {}).get("png_uri"))
     for material in metadata.get("materials", []):
         uris.update(material.get("derived_maps", {}).values())
+    for binding in metadata.get("derived_clip_maps", {}).get("bindings", []):
+        uris.update((binding.get("base_color"), binding.get("opacity")))
     for uri in sorted(uris - {None}):
         copy_texture(data.parent, uri, destination, content_addressed=False)
+    # Clip provenance contains native scene trees, source bytes and mask images.
+    context = data.parent / "clipmaps"
+    if context.is_dir():
+        for source in sorted(context.rglob("*")):
+            if source.is_file():
+                source = package_file(package, relative(source, package))
+                target = destination / source.relative_to(data.parent)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                copy_file(source, target)
 
 
 def apply_rig_policy(manifest, policy):
@@ -288,7 +299,7 @@ class ProjectOutput:
         ir = self.directory / "IR" / name
         ir.mkdir(parents=True, exist_ok=True)
         native_objects = [json.loads(package_file(package, a["uri"]).read_text("utf-8")) for a in manifest["assets"]]
-        native_objects = [{key: obj[key] for key in ("source", "materials", "image_references")} for obj in native_objects]
+        native_objects = [{key: obj[key] for key in ("source", "materials", "image_references", "derived_clip_maps") if key in obj} for obj in native_objects]
         for asset_index, asset in enumerate(manifest["assets"]):
             key = source_key(asset["source_path"])
             asset_name = self.name_for(asset["source_path"])

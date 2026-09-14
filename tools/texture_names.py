@@ -68,6 +68,17 @@ def material_digest(material, role):
     return material.get('derived_map_sha256', {}).get(role) or Path(material['derived_maps'][role]).stem
 
 
+def material_variant(obj, mi, role, digest):
+    material = obj['materials'][mi]
+    if role in material.get('derived_maps', {}) and material_digest(material, role) == digest:
+        return material
+    for binding in obj.get('derived_clip_maps', {}).get('bindings', []):
+        if binding['material'] == mi and binding.get(role) and binding.get(role + '_sha256') == digest:
+            return {**material, '_clip_map': True, 'derived_maps': {role: binding[role]},
+                    'derived_map_sha256': {role: digest}}
+    return None
+
+
 def provenance(owner, obj, material, role, directory, source):
     usable = {t['channel']: t for t in material['textures']
               if t['export_status'] == 'approximated' and isinstance(t.get('image_reference'), int)}
@@ -79,7 +90,7 @@ def provenance(owner, obj, material, role, directory, source):
             break
     return {
         'directory_path': directory, 'directory': Path(owner).parent.name,
-        'image': image or material['name']['text'] or Path(obj['source']['path']).stem,
+        'image': (image or material['name']['text'] or Path(obj['source']['path']).stem) + ('_cutout' if material.get('_clip_map') else ''),
         'object': Path(obj['source']['path']).stem, 'material': material['name']['text'],
         'role': role, 'sha256': material_digest(material, role), 'source': source,
     }
@@ -127,26 +138,37 @@ def publish_names(project, exports):
                     digest = image.get('extras', {}).get('sha256') or Path(unquote(image['uri'])).stem
                     matches = [o for o in objects if o['source']['sha256'] == extras.get('source_sha256')
                                and isinstance(mi, int) and 0 <= mi < len(o['materials'])
-                               and material_digest(o['materials'][mi], role) == digest]
+                               and material_variant(o, mi, role, digest) is not None]
                     if not matches:
                         raise ValueError(f'Missing texture provenance: {path}, {role}')
-                    index = add(path, owner, matches[0], matches[0]['materials'][mi], role, image['uri'])
+                    index = add(path, owner, matches[0], material_variant(matches[0], mi, role, digest), role, image['uri'])
                     updates.append((info, texture, image, index))
             documents.append((path, data, updates))
         else:
             lines = path.read_text('utf-8').splitlines()
-            updates, material = [], None
+            updates, material, source_hash = [], None, None
+            hashes = {line.split()[3]: line.split()[2] for line in lines if line.startswith('# texture-sha256 ')}
             for line_number, line in enumerate(lines):
                 match = re.fullmatch(r'newmtl a(\d+)_m(\d+)', line)
                 if line.startswith('newmtl '):
                     material = tuple(map(int, match.groups())) if match else None
+                    source_hash = None
+                if line.startswith('# source_asset_sha256 '):
+                    source_hash = line.split()[2]
                 fields = line.split()
                 if fields and fields[0] in MTL_ROLES:
                     if material is None:
                         raise ValueError(f'Missing MTL provenance: {path}')
                     ai, mi = material
-                    obj = objects[0] if len(objects) == 1 else objects[ai]
-                    index = add(path, owner, obj, obj['materials'][mi], MTL_ROLES[fields[0]], fields[-1])
+                    obj = next((o for o in objects if o['source']['sha256'] == source_hash), None) if source_hash else (objects[0] if len(objects) == 1 else objects[ai])
+                    if obj is None:
+                        raise ValueError(f'Missing MTL object provenance: {path}')
+                    role = MTL_ROLES[fields[0]]
+                    digest = hashes.get(fields[-1]) or Path(fields[-1]).stem
+                    variant = material_variant(obj, mi, role, digest)
+                    if variant is None:
+                        raise ValueError(f'Missing MTL texture provenance: {path}, {role}')
+                    index = add(path, owner, obj, variant, role, fields[-1])
                     updates.append((line_number, index))
             documents.append((path, lines, updates))
 

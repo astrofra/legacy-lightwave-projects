@@ -183,10 +183,10 @@ class TextureTests(unittest.TestCase):
         cases=[(imap(enabled=0),"disabled"),(imap(uv="missing"),"TXUV"),
                (imap(clip=999),"unresolved"),(imap()+imap(),"compositing"),
                (imap()+imap(kind="PROC"),"compositing"),
-               (imap(extra=chunk("PROJ",U16(0),True)),"projection"),
+               (imap(extra=chunk("PROJ",U16(3),True)),"projection"),
                (imap(header=chunk("OPAC",U16(3)+F32(1)+vx(0),True)),"blending"),
                (imap(header=chunk("OPAC",U16(0)+F32(1)+vx(7),True)),"animated"),
-               (imap(extra=chunk("WRAP",U16(3)+U16(3),True)),"wrapping")]
+               (imap(extra=chunk("WRAP",U16(4)+U16(3),True)),"wrapping")]
         for blocks,issue in cases:
             with self.subTest(issue=issue):
                 out,manifest=self.convert(self.write("modern.lwo",uv_textured(blocks)),code=2)
@@ -306,7 +306,7 @@ class TextureTests(unittest.TestCase):
 
     def test_spherical_seam_is_unwrapped_before_repetition(self):
         blocks = texture(flags=2,projection="Spherical Image Map",extra=chunk("TFP0",F32(4),True)+chunk("TFP1",F32(2),True))
-        points = [(.01,0,-1),(-.01,0,-1),(0,.2,-.97)]
+        points = [(.01,0,1),(-.01,0,1),(0,.2,.97)]
         out,manifest,_,_ = self.export_image(ilbm([[(255,255,255)]]),blocks,points)
         data,buffers = gltf.load(out/manifest["assets"][0]["gltf"])
         p = data["meshes"][0]["primitives"][0]

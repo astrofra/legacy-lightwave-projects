@@ -5,7 +5,8 @@
 #define PI 3.14159265358979323846
 static double unit(double x) { return x<0?0:x>1?1:x; }
 static unsigned char byte(double x) { return (unsigned char)(unit(x)*255+.5); }
-static int spherical(const LWTexture *t) { return lw_string_is(t->type,"Spherical Image Map"); }
+static int spherical(const LWTexture *t) { return t->block_type?t->projection==2:lw_string_is(t->type,"Spherical Image Map"); }
+static int planar(const LWTexture *t) { return t->block_type?t->projection==0:lw_string_is(t->type,"Planar Image Map"); }
 static int native_uv(const LWTexture *t) { return t->block_type==TAG("IMAP")&&t->projection==5; }
 const LWImageReference *lw_texture_pixels(const LWObject *o,size_t index) {
     size_t i; const LWImageReference *ref;
@@ -17,8 +18,9 @@ const LWImageReference *lw_texture_pixels(const LWObject *o,size_t index) {
 }
 int lw_same_mapping(const LWTexture *a,const LWTexture *b) {
     if(native_uv(a)||native_uv(b)) return native_uv(a)&&native_uv(b)&&lw_string_equal(a->uv_map,b->uv_map)&&!memcmp(a->wrap,b->wrap,sizeof a->wrap);
-    return lw_string_equal(a->type,b->type)&&(a->flags&7)==(b->flags&7)&&
-        !memcmp(a->size,b->size,sizeof a->size)&&!memcmp(a->center,b->center,sizeof a->center)&&
+    return spherical(a)==spherical(b)&&planar(a)==planar(b)&&(a->flags&7)==(b->flags&7)&&
+        (spherical(a)||!memcmp(a->size,b->size,sizeof a->size))&&!memcmp(a->center,b->center,sizeof a->center)&&
+        !memcmp(a->rotation,b->rotation,sizeof a->rotation)&&
         !memcmp(a->wrap,b->wrap,sizeof a->wrap)&&(!spherical(a)||!memcmp(a->tiles,b->tiles,sizeof a->tiles));
 }
 static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError *e) {
@@ -30,15 +32,19 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
         else if(t->block_type!=TAG("IMAP")&&t->issue[0]) return 1;
         else if(t->block_type!=TAG("IMAP")) issue="LWO2 procedural, gradient or shader plugin; preserved only";
         else if(t->issue[0]) return 1;
-        else if(!native_uv(t)) issue="LWO2 projection not supported; UV image maps only";
+        else if(!native_uv(t)&&!planar(t)&&!spherical(t)) issue="LWO2 projection not supported; planar, spherical and UV image maps only";
         else if(t->opacity_type!=0||t->opacity!=1) issue="LWO2 blending requires normal mode at 100% opacity";
         else if(t->has_envelopes) issue="animated LWO2 texture parameters require evaluation";
-        else if(t->wrap[0]!=1||t->wrap[1]!=1) issue="LWO2 UV preview currently requires repeat wrapping";
+        else if(t->wrap[0]>3||t->wrap[1]>3) issue="unsupported image wrapping mode";
         else if(t->coordinate_system||(t->reference_object.size&&!lw_string_is(t->reference_object,"(none)"))) issue="LWO2 texture reference object/world coordinates require evaluation";
-        else if(!t->uv_map.size) issue="LWO2 UV image map has no named TXUV map";
-        else if(opts->uv_map&&!lw_string_is(t->uv_map,opts->uv_map)) issue="explicit --uv-map differs from native texture binding";
+        else if(native_uv(t)&&!t->uv_map.size) issue="LWO2 UV image map has no named TXUV map";
+        else if(opts->uv_map&&(!native_uv(t)||!lw_string_is(t->uv_map,opts->uv_map))) issue="explicit --uv-map differs from native texture binding";
         else if(!lw_texture_pixels(o,t->image)) issue="image unresolved or cannot be decoded; see image_references";
-        for(i=0;i<3&&!issue;i++) if(t->size[i]!=1||t->center[i]||t->rotation[i]||t->falloff[i]) issue="LWO2 texture transforms/falloff require evaluation";
+        if(!issue&&!native_uv(t)&&(t->flags&7)!=1&&(t->flags&7)!=2&&(t->flags&7)!=4) issue="invalid projection axis";
+        for(i=0;i<3&&!issue;i++) {
+            if(t->falloff[i]||(native_uv(t)&&(t->size[i]!=1||t->center[i]||t->rotation[i]))) issue="LWO2 UV transforms/falloff require evaluation";
+            else if(planar(t)&&!t->size[i]&&(t->flags&7)!=(1u<<i)) issue="zero planar texture size";
+        }
         for(i=0;i<sizeof channels/sizeof *channels;i++) if(t->channel==channels[i]) break;
         if(!issue&&i==sizeof channels/sizeof *channels) issue="LWO2 texture channel not supported by target material";
         /* Do not choose an arbitrary layer from a stack we cannot composite. */
@@ -47,7 +53,7 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
             if(other!=t&&other->block_type&&other->block_type!=TAG("SHDR")&&other->enabled&&other->material==t->material&&other->channel==t->channel)
                 issue="multiple enabled LWO2 layers on one channel require compositing";
         }
-        if(!issue) {
+        if(!issue&&native_uv(t)) {
             char *name=lw_text(t->uv_map); LWUV *uv; size_t j;
             if(!name) return lw_error(e,0,"allocation","out of memory");
             uv=lw_corner_uvs(o,name,e); free(name); if(!uv) return 0;
@@ -61,15 +67,15 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
         return 1;
     }
     if(t->channel==TAG("REFL")) issue="environment/reflection requires target-specific lighting; preserved only";
-    else if(!spherical(t)&&!lw_string_is(t->type,"Planar Image Map")) issue="procedural or unsupported projection; preserved only";
+    else if(!spherical(t)&&!planar(t)) issue="procedural or unsupported projection; preserved only";
     else if(!lw_texture_pixels(o,t->image)) issue="image unresolved or cannot be decoded; see image_references";
     else if(opts->uv_map) issue="explicit --uv-map overrides projection; automatic texture binding disabled";
     else if(t->flags&~127u) issue="unsupported texture flags";
     else if(t->flags&8) issue="world-coordinate projection requires per-instance baking";
     else if((t->flags&7)!=1&&(t->flags&7)!=2&&(t->flags&7)!=4) issue="invalid projection axis";
-    else if(spherical(t)&&(t->tiles[0]<=0||t->tiles[1]<=0)) issue="unsupported spherical repetition";
+    else if(t->wrap[0]>3||t->wrap[1]>3) issue="unsupported image wrapping mode";
     for(i=0;i<3&&!issue;i++) {
-        if(!t->size[i]) issue="zero texture size";
+        if(planar(t)&&!t->size[i]&&(t->flags&7)!=(1u<<i)) issue="zero planar texture size";
         else if(t->falloff[i]||t->velocity[i]) issue="texture falloff/velocity requires a native evaluator";
     }
     if(issue) snprintf(t->issue,sizeof t->issue,"%s",issue);
@@ -81,10 +87,57 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
    This is a documented preview approximation, not a LightWave shader evaluator. */
 static void sample(const LWObject *o,const LWTexture *t,int x,int y,int w,int h,double color[4]) {
     const LWImageReference *image=lw_texture_pixels(o,t->image); size_t k;
-    size_t sx=((size_t)x*2+1)*(size_t)image->width/((size_t)w*2),sy=((size_t)y*2+1)*(size_t)image->height/((size_t)h*2);
-    const unsigned char *p=image->rgba+4*(sy*(size_t)image->width+sx);
-    for(k=0;k<4;k++) color[k]=p[k]/255.0;
+    const LWMaterial *m=&o->materials.v[t->material];
+    double uv[2]={((double)x+.5)/w,1-((double)y+.5)/h}; int reset=0;
+    size_t sx,sy;
+    if(!m->texture_atlas) {
+        sx=((size_t)x*2+1)*(size_t)image->width/((size_t)w*2);
+        sy=((size_t)y*2+1)*(size_t)image->height/((size_t)h*2);
+        for(k=0;k<4;k++) color[k]=image->rgba[4*(sy*(size_t)image->width+sx)+k]/255.0;
+        if(t->flags&16) for(k=0;k<3;k++) color[k]=1-color[k];
+        return;
+    }
+    for(k=0;k<2;k++) {
+        if(m->texture_atlas) uv[k]=m->texture_domain[k]+uv[k]*m->texture_domain[k+2];
+        if(t->wrap[k]==0) { if(uv[k]<0||uv[k]>1) reset=1; uv[k]=unit(uv[k]); }
+        else if(t->wrap[k]==3) uv[k]=unit(uv[k]);
+        else if(t->wrap[k]==2) { uv[k]-=2*floor(uv[k]/2); if(uv[k]>1) uv[k]=2-uv[k]; }
+        else uv[k]-=floor(uv[k]);
+    }
+    sx=(size_t)(uv[0]*image->width); sy=(size_t)((1-uv[1])*image->height);
+    if(sx>=(size_t)image->width) sx=(size_t)image->width-1;
+    if(sy>=(size_t)image->height) sy=(size_t)image->height-1;
+    for(k=0;k<4;k++) color[k]=reset?(k==3?1:0):image->rgba[4*(sy*(size_t)image->width+sx)+k]/255.0;
     if(t->flags&16) for(k=0;k<3;k++) color[k]=1-color[k];
+}
+/* Bake non-repeat addressing into a finite image domain shared by OBJ/glTF.
+   Mirroring needs two tiles. Reset/edge include all rendered UVs and a gutter;
+   interpolation of the UV affine remap is exact, geometry remains unchanged. */
+static int atlas(LWObject *o,LWMaterial *m,int *w,int *h,LWError *e) {
+    const LWTexture *t=&o->textures.v[m->projection_texture]; LWUV *uv;
+    double low[2]={0,0},high[2]={1,1},size[2]; size_t i,j,k;
+    if(t->wrap[0]==1&&t->wrap[1]==1) return 1;
+    uv=lw_texture_uvs(o,e); if(!uv) return -1;
+    for(i=0;i<o->primitives.n;i++) {
+        const LWPrimitive *p=&o->primitives.v[i];
+        if(p->material!=(uint32_t)(m-o->materials.v)) continue;
+        for(j=0;j<p->count;j++) {
+            const LWUV *v=&uv[p->first+j]; double coord[2]={v->u,v->v};
+            if(!v->valid) { free(uv); return 0; }
+            for(k=0;k<2;k++) { if(coord[k]<low[k]) low[k]=coord[k]; if(coord[k]>high[k]) high[k]=coord[k]; }
+        }
+    }
+    free(uv);
+    for(k=0;k<2;k++) {
+        double pixels=k?*h:*w,span;
+        if(t->wrap[k]==1||t->wrap[k]==2) { low[k]=0; high[k]=t->wrap[k]==2?2:1; }
+        else { low[k]=floor(low[k])-1/pixels; high[k]=ceil(high[k])+1/pixels; }
+        span=high[k]-low[k]; size[k]=ceil(span*pixels-1e-7);
+        if(!isfinite(size[k])||size[k]<1||size[k]>16384) return 0;
+        m->texture_domain[k]=low[k]; m->texture_domain[k+2]=span;
+    }
+    if(size[0]*size[1]>16777216) return 0;
+    *w=(int)size[0]; *h=(int)size[1]; m->texture_atlas=1; return 1;
 }
 static double scalar(const LWObject *o,const LWTexture *t,double initial,int x,int y,int w,int h) {
     double c[4],brightness;
@@ -145,9 +198,17 @@ int lw_prepare_textures(const char *dir,const char *output,LWObject *o,const LWO
             image=lw_texture_pixels(o,maps[k]->image);
             if((size_t)image->width*image->height>(size_t)w*h) { w=image->width; h=image->height; }
         }
+        m->textured=1;
+        {
+            int result=atlas(o,m,&w,&h,e);
+            if(result<0) return 0;
+            if(!result) {
+                for(k=0;k<6;k++) if(maps[k]) { maps[k]->supported=0; snprintf(maps[k]->issue,sizeof maps[k]->issue,"image wrap atlas exceeds raster limits or has invalid projected UVs"); }
+                m->textured=0; m->projection_texture=SIZE_MAX; continue;
+            }
+        }
         rgba=malloc((size_t)w*h*4);
         if(!rgba) return lw_error(e,0,"allocation","out of memory");
-        m->textured=1;
         for(pass=0;pass<5;pass++) {
             char **destination=pass==0?&m->base_texture:pass==1?&m->opacity_texture:pass==2?&m->emissive_texture:pass==3?&m->specular_texture:&m->bump_texture;
             if((pass==1&&!maps[2]&&!m->texture_alpha)||(pass==2&&!maps[3]&&!(maps[0]&&m->luminosity))||(pass==3&&!maps[4])||(pass==4&&!maps[5])) continue;
@@ -178,6 +239,31 @@ int lw_prepare_textures(const char *dir,const char *output,LWObject *o,const LWO
     }
     return 1;
 }
+int lw_composite_clip(const char *dir,const char *output,const LWObject *o,size_t material,const LWTexture *mask,const LWImageReference *image,LWClipBinding *binding,LWError *e) {
+    const LWMaterial *m=&o->materials.v[material]; LWSource bytes={0}; LWImageReference base={0};
+    LWObject context=*o; LWTexture t=*mask; char *path=lw_join(dir,m->base_texture); int x,y,ok=0;
+    if(!path) return lw_error(e,0,"allocation","out of memory");
+    if(!lw_read_source(path,&bytes,e)||!lw_decode_raster(&bytes,&base,e)) goto done;
+    if(!base.rgba) { lw_error(e,0,"clip-map","cannot decode derived base color"); goto done; }
+    context.images.v=(LWImageReference *)image; context.images.n=1; t.image=0; t.material=(uint32_t)material;
+    for(y=0;y<base.height;y++) for(x=0;x<base.width;x++) {
+        double c[4],coverage; unsigned char *pixel=base.rgba+4*((size_t)y*base.width+x);
+        sample(&context,&t,x,y,base.width,base.height,c);
+        /* LightWave clip white removes the surface; Negative reverses it.
+           The image is a scalar mask, sampled without sRGB conversion. */
+        coverage=1-(c[0]+c[1]+c[2])/3*c[3];
+        pixel[3]=byte(pixel[3]/255.0*coverage);
+    }
+    if(!lw_save_texture(dir,output,base.rgba,base.width,base.height,&binding->base_texture,e)) goto done;
+    for(y=0;y<base.height;y++) for(x=0;x<base.width;x++) {
+        unsigned char *pixel=base.rgba+4*((size_t)y*base.width+x);
+        pixel[0]=pixel[1]=pixel[2]=pixel[3]>=128?255:0; pixel[3]=255;
+    }
+    if(!lw_save_texture(dir,output,base.rgba,base.width,base.height,&binding->opacity_texture,e)) goto done;
+    ok=1;
+done:
+    free(path); lw_free_source(&bytes); lw_free_image(&base); return ok;
+}
 LWUV *lw_texture_uvs(const LWObject *o,LWError *e) {
     LWUV *uv=calloc(o->indices.n?o->indices.n:1,sizeof *uv); size_t i,j,k;
     if(!uv) { lw_error(e,0,"allocation","out of memory"); return NULL; }
@@ -203,16 +289,29 @@ LWUV *lw_texture_uvs(const LWObject *o,LWError *e) {
         if(p->material>=o->materials.n) continue;
         m=&o->materials.v[p->material]; if(!m->textured) continue;
         t=&o->textures.v[m->projection_texture]; sphere=spherical(t); axis=(t->flags&1)?0:(t->flags&2)?1:2;
-        if(native_uv(t)) continue;
+        if(native_uv(t)) goto remap;
         for(j=0;j<p->count;j++) {
             const float *position=o->positions.v+3*o->indices.v[p->first+j]; double q[3],u,v;
-            for(k=0;k<3;k++) q[k]=((double)position[k]-t->center[k])/t->size[k];
+            for(k=0;k<3;k++) q[k]=(double)position[k]-t->center[k];
+            if(t->block_type) {
+                /* Measured Texture Functions convention, not item HPB:
+                   texture coordinates = Rx(-P) Ry(H) Rz(-B) (point-center).
+                   SIZE is applied afterwards for planar mapping only. */
+                double h=t->rotation[0],pitch=t->rotation[1],b=t->rotation[2],x,y,z;
+                x=cos(b)*q[0]+sin(b)*q[1]; y=-sin(b)*q[0]+cos(b)*q[1];
+                z=-sin(h)*x+cos(h)*q[2]; q[0]=cos(h)*x+sin(h)*q[2];
+                q[1]=cos(pitch)*y+sin(pitch)*z; q[2]=-sin(pitch)*y+cos(pitch)*z;
+            }
             if(sphere) {
-                double a=axis==0?q[2]:axis==1?q[0]:-q[0],b=axis==0?-q[1]:axis==1?q[2]:q[1];
+                double a=axis==0?q[2]:axis==1?q[0]:-q[0],b=axis==1?q[2]:q[1];
                 double radius=sqrt(a*a+b*b);
-                u=.5-atan2(a,b)/(2*PI); v=.5+atan2(q[axis],radius)/PI;
+                u=(axis==1?1:.5)-atan2(a,b)/(2*PI); if(u>1) u-=1;
+                v=.5+atan2(q[axis],radius)/PI;
                 if(radius>1e-12) { if(u<low) low=u; if(u>high) high=u; }
-            } else { u=.5+(axis==0?q[2]:q[0]); v=.5+(axis==1?q[2]:q[1]); }
+            } else {
+                unsigned ua=axis==0?2:0,va=axis==1?2:1;
+                u=.5+q[ua]/t->size[ua]; v=.5+q[va]/t->size[va];
+            }
             uv[p->first+j].u=(float)u; uv[p->first+j].v=(float)v;
             uv[p->first+j].valid=(unsigned char)(isfinite(u)&&isfinite(v)&&fabs(u)<1e20&&fabs(v)<1e20);
         }
@@ -231,6 +330,12 @@ LWUV *lw_texture_uvs(const LWObject *o,LWError *e) {
                 v->u*=t->tiles[0]; v->v*=t->tiles[1];
                 if(!isfinite(v->u)||!isfinite(v->v)) v->valid=0;
             }
+        }
+remap:
+        if(m->texture_atlas) for(j=0;j<p->count;j++) {
+            LWUV *v=&uv[p->first+j];
+            v->u=(float)((v->u-m->texture_domain[0])/m->texture_domain[2]);
+            v->v=(float)((v->v-m->texture_domain[1])/m->texture_domain[3]);
         }
     }
     return uv;

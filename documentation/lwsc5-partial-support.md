@@ -1,5 +1,8 @@
 # Partial LWSC 5 support
 
+See the [current feature matrix](feature-matrix.md) for support across all
+file versions and targets. The measurements below describe the 0.10.1 milestone.
+
 Converter 0.10.1 makes the LWSC 5 extraction subset explicit under reader profile
 `lwsc5-partial-0.1`. Version 0.10.0 already read the explicit item IDs needed by
 the Goeland character scene. This milestone adds scope metadata, searchable

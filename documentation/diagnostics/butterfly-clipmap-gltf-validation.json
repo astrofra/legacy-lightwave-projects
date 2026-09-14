@@ -1,0 +1,78 @@
+{
+  "input": "S:\\works\\legacy-lightwave-projects\\output\\qa-clipmaps-20260914\\batch-20260914-095021\\packages\\butterfly-tank\\gltf",
+  "validator_versions": [
+    "2.0.0-dev.3.10"
+  ],
+  "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+  "files_checked": 10,
+  "resource_validation": true,
+  "counts": {
+    "numErrors": 0,
+    "numWarnings": 0,
+    "numInfos": 8,
+    "numHints": 0
+  },
+  "issue_codes": {
+    "IMAGE_NPOT_DIMENSIONS": 8
+  },
+  "diagnostics": [
+    {
+      "file": "01.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "01_butterfly.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "02.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "02_butterfly.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "02_grass.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "02_NAB.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "03.lws.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    },
+    {
+      "file": "butterfly.lwo.gltf",
+      "code": "IMAGE_NPOT_DIMENSIONS",
+      "message": "Image has non-power-of-two dimensions: 215x190.",
+      "severity": 2,
+      "pointer": "/images/0"
+    }
+  ],
+  "passed": true,
+  "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+}
