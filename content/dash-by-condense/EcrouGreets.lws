@@ -1,0 +1,427 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 1100
+PreviewFrameStep 1
+FramesPerSecond 30.000000
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 360 0 0 1 1 1
+  60 1 0 0 0
+EndBehavior 2
+LockedChannels 48
+ShadowOptions 7
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 30.00001 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ParentObject 9
+ShadowOptions 7
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -444 0 0 0 0 0.75 0.75 0.75
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ParentObject 9
+ShadowOptions 7
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 360 0 0 1 1 1
+  60 1 0 0 0
+EndBehavior 2
+LockedChannels 48
+ParentObject 11
+ShadowOptions 7
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 360 0 0 1 1 1
+  60 1 0 0 0
+EndBehavior 2
+LockedChannels 48
+ParentObject 13
+ShadowOptions 7
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 295 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 295 0 -360 0 0 1 1 1
+  60 1 0 0 0
+EndBehavior 2
+LockedChannels 53
+ShadowOptions 7
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -468.6898 0 -301.3882 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\EcrouCrouCrouleCroCro.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  762.1215 0 -255.951 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -197.5792 144.5 0 0 0 -90 0.75 0.75 0.75
+  0 0 0 0 0
+  -197.5792 144.5 0 0 -360 -90 0.75 0.75 0.75
+  60 1 0 0 0
+EndBehavior 2
+LockedChannels 45
+ShadowOptions 7
+
+LoadObject D:\vrac\BarraEcrou.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -220 0 0 0 0 0.5 0.5 0.5
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ParentObject 2
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -638.5206 166 475.4425 -15.8 -73.1 -7.2 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ShadowOptions 7
+
+LoadObject D:\vrac\BarraEcrou.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 720 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 720 0 -360 0 0 1 1 1
+  60 1 0 0 0
+EndBehavior 2
+LockedChannels 5
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  106.5497 476 157.3993 20.4 -90 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+LoadObject D:\vrac\PlanGreets.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  4.5146 1965 -51.92621 0 0 0 1 1 1
+  0 0 0 0 0
+  4.5146 1965 -51.92621 480 0 0 1 1 1
+  300 0 0 0 0
+  4.5146 449 -51.92621 -55.7 0 0 1 1 1
+  390 0 0 0 0
+EndBehavior 1
+LockedChannels 53
+ShadowOptions 7
+
+LoadObject D:\vrac\BarraEcrou.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 802 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ParentObject 12
+ShadowOptions 7
+
+LoadObject D:\vrac\BarraEcrou.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 1603 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ParentObject 12
+ShadowOptions 7
+
+LoadObject D:\vrac\PlanGreets.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 1714 0 720 0 0 1 1 1
+  0 0 0 0 0
+  0 1714 0 720 0 0 1 1 1
+  300 0 0 0 0
+  0 755 0 0 0 0 1 1 1
+  522 0 0 0 0
+EndBehavior 1
+LockedChannels 5
+ShadowOptions 7
+
+LoadObject D:\vrac\PlanGreets.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 2367 0 615.2 0 0 1 1 1
+  0 0 0 0 0
+  0 2367 0 615.2 0 0 1 1 1
+  400 0 0 0 0
+  0 1354 0 -76.90001 0 0 1 1 1
+  786 0 0 0 0
+EndBehavior 1
+LockedChannels 53
+ShadowOptions 7
+
+LoadObject D:\vrac\PlanGreets.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 2566 0 543.6 0 0 1 1 1
+  0 0 0 0 0
+  0 2566 0 543.6 0 0 1 1 1
+  700 0 0 0 0
+  0 1625 0 -39.4 0 0 1 1 1
+  918 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+LoadObject D:\vrac\PlanGreets.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 1844 0 518 0 0 1 1 1
+  0 0 0 0 0
+  0 1844 0 518 0 0 1 1 1
+  400 0 0 0 0
+  0 1086 0 -109 0 0 1 1 1
+  654 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+LoadObject D:\vrac\GroupegreetA.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 14
+ShadowOptions 7
+
+LoadObject D:\vrac\GroupegreetB.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 17
+ShadowOptions 7
+
+LoadObject D:\vrac\GroupegreetC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 18
+ShadowOptions 7
+
+LoadObject D:\vrac\GroupegreetD.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 19
+ShadowOptions 7
+
+LoadObject D:\vrac\GroupegreetE.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ParentObject 20
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.500000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  13
+  -1497.508 93 792.9769 45 35 0 1 1 1
+  0 0 0 0 0
+  -740.308 -155 440.9749 45 35 0 1 1 1
+  30 0 0 0 0
+  -187.4989 -155 -132.1202 45 35 0 1 1 1
+  80 0 0 0 0
+  173.5974 54 49.48212 45 35 0 1 1 1
+  150 0 0 0 0
+  91.00627 179 577.6439 45 35 0 1 1 1
+  231 0 0 0 0
+  -486.6207 362 673.6395 45 35 0 1 1 1
+  300 0 0 0 0
+  -637.9868 464.339 44.55586 45 35 0 1 1 1
+  348 0 0 0 0
+  48.30376 549 -319.6699 45 35 0 1 1 1
+  390 0 0 0 0
+  91.77214 868 -220.5563 45 35 0 1 1 1
+  522 0 0 0 0
+  349.1714 1271 -246.3948 45 35 0 1 1 1
+  654 0 0 0 0
+  263.4014 1613 -206.8914 45 35 0 1 1 1
+  786 0 0 0 0
+  -12.21011 1905 -118.6232 45 35 0 1 1 1
+  918 0 0 0 0
+  -793.093 2858 158.3605 45 35 0 1 1 1
+  1050 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 1
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  10
+  58.50421 243.5 -512.0042 -13.9 11.4 0 1 1 1
+  0 0 0 0 0
+  58.50421 243.5 -512.0042 -22.3 21.4 0 1 1 1
+  210 0 0 0 0
+  58.50421 685.5 -512.0042 -22.3 21.4 0 1 1 1
+  390 0 0 0 0
+  222.7864 992.2692 -461.9205 -49.1 15.4 0 1 1 1
+  522 0 0 0 0
+  460.3798 1305.605 -385.4099 -61.76707 11.65415 0 1 1 1
+  654 0 0 0 0
+  406.3071 1619.765 -402.2595 -59.80133 13.1657 0 1 1 1
+  786 0 0 0 0
+  310.9094 1934.042 -432.3369 -56.4532 23.15048 0 1 1 1
+  918 0 0 0 0
+  -249.0725 2248.337 -545.6213 -47.52576 -14.43978 0 1 1 1
+  1050 0 0 0 0
+  -58.76747 2495.832 -517.6862 -40.5633 -8.607357 0 1 1 1
+  1100 0 0 0 0
+  58.50421 2705.5 -512.0042 -22.3 21.4 0 1 1 1
+  1209 0 0 0 0
+EndBehavior 1
+ZoomFactor 2.400000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint -163.000000 1047.000000 466.000000
+ViewDirection -0.116937 -0.296706 0.000000
+ViewZoomFactor 1.827934
+GridNumber 100
+GridSize 200.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

@@ -1,0 +1,679 @@
+LWSC
+1
+
+FirstFrame 311
+LastFrame 1038
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 2000
+PreviewFrameStep 5
+FramesPerSecond 30.000000
+
+LoadObject D:\vrac\BBSworld.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 100 100 100
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  8
+  3236.865 -3952.5 -3261.852 0 0 0 1 1 1
+  0 0 0 0 0
+  3808.466 -1672.528 -658.4244 0 0 0 1 1 1
+  69 0 0 0 0
+  -14.0517 517.5 9.626678 0 0 0 1 1 1
+  204 0 0 0 0
+  -14.0517 517.5 9.626678 0 0 0 1 1 1
+  311 0 0 0 0
+  3277.561 5726.895 20596.89 0 0 0 1 1 1
+  441 0 0 0 0
+  5580.956 4805 42109.95 0 0 0 1 1 1
+  570 0 0 0 0
+  71.54931 -1276.934 55041.04 0 0 0 1 1 1
+  692 0 0 0 0
+  -1.544434 -4037.5 71457.45 0 0 0 1 1 1
+  865 0 0 0 0
+EndBehavior 1
+LockedChannels 4
+ShadowOptions 7
+
+LoadObject D:\vrac\IndObj0.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  7
+  0 842.5 0 0 0 0 1000 1000 1000
+  0 0 0 0 0
+  535 686.7125 295.6823 240 120 0 1000 1000 1000
+  86 0 0 0 0
+  -235 1019.806 -583.9375 480 240 0 1000 1000 1000
+  173 0 0 0 0
+  -95 441.7425 458.5313 720 360 0 1000 1000 1000
+  259 0 0 0 0
+  187.5 942.86 -78.66669 959.9998 480 0 1000 1000 1000
+  346 0 0 0 0
+  -385 643.75 -122.0833 1200 599.9999 0 1000 1000 1000
+  432 0 0 0 0
+  0 1360 222.5 1440 720 0 1000 1000 1000
+  519 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Cruiser.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  7
+  37123.2 22180 82861.6 0 0 0 30 30 30
+  0 0 0 0 0
+  37123.2 22180 82861.6 0 0 0 30 30 30
+  397 0 0 0 0
+  36373.2 22180 35646.6 0 0 0 30 30 30
+  441 0 0 0 0
+  62219.25 22180 -2771.404 -16.4 -6.9 -21.2 30 30 30
+  475 0 0 0 0
+  57126.75 -615 20556.1 -216.8 7.999997 -0.3000003 30 30 30
+  484 0 0 0 0
+  -1468.563 15060 73597.58 -214.7376 11.36875 12.35312 30 30 30
+  674 0 0 0 0
+  -35493.25 44985 174858.6 -195.6001 17.8 1.6 30 30 30
+  1038 1 0 0 0
+EndBehavior 1
+LockedChannels 54
+ShadowOptions 7
+
+LoadObject D:\vrac\Projo.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  -16379.91 -5970 55876.07 -21.7 0 29.00001 100 100 100
+  0 0 0 0 0
+  -16379.91 -5970 55876.07 -21.7 0 -39.8 100 100 100
+  86 0 0 0 0
+  -16379.91 -5970 55876.07 -21.7 0 29.00001 100 100 100
+  173 0 0 0 0
+EndBehavior 2
+LockedChannels 24
+ShadowOptions 7
+
+LoadObject D:\vrac\Projo.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  16418.46 -6470 55409 20.49999 0 -27.3 100 100 100
+  0 0 0 0 0
+  16418.46 -6470 55409 20.49999 0 38.80001 100 100 100
+  86 0 0 0 0
+  16418.46 -6470 55409 20.49999 0 -27.3 100 100 100
+  173 0 0 0 0
+EndBehavior 2
+LockedChannels 24
+ShadowOptions 7
+
+LoadObject D:\vrac\SuiteDeToreKimorphA.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 5500 76020 0 0 0 100 100 100
+  0 0 0 0 0
+EndBehavior 1
+Metamorph (envelope)
+  1
+  3
+  0
+  0 0 0 0 0
+  1
+  43 0 0 0 0
+  0
+  86 0 0 0 0
+EndBehavior 2
+MorphTarget 8
+MorphSurfaces 0
+ShadowOptions 7
+
+LoadObject D:\vrac\SuiteDeToreKimorphB.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -1000000 0 0 0 0 0 0 0
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Planet.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -93820 121240 371880 0 0 0 20 20 20
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Planetsatelitte.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 720 360 0 1 1 1
+  1467 0 0 0 0
+EndBehavior 1
+ParentObject 9
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPCForLights!.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  12
+  0 17200 99800 0 -32.10001 -6.510024e-006 150 150 150
+  0 0 0 0 0
+  0 17200 99800 0 -32.10001 -177.4 150 150 150
+  865 1 0 0 0
+  -385.8702 41980 133731 -47.2 -51.29996 -6.510024e-006 150 150 150
+  1038 0 0 0 0
+  -385.8702 41980 133731 -47.2 -51.29996 -6.510024e-006 150 150 150
+  1211 1 0 0 0
+  5614.13 63680 363411 318.8 -66.39996 -6.510024e-006 150 150 150
+  1212 1 0 0 0
+  5614.13 63680 363411 318.8 -66.39996 -6.510024e-006 150 150 150
+  1214 1 0 0 0
+  5614.13 63680 363411 420.7999 -113.5999 -6.510024e-006 150 150 150
+  1383 0 0 0 0
+  5614.13 63680 363411 487.4997 -62.99994 -6.510024e-006 150 150 150
+  1519 0 0 0 0
+  5614.13 63680 363411 526.3996 -95.09993 -6.510024e-006 150 150 150
+  1708 0 0 0 0
+  5614.13 63680 363411 479.4996 -83.39993 -6.510024e-006 150 150 150
+  1825 0 0 0 0
+  5614.13 63680 363411 434.9996 -81.89991 -6.510024e-006 150 150 150
+  1898 0 0 0 0
+  5614.13 63680 363411 382.1996 -72.99987 -6.510024e-006 150 150 150
+  1999 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Planet.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  114551.4 48840 287274.8 0 0 0 20 20 20
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\CielBBS.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 -33580 263940 0 0 0 40 40 40
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Cruiser.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  0 123880 306940 0 -35.59999 0 30 30 30
+  0 0 0 0 0
+  0 16200 121240 0 -25 0 30 30 30
+  909 0 0 0 0
+  0 -18220 2340 0 -12.7 0 30 30 30
+  1360 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ShadowOptions 7
+
+LoadObject D:\vrac\Planet.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -80280 -52300 238280 0 0 0 30 30 30
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\tortueninja.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  5448.467 55020 362793.7 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\dbtore.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  4947.448 63860 364311.6 0 0 0 1 1 1
+  0 0 0 0 0
+  4947.448 63860 364311.6 1440 -720 720 1 1 1
+  1999 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Projo.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  3
+  4920 81020 363260 0 0 35.00001 100 100 100
+  0 0 0 0 0
+  4920 81020 363260 0 0 -35 100 100 100
+  86 0 0 0 0
+  4920 81020 363260 0 0 35.00001 100 100 100
+  173 0 0 0 0
+EndBehavior 2
+LockedChannels 24
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity (envelope)
+  1
+  4
+  0.15
+  0 0 0 0 0
+  0.6760001
+  170 0 0 0 0
+  0.25
+  510 0 0 0 0
+  0.6
+  1077 0 0 0 0
+EndBehavior 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  32
+  329.0571 164.0427 569.6475 -359.2836 7.451624 0 1 1 1
+  0 0 0 0 0
+  329.0571 164.0427 569.6475 -359.2836 7.451624 0 1 1 1
+  311 1 0 0 0
+  8218.022 -7080.256 38892.45 -359.2836 7.451624 0 1 1 1
+  472 0 0 0 0
+  -11431.19 3499.744 33802.87 -359.2836 7.451624 0 1 1 1
+  538 0 0 0 0
+  -15788.46 -750.2563 41896.33 -359.2836 7.451624 0 1 1 1
+  608 0 0 0 0
+  -6113.799 -750.2563 50010.78 -359.2836 7.451624 0 1 1 1
+  712 0 0 0 0
+  187.3401 4138.732 55790.06 -358.9002 4.80001 0 1 1 1
+  821 0 0 0 0
+  84.35706 5156.103 73542.55 -357.8562 -20.01103 0 1 1 1
+  856 0 0 0 0
+  -142.8631 12622.35 90519.95 -358.2648 -34.90583 0 1 1 1
+  885 0 0 0 0
+  -250.9481 36158.87 109467.8 -357.9623 -17.48929 0 1 1 1
+  927 0 0 0 0
+  1890.646 38185.58 130942.6 -349.6885 -14.30333 0 1 1 1
+  954 0 0 0 0
+  5002.615 35017.73 145030.1 -344.0569 -13.42647 0 1 1 1
+  980 0 0 0 0
+  7797.994 34570.79 152357.7 -350.4043 -7.364714 0 1 1 1
+  996 0 0 0 0
+  9525.585 46292.86 161599.6 -357.627 -0.2183291 0 1 1 1
+  1010 0 0 0 0
+  6825.623 51586.52 167860.3 -363.8463 12.46179 0 1 1 1
+  1031 0 0 0 0
+  3727.836 45595.21 184073.6 -367.1163 21.24736 0 1 1 1
+  1053 0 0 0 0
+  -1047.63 26557.6 189810 -374.2358 29.54073 0 1 1 1
+  1067 0 0 0 0
+  -6169.777 23422.25 212459.7 -379.0352 34.36268 0 1 1 1
+  1081 0 0 0 0
+  -9642.071 12530.21 229024.7 -354.3591 28.79868 0 1 1 1
+  1098 0 0 0 0
+  -10726.99 5563.344 241803.6 -352.9399 26.13233 0 1 1 1
+  1119 0 0 0 0
+  -7452.499 2554.534 257814.8 -353.5286 23.34086 0 1 1 1
+  1143 0 0 0 0
+  -1970.292 1841.45 271387.3 -334.4965 3.0714 0 1 1 1
+  1164 0 0 0 0
+  4636.411 6060.39 285009.8 -344.3479 -31.13541 0 1 1 1
+  1188 0 0 0 0
+  4482.086 16886.83 295414.1 -347.3481 -29.24389 0 1 1 1
+  1207 0 0 0 0
+  4811.511 29653.05 306644.6 -350.0706 -22.01243 0 1 1 1
+  1230 0 0 0 0
+  4602.376 41526.54 317094.8 -352.4913 -14.77683 0 1 1 1
+  1250 0 0 0 0
+  4727.656 55594.45 324797.2 -354.8965 -7.446775 0 1 1 1
+  1271 0 0 0 0
+  5166.816 60778.73 328466.1 -358.9002 4.80001 0 1 1 1
+  1306 0 0 0 0
+  5166.816 63158.73 357546.1 -358.9002 4.80001 0 1 1 1
+  1457 0 0 0 0
+  -9.192001 69458.73 374478.2 -358.9002 4.80001 0 1 1 1
+  1761 0 0 0 0
+  -5806.965 59958.73 352826.9 -358.9002 4.80001 0 1 1 1
+  1856 0 0 0 0
+  271.4348 68038.73 358077.2 -358.9002 4.80001 0 1 1 1
+  1999 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity (envelope)
+  1
+  4
+  0
+  0 0 0 0 0
+  0.05
+  190 1 0 0 0
+  1.5
+  276 0 0 0 0
+  1
+  685 0 0 0 0
+EndBehavior 1
+LightType 1
+LightFalloff 1
+LightRange 50000.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0 890 12170 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity (envelope)
+  1
+  4
+  1
+  0 0 0 0 0
+  0
+  17 0 0 0 0
+  0
+  34 1 0 0 0
+  1
+  51 0 0 0 0
+EndBehavior 2
+LightType 1
+LightFalloff 1
+LightRange 5000.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0 5470 24310 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity (envelope)
+  1
+  4
+  0
+  0 0 0 0 0
+  1
+  17 0 0 0 0
+  0
+  34 0 0 0 0
+  0
+  51 1 0 0 0
+EndBehavior 2
+LightType 1
+LightFalloff 1
+LightRange 5000.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0 6240 37670 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity (envelope)
+  1
+  4
+  0
+  0 0 0 0 0
+  0
+  17 1 0 0 0
+  1
+  34 0 0 0 0
+  0
+  51 0 0 0 0
+EndBehavior 2
+LightType 1
+LightFalloff 1
+LightRange 5000.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0 870 49280 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity (envelope)
+  1
+  4
+  1
+  0 0 0 0 0
+  0
+  17 0 0 0 0
+  0
+  34 1 0 0 0
+  1
+  51 0 0 0 0
+EndBehavior 2
+LightType 1
+LightFalloff 1
+LightRange 5000.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  5
+  -374.6766 48780 247127 -22.2 -27.2 0 1 1 1
+  0 0 0 0 0
+  -374.6766 48780 247127 -47.4 -27.5 0 1 1 1
+  271 0 0 0 0
+  -374.6766 48780 247127 -20.89999 -26.5 0 1 1 1
+  690 0 0 0 0
+  -374.6766 48780 247127 -50.39999 -26.1 0 1 1 1
+  988 0 0 0 0
+  -374.6766 48780 247127 -45.99998 -26.9 0 1 1 1
+  1618 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 5.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  3
+  50902.05 156040 187997.3 33.3 41.8 0 1 1 1
+  0 0 0 0 0
+  135618.1 130347.3 194090.4 -3.341781 44.65275 0 1 1 1
+  855 0 0 0 0
+  217047.3 92840 267185.8 -74.40007 45.9 0 1 1 1
+  2000 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 15.000000
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -31858.98 12960 270037.5 -121.2 50.5 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 2
+ConeAngle 60.000000
+EdgeAngle 10.000000
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  27
+  1585.144 813.7319 -670.8275 0 8.4 0 1 1 1
+  0 0 0 0 0
+  1585.144 813.7319 -670.8275 -20 8.4 0 1 1 1
+  86 1 0 0 0
+  1598.985 1058.732 -1587.065 -28.30022 27.50001 0 1 1 1
+  173 0 0 0 0
+  1309.747 1135.255 1671.818 -135.2057 13.9547 0 1 1 1
+  216 0 0 0 0
+  474.5962 1058.732 13809.97 -178.3002 2.100008 0 1 1 1
+  346 0 0 0 0
+  366.1122 2092.011 16929.87 -314.5412 -14.06387 0 1 1 1
+  389 0 0 0 0
+  311.6811 10764.24 20777.57 -355.8842 5.347311 0 1 1 1
+  449 0 0 0 0
+  262.6411 17743.73 25313.69 -366.2002 49.00002 0 1 1 1
+  519 0 0 0 0
+  100.1335 16411.23 38443.4 -359.9002 46.10003 0 1 1 1
+  692 0 0 0 0
+  128.1297 17096.86 46853.17 -361.6564 39.45627 0 1 1 1
+  778 0 0 0 0
+  187.3401 4138.732 55790.06 -358.9002 4.80001 0 1 1 1
+  865 0 0 0 0
+  84.35706 5156.103 73542.55 -357.8562 -20.01103 0 1 1 1
+  899 0 0 0 0
+  -142.8631 12622.35 90519.95 -358.2648 -34.90583 0 1 1 1
+  929 0 0 0 0
+  -250.9481 30618.87 114727.8 -357.9623 -17.48929 0 1 1 1
+  970 0 0 0 0
+  9327.828 47690.56 159852.7 -352.3729 9.785062 0 1 1 1
+  1038 0 0 0 0
+  -1047.63 28577.6 203270 -374.2358 29.54073 0 1 1 1
+  1110 0 0 0 0
+  -10726.99 5563.344 241803.6 -352.9399 26.13233 0 1 1 1
+  1162 0 0 0 0
+  4636.411 6060.39 285009.8 -344.3479 -31.13541 0 1 1 1
+  1231 0 0 0 0
+  4602.376 41526.54 317094.8 -352.4913 -14.77683 0 1 1 1
+  1294 0 0 0 0
+  4727.656 55594.45 324797.2 -354.8965 -7.446775 0 1 1 1
+  1314 0 0 0 0
+  5166.816 58138.73 334966.1 -358.9002 4.80001 0 1 1 1
+  1350 0 0 0 0
+  5228.833 58138.73 343406.4 -358.7001 -27.89999 0 1 1 1
+  1461 0 0 0 0
+  15971.64 66778.73 352225 -403.9002 13.10001 0 1 1 1
+  1573 0 0 0 0
+  10790.41 75078.73 357897.4 -390.5002 64.8 0 1 1 1
+  1680 0 0 0 0
+  9412.433 71858.73 369457.6 -501.4001 57.80001 0 1 1 1
+  1786 0 0 0 0
+  -2738.849 63998.73 379336.9 -561.0001 4.200008 0 1 1 1
+  1888 0 0 0 0
+  -5595.95 60658.73 353518.2 -669.3 -18.19999 0 1 1 1
+  1999 0 0 0 0
+EndBehavior 1
+LockedChannels 32
+ZoomFactor (envelope)
+  1
+  7
+  1.6
+  0 0 0 0 0
+  1.6
+  865 1 0 0 0
+  1.4
+  899 1 0 0 0
+  1.5
+  1249 1 0 0 0
+  2
+  1350 0 0 0 0
+  1.55
+  1414 0 0 0 0
+  1.6
+  1461 0 0 0 0
+EndBehavior 1
+Resolution 1
+CustomSize 320 200
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+SaveAnimationName D:\Gwablocka.avi
+AnimationType 0
+
+ViewMode 4
+ViewAimpoint 6310.000000 32705.000000 307410.000000
+ViewDirection 4.026473 -0.438077 0.000000
+ViewZoomFactor 0.339914
+GridNumber 100
+GridSize 4000.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

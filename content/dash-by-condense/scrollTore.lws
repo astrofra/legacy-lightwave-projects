@@ -1,0 +1,197 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 500
+PreviewFrameStep 1
+FramesPerSecond 30.000000
+
+LoadObject D:\vrac\morphtorea.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  7
+  -10.14 0 4.475 0 0 0 1 1 1
+  0 0 0 0 0
+  0.6299998 -0.4899999 0.0600004 100.8 50.4 -100.8 1 1 1
+  70 0 0 0 0
+  -0.6782675 -0.4413973 -0.4670796 247.68 123.84 -247.68 1 1 1
+  172 0 0 0 0
+  -0.1281107 0.4079261 0.5016723 358.56 179.28 -358.56 1 1 1
+  249 0 0 0 0
+  -1.138532 0.3509445 0.8829913 504 252 -504 1 1 1
+  350 0 0 0 0
+  0.9308752 -0.4447714 -0.209108 642.24 321.12 -642.24 1 1 1
+  446 0 0 0 0
+  -0.4550009 -5.82 2.760001 720 360 -720 1 1 1
+  500 0 0 0 0
+EndBehavior 1
+Metamorph (envelope)
+  1
+  17
+  0.5
+  0 0 0 0 0
+  0.07475001
+  20 0 0 0 0
+  0.8024
+  38 0 0 0 0
+  0.43385
+  50 0 0 0 0
+  0.7835
+  83 0 0 0 0
+  0.22595
+  120 0 0 0 0
+  0.88745
+  188 0 0 0 0
+  0.3488
+  197 0 0 0 0
+  0.7457
+  224 0 0 0 0
+  0.30155
+  252 0 0 0 0
+  0.7835
+  293 0 0 0 0
+  0.311
+  341 0 0 0 0
+  0.7646
+  367 0 0 0 0
+  0.09365001
+  393 0 0 0 0
+  0.96305
+  418 0 0 0 0
+  0.04640001
+  460 0 0 0 0
+  0.96305
+  487 0 0 0 0
+EndBehavior 1
+MorphTarget 2
+MorphSurfaces 0
+ShadowOptions 7
+
+LoadObject D:\vrac\morphtoreb.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -1.855 -25.715 -12.94 0 0 0 0 0 0
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\SatelliteDutoreamorph.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0.005 0 2.260001 0 0 0 1 1 1
+  0 0 0 0 0
+  0.005 0 2.260001 360 -360 720 1 1 1
+  500 0 0 0 0
+EndBehavior 1
+ParentObject 1
+ShadowOptions 7
+
+LoadObject D:\vrac\SatelliteDutoreamorph.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -2.925002 0 -0.00999999 0 0 0 1 1 1
+  0 0 0 0 0
+  -2.925002 0 -0.00999999 -720 720 -720 1 1 1
+  500 0 0 0 0
+EndBehavior 1
+ParentObject 1
+ShadowOptions 7
+
+LoadObject D:\vrac\SatelliteDutoreamorph.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  2.835001 0 0.01 0 0 0 1 1 1
+  0 0 0 0 0
+  2.835001 0 0.01 720 -360 720 1 1 1
+  500 0 0 0 0
+EndBehavior 1
+ParentObject 1
+ShadowOptions 7
+
+LoadObject D:\vrac\SatelliteDutoreamorph.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0.02000001 0 -2.575 0 0 0 1 1 1
+  0 0 0 0 0
+  0.02000001 0 -2.575 720 -720 360 1 1 1
+  500 0 0 0 0
+EndBehavior 1
+ParentObject 1
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2 2 -2 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0 0 -5 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ZoomFactor 2.200000
+Resolution 1
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint -9.024997 0.000000 4.829999
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 4.000000
+GridNumber 100
+GridSize 1.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

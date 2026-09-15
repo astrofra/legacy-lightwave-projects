@@ -1,0 +1,440 @@
+LWSC
+1
+
+FirstFrame 960
+LastFrame 1500
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 1500
+PreviewFrameStep 1
+FramesPerSecond 30.000000
+
+LoadObject D:\vrac\CPC-BattleCruiser.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\CPC-Reacs.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Planet.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -14750.9 0 9496.005 0 0 0 1 1 1
+  0 0 0 0 0
+  -14750.9 0 9496.005 -360 0 0 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\Planetsatelitte.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 720 360 0 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 3
+ShadowOptions 7
+
+LoadObject D:\vrac\Galaxy.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  -128014.5 0 218911.4 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  167.5 137.5 -460 0 0 0 1 1 1
+  0 0 0 0 0
+  167.5 137.5 -460 360 -480 170 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  92.5 -115 982.5 0 0 0 1 1 1
+  0 0 0 0 0
+  92.5 -115 982.5 180 360 -720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -132.5 47.5 -387.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -132.5 47.5 -387.5 360 -180 720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -495 0 5 0 0 0 1 1 1
+  0 0 0 0 0
+  -495 0 5 -720 180 360 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -65 -50 -677.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -65 -50 -677.5 -720 180 360 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -560 20 -462.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -560 20 -462.5 360 -180 360 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -480 85 772.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -480 85 772.5 -720 720 -720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -75 -110 640 0 0 0 1 1 1
+  0 0 0 0 0
+  -75 -110 640 360 -180 -720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -157.5 25 912.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -157.5 25 912.5 -180 360 720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -365 40 287.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -365 40 287.5 -180 360 720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  197.5 157.5 372.5 0 0 0 1 1 1
+  0 0 0 0 0
+  197.5 157.5 372.5 360 720 -180 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  185 -42.5 745 0 0 0 1 1 1
+  0 0 0 0 0
+  185 -42.5 745 720 -360 180 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -302.5 57.5 -132.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -302.5 57.5 -132.5 720 360 -180 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -20 -62.5 -407.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -20 -62.5 -407.5 360 720 0 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  140 127.5 -160 0 0 0 1 1 1
+  0 0 0 0 0
+  140 127.5 -160 720 360 -180 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -5 -60 457.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -5 -60 457.5 360 -720 720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -212.5 0 115 0 0 0 1 1 1
+  0 0 0 0 0
+  -212.5 0 115 360 -720 180 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  230 80 202.5 0 0 0 1 1 1
+  0 0 0 0 0
+  230 80 202.5 720 -720 360 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -267.5 0 507.5 0 0 0 1 1 1
+  0 0 0 0 0
+  -267.5 0 507.5 360 -180 720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 25
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  12.5 0 1065 0 0 0 1 1 1
+  0 0 0 0 0
+  222.5 0 780 0 0 720 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+LockedChannels 24
+ShadowOptions 7
+
+LoadObject D:\vrac\MoniteursCPC.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  238.0532 57.5 710.4243 -117.2 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+LoadObject D:\vrac\Planet.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  -5561.138 -2079 -791.463 0 0 0 1 1 1
+  0 0 0 0 0
+  -5561.138 -2079 -791.463 720 0 0 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+LockedChannels 48
+ShadowOptions 7
+
+LoadObject D:\vrac\Planetsatelitte.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  2
+  0 0 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 0 0 249.3 -86.39997 108.8 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ParentObject 27
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.250000
+
+AddLight
+LightName PlanetLight!
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  2
+  -15593.74 4397 13213.46 166.3 47.09978 0 1 1 1
+  0 0 0 0 0
+  -12601.01 4397 6248.884 -27.49995 36.99978 0 1 1 1
+  400 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity 1.000000
+LightType 0
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  6
+  58.48729 48.9 -474.1398 -66.3 0.8 0 1 1 1
+  0 0 0 0 0
+  58.48729 48.9 -474.1398 -66.3 0.8 0 1 1 1
+  600 1 0 0 0
+  110.332 12.9 -175.31 -37.00001 0.8 0 1 1 1
+  700 0 0 0 0
+  162.0465 57.9 -137.5924 -37.00001 0.8 0 1 1 1
+  840 0 0 0 0
+  195.8547 62.44064 120.3683 -109.035 8.696712 0 1 1 1
+  960 0 0 0 0
+  931.3888 57.9 4202.374 -141.3 5 0 1 1 1
+  1500 0 0 0 0
+EndBehavior 1
+ZoomFactor 2.400000
+Resolution 1
+CustomSize 640 400
+PixelAspectRatio 2
+LimitedRegion 1
+RegionLimits 0.000000 1.000000 0.000000 1.000000
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+DataOverlayLabel  
+
+ViewMode 5
+ViewAimpoint 955.000000 0.000000 588.500000
+ViewDirection 0.300197 -0.314159 0.000000
+ViewZoomFactor 9.540609
+GridNumber 0
+GridSize 200.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
