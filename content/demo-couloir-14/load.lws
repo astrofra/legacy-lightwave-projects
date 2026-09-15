@@ -1,0 +1,201 @@
+LWSC
+1
+
+FirstFrame 1
+LastFrame 60
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 500
+PreviewFrameStep 1
+FramesPerSecond 30.000000
+
+LoadObject T:\load.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  1.960001 0.4950007 1.625 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject T:\mib\aziz\lampemoche.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  10
+  1.96 4.309989 2.149997 0 0 -39.59997 1 1 1
+  0 0 0 0 0
+  1.96 4.309989 2.149997 0 0 16.10004 1 1 1
+  60 0 0 0 0
+  1.96 4.309989 2.149997 0 0 -14.09996 1 1 1
+  120 0 0 0 0
+  1.96 4.309989 2.149997 0 0 7.10004 1 1 1
+  180 0 0 0 0
+  1.96 4.309989 2.149997 0 0 -2.89996 1 1 1
+  240 0 0 0 0
+  1.96 4.309989 2.149997 0 0 3.200039 1 1 1
+  300 0 0 0 0
+  1.96 4.309989 2.149997 0 0 0.5000399 1 1 1
+  360 0 0 0 0
+  1.96 4.309989 2.149997 0 0 0.5000399 1 1 1
+  420 0 0 0 0
+  1.96 4.309989 2.149997 0 0 1.40004 1 1 1
+  720 0 0 0 0
+  1.96 4.309989 2.149997 0 0 0 1 1 1
+  780 0 0 0 0
+EndBehavior 1
+LockedChannels 2584
+PivotPoint 0 2.04 0
+ParentObject 3
+ObjDissolve (envelope)
+  1
+  10
+  0
+  0 0 0 0 0
+  0
+  340 1 0 0 0
+  0.8
+  360 0 0 0 0
+  0.1
+  400 0 0 0 0
+  0.85
+  420 0 0 0 0
+  0
+  430 0 0 0 0
+  0.7
+  450 0 0 0 0
+  0.35
+  470 0 0 0 0
+  0.9
+  480 0 0 0 0
+  1
+  499 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+AddNullObject Null
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  1
+  0 0 -0.7655175 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 3
+ObjDissolve 0.712773
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0.8999976 1.300001 -0.9899937 45 35 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 170 171 202
+LgtIntensity (envelope)
+  1
+  2
+  0
+  0 0 0 0 0
+  0.5
+  60 0 0 0 0
+EndBehavior 1
+LightType 1
+ShadowType 1
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  0 0 0 0 99.99999 -90 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LockedChannels 40
+ParentObject 2
+LightColor 255 255 244
+LgtIntensity (envelope)
+  1
+  10
+  2
+  0 0 0 0 0
+  2
+  340 1 0 0 0
+  0.4
+  360 0 0 0 0
+  1.8
+  400 0 0 0 0
+  0.3
+  420 0 0 0 0
+  2
+  430 0 0 0 0
+  0.6
+  450 0 0 0 0
+  0.7
+  470 0 0 0 0
+  0.1
+  480 0 0 0 0
+  0
+  499 0 0 0 0
+EndBehavior 1
+LightType 2
+ConeAngle 30.000000
+EdgeAngle 10.000000
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  -0.5000001 0.6029001 -9.527753 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ZoomFactor 3.200000
+Resolution 1
+CustomSize 640 480
+PixelAspectRatio 2
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+ClipRayColors 0
+DataOverlayLabel  
+FullSceneParamEval 0
+
+ViewMode 5
+ViewAimpoint 2.274204 -3.039999 6.745468
+ViewDirection 0.966913 -0.317650 0.000000
+ViewZoomFactor 2.292728
+GridNumber 0
+GridSize 2.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0

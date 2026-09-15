@@ -1,0 +1,144 @@
+LWSC
+1
+
+FirstFrame 0
+LastFrame 1000
+FrameStep 1
+PreviewFirstFrame 1
+PreviewLastFrame 300
+PreviewFrameStep 1
+FramesPerSecond 30.000000
+
+LoadObject D:\Devellop\LTP3-Iinvit\UFO.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  5
+  0 13.09 0 0 0 0 1 1 1
+  0 0 0 0 0
+  0 8.668334 2.58 240 0 0 1 1 1
+  50 0 0 0 0
+  0 8.668334 2.58 700 0 0 1 1 1
+  250 1 0 0 0
+  3.965134 12.44697 8.041446 1000 0 0 0.6473088 0.6473088 0.6473088
+  273 0 0 0 0
+  11.92403 21.16833 17.47083 1440 0 0 0 0 0
+  300 0 0 0 0
+EndBehavior 1
+ShadowOptions 7
+
+LoadObject D:\Devellop\LTP3-Iinvit\UFOray.lwo
+ShowObject 8 7
+ObjectMotion (unnamed)
+  9
+  7
+  0 0 0 0 0 0 0 0 0
+  0 0 0 0 0
+  0 0 0 0 0 0 0 0 0
+  69 1 0 0 0
+  0 0 0 0 0 0 0 1 0
+  70 1 0 0 0
+  0 0 0 0 0 0 1 1 1
+  80 1 0 0 0
+  0 0 0 0 0 0 1 1 1
+  200 1 0 0 0
+  0 0 0 0 0 0 1 0 1
+  250 1 0 0 0
+  0 0 0 0 0 0 0 0 0
+  251 1 0 0 0
+EndBehavior 1
+ParentObject 1
+ShadowOptions 7
+
+AmbientColor 255 255 255
+AmbIntensity 0.000000
+
+AddLight
+LightName Light
+ShowLight 1 7
+LightMotion (unnamed)
+  9
+  1
+  -2.77 3.08 -6.139997 0 0 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+LightColor 255 255 255
+LgtIntensity (envelope)
+  1
+  10
+  1
+  0 0 0 0 0
+  0.75
+  2 0 0 0 0
+  1
+  4 0 0 0 0
+  1
+  16 1 0 0 0
+  0.75
+  18 0 0 0 0
+  1
+  20 0 0 0 0
+  1
+  60 1 0 0 0
+  0.75
+  62 0 0 0 0
+  1
+  64 0 0 0 0
+  1
+  100 1 0 0 0
+EndBehavior 2
+LightType 1
+LightFalloff 1
+LightRange 7.000000
+ShadowType 1
+
+ShowCamera 1 7
+CameraMotion (unnamed)
+  9
+  1
+  0 0.3100001 -9.525 -0.1 -18.3 0 1 1 1
+  0 0 0 0 0
+EndBehavior 1
+ZoomFactor 1.800000
+Resolution 1
+CustomSize 640 400
+PixelAspectRatio 2
+LimitedRegion 1
+RegionLimits 0.000000 1.000000 0.000000 1.000000
+SegmentMemory 2200000
+Antialiasing 0
+AdaptiveSampling 1
+AdaptiveThreshold 16
+FilmSize 2
+FieldRendering 0
+MotionBlur 0
+DepthOfField 0
+
+SolidBackdrop 1
+BackdropColor 0 0 0
+ZenithColor 0 40 80
+SkyColor 120 180 240
+GroundColor 50 40 30
+NadirColor 100 80 60
+FogType 0
+DitherIntensity 1
+AnimatedDither 0
+
+RenderMode 2
+RayTraceEffects 0
+ClipRayColors 0
+DataOverlayLabel  
+FullSceneParamEval 0
+
+ViewMode 5
+ViewAimpoint 0.199288 0.584996 -7.993963
+ViewDirection -0.626573 -0.277507 0.000000
+ViewZoomFactor 2.544717
+GridNumber 60
+GridSize 2.000000
+ShowMotionPath 1
+ShowBGImage 0
+ShowFogRadius 0
+ShowRedraw 0
+ShowSafeAreas 0
+ShowFieldChart 0
