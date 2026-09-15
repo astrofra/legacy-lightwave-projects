@@ -1,0 +1,231 @@
+ 
+
+<MAIN> mainscript |0|1</MAIN>
+ 
+<World3D> world1 </World3D>
+<World3D> world2 </World3D>
+<World3D> world3 </World3D>
+ 
+
+<KIMG> i_logo | data/logozaac.iff </kimg>
+<KIMG> i_logof | data/logofond.iff </kimg>
+<KIMG> i_degr | data/degr1.iff </kimg>
+
+<t3dmappingSprite> tlogo | i_logo  </t3dmappingSprite>
+
+<t3dEnvMapSprite> tEnvMap0 | i_logo  </t3dEnvMapSprite>
+
+<KColorTable> coltab1 | data/remaptable.iff |0|64|64|64    </KCOLORTABLE>
+
+<cube> cube1 | world2 |0|0|0|0|0|0|1|1|1 |tEnvMap0 |tEnvMap0 |tEnvMap0|tEnvMap0|tEnvMap0| tEnvMap0 </cube>
+
+<krect> r_logoonly | 0.04|0.27|0.98|0.64||0|0|1|1| </krect>
+
+<KIMG> i_lightmap  | data/lightmapgreen.iff </kimg>
+
+<t3dFlatLightMap> tLightMapTr   | i_lightmap | coltab1 </t3dFlatLightMap>
+
+<cube> cube2 | world3 |0|0|0|0|0|0|1|1|1 |tLightMapTr|tLightMapTr|tLightMapTr|tLightMapTr|tLightMapTr|tLightMapTr  </cube>
+
+
+ <plane3d> logoplane | world1 |0|0|0|0|0|0|1|1|1|
+                4.0  | 2.0 | 4|3 |
+                0.0|0.25|1.0|0.75| tlogo | </plane3d>
+
+
+<KCAM> the_camera |0|0|-3|0|0|0|0.5  </KCAM>
+--------------------------------- script definition ----
+<KSCRIPT>
+  <ID> myscript </ID>
+  <PLAY> p1 | 400 |0|1</PLAY>
+  <PLAY> p2 | 2050|400|1</PLAY>
+
+</KSCRIPT>
+<KSCRIPT>
+  <ID> mainscript </ID>
+  <PLAY> mainpart | 2450 |0|1</PLAY>
+</KSCRIPT>
+--------------------------
+<KPART> <ID> macronoise </ID>
+ <Fx><Pa>SpriteLight </Pa>
+        <Pa> </Pa>
+        <Pa> i_degr </Pa>
+        <Pa> cte |0 </Pa>
+        <Pa> sin|0.1|10|0.1 </Pa>
+        <Pa> cte |1 </Pa>
+        <Pa> sin|0.14|10|0.1 </Pa>
+        <Pa> coltab1 </Pa>
+        <Pa> cte |0.6 </Pa>
+    </Fx>
+<Fx><Pa>SpriteLight </Pa>
+        <Pa> </Pa>
+        <Pa> i_degr </Pa>
+        <Pa> cte |0 </Pa>
+        <Pa> sin|0.2|9|0.1 </Pa>
+        <Pa> cte |1 </Pa>
+        <Pa> sin|0.24|9|0.1 </Pa>
+        <Pa> coltab1 </Pa>
+        <Pa> cte |0.4 </Pa>
+    </Fx>
+<Fx><Pa>SpriteLight </Pa>
+        <Pa> </Pa>
+        <Pa> i_degr </Pa>
+        <Pa> cte |0 </Pa>
+        <Pa> sin|0.9|10|0.05 </Pa>
+        <Pa> cte |1 </Pa>
+        <Pa> sin|0.98|10|0.05 </Pa>
+        <Pa> coltab1 </Pa>
+        <Pa> cte |0.4 </Pa>
+    </Fx>
+<Fx><Pa>SpriteLight </Pa>
+        <Pa> </Pa>
+        <Pa> i_degr </Pa>
+        <Pa> cte |0 </Pa>
+        <Pa> sin|-0.15|10|0.002 </Pa>
+        <Pa> cte |1 </Pa>
+        <Pa> sin|0.15|10|0.002 </Pa>
+        <Pa> coltab1 </Pa>
+        <Pa> cte |1 </Pa>
+    </Fx>
+<Fx><Pa>SpriteLight </Pa>
+        <Pa> </Pa>
+        <Pa> i_degr </Pa>
+        <Pa> cte |0 </Pa>
+        <Pa> sin|0.9|10|0.002 </Pa>
+        <Pa> cte |1 </Pa>
+        <Pa> sin|1.1|10|0.002 </Pa>
+        <Pa> coltab1 </Pa>
+        <Pa> cte |1 </Pa>
+    </Fx>
+</KPART>
+
+--------------------------------
+<KPART> <ID> mainpart </ID>
+
+   <Fx><Pa>BindPalette</Pa>
+        <Pa>  bounce |100|300|2200|0|1</Pa> the rate between 0->1
+
+        <Pa>CTE|0</Pa>              type of fade:0,1,2,3
+        <Pa>CTE|0</Pa>            optional color 0->255 (0)
+        <Pa> i_logo </Pa>
+        <Pa> i_logo</Pa>
+
+        <Pa>CTE|0</Pa>
+        <Pa>CTE|0</Pa>
+        <Pa>i_logo</Pa>
+        <Pa>i_logo</Pa>
+
+        <Pa>CTE|0</Pa>
+        <Pa>CTE|0</Pa>
+        <Pa>i_logo</Pa>
+        <Pa>i_logo</Pa>
+    </Fx>
+
+   <Fx><Pa>SpritePlain </Pa>
+        <Pa> </Pa>
+        <Pa> i_logof </Pa>
+        <Pa>sin|-0.05|0.5|-0.05</Pa>
+        <Pa>sin|-0.05|0.5|-0.05</Pa>
+        <Pa>sin|1.05|0.5|0.05</Pa>
+        <Pa>sin|1.05|0.5|0.05</Pa>
+    </Fx>
+
+    <Fx><Pa> playscript </Pa>
+        <Pa> myscript </Pa>
+        <Pa> aff|0|1</Pa>
+    </Fx>
+
+   <Fx><Pa> playpart </Pa>
+            <Pa> macronoise </Pa>
+            <Pa> aff|0|1</Pa>
+        </Fx>
+
+</KPART>
+---------------------------------
+<KPART> <ID> p1 </ID>
+ 
+
+    <Fx><Pa> Set3DObject </Pa>
+        <Pa>  logoplane </Pa>
+
+<ktable> tx |0,3|400,0</ktable>
+<ktable> tz |0,-2.7|400,-1</ktable>
+
+        <Pa> aft |tx|0|0</Pa>
+        <Pa> cte |0  </Pa>
+        <Pa> aft |tz|0|0</Pa>
+
+<ktable> to1 |0,0.5|400,0</ktable>
+<ktable> to2 |0,0.6|400,0</ktable>
+
+        <Pa> aft |to1|0|0</Pa>
+        <Pa> aft |to2|0|0</Pa>
+        <Pa> aff |0|0.00</Pa>
+
+        <Pa> 3cte|1|1|1 </Pa>
+    </Fx>
+
+      <Fx><Pa> Draw3DWorld </Pa>
+            <Pa>   </Pa>
+            <Pa> world1 </Pa>
+            <Pa> the_camera </Pa>
+            <Pa> cte|0 </Pa>
+            <Pa> cte|0.25 </Pa>
+            <Pa> cte|20</Pa>
+        </Fx>
+ 
+</KPART>
+---------------------------------
+<KPART> <ID> p2 </ID>
+
+    <Fx><Pa>Sprite </Pa>
+        <Pa> r_logoonly </Pa>
+        <Pa> i_logo </Pa>
+        <Pa> 4cte |0|0|1|1 </Pa>
+    </Fx>
+  ---------------------------
+    <Fx><Pa> Set3DObject </Pa>
+        <Pa>  cube1 </Pa>
+        <Pa> sin|0|0.4|1.5 </Pa>
+        <Pa> cte|0 </Pa>
+        <Pa>  bounce |400|700|2000|4|1.75</Pa>
+
+        <Pa> aff |0|0.0035</Pa>
+        <Pa> aff |0|0.0055</Pa>
+        <Pa> aff |0|0.0045</Pa>
+
+        <Pa> 3cte|1.75|1.75|1.75 </Pa>
+    </Fx>
+   <Fx><Pa> Draw3DWorld </Pa>
+            <Pa>   </Pa>
+            <Pa> world2 </Pa>
+            <Pa> the_camera </Pa>
+            <Pa> cte|0 </Pa>
+            <Pa> cte|0.25 </Pa>
+            <Pa> cte|3.5</Pa>
+        </Fx>
+
+    <Fx><Pa> Set3DObject </Pa>
+        <Pa>  cube2 </Pa>
+        <Pa> sin|0|0.4|1.5 </Pa>
+        <Pa> cte|0 </Pa>
+        <Pa>  bounce |400|700|2000|4|1.75</Pa>
+
+        <Pa> aff |0|0.0035</Pa>
+        <Pa> aff |0|0.0055</Pa>
+        <Pa> aff |0|0.0045</Pa>
+
+        <Pa> 3cte|1.75|1.75|1.75 </Pa>
+    </Fx>
+
+   <Fx><Pa> Draw3DWorld </Pa>
+            <Pa>   </Pa>
+            <Pa> world3 </Pa>
+            <Pa> the_camera </Pa>
+            <Pa> cte|0 </Pa>
+            <Pa> cte|0.25 </Pa>
+            <Pa> cte|3.5</Pa>
+        </Fx>
+
+</KPART>
+--------------------------

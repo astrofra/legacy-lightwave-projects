@@ -1,0 +1,65 @@
+<MAIN> bootscript1  |0|1  </MAIN>
+
+    This is a bootscrit exemple, representing a progressbar.
+    you use it with option b=script.txt
+    The form of the script is the same as a normal karate-script,
+    exept that it is played some frame from time 0 to time 500.
+
+    (see tutorial C05 for more)
+
+<KSCRIPT><ID> bootscript1 </ID>
+    <PLAY> bootpart1 |500  |0|1  </PLAY>
+</KSCRIPT>
+
+<KRECT> red   |0|0.4|1|0.6|  |0|0|1|1|     </KRECT>
+<KRECT> black |0.01| 0.41 | 0.99 | 0.59 |    |0.01|0.41|.99|0.59| </KRECT>
+<KRECT> progbar  |0.02|0.42|0.98 | 0.58 |   |0|0|1|1|     </KRECT>
+
+<KIMG>  imagelabel  |data/loading.iff   </KIMG>
+
+<KPART>
+        <ID>    bootpart1 </ID>
+
+        <Fx>
+            <Pa>SetPalette</Pa>
+            <Pa> imagelabel </Pa>
+        </Fx>
+
+    <Fx><Pa>FillRC</Pa>
+        <Pa> red </Pa>
+        <Pa>CTE|4</Pa>
+    </Fx>
+
+    <Fx><Pa>FillRC</Pa>
+        <Pa> black </Pa>
+        <Pa>CTE|0</Pa>
+    </Fx>
+
+<ktable> from0to100 | 0,0.02 | 500,0.98 </ktable>
+
+    <Fx><Pa>SetRect</Pa>
+            <Pa> progbar </Pa>
+            <Pa>CTE|0.02</Pa>
+            <Pa>CTE|0.42</Pa>
+            <Pa>AFT| from0to100 | 0 | 0 </Pa>
+            <Pa>CTE|0.58</Pa>
+
+            <Pa>4CTE|0|0|1|1</Pa>
+    </Fx>
+
+
+    <Fx><Pa>FillRC</Pa>
+        <Pa> progbar </Pa>
+        <Pa>CTE|5</Pa>
+    </Fx>
+
+
+   <Fx><Pa> Sprite </Pa>
+            <Pa> black </Pa>
+            <Pa> imagelabel </Pa>
+            <Pa>4CTE|0|0|1|1</Pa>
+    </Fx>
+
+</KPART>
+
+
