@@ -34,7 +34,7 @@ static int qualify(LWTexture *t,const LWObject *o,const LWOptions *opts,LWError 
         else if(t->issue[0]) return 1;
         else if(!native_uv(t)&&!planar(t)&&!spherical(t)) issue="LWO2 projection not supported; planar, spherical and UV image maps only";
         else if(t->opacity_type!=0||t->opacity!=1) issue="LWO2 blending requires normal mode at 100% opacity";
-        else if(t->has_envelopes) issue="animated LWO2 texture parameters require evaluation";
+        else if(t->has_envelopes&&!t->constant_envelopes) issue="animated or unqualified LWO2 texture envelopes require evaluation";
         else if(t->wrap[0]>3||t->wrap[1]>3) issue="unsupported image wrapping mode";
         else if(t->coordinate_system||(t->reference_object.size&&!lw_string_is(t->reference_object,"(none)"))) issue="LWO2 texture reference object/world coordinates require evaluation";
         else if(native_uv(t)&&!t->uv_map.size) issue="LWO2 UV image map has no named TXUV map";
@@ -368,6 +368,7 @@ void lw_json_textures(FILE *f,const LWObject *o,uint32_t material) {
             fputs(",\"uv_map\":",f); lw_json_name(f,t->uv_map);
             fprintf(f,",\"clip_index\":%u,\"projection\":%u,\"enabled\":%u,\"opacity_type\":%u,\"opacity\":%.9g,\"has_envelopes\":%s,\"coordinate_system\":%u,\"falloff_type\":%u,\"rotation\":",t->clip,t->projection,t->enabled,t->opacity_type,t->opacity,t->has_envelopes?"true":"false",t->coordinate_system,t->falloff_type);
             vector_json(f,t->rotation);
+            fprintf(f,",\"constant_envelopes_at_native_values\":%s",t->constant_envelopes?"true":"false");
             fputs(",\"reference_object\":",f); lw_json_name(f,t->reference_object);
             fputs(",\"shader\":",f); lw_json_name(f,t->shader); fputc('}',f);
         }

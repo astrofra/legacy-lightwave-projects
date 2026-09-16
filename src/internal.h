@@ -9,6 +9,7 @@
 #define LW_FREE(a) do { free((a).v); (a).v=NULL; (a).n=(a).cap=0; } while(0)
 #define LW_TRY(x) do { if (!(x)) return 0; } while(0)
 typedef struct { const unsigned char *data; size_t size, pos, base; LWError *error; } LWReader;
+void lw_qualify_constant_texture_envelopes(LWObject *);
 int lw_error(LWError *, size_t, const char *, const char *, ...);
 int lw_grow(void **, size_t *, size_t, size_t, LWError *);
 int lw_take(LWReader *, size_t, const unsigned char **);

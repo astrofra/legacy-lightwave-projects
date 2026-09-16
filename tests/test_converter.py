@@ -206,18 +206,48 @@ class Converter(unittest.TestCase):
         self.assertEqual(ref["resolution"], "ambiguous")
         self.assertEqual(len(ref["candidates"]), 2)
 
-    def test_image_search_stays_within_owner_directory(self):
-        outside = self.write("project/signe.jpg", b"parent")
-        self.write("project/sibling/signe.png", b"sibling")
-        for reference in ("signe.psd", "../signe.jpg", str(outside)):
+    def test_image_search_covers_parent_and_sibling_descendants(self):
+        parent = self.write("project/signe.jpg", b"parent")
+        sibling = self.write("project/artwork/deep/maps/stripe.JPG", b"sibling")
+        nested = self.write("project/objects/deeper/local.jpg", b"descendant")
+        for kind in ("LWOB", "LWO2"):
+            for reference, expected in (("signe.psd", parent), ("../signe.jpg", parent),
+                                        ("Old:maps/stripe.tga", sibling), ("local.jpg", nested)):
+                with self.subTest(kind=kind, reference=reference):
+                    directory, ref = self.image_object("project/objects/alien.lwo", reference, kind)
+                    self.assertEqual(Path(ref["resolved_path"]), expected)
+                    self.assertEqual((directory / ref["uri"]).read_bytes(), expected.read_bytes())
+
+    def test_image_search_stops_at_owner_parent(self):
+        outside = self.write("signe.jpg", b"grandparent")
+        self.write("other-project/maps/signe.png", b"outside subtree")
+        for reference in ("signe.psd", "../../signe.jpg", str(outside)):
             with self.subTest(reference=reference):
                 directory, ref = self.image_object("project/objects/alien.lwo", reference)
                 self.assertEqual(ref["resolution"], "missing")
                 self.assertEqual(ref["candidates"], [])
                 self.assertIsNone(ref["uri"])
-        nested = self.write("project/objects/deeper/signe.jpg", b"descendant")
-        directory, ref = self.image_object("project/objects/alien.lwo", "signe.psd")
-        self.assertEqual(Path(ref["resolved_path"]), nested)
+
+    def test_image_parent_search_preserves_source_relative_priority(self):
+        sibling = self.write("project/shared/maps/signe.jpg", b"shared")
+        local = self.write("project/objects/maps/signe.jpg", b"local")
+        self.write("project/backup/maps/signe.jpg", b"backup")
+        for reference, expected in (("../shared/maps/signe.jpg", sibling), ("maps/signe.jpg", local),
+                                    ("../SHARED/./MAPS/SIGNE.JPG", sibling), ("./MAPS/SIGNE.JPG", local)):
+            with self.subTest(reference=reference):
+                directory, ref = self.image_object("project/objects/alien.lwo", reference)
+                self.assertEqual(ref["resolution"], "source-relative")
+                self.assertEqual(Path(ref["resolved_path"]), expected)
+                self.assertEqual(ref["candidates"], [str(expected).replace("\\", "/")])
+
+    def test_image_parent_search_keeps_equal_sibling_matches_ambiguous(self):
+        candidates = [self.write(f"project/{folder}/maps/signe.jpg", folder.encode())
+                      for folder in ("artwork", "backup")]
+        directory, ref = self.image_object("project/objects/alien.lwo", "Old:maps/signe.tga")
+        self.assertEqual(ref["resolution"], "ambiguous")
+        self.assertEqual({Path(p) for p in ref["candidates"]}, set(candidates))
+        self.assertIsNone(ref["resolved_path"])
+        self.assertIsNone(ref["uri"])
 
     def test_image_substitution_requires_image_extension_and_exact_stem(self):
         self.write("project/signe.jpg", b"one")
@@ -229,11 +259,12 @@ class Converter(unittest.TestCase):
                 self.assertEqual(ref["candidates"], [])
 
     def test_scene_still_images_nested_blocks_and_repeated_references(self):
-        image = self.write("project/signe.jpg", b"jpeg bytes")
-        # The object's own subtree does not include the scene's texture.
-        self.write("project/objects/alien.lwo", lwob(chunk("SURF", s0("image") + chunk("TIMG", s0("signe.psd"), True))))
+        image = self.write("project/artwork/deep/signe.jpg", b"jpeg bytes")
+        # Each owner ascends separately: the object's parent is still Objects,
+        # while the scene's parent includes the sibling Artwork directory.
+        self.write("project/objects/models/alien.lwo", lwob(chunk("SURF", s0("image") + chunk("TIMG", s0("signe.psd"), True))))
         still = '{ Image\n{ Clip\n{ Still\n"I:fra/3D/posts/Aliens\\@Newtek/signe.psd"\n}\n}\n}\n'
-        scene = self.write("project/01.lws", "LWSC\n3\nLoadObjectLayer 1 objects/alien.lwo\nClipMaps\n{ TextureBlock\n" + still + still + "}\nPlugin CustomObjHandler 1 opaque\n{ Still\n\"unrelated.jpg\"\n}\nEndPlugin\n")
+        scene = self.write("project/scenes/01.lws", "LWSC\n3\nLoadObjectLayer 1 objects/models/alien.lwo\nClipMaps\n{ TextureBlock\n" + still + still + "}\nPlugin CustomObjHandler 1 opaque\n{ Still\n\"unrelated.jpg\"\n}\nEndPlugin\n")
         out, manifest = self.convert(scene, code=2)
         path = out / manifest["scene"]
         self.assertEqual(manifest["image_references_packaged"], 2)

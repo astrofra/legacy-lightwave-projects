@@ -1,0 +1,359 @@
+{
+  "scope": "QA of chair.JPG in bide.lwo, material Default. Diagnosis only; converter and original inputs unchanged by this QA.",
+  "package": "output/batch-20260915-225024/packages/demo-flower-by-prune",
+  "source": "content/demo-flower-by-prune/Objects/bide.lwo",
+  "source_sha256": "abc02f3d9afcf292aa9c1f946baa2347fe6f96af61d3eda583a51dd6c16876ab",
+  "image_references": [
+    {
+      "native_path": "C:PRUNE_Flower/Images/TaurusEnvmap2.tga",
+      "resolved_path": "content/demo-flower-by-prune/Images/TaurusEnvmap2.JPG",
+      "archive": "output/batch-20260915-225024/packages/demo-flower-by-prune/IR/Objects/bide.lwo/textures/1-TaurusEnvmap2.JPG",
+      "sha256": "36264f245aa450e9e9054622b56ef9779df5600f157feef62552559b0eb2a206",
+      "status": "decoded",
+      "dimensions": [
+        128,
+        128
+      ],
+      "native_alpha_channel": false,
+      "original_archive_and_oracle_copy_identical": true
+    },
+    {
+      "native_path": "C:PRUNE_Flower/Images/chair.TGA",
+      "resolved_path": "content/demo-flower-by-prune/Images/chair.JPG",
+      "archive": "output/batch-20260915-225024/packages/demo-flower-by-prune/IR/Objects/bide.lwo/textures/2-chair.JPG",
+      "sha256": "b00318574271f1fcb3cc7f1354c7b86d4b1a47a8615424d3a75faf34794457c8",
+      "status": "decoded",
+      "dimensions": [
+        512,
+        512
+      ],
+      "native_alpha_channel": false,
+      "original_archive_and_oracle_copy_identical": true
+    }
+  ],
+  "texture_layers": [
+    {
+      "index": 0,
+      "channel": "COLR",
+      "type": {
+        "text": "IMAP",
+        "raw_hex": "494d4150",
+        "decoding": "utf8"
+      },
+      "source_offset": 22862,
+      "source_bytes": 242,
+      "image_reference": 1,
+      "lwo2_block": {
+        "ordinal": {
+          "text": "",
+          "raw_hex": "80",
+          "decoding": "latin1-hypothesis"
+        },
+        "uv_map": {
+          "text": "",
+          "raw_hex": "",
+          "decoding": "utf8"
+        },
+        "clip_index": 2,
+        "projection": 0,
+        "enabled": 1,
+        "opacity_type": 0,
+        "opacity": 1,
+        "has_envelopes": false,
+        "coordinate_system": 0,
+        "falloff_type": 0,
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "constant_envelopes_at_native_values": false,
+        "reference_object": {
+          "text": "(none)",
+          "raw_hex": "286e6f6e6529",
+          "decoding": "utf8"
+        },
+        "shader": {
+          "text": "",
+          "raw_hex": "",
+          "decoding": "utf8"
+        }
+      },
+      "flags": 4,
+      "wrap": [
+        1,
+        1
+      ],
+      "size": [
+        344.195038,
+        154.932693,
+        442.148499
+      ],
+      "center": [
+        147.510788,
+        -22.5337009,
+        -17.745903
+      ],
+      "falloff": [
+        0,
+        0,
+        0
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "value": 1,
+      "amplitude": 1,
+      "tiles": [
+        1,
+        1
+      ],
+      "export_status": "preserved-only",
+      "issue": "multiple enabled LWO2 layers on one channel require compositing"
+    },
+    {
+      "index": 1,
+      "channel": "COLR",
+      "type": {
+        "text": "IMAP",
+        "raw_hex": "494d4150",
+        "decoding": "utf8"
+      },
+      "source_offset": 23104,
+      "source_bytes": 242,
+      "image_reference": 0,
+      "lwo2_block": {
+        "ordinal": {
+          "text": "",
+          "raw_hex": "90",
+          "decoding": "latin1-hypothesis"
+        },
+        "uv_map": {
+          "text": "",
+          "raw_hex": "",
+          "decoding": "utf8"
+        },
+        "clip_index": 1,
+        "projection": 1,
+        "enabled": 1,
+        "opacity_type": 0,
+        "opacity": 1,
+        "has_envelopes": false,
+        "coordinate_system": 0,
+        "falloff_type": 0,
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "constant_envelopes_at_native_values": false,
+        "reference_object": {
+          "text": "(none)",
+          "raw_hex": "286e6f6e6529",
+          "decoding": "utf8"
+        },
+        "shader": {
+          "text": "",
+          "raw_hex": "",
+          "decoding": "utf8"
+        }
+      },
+      "flags": 2,
+      "wrap": [
+        1,
+        1
+      ],
+      "size": [
+        1,
+        1,
+        1
+      ],
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "falloff": [
+        0,
+        0,
+        0
+      ],
+      "velocity": [
+        0,
+        0,
+        0
+      ],
+      "value": 1,
+      "amplitude": 1,
+      "tiles": [
+        1,
+        1
+      ],
+      "export_status": "preserved-only",
+      "issue": "LWO2 projection not supported; planar, spherical and UV image maps only"
+    }
+  ],
+  "native_check": {
+    "runtime": "LightWave 9.6 AMD64 ScreamerNet Build 1539",
+    "exit_code": 0,
+    "host_sha256": "bc9c125240aa6de55b58e03bb355e170161e1e0dd5207d0856986ff2256aad80",
+    "helper_sha256": "a1f16160cd8b3b29140d588d333252f4b0a2c62e69121ef9a6bc8d03170f59dd",
+    "helper_hook_sha256": "5bd46ccd8280fe845562348f7e0bb993b249042edfb4d1afb049e5baf2f767e5",
+    "driver_sha256": "3a4e60727d8d9a8a918ddf4f039a039150c182631aa55fdf76d1b52a39b84d97",
+    "observations_sha256": "4618fc1c919c81f30126f31c6e0b930f38408f7c8f070875ba7c8c960e491c6d",
+    "log": "_tmp/chair-qa/evaluation4/screamernet.log",
+    "method": "Load a scratch bide.lwo with only CLIP/STIL paths remapped to local byte-identical JPG copies. Copy its native color texture through Texture Functions 3, evaluate the full stack and each layer independently at frame 0. Leave the original object and images unchanged. Use four-component color output buffers for the LW9.6 API.",
+    "evaluation_order": [
+      "chair.JPG",
+      "TaurusEnvmap2.JPG"
+    ],
+    "observations": [
+      "globals 1 1 1 1",
+      "surface Default S:\\works\\legacy-lightwave-projects\\_tmp\\chair-qa\\evaluation4\\inputs\\10000000\\bide.lwo texture 1",
+      "layer 0 image S:\\works\\legacy-lightwave-projects\\_tmp\\chair-qa\\evaluation4\\chair.JPG active 1 proj 0 blend 0 opacity 1 alpha 0",
+      "layer 1 image S:\\works\\legacy-lightwave-projects\\_tmp\\chair-qa\\evaluation4\\TaurusEnvmap2.JPG active 1 proj 1 blend 0 opacity 1 alpha 0",
+      "sample 0 full 0 0.21176470816135406 0.15294118225574493 0.12549020349979401",
+      "sample 0 layer 0 0 0.56078433990478516 0.10588235408067703 0.18039216101169586",
+      "sample 0 layer 1 0 0.21176470816135406 0.15294118225574493 0.12549020349979401",
+      "sample 1 full 0 0.16470588743686676 0.12941177189350128 0.015686275437474251",
+      "sample 1 layer 0 0 0.52549022436141968 0.062745101749897003 0.11764705926179886",
+      "sample 1 layer 1 0 0.16470588743686676 0.12941177189350128 0.015686275437474251",
+      "sample 2 full 0 0.29019609093666077 0.23921568691730499 0.20784313976764679",
+      "sample 2 layer 0 0 0.50196081399917603 0.015686275437474251 0.058823529630899429",
+      "sample 2 layer 1 0 0.29019609093666077 0.23921568691730499 0.20784313976764679",
+      "sample 3 full 0 0.23529411852359772 0.20784313976764679 0.10588235408067703",
+      "sample 3 layer 0 0 0.59215688705444336 0.13725490868091583 0.21960784494876862",
+      "sample 3 layer 1 0 0.23529411852359772 0.20784313976764679 0.10588235408067703",
+      "sample 4 full 0 0.28627452254295349 0.26666668057441711 0.19215686619281769",
+      "sample 4 layer 0 0 0.54117649793624878 0.039215687662363052 0.12941177189350128",
+      "sample 4 layer 1 0 0.28627452254295349 0.26666668057441711 0.19215686619281769"
+    ],
+    "samples": [
+      {
+        "object_position": [
+          27.31,
+          44.62,
+          61.92999999999999
+        ],
+        "full_stack_rgb": [
+          0.21176470816135406,
+          0.15294118225574493,
+          0.125490203499794
+        ],
+        "chair_only_rgb": [
+          0.5607843399047852,
+          0.10588235408067703,
+          0.18039216101169586
+        ],
+        "taurus_only_rgb": [
+          0.21176470816135406,
+          0.15294118225574493,
+          0.125490203499794
+        ],
+        "full_equals_taurus": true,
+        "full_differs_from_chair": true
+      },
+      {
+        "object_position": [
+          44.62,
+          79.24,
+          113.85999999999999
+        ],
+        "full_stack_rgb": [
+          0.16470588743686676,
+          0.12941177189350128,
+          0.01568627543747425
+        ],
+        "chair_only_rgb": [
+          0.5254902243614197,
+          0.062745101749897,
+          0.11764705926179886
+        ],
+        "taurus_only_rgb": [
+          0.16470588743686676,
+          0.12941177189350128,
+          0.01568627543747425
+        ],
+        "full_equals_taurus": true,
+        "full_differs_from_chair": true
+      },
+      {
+        "object_position": [
+          61.92999999999999,
+          113.85999999999999,
+          165.79
+        ],
+        "full_stack_rgb": [
+          0.29019609093666077,
+          0.239215686917305,
+          0.2078431397676468
+        ],
+        "chair_only_rgb": [
+          0.501960813999176,
+          0.01568627543747425,
+          0.05882352963089943
+        ],
+        "taurus_only_rgb": [
+          0.29019609093666077,
+          0.239215686917305,
+          0.2078431397676468
+        ],
+        "full_equals_taurus": true,
+        "full_differs_from_chair": true
+      },
+      {
+        "object_position": [
+          79.24,
+          148.48,
+          217.71999999999997
+        ],
+        "full_stack_rgb": [
+          0.23529411852359772,
+          0.2078431397676468,
+          0.10588235408067703
+        ],
+        "chair_only_rgb": [
+          0.5921568870544434,
+          0.13725490868091583,
+          0.21960784494876862
+        ],
+        "taurus_only_rgb": [
+          0.23529411852359772,
+          0.2078431397676468,
+          0.10588235408067703
+        ],
+        "full_equals_taurus": true,
+        "full_differs_from_chair": true
+      },
+      {
+        "object_position": [
+          96.55,
+          183.1,
+          269.65
+        ],
+        "full_stack_rgb": [
+          0.2862745225429535,
+          0.2666666805744171,
+          0.1921568661928177
+        ],
+        "chair_only_rgb": [
+          0.5411764979362488,
+          0.03921568766236305,
+          0.12941177189350128
+        ],
+        "taurus_only_rgb": [
+          0.2862745225429535,
+          0.2666666805744171,
+          0.1921568661928177
+        ],
+        "full_equals_taurus": true,
+        "full_differs_from_chair": true
+      }
+    ],
+    "conclusion": "The full native stack equals TaurusEnvmap2 alone at every sampled position. Its normal, fully opaque layer has the later ordinal (90 vs 80), no alpha channel and repeat wrapping; it covers chair. No texture envelopes are present.",
+    "limits": "Five SDK texture evaluations, not a complete visual comparison. Historical TGA references are resolved to the JPG replacements provided in the project."
+  },
+  "remaining_export_limit": "Both layers are preserved-only: multilayer compositing is not supported; the visible TaurusEnvmap2 layer additionally uses unsupported cylindrical projection. Applying chair alone would change the native material."
+}

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(lightwave_preservation VERSION 0.19.0 LANGUAGES C)
+project(lightwave_preservation VERSION 0.19.2 LANGUAGES C)
 
 option(LWCONVERT_SANITIZE "Enable address and undefined behavior sanitizers" OFF)
 set(LWCONVERT_LIGHTWAVE_SDK "" CACHE PATH "Optional installed LightWave SDK for the native animation capture plugin")
@@ -9,7 +9,7 @@ if(MSVC AND NOT LWCONVERT_SANITIZE)
 endif()
 
 add_library(lwconvert_core STATIC
-    src/core.c src/platform.c src/lwo.c src/lws.c src/ik.c src/serialize.c src/package.c src/content.c src/images.c src/raster.c src/textures.c src/clipmaps.c src/texture_names.c src/obj.c src/triangulate.c src/geometry.c src/normals.c src/normal_maps.c src/skin.c src/gltf.c third_party/libilbm/byterun.c)
+    src/core.c src/platform.c src/lwo.c src/lws.c src/ik.c src/serialize.c src/package.c src/content.c src/images.c src/raster.c src/textures.c src/texture_envelopes.c src/clipmaps.c src/texture_names.c src/obj.c src/triangulate.c src/geometry.c src/normals.c src/normal_maps.c src/skin.c src/gltf.c third_party/libilbm/byterun.c)
 add_library(lwconvert_raster STATIC src/stb.c)
 add_library(lwconvert_mikktspace STATIC third_party/mikktspace/mikktspace.c)
 target_include_directories(lwconvert_raster PRIVATE third_party/stb)
@@ -85,6 +85,8 @@ if(BUILD_TESTING)
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_gltf.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME texture_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_textures.py" "$<TARGET_FILE:lwconvert>")
+    add_test(NAME texture_envelope_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_texture_envelopes.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME projection_regression COMMAND "${Python3_EXECUTABLE}" -X utf8
         "${CMAKE_CURRENT_SOURCE_DIR}/tests/test_projections.py" "$<TARGET_FILE:lwconvert>")
     add_test(NAME clip_maps_regression COMMAND "${Python3_EXECUTABLE}" -X utf8

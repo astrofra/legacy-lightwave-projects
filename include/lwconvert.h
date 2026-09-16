@@ -5,7 +5,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-#define LWCONVERT_VERSION "0.19.0"
+#define LWCONVERT_VERSION "0.19.2"
 #define LW_NONE UINT32_MAX
 #define LW_TAG(a,b,c,d) (((uint32_t)(a)<<24)|((uint32_t)(b)<<16)|((uint32_t)(c)<<8)|(uint32_t)(d))
 #define LW_ARRAY(T) struct { T *v; size_t n, cap; }
@@ -32,6 +32,10 @@ typedef struct {
 } LWMap;
 typedef struct { uint32_t type, polygon, tag, block; } LWTagAssignment;
 typedef struct {
+    uint32_t index, component_type;
+    size_t value_offset; /* Byte offset of the native float within LWTexture. */
+} LWTextureEnvelope;
+typedef struct {
     LWString type, uv_map, ordinal, reference_object, shader;
     uint32_t material, channel, flags, wrap[2];
     size_t image, offset, bytes;
@@ -40,6 +44,9 @@ typedef struct {
     uint32_t block_type, clip, projection, enabled, opacity_type, coordinate_system, falloff_type;
     float opacity, rotation[3];
     int has_envelopes;
+    int constant_envelopes, unknown_envelope_bindings;
+    size_t envelope_count;
+    LWTextureEnvelope envelopes[16]; /* Four vectors and four scalar parameters. */
     char issue[192];
     int supported;
     LWString shader_payload;

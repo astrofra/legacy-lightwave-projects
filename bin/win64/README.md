@@ -4,6 +4,13 @@
 Run it directly, or use `convert_content.bat` at the repository root (Python 3
 is required for batching).
 
+Version 0.19.2 accepts qualified constant LWO2 image-texture envelopes while
+preserving their native keys. Flower's terrain now receives `solfinal.JPG`.
+
+Version 0.19.1 searches for images from the parent of each LWO/LWS directory,
+including all sibling subtrees. Source-relative paths and ambiguity reporting
+remain supported. See [Flower texture QA](../../documentation/flower-textures-qa-20260915.md).
+
 Version 0.18.0 adds legacy LWSC1 planar clip maps and independent mask size,
 center and wrapping on compatible finite color atlases. Dora, Picasso and the
 camera eye are now cut out in both their scene and object glTFs. Conversion

@@ -133,12 +133,19 @@ LWO2 `MORF`/`SPOT`, compatible external-object targets, `LW_MorphMixer` and
 `MorphAmount` to standard glTF morph targets and sampled weight tracks. See
 the [morph profile and Snow Tanks/Red Line QA](documentation/morph-targets.md).
 
-Image references now resolve within the owning LWS/LWO directory and its
-descendants, including an alternative image extension when the filename stem
+Since v0.19.1, image lookup starts one directory above the owning LWS/LWO folder
+and searches all descendants, including sibling folders with arbitrary names.
+Source-relative paths keep priority, including `../Images/...` references.
+Resolution includes an alternative image extension when the filename stem
 matches uniquely (for example, `signe.psd` to `signe.jpg`). Found images are copied
 into `IR/<source filename>/textures/` and linked in the IR metadata. Equal path
 matches prefer PSD, TGA, PNG, JPEG, JPG, GIF, TIFF, then other image formats;
-remaining ambiguities are reported.
+remaining ambiguities are reported. See the [Flower texture QA](documentation/flower-textures-qa-20260915.md).
+
+Since v0.19.2, LWO2 image textures also accept envelopes proven constant at the
+stored parameter values. This restores Flower's `solfinal.JPG` on its terrain;
+the original animation keys remain preserved. See the
+[constant-envelope profile](documentation/textures.md#constant-texture-envelopes).
 
 Since v0.4.0, LWOB planar and spherical image maps generate UVs and PNG material
 maps for OBJ and glTF. IFF/ILBM textures are decoded to PNG while the originals

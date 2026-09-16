@@ -39,6 +39,22 @@ static void clear_candidates(LWImageReference *ref) {
     size_t i; for(i=0;i<ref->candidates.n;i++) free(ref->candidates.v[i]);
     ref->candidates.n=0;
 }
+static char *source_relative_path(const char *root,char *name) {
+    char *path=lw_dup(root),*part=name;
+    /* Resolve dot components lexically. Filesystem canonicalization would lose
+       source-relative priority for case variants on case-sensitive hosts. */
+    while(path&&*part) {
+        char *end=strchr(part,'/'),*next;
+        if(end) *end=0;
+        if(*part&&strcmp(part,".")) {
+            next=!strcmp(part,"..")?lw_dirname(path):lw_join(path,part);
+            free(path); path=next;
+        }
+        if(!end) break;
+        *end='/'; part=end+1;
+    }
+    return path;
+}
 static int resolve_image(LWImageReference *ref,const char *root,const LWPaths *files,LWError *e) {
     char *name=lw_text(ref->path),*exact=NULL; size_t i;
     unsigned best_score=0,best_priority=0; int best_kind=0,ok=0;
@@ -47,7 +63,7 @@ static int resolve_image(LWImageReference *ref,const char *root,const LWPaths *f
     for(i=0;name[i];i++) if(name[i]=='\\') name[i]='/';
     extension=image_extension(name);
     if(!strchr(name,':')&&name[0]!='/') {
-        exact=lw_join(root,name);
+        exact=source_relative_path(root,name);
         if(!exact) { lw_error(e,0,"allocation","out of memory"); goto done; }
     }
     for(i=0;i<files->n;i++) {
@@ -88,13 +104,15 @@ done:
     free(name); free(exact); return ok;
 }
 int lw_package_images(const char *dir,const char *source,LWImageReference *refs,size_t count,LWError *e) {
-    char *root=NULL,*textures=NULL; LWPaths files={0}; size_t i,j; int ok=0,created=0;
+    char *root=NULL,*search_root=NULL,*textures=NULL; LWPaths files={0}; size_t i,j; int ok=0,created=0;
     if(!count) return 1;
     root=lw_dirname(source); textures=lw_join(dir,"textures");
-    if(!root||!textures) { lw_error(e,0,"allocation","out of memory"); goto done; }
-    /* Each owner supplies its own subtree. Never ascend to the content root or
-       another scene's directory; lw_walk also excludes links/reparse points. */
-    if(!lw_walk(root,&files,e)) goto done;
+    search_root=root?lw_dirname(root):NULL;
+    if(!root||!search_root||!textures) { lw_error(e,0,"allocation","out of memory"); goto done; }
+    /* Ascend exactly one directory from each LWO/LWS owner, then search the
+       entire subtree, including sibling directories with arbitrary names.
+       Relative paths still use the owner's directory; links are not walked. */
+    if(!lw_walk(search_root,&files,e)) goto done;
     for(i=0;i<count;i++) {
         LWImageReference *ref=&refs[i]; LWSource data={0}; LWError local={0};
         char *base,*filename,*path; size_t length;
@@ -146,7 +164,7 @@ int lw_package_images(const char *dir,const char *source,LWImageReference *refs,
     }
     ok=1;
 done:
-    lw_free_paths(&files); free(root); free(textures); return ok;
+    lw_free_paths(&files); free(root); free(search_root); free(textures); return ok;
 }
 void lw_free_image(LWImageReference *ref) {
     clear_candidates(ref); LW_FREE(ref->candidates); free(ref->resolved_path); free(ref->uri); free(ref->png_uri); free(ref->rgba);

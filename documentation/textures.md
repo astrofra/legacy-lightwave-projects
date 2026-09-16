@@ -1,4 +1,4 @@
-# Texture profile — v0.18.0
+# Texture profile — v0.19.2
 
 The motivating project is `content/orange-juice-signage`. Its scene loads the
 textured LWOB object `oj_tv_mesh_t.lwo`: `screen.iff` supplies the screen's color;
@@ -9,8 +9,10 @@ different surface definitions; textures are never inferred from a material name.
 
 ## Decoding and preservation
 
-Resolution keeps the existing owner-directory-and-descendants restriction and
-image-extension preference. Every resolved original is archived byte-for-byte,
+Since v0.19.1, resolution searches the parent of the owning LWO/LWS directory
+and all its descendants, including sibling folders. Source-relative paths keep
+priority, followed by the existing filename, suffix and image-extension ranking.
+Every resolved original is archived byte-for-byte,
 with its historical reference, resolved filename and SHA-256 hash. Successful
 raster decoding adds dimensions and `status: decoded`; it does not itself imply
 that the image can be applied to geometry.
@@ -175,6 +177,35 @@ coordinates from geometry, without requiring a named UV map. All three axes,
 centering, planar scale, LWO2 texture rotation and spherical repetition are
 qualified by the [projection tests](texture-projections.md). Wrapping modes
 0–3 work for both projected and explicit UV image bindings, within atlas bounds.
+
+### Constant texture envelopes
+
+Since v0.19.2, ordinary LWO2 `IMAP` layers can retain envelopes that are proven
+constant at the stored texture parameter values. `has_envelopes` stays true;
+`constant_envelopes_at_native_values: true` records the derived qualification.
+The native values, envelope bytes and keys are unchanged.
+
+The bounded profile checks `OPAC`, `CNTR`, `SIZE`, `ROTA`, `FALL`, `WRPW`, `WRPH`
+and `TAMP`. Each referenced envelope must have a unique ID within the owning
+object FORM, at least two finite keys in strictly increasing time order, exactly
+equal values matching the native parameter, and an explicit `LINE` or `STEP`
+span at every key. Both outside behaviors must be explicit and in 0–5; Reset
+is accepted only at value zero. Other behaviors retain a constant curve in this
+subset, including linear extrapolation with zero endpoint slope.
+
+Vector base indices require three consecutive, correctly typed component
+envelopes. The redundant triplet stored after the base index in Flower's
+`solfinal.lwo` must agree with those IDs. Scalar bindings use their direct ID.
+Missing/duplicate IDs, unknown binding tails, channel modifiers, unsupported
+spans and malformed records retain the export diagnostic. Equal endpoints alone
+do not qualify Hermite or Bezier curves. Constants that differ from the stored
+parameter remain blocked; no replacement value is inferred. NormalShader's
+private envelope scope is outside this profile.
+
+`tests/test_texture_envelopes.py` compares generated texture hashes and complete
+glTF geometry/UV buffers with equivalent envelope-free controls, verifies OBJ
+bindings and native source preservation, and exercises rejected cases. See the
+[Flower terrain QA](flower-textures-qa-20260915.md) for the real source.
 
 ### Aircon regression
 

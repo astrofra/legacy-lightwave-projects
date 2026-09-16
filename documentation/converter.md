@@ -130,13 +130,18 @@ inside `ClipMap` declarations. Scene references are extracted even from nested
 opaque texture blocks; plugin payloads remain opaque. Other scene image syntaxes
 and image sequences are not interpreted by this resolver.
 
-The search is limited to the directory containing the owning source and its
-descendants. An object's images use that object's directory, including when the
-object is loaded from a scene. Parent/sibling directories and filesystem links
-are excluded. Historical drives and `--map` object rules do not expand this scope.
+Since v0.19.1, the search starts at the parent of the directory containing the
+owning source and includes all descendants, regardless of their folder names.
+For `project/Objects/mesh.lwo`, this includes `project/Images` and any other
+subtree below `project`. Each object's search root is computed from its own
+path, including when it is loaded from a scene; scene image references use the
+LWS path. Search ascends exactly one level, independently of `--content-root`.
+Filesystem links are excluded. Historical drives and `--map` object rules do
+not expand this scope.
 
-Resolution prefers a source-relative path, then the exact filename (including
-extension), then an identical filename stem with an alternative image extension.
+Resolution prefers a source-relative path (with `..` normalized), then the exact
+filename (including extension), then an identical filename stem with an
+alternative image extension.
 The last fallback requires both extensions to be in the image allowlist: JPEG,
 PNG, TGA, TIFF, BMP, GIF, PSD, IFF/ILBM/LBM, PIC/PICT, SGI, HDR, EXR, WebP, DDS,
 PCX and Netpbm filename variants (the exact list is in `src/images.c`). Comparisons

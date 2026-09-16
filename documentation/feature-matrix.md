@@ -1,4 +1,4 @@
-# Matrice des fonctionnalités — lwconvert 0.19.0
+# Matrice des fonctionnalités — lwconvert 0.19.2
 
 État vérifié le **14 septembre 2026**, à partir du code, des tests et du
 [batch du 13 septembre à 22:11](batch-20260913-221149-priorities.md), complété par
@@ -153,12 +153,20 @@ appliqué : ce diagnostic ne demande pas de « correction ».
 La taille sphérique est conservée mais n'affecte pas le calcul, conformément
 aux mesures natives. Les modes non repeat produisent un atlas et un remappage
 UV ; ils sont refusés si le raster nécessaire dépasse les limites ci-dessous.
-Les enveloppes, le falloff, les références de scène et les coordonnées monde
+Les enveloppes variables, le falloff, les références de scène et les coordonnées monde
 ne sont pas évalués par ce profil. Sur une face sphérique peu dense, les UV
 restent interpolés entre les coins ; aucune subdivision n'est imposée.
 
-La recherche d'images reste limitée au dossier du **LWO/LWS propriétaire et
-à ses descendants**. Elle ne remonte pas automatiquement vers le content root.
+Depuis la v0.19.2, les couches image acceptent les enveloppes prouvées constantes
+aux valeurs natives : clés égales, spans `LINE`/`STEP` et comportements hors
+plage compatibles. Les clés originales restent préservées. Voir le
+[profil des enveloppes constantes](textures.md#constant-texture-envelopes).
+
+Depuis la v0.19.1, la recherche d'images remonte au **parent du dossier du
+LWO/LWS propriétaire**, puis explore tous ses descendants, y compris les
+dossiers frères, quel que soit leur nom. Elle ne remonte pas davantage et reste
+indépendante du content root. Les chemins relatifs au propriétaire restent
+prioritaires, y compris ceux qui contiennent `..`.
 La préférence d'extension est PSD, TGA, PNG, JPEG, JPG, GIF, TIFF/TIF, puis les
 autres formats reconnus. Un nom exact passe avant une extension alternative ;
 une ambiguïté restante est signalée. Ce classement ne garantit pas le décodage

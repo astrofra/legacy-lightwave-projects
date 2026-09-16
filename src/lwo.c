@@ -18,9 +18,26 @@ static int image_ref(LWObject *o,LWReader r,uint32_t clip) {
     if(!ref.path.size||lw_string_is(ref.path,"(none)")||lw_string_is(ref.path,"<none>")) return 1;
     return LW_ADD(o->images,ref,r.error);
 }
-static int texture_envelope(LWTexture *t,LWReader *r) {
-    uint32_t envelope; LW_TRY(lw_vx(r,&envelope));
-    if(envelope) t->has_envelopes=1;
+static int texture_envelope(LWTexture *t,LWReader *r,const float *value,size_t count,uint32_t component_type) {
+    uint32_t envelope; size_t i; LW_TRY(lw_vx(r,&envelope));
+    if(envelope||r->pos<r->size) t->has_envelopes=1;
+    /* Some vector records also store the three indices after the base index.
+       Only accept this redundant representation when the indices agree. */
+    if(r->pos<r->size) {
+        LWError ignored={0}; LWReader tail=*r; tail.error=&ignored;
+        if(count!=3||!envelope) t->unknown_envelope_bindings=1;
+        else for(i=0;i<count;i++) {
+            uint32_t index;
+            if(!lw_vx(&tail,&index)||index!=envelope+i) { t->unknown_envelope_bindings=1; break; }
+        }
+        if(tail.pos!=tail.size) t->unknown_envelope_bindings=1;
+    }
+    if(envelope) for(i=0;i<count;i++) {
+        LWTextureEnvelope binding={envelope+(uint32_t)i,component_type?component_type+(uint32_t)i:0,
+            (size_t)((const unsigned char *)value-(const unsigned char *)t)+i*sizeof(float)};
+        if(t->envelope_count==sizeof t->envelopes/sizeof *t->envelopes) { t->unknown_envelope_bindings=1; break; }
+        t->envelopes[t->envelope_count++]=binding;
+    }
     return 1;
 }
 /* LWO2 headers, mapping attributes and image attributes have distinct scopes.
@@ -33,7 +50,7 @@ static int texture_attributes(LWTexture *t,LWReader r,int scope) {
         if(scope==1&&tag==TAG("CHAN")) LW_TRY(lw_u32(&c,&t->channel));
         else if(scope==1&&tag==TAG("ENAB")) LW_TRY(lw_u16(&c,&t->enabled));
         else if(scope==1&&tag==TAG("OPAC")) {
-            LW_TRY(lw_u16(&c,&t->opacity_type)); LW_TRY(lw_float(&c,&t->opacity)); LW_TRY(texture_envelope(t,&c));
+            LW_TRY(lw_u16(&c,&t->opacity_type)); LW_TRY(lw_float(&c,&t->opacity)); LW_TRY(texture_envelope(t,&c,&t->opacity,1,0));
         } else if(scope==1&&tag==TAG("NEGA")) {
             LW_TRY(lw_u16(&c,&n)); if(n) t->flags|=16;
         } else if(scope==0&&tag==TAG("TMAP")) LW_TRY(texture_attributes(t,c,2));
@@ -41,7 +58,7 @@ static int texture_attributes(LWTexture *t,LWReader r,int scope) {
             float *v=tag==TAG("CNTR")?t->center:tag==TAG("SIZE")?t->size:tag==TAG("ROTA")?t->rotation:t->falloff;
             if(tag==TAG("FALL")) LW_TRY(lw_u16(&c,&t->falloff_type));
             for(k=0;k<3;k++) LW_TRY(lw_float(&c,&v[k]));
-            LW_TRY(texture_envelope(t,&c));
+            LW_TRY(texture_envelope(t,&c,v,3,tag==TAG("CNTR")?1:tag==TAG("ROTA")?4:tag==TAG("SIZE")?7:13));
         } else if(scope==2&&tag==TAG("OREF")) LW_TRY(lw_s0(&c,&t->reference_object));
         else if(scope==2&&tag==TAG("CSYS")) LW_TRY(lw_u16(&c,&t->coordinate_system));
         else if(scope==0&&tag==TAG("PROJ")) LW_TRY(lw_u16(&c,&t->projection));
@@ -50,7 +67,7 @@ static int texture_attributes(LWTexture *t,LWReader r,int scope) {
         else if(scope==0&&tag==TAG("WRAP")) { LW_TRY(lw_u16(&c,&t->wrap[0])); LW_TRY(lw_u16(&c,&t->wrap[1])); }
         else if(scope==0&&(tag==TAG("WRPW")||tag==TAG("WRPH")||tag==TAG("TAMP"))) {
             float *v=tag==TAG("WRPW")?&t->tiles[0]:tag==TAG("WRPH")?&t->tiles[1]:&t->amplitude;
-            LW_TRY(lw_float(&c,v)); LW_TRY(texture_envelope(t,&c));
+            LW_TRY(lw_float(&c,v)); LW_TRY(texture_envelope(t,&c,v,1,0));
         } else if(tag==TAG("AXIS")&&scope!=2) {
             LW_TRY(lw_u16(&c,&n)); t->flags=(t->flags&~7u)|(n<3?1u<<n:0);
         } else if(scope==0&&tag==TAG("AAST")) {
@@ -373,6 +390,7 @@ int lw_parse_object(LWObject *o,LWError *e) {
         o->format=type; LW_TRY(parse_form(o,form));
     }
     bind_object(o);
+    lw_qualify_constant_texture_envelopes(o);
     /* CLIP chunks may follow SURF, so resolve indices only after the full FORM. */
     {
         size_t i,j;

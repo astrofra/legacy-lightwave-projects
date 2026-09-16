@@ -1,0 +1,3610 @@
+{
+  "scope": "Flower texture QA. Unique object/scene IR owners; scene dependencies are not counted twice. lwconvert 0.19.2 on the original sources, compared with 0.19.1; qualified constant texture envelopes retain their original keys and native parameter values. Same-stem candidates are inventory evidence, not a reimplementation of the resolver. Blender preview does not establish LightWave rendering fidelity.",
+  "converter_sha256": "01b1099c378b17d8c7921d2314ee19e8125f7c99d6dfd5ad4b5b1703acf3e588",
+  "source": "content\\demo-flower-by-prune",
+  "source_image_files": 33,
+  "referenced_source_image_files": 27,
+  "source_images_without_same_stem_reference": [
+    "Images/blak.JPG",
+    "Images/bois.JPG",
+    "Images/CREDITS-NoRecessMODIF2.JPG",
+    "Images/MetaBoules.JPG",
+    "Images/Pruner5.JPG",
+    "Images/TaurusEnvmap.JPG"
+  ],
+  "baseline": {
+    "package": "output\\batch-20260915-220131\\packages\\demo-flower-by-prune",
+    "summary": {
+      "objects": 35,
+      "scenes": 13,
+      "owners_with_image_references": 24,
+      "image_references": 33,
+      "resolution_counts": {
+        "unique-image-stem-suffix": 23,
+        "unique-image-suffix": 8,
+        "missing": 2
+      },
+      "decoded_image_references": 31,
+      "texture_status_counts": {
+        "approximated": 35,
+        "preserved-only": 7
+      },
+      "texture_issue_counts": {
+        "multiple enabled LWO2 layers on one channel require compositing": 1,
+        "LWO2 projection not supported; planar, spherical and UV image maps only": 1,
+        "LWO2 procedural, gradient or shader plugin; preserved only": 2,
+        "animated LWO2 texture parameters require evaluation": 1,
+        "image unresolved or cannot be decoded; see image_references": 2
+      },
+      "gltf_files": 48,
+      "gltf_files_with_images": 32,
+      "gltf_image_entries": 69,
+      "gltf_png_files": 60,
+      "source_bytes_verified": 48
+    },
+    "owners": [
+      {
+        "source": "Objects/Ball-Inside.lwo",
+        "kind": "object",
+        "source_sha256": "fad26bcfbf18c33b7f5a8520a2ba9846d7d2e23c5c56c10e76ddabb89348216a",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/BALLINSIDE_Background.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/BALLINSIDE_Background.JPG"
+            ],
+            "image_sha256": "919e9dd78727753edf670dac93394a722f843fcaa56359aeeb9b4140b53e2f01"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Ball-Inside",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/bee.lwo",
+        "kind": "object",
+        "source_sha256": "3b8e9f3d14c80b5e7219d3d4e17d7b6cbfc0e4aa509df5005ded41fd2516bea2",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/beeEnvmap.JPG",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 128,
+              "height": 128,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/beeEnvmap.JPG"
+            ],
+            "image_sha256": "ea0bdc548b59901f17ad02e24251b69210e6b4576f96446b258409b87aa5e585"
+          }
+        ],
+        "textures": [
+          {
+            "material": "aile2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "ailes",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/bide.lwo",
+        "kind": "object",
+        "source_sha256": "abc02f3d9afcf292aa9c1f946baa2347fe6f96af61d3eda583a51dd6c16876ab",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TaurusEnvmap2.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 128,
+              "height": 128,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/TaurusEnvmap2.JPG"
+            ],
+            "image_sha256": "36264f245aa450e9e9054622b56ef9779df5600f157feef62552559b0eb2a206"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/chair.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/chair.JPG"
+            ],
+            "image_sha256": "b00318574271f1fcb3cc7f1354c7b86d4b1a47a8615424d3a75faf34794457c8"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "preserved-only",
+            "issue": "multiple enabled LWO2 layers on one channel require compositing"
+          },
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 1,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "preserved-only",
+            "issue": "LWO2 projection not supported; planar, spherical and UV image maps only"
+          }
+        ]
+      },
+      {
+        "source": "Objects/champi1.lwo",
+        "kind": "object",
+        "source_sha256": "e8b8698d36f49602079504057cd7f16d8a2aeccde26a50aa9b16f85a0b455ddf",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/CHAMPI2.LWO",
+        "kind": "object",
+        "source_sha256": "8bceb4177871756588e965f0fb450d8c1669891a8138a87af3e684625bfeba4d",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/clebs.lwo",
+        "kind": "object",
+        "source_sha256": "61b7a946f409c5cfa1fe37188855fcfce1d0822428d7b3533595c54d5d37c6d5",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/Chien.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/Chien.jpg"
+            ],
+            "image_sha256": "c59a5ef787d40dd90188b1a5f960cea2aab9349454268a8df10c843cd8cd2f46"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Med.lwo",
+        "kind": "object",
+        "source_sha256": "7fededcebb86b1d03ae5916a4b742dce582c0375a269bbce8ca0427353cb92d3",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Med.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Med.JPG"
+            ],
+            "image_sha256": "fcf091815654a837ef1e7def9e7c30320271e1b95e2295ab76f7351ae66828c0"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Mikl.lwo",
+        "kind": "object",
+        "source_sha256": "9f83e05484ae146fe7c1758d899a506aa52679bcef3a49d55b0134e8644ed1a4",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Mikl.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Mikl.JPG"
+            ],
+            "image_sha256": "071f6497d83beb5329e5a2d13469cf783f1c3af7bedda1a057eea281441440af"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Neurox.lwo",
+        "kind": "object",
+        "source_sha256": "337b62dc8180c68462421b4a767fa7437e7d323d8df4ae4265d82a8b461b7098",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Neurox.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Neurox.JPG"
+            ],
+            "image_sha256": "94d31fa456d3b0e9ce98b35aadabc70c9313d0fbdd7e642f6869f5038740a9ec"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_NoRecess.lwo",
+        "kind": "object",
+        "source_sha256": "0aba093a43bc1b26d44d4e1ef4f7a516623b7abb856f98f9e16346e48f0d92cf",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-NoRecess.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-NoRecess.JPG"
+            ],
+            "image_sha256": "4723fdb0f32d916188c082b98abfc49a0fdde94de0503ea9c2b4ab4360d04ec4"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Stil.lwo",
+        "kind": "object",
+        "source_sha256": "a394a00a6ef9545aa823d429b743f4df5357d8acc076c18f61b823a6a5c72c56",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Stil.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Stil.JPG"
+            ],
+            "image_sha256": "6e9deb65c36dad1989b4b5fc8ead2af8ba4ffe4b5dd97336db586b0feb88749d"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Zaac.lwo",
+        "kind": "object",
+        "source_sha256": "46ba7135cd9feccd1fc90978a9eaac002034d52b27500eea8ca25eedbecbb5ce",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Zaac.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Zaac.JPG"
+            ],
+            "image_sha256": "92fc4c301285d2eba2c1c0bb484d243183e0fbc95d82a3c2f45b9a3401fc6424"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Zone.lwo",
+        "kind": "object",
+        "source_sha256": "26cf821e9c52b37b60433a50f215e2e6a6b2b7c57210e3481bf9754638d8bcb9",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Zone.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Zone.JPG"
+            ],
+            "image_sha256": "b4afa6f2b2b2ade8c10703926c4cee426a2e00e11a8234bd5d9d44d9cecf7ca5"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/Cube.lwo",
+        "kind": "object",
+        "source_sha256": "84a90d67484f9c330d5c1820636249af1ff29117e446b82188f3777d4dae96e9",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE1_Prune.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE1_Prune.JPG"
+            ],
+            "image_sha256": "0e11bb992bedce16d22eed90044ad7395ed65747c78e88c0a23627f04a22a5ac"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE2_Flower.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE2_Flower.JPG"
+            ],
+            "image_sha256": "c60929a4752a4f9e22842e1437e2052ff614f71f4a94172a362f54955a2627b2"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE3_Border.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE3_Border.JPG"
+            ],
+            "image_sha256": "b32faef22cda54d7201048e729f04d3a7a16ce2909e85d2c2db6511b6c2fa56e"
+          }
+        ],
+        "textures": [
+          {
+            "material": "1",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "3",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "4",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "5",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "6",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CubeAdd.lwo",
+        "kind": "object",
+        "source_sha256": "9da10cd6d9dbea6d8275ecef9a52c61e6b1e5a3f211744475e872a51c93f10d9",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE1_Prune.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE1_Prune.JPG"
+            ],
+            "image_sha256": "0e11bb992bedce16d22eed90044ad7395ed65747c78e88c0a23627f04a22a5ac"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE2_Flower.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE2_Flower.JPG"
+            ],
+            "image_sha256": "c60929a4752a4f9e22842e1437e2052ff614f71f4a94172a362f54955a2627b2"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE3_Border.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE3_Border.JPG"
+            ],
+            "image_sha256": "b32faef22cda54d7201048e729f04d3a7a16ce2909e85d2c2db6511b6c2fa56e"
+          }
+        ],
+        "textures": [
+          {
+            "material": "1",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "3",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "4",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "5",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "6",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/END_1.lwo",
+        "kind": "object",
+        "source_sha256": "f4ae87dbe02c37760d7d6c94dc2ec13d3c707547f20c0d3d8db6d7c834cbffe6",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TEXTE1.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 640,
+              "height": 480,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/Texte1.jpg"
+            ],
+            "image_sha256": "e060ea449d682ba64e152aa6a0a408d624217cbe2c912f494419313d9098d945"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/END_2.lwo",
+        "kind": "object",
+        "source_sha256": "c826ecb10cc2e93ddb121f3c35b800115a2461516de07666a3682d5b3ad25d2d",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TEXTE2.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 640,
+              "height": 480,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/Texte2.jpg"
+            ],
+            "image_sha256": "e1cbeba3c5668b6e5cb91fa8b695344e0ba7364105c6ce0c6592ae9d0cf62dde"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/fleufleur.lwo",
+        "kind": "object",
+        "source_sha256": "9dedcea335ca2fe05337d697b159c5e873a0fb323fc6f20c4c40ad105306822f",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/greetsfinal.lwo",
+        "kind": "object",
+        "source_sha256": "873235a6019ad30e98cf5859badd18dc20a888e46fe471cdb8df1b32fc5ae894",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/greets.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 2048,
+              "height": 64,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/greets.JPG"
+            ],
+            "image_sha256": "06190bed0238344166cad5d0bbbf16ff6945b6411baa1c6f08fdeb70039d1f56"
+          }
+        ],
+        "textures": [
+          {
+            "material": "greets",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/loading.lwo",
+        "kind": "object",
+        "source_sha256": "0c7adc24142fc21137759dab1afaa5335b6020d6a8ca2d5f7b6629c8874625f3",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/loading prune.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 200,
+              "height": 64,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/loading prune.JPG"
+            ],
+            "image_sha256": "6245b793af5e9398cc3771fb4e115195440594d5e0e97d12d151313170c11586"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/LW_Sky.lwo",
+        "kind": "object",
+        "source_sha256": "901bd14b7399c6e01ec68f1b154936efb28f288575fad3b5cb72ba8d964b1df7",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__left.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__left.JPG"
+            ],
+            "image_sha256": "99e9884b693111d9b57c819bd8cff09d5bfe6989730a61d730debd164a435d0e"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__back.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__back.JPG"
+            ],
+            "image_sha256": "14f5d6bd5e9dcc95256ad790b2c754547506c117567323c36d6a6e792c78d693"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__up.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__up.JPG"
+            ],
+            "image_sha256": "eff1f60d76f294e6d9fb35dc87a7fe39e4c7dfec93fb5e5811c2fbc25cb52afd"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__front.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__front.JPG"
+            ],
+            "image_sha256": "b16e0cf7939bc86d2f564e41861f516d4caa6371997093a7e6dbe097d295195f"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__right.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__right.JPG"
+            ],
+            "image_sha256": "6e57195ee237e6bffaab1f647712808dbda548f71e2f551da697a4ca54b654a2"
+          }
+        ],
+        "textures": [
+          {
+            "material": "LW_Sky_Back",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Front",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 3,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Left",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Right",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 4,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Up",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/Plaque.lwo",
+        "kind": "object",
+        "source_sha256": "8d285439ca106c5603f0d2408b3a6b83487e6583c0b366d0d84ea486b4103792",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/BALLINSIDE_Background.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/BALLINSIDE_Background.JPG"
+            ],
+            "image_sha256": "919e9dd78727753edf670dac93394a722f843fcaa56359aeeb9b4140b53e2f01"
+          }
+        ],
+        "textures": [
+          {
+            "material": "__FULLSCREEN__",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/PlaqueNintendo.lwo",
+        "kind": "object",
+        "source_sha256": "d8c5b5ffe86374ed7ffe73d6a50fbf6d878d0ae64d8619055464dfad3ba45bd7",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/framebumero1vZ.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 800,
+              "height": 600,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/framebumero1vZ.JPG"
+            ],
+            "image_sha256": "c05714dd062137195d13335c9f4d5d3fefc31fe81857efcf92bc14f9c26d9ed9"
+          }
+        ],
+        "textures": [
+          {
+            "material": "__FULLSCREEN__",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/Plug1.lwo",
+        "kind": "object",
+        "source_sha256": "dc5bce40c2b25cf25f96a4acdc3d059fab28bc8fa83fe42b145f74f6382e90b4",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/sol.lwo",
+        "kind": "object",
+        "source_sha256": "a9de928807d2f34b36f1c8b8a577a4d742425fceb92aecc44f2c15ec2ed4dc3a",
+        "references": [],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "",
+            "type": "SHDR",
+            "image_reference": null,
+            "projection": 4294967295,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "preserved-only",
+            "issue": "LWO2 procedural, gradient or shader plugin; preserved only"
+          }
+        ]
+      },
+      {
+        "source": "Objects/solfinal.lwo",
+        "kind": "object",
+        "source_sha256": "561ca0ca552b493c2ced9188dda8d25a8d8b35ca7614c4eba0335bd61a10d66d",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/solfinal.JPG",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/solfinal.JPG"
+            ],
+            "image_sha256": "a96b9e7f87e9219b386d71348cb27534f5db8af0d1dc223b59a1460b05dcfbba"
+          }
+        ],
+        "textures": [
+          {
+            "material": "terrain",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": true,
+            "constant_envelopes_at_native_values": null,
+            "status": "preserved-only",
+            "issue": "animated LWO2 texture parameters require evaluation"
+          }
+        ]
+      },
+      {
+        "source": "Objects/sollw5.lwo",
+        "kind": "object",
+        "source_sha256": "c1d597f6e93857275c939ade8888c6dacb76c542b08161579daaf64d664bbbb4",
+        "references": [
+          {
+            "native_path": "C:Flower/Images/solBAKKER.tga",
+            "role": "unspecified",
+            "resolution": "missing",
+            "status": "not-evaluated",
+            "decoded_image": null,
+            "decode_issue": "",
+            "source_candidates_same_stem": [],
+            "image_sha256": null
+          }
+        ],
+        "textures": [
+          {
+            "material": "sol2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "preserved-only",
+            "issue": "image unresolved or cannot be decoded; see image_references"
+          }
+        ]
+      },
+      {
+        "source": "Objects/SOLuvmap.LWO",
+        "kind": "object",
+        "source_sha256": "a9de928807d2f34b36f1c8b8a577a4d742425fceb92aecc44f2c15ec2ed4dc3a",
+        "references": [],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "",
+            "type": "SHDR",
+            "image_reference": null,
+            "projection": 4294967295,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "preserved-only",
+            "issue": "LWO2 procedural, gradient or shader plugin; preserved only"
+          }
+        ]
+      },
+      {
+        "source": "Objects/tige.lwo",
+        "kind": "object",
+        "source_sha256": "bd551f69775152bd5fc8288484e9de55507ca5090fac0ddb8b49bfa66d09cf8d",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/Toroid.lwo",
+        "kind": "object",
+        "source_sha256": "279c85f86e281e683e57d00e02ee686781580208d1d9dc1e6fa61961bf646280",
+        "references": [
+          {
+            "native_path": "C:JfyeIIDemo/Images/didiou.TGA",
+            "role": "unspecified",
+            "resolution": "missing",
+            "status": "not-evaluated",
+            "decoded_image": null,
+            "decode_issue": "",
+            "source_candidates_same_stem": [],
+            "image_sha256": null
+          }
+        ],
+        "textures": [
+          {
+            "material": "DoubleTexture",
+            "channel": "REFL",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 2,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "preserved-only",
+            "issue": "image unresolved or cannot be decoded; see image_references"
+          }
+        ]
+      },
+      {
+        "source": "Objects/tronc.lwo",
+        "kind": "object",
+        "source_sha256": "57bb382c663747f097cf37253d60611818fffd263ee6d3ebce853cf94fc1bd3d",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/tronc2.lwo",
+        "kind": "object",
+        "source_sha256": "f0d730c37d4d835ea345dafeaf71dd250a7aa082ee20cf52c9adee5eb85083b1",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/Tronc3.lwo",
+        "kind": "object",
+        "source_sha256": "0d6ecd245a8f1a325c56ef9d9d38ac9e2ec07e0a6b9ef90ce3b0d0c5c6b7ae42",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/ventrechienbleu.lwo",
+        "kind": "object",
+        "source_sha256": "66059936c874cdf867965c8be37b7aa36fcdbe75ff6047e3b526f73efc2f0f38",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/zeprune.lwo",
+        "kind": "object",
+        "source_sha256": "030dc2d94627fe0db4ef44bc66c5488b5e7235dadbe1f4a90deac1e9e214405d",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TaurusEnvmap3.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 128,
+              "height": 128,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/TaurusEnvmap3.JPG"
+            ],
+            "image_sha256": "b051d3ebacf5e2520711611c87b8e422eed6ed68c81a7499ea6a04f9a6b9bc7f"
+          }
+        ],
+        "textures": [
+          {
+            "material": "logo",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 2,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": null,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Scenes/Background-Cube.lws",
+        "kind": "scene",
+        "source_sha256": "f5e05f450c9d0bfb96363081429da61debfa8a9b27c1ddf37a12d6ee5250ac79",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Background-Metaboules.lws",
+        "kind": "scene",
+        "source_sha256": "36fbef04ec7d08bf66e7b519b31471b4f13f430dcb3e9bd9adc5cec63623b352",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Ball-Inside.lws",
+        "kind": "scene",
+        "source_sha256": "4da51472aa509979a1ee6e6f0b732b32459e237b2f65080027302920431a3303",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Credits.lws",
+        "kind": "scene",
+        "source_sha256": "17e4a3e0849e08c6ec8e6861e44b98a609d44fc79fe64fa2b3118d280fa62329",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Cube.lws",
+        "kind": "scene",
+        "source_sha256": "375207135ab2a60505709ebd58921e9c8be8029a369aae316fdd664398b28fd5",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Cube2.lws",
+        "kind": "scene",
+        "source_sha256": "55f0e9bd68f6c337b1ad156915334206974c07ff6159a1f9cb128f71aa552166",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/loading.lws",
+        "kind": "scene",
+        "source_sha256": "5765c8953677fd2596774c3edd233642f3710cd4a4265fedd433633b1d2b1ec7",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/PlaqueNintendo.lws",
+        "kind": "scene",
+        "source_sha256": "4e866411e9978550f1422aeb3eb954e6817784bbcbd2f4030e866cce69e26b73",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Plug1.lws",
+        "kind": "scene",
+        "source_sha256": "f6277fa55ee1c30c9c8b865a9c1a20d5031678c665411f916ce44e2751344676",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/solfinal.lws",
+        "kind": "scene",
+        "source_sha256": "1182f8987b4537c01b3a5ba76ed8d1c2b01265acfc71621519d5a9b500279a03",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/TEXT1.lws",
+        "kind": "scene",
+        "source_sha256": "1a4433c3e4b22d361ec201d6627eb9d7c329ec4d43306c4cd1a0ab8f457339cb",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/TEXT2.lws",
+        "kind": "scene",
+        "source_sha256": "b95ec28b0990814810701ded840d513b718901df9e18a07152bc174145b90fcd",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/theend.lws",
+        "kind": "scene",
+        "source_sha256": "04bab41ac297a10bcceaabbce834d645f7514944bf0030cdfdebb185f38eb2d6",
+        "references": [],
+        "textures": []
+      }
+    ],
+    "gltfs": [
+      {
+        "path": "gltf/Objects/Ball-Inside.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/bee.lwo.gltf",
+        "images": 1,
+        "textured_materials": 2
+      },
+      {
+        "path": "gltf/Objects/bide.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/champi1.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/CHAMPI2.LWO.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/clebs.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Med.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Mikl.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Neurox.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_NoRecess.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Stil.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Zaac.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Zone.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/Cube.lwo.gltf",
+        "images": 3,
+        "textured_materials": 6
+      },
+      {
+        "path": "gltf/Objects/CubeAdd.lwo.gltf",
+        "images": 3,
+        "textured_materials": 6
+      },
+      {
+        "path": "gltf/Objects/END_1.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/END_2.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/fleufleur.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/greetsfinal.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/loading.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/LW_Sky.lwo.gltf",
+        "images": 10,
+        "textured_materials": 5
+      },
+      {
+        "path": "gltf/Objects/Plaque.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/PlaqueNintendo.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/Plug1.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/sol.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/solfinal.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/sollw5.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/SOLuvmap.LWO.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/tige.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/Toroid.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/tronc.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/tronc2.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/Tronc3.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/ventrechienbleu.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/zeprune.lwo.gltf",
+        "images": 2,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Background-Cube.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Background-Metaboules.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Ball-Inside.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Credits.lws.gltf",
+        "images": 7,
+        "textured_materials": 7
+      },
+      {
+        "path": "gltf/Scenes/Cube.lws.gltf",
+        "images": 3,
+        "textured_materials": 6
+      },
+      {
+        "path": "gltf/Scenes/Cube2.lws.gltf",
+        "images": 3,
+        "textured_materials": 12
+      },
+      {
+        "path": "gltf/Scenes/loading.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/PlaqueNintendo.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Plug1.lws.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Scenes/solfinal.lws.gltf",
+        "images": 12,
+        "textured_materials": 8
+      },
+      {
+        "path": "gltf/Scenes/TEXT1.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/TEXT2.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/theend.lws.gltf",
+        "images": 3,
+        "textured_materials": 2
+      }
+    ]
+  },
+  "experiment": {
+    "package": "output\\batch-20260915-225024\\packages\\demo-flower-by-prune",
+    "summary": {
+      "objects": 35,
+      "scenes": 13,
+      "owners_with_image_references": 24,
+      "image_references": 33,
+      "resolution_counts": {
+        "unique-image-stem-suffix": 23,
+        "unique-image-suffix": 8,
+        "missing": 2
+      },
+      "decoded_image_references": 31,
+      "texture_status_counts": {
+        "approximated": 36,
+        "preserved-only": 6
+      },
+      "texture_issue_counts": {
+        "multiple enabled LWO2 layers on one channel require compositing": 1,
+        "LWO2 projection not supported; planar, spherical and UV image maps only": 1,
+        "LWO2 procedural, gradient or shader plugin; preserved only": 2,
+        "image unresolved or cannot be decoded; see image_references": 2
+      },
+      "gltf_files": 48,
+      "gltf_files_with_images": 33,
+      "gltf_image_entries": 71,
+      "gltf_png_files": 62,
+      "source_bytes_verified": 48
+    },
+    "owners": [
+      {
+        "source": "Objects/Ball-Inside.lwo",
+        "kind": "object",
+        "source_sha256": "fad26bcfbf18c33b7f5a8520a2ba9846d7d2e23c5c56c10e76ddabb89348216a",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/BALLINSIDE_Background.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/BALLINSIDE_Background.JPG"
+            ],
+            "image_sha256": "919e9dd78727753edf670dac93394a722f843fcaa56359aeeb9b4140b53e2f01"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Ball-Inside",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/bee.lwo",
+        "kind": "object",
+        "source_sha256": "3b8e9f3d14c80b5e7219d3d4e17d7b6cbfc0e4aa509df5005ded41fd2516bea2",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/beeEnvmap.JPG",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 128,
+              "height": 128,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/beeEnvmap.JPG"
+            ],
+            "image_sha256": "ea0bdc548b59901f17ad02e24251b69210e6b4576f96446b258409b87aa5e585"
+          }
+        ],
+        "textures": [
+          {
+            "material": "aile2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "ailes",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/bide.lwo",
+        "kind": "object",
+        "source_sha256": "abc02f3d9afcf292aa9c1f946baa2347fe6f96af61d3eda583a51dd6c16876ab",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TaurusEnvmap2.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 128,
+              "height": 128,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/TaurusEnvmap2.JPG"
+            ],
+            "image_sha256": "36264f245aa450e9e9054622b56ef9779df5600f157feef62552559b0eb2a206"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/chair.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/chair.JPG"
+            ],
+            "image_sha256": "b00318574271f1fcb3cc7f1354c7b86d4b1a47a8615424d3a75faf34794457c8"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "preserved-only",
+            "issue": "multiple enabled LWO2 layers on one channel require compositing"
+          },
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 1,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "preserved-only",
+            "issue": "LWO2 projection not supported; planar, spherical and UV image maps only"
+          }
+        ]
+      },
+      {
+        "source": "Objects/champi1.lwo",
+        "kind": "object",
+        "source_sha256": "e8b8698d36f49602079504057cd7f16d8a2aeccde26a50aa9b16f85a0b455ddf",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/CHAMPI2.LWO",
+        "kind": "object",
+        "source_sha256": "8bceb4177871756588e965f0fb450d8c1669891a8138a87af3e684625bfeba4d",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/clebs.lwo",
+        "kind": "object",
+        "source_sha256": "61b7a946f409c5cfa1fe37188855fcfce1d0822428d7b3533595c54d5d37c6d5",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/Chien.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/Chien.jpg"
+            ],
+            "image_sha256": "c59a5ef787d40dd90188b1a5f960cea2aab9349454268a8df10c843cd8cd2f46"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Med.lwo",
+        "kind": "object",
+        "source_sha256": "7fededcebb86b1d03ae5916a4b742dce582c0375a269bbce8ca0427353cb92d3",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Med.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Med.JPG"
+            ],
+            "image_sha256": "fcf091815654a837ef1e7def9e7c30320271e1b95e2295ab76f7351ae66828c0"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Mikl.lwo",
+        "kind": "object",
+        "source_sha256": "9f83e05484ae146fe7c1758d899a506aa52679bcef3a49d55b0134e8644ed1a4",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Mikl.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Mikl.JPG"
+            ],
+            "image_sha256": "071f6497d83beb5329e5a2d13469cf783f1c3af7bedda1a057eea281441440af"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Neurox.lwo",
+        "kind": "object",
+        "source_sha256": "337b62dc8180c68462421b4a767fa7437e7d323d8df4ae4265d82a8b461b7098",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Neurox.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Neurox.JPG"
+            ],
+            "image_sha256": "94d31fa456d3b0e9ce98b35aadabc70c9313d0fbdd7e642f6869f5038740a9ec"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_NoRecess.lwo",
+        "kind": "object",
+        "source_sha256": "0aba093a43bc1b26d44d4e1ef4f7a516623b7abb856f98f9e16346e48f0d92cf",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-NoRecess.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-NoRecess.JPG"
+            ],
+            "image_sha256": "4723fdb0f32d916188c082b98abfc49a0fdde94de0503ea9c2b4ab4360d04ec4"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Stil.lwo",
+        "kind": "object",
+        "source_sha256": "a394a00a6ef9545aa823d429b743f4df5357d8acc076c18f61b823a6a5c72c56",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Stil.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Stil.JPG"
+            ],
+            "image_sha256": "6e9deb65c36dad1989b4b5fc8ead2af8ba4ffe4b5dd97336db586b0feb88749d"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Zaac.lwo",
+        "kind": "object",
+        "source_sha256": "46ba7135cd9feccd1fc90978a9eaac002034d52b27500eea8ca25eedbecbb5ce",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Zaac.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Zaac.JPG"
+            ],
+            "image_sha256": "92fc4c301285d2eba2c1c0bb484d243183e0fbc95d82a3c2f45b9a3401fc6424"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CREDITS_Zone.lwo",
+        "kind": "object",
+        "source_sha256": "26cf821e9c52b37b60433a50f215e2e6a6b2b7c57210e3481bf9754638d8bcb9",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CREDITS-Zone.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CREDITS-Zone.JPG"
+            ],
+            "image_sha256": "b4afa6f2b2b2ade8c10703926c4cee426a2e00e11a8234bd5d9d44d9cecf7ca5"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/Cube.lwo",
+        "kind": "object",
+        "source_sha256": "84a90d67484f9c330d5c1820636249af1ff29117e446b82188f3777d4dae96e9",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE1_Prune.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE1_Prune.JPG"
+            ],
+            "image_sha256": "0e11bb992bedce16d22eed90044ad7395ed65747c78e88c0a23627f04a22a5ac"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE2_Flower.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE2_Flower.JPG"
+            ],
+            "image_sha256": "c60929a4752a4f9e22842e1437e2052ff614f71f4a94172a362f54955a2627b2"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE3_Border.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE3_Border.JPG"
+            ],
+            "image_sha256": "b32faef22cda54d7201048e729f04d3a7a16ce2909e85d2c2db6511b6c2fa56e"
+          }
+        ],
+        "textures": [
+          {
+            "material": "1",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "3",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "4",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "5",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "6",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/CubeAdd.lwo",
+        "kind": "object",
+        "source_sha256": "9da10cd6d9dbea6d8275ecef9a52c61e6b1e5a3f211744475e872a51c93f10d9",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE1_Prune.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE1_Prune.JPG"
+            ],
+            "image_sha256": "0e11bb992bedce16d22eed90044ad7395ed65747c78e88c0a23627f04a22a5ac"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE2_Flower.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE2_Flower.JPG"
+            ],
+            "image_sha256": "c60929a4752a4f9e22842e1437e2052ff614f71f4a94172a362f54955a2627b2"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/CUBE3_Border.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 256,
+              "height": 256,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/CUBE3_Border.JPG"
+            ],
+            "image_sha256": "b32faef22cda54d7201048e729f04d3a7a16ce2909e85d2c2db6511b6c2fa56e"
+          }
+        ],
+        "textures": [
+          {
+            "material": "1",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "3",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "4",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "5",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "6",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/END_1.lwo",
+        "kind": "object",
+        "source_sha256": "f4ae87dbe02c37760d7d6c94dc2ec13d3c707547f20c0d3d8db6d7c834cbffe6",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TEXTE1.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 640,
+              "height": 480,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/Texte1.jpg"
+            ],
+            "image_sha256": "e060ea449d682ba64e152aa6a0a408d624217cbe2c912f494419313d9098d945"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/END_2.lwo",
+        "kind": "object",
+        "source_sha256": "c826ecb10cc2e93ddb121f3c35b800115a2461516de07666a3682d5b3ad25d2d",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TEXTE2.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 640,
+              "height": 480,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/Texte2.jpg"
+            ],
+            "image_sha256": "e1cbeba3c5668b6e5cb91fa8b695344e0ba7364105c6ce0c6592ae9d0cf62dde"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/fleufleur.lwo",
+        "kind": "object",
+        "source_sha256": "9dedcea335ca2fe05337d697b159c5e873a0fb323fc6f20c4c40ad105306822f",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/greetsfinal.lwo",
+        "kind": "object",
+        "source_sha256": "873235a6019ad30e98cf5859badd18dc20a888e46fe471cdb8df1b32fc5ae894",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/greets.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 2048,
+              "height": 64,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/greets.JPG"
+            ],
+            "image_sha256": "06190bed0238344166cad5d0bbbf16ff6945b6411baa1c6f08fdeb70039d1f56"
+          }
+        ],
+        "textures": [
+          {
+            "material": "greets",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/loading.lwo",
+        "kind": "object",
+        "source_sha256": "0c7adc24142fc21137759dab1afaa5335b6020d6a8ca2d5f7b6629c8874625f3",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/loading prune.TGA",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 200,
+              "height": 64,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/loading prune.JPG"
+            ],
+            "image_sha256": "6245b793af5e9398cc3771fb4e115195440594d5e0e97d12d151313170c11586"
+          }
+        ],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/LW_Sky.lwo",
+        "kind": "object",
+        "source_sha256": "901bd14b7399c6e01ec68f1b154936efb28f288575fad3b5cb72ba8d964b1df7",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__left.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__left.JPG"
+            ],
+            "image_sha256": "99e9884b693111d9b57c819bd8cff09d5bfe6989730a61d730debd164a435d0e"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__back.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__back.JPG"
+            ],
+            "image_sha256": "14f5d6bd5e9dcc95256ad790b2c754547506c117567323c36d6a6e792c78d693"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__up.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__up.JPG"
+            ],
+            "image_sha256": "eff1f60d76f294e6d9fb35dc87a7fe39e4c7dfec93fb5e5811c2fbc25cb52afd"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__front.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__front.JPG"
+            ],
+            "image_sha256": "b16e0cf7939bc86d2f564e41861f516d4caa6371997093a7e6dbe097d295195f"
+          },
+          {
+            "native_path": "C:PRUNE_Flower/Images/sky/skyWarp__right.jpg",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/sky/skyWarp__right.JPG"
+            ],
+            "image_sha256": "6e57195ee237e6bffaab1f647712808dbda548f71e2f551da697a4ca54b654a2"
+          }
+        ],
+        "textures": [
+          {
+            "material": "LW_Sky_Back",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 1,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Front",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 3,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Left",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Right",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 4,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          },
+          {
+            "material": "LW_Sky_Up",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 2,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/Plaque.lwo",
+        "kind": "object",
+        "source_sha256": "8d285439ca106c5603f0d2408b3a6b83487e6583c0b366d0d84ea486b4103792",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/BALLINSIDE_Background.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/BALLINSIDE_Background.JPG"
+            ],
+            "image_sha256": "919e9dd78727753edf670dac93394a722f843fcaa56359aeeb9b4140b53e2f01"
+          }
+        ],
+        "textures": [
+          {
+            "material": "__FULLSCREEN__",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/PlaqueNintendo.lwo",
+        "kind": "object",
+        "source_sha256": "d8c5b5ffe86374ed7ffe73d6a50fbf6d878d0ae64d8619055464dfad3ba45bd7",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/framebumero1vZ.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 800,
+              "height": 600,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/framebumero1vZ.JPG"
+            ],
+            "image_sha256": "c05714dd062137195d13335c9f4d5d3fefc31fe81857efcf92bc14f9c26d9ed9"
+          }
+        ],
+        "textures": [
+          {
+            "material": "__FULLSCREEN__",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/Plug1.lwo",
+        "kind": "object",
+        "source_sha256": "dc5bce40c2b25cf25f96a4acdc3d059fab28bc8fa83fe42b145f74f6382e90b4",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/sol.lwo",
+        "kind": "object",
+        "source_sha256": "a9de928807d2f34b36f1c8b8a577a4d742425fceb92aecc44f2c15ec2ed4dc3a",
+        "references": [],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "",
+            "type": "SHDR",
+            "image_reference": null,
+            "projection": 4294967295,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "preserved-only",
+            "issue": "LWO2 procedural, gradient or shader plugin; preserved only"
+          }
+        ]
+      },
+      {
+        "source": "Objects/solfinal.lwo",
+        "kind": "object",
+        "source_sha256": "561ca0ca552b493c2ced9188dda8d25a8d8b35ca7614c4eba0335bd61a10d66d",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/solfinal.JPG",
+            "role": "unspecified",
+            "resolution": "unique-image-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 512,
+              "height": 512,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/solfinal.JPG"
+            ],
+            "image_sha256": "a96b9e7f87e9219b386d71348cb27534f5db8af0d1dc223b59a1460b05dcfbba"
+          }
+        ],
+        "textures": [
+          {
+            "material": "terrain",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": true,
+            "constant_envelopes_at_native_values": true,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Objects/sollw5.lwo",
+        "kind": "object",
+        "source_sha256": "c1d597f6e93857275c939ade8888c6dacb76c542b08161579daaf64d664bbbb4",
+        "references": [
+          {
+            "native_path": "C:Flower/Images/solBAKKER.tga",
+            "role": "unspecified",
+            "resolution": "missing",
+            "status": "not-evaluated",
+            "decoded_image": null,
+            "decode_issue": "",
+            "source_candidates_same_stem": [],
+            "image_sha256": null
+          }
+        ],
+        "textures": [
+          {
+            "material": "sol2",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 0,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "preserved-only",
+            "issue": "image unresolved or cannot be decoded; see image_references"
+          }
+        ]
+      },
+      {
+        "source": "Objects/SOLuvmap.LWO",
+        "kind": "object",
+        "source_sha256": "a9de928807d2f34b36f1c8b8a577a4d742425fceb92aecc44f2c15ec2ed4dc3a",
+        "references": [],
+        "textures": [
+          {
+            "material": "Default",
+            "channel": "",
+            "type": "SHDR",
+            "image_reference": null,
+            "projection": 4294967295,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "preserved-only",
+            "issue": "LWO2 procedural, gradient or shader plugin; preserved only"
+          }
+        ]
+      },
+      {
+        "source": "Objects/tige.lwo",
+        "kind": "object",
+        "source_sha256": "bd551f69775152bd5fc8288484e9de55507ca5090fac0ddb8b49bfa66d09cf8d",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/Toroid.lwo",
+        "kind": "object",
+        "source_sha256": "279c85f86e281e683e57d00e02ee686781580208d1d9dc1e6fa61961bf646280",
+        "references": [
+          {
+            "native_path": "C:JfyeIIDemo/Images/didiou.TGA",
+            "role": "unspecified",
+            "resolution": "missing",
+            "status": "not-evaluated",
+            "decoded_image": null,
+            "decode_issue": "",
+            "source_candidates_same_stem": [],
+            "image_sha256": null
+          }
+        ],
+        "textures": [
+          {
+            "material": "DoubleTexture",
+            "channel": "REFL",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 2,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "preserved-only",
+            "issue": "image unresolved or cannot be decoded; see image_references"
+          }
+        ]
+      },
+      {
+        "source": "Objects/tronc.lwo",
+        "kind": "object",
+        "source_sha256": "57bb382c663747f097cf37253d60611818fffd263ee6d3ebce853cf94fc1bd3d",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/tronc2.lwo",
+        "kind": "object",
+        "source_sha256": "f0d730c37d4d835ea345dafeaf71dd250a7aa082ee20cf52c9adee5eb85083b1",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/Tronc3.lwo",
+        "kind": "object",
+        "source_sha256": "0d6ecd245a8f1a325c56ef9d9d38ac9e2ec07e0a6b9ef90ce3b0d0c5c6b7ae42",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/ventrechienbleu.lwo",
+        "kind": "object",
+        "source_sha256": "66059936c874cdf867965c8be37b7aa36fcdbe75ff6047e3b526f73efc2f0f38",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Objects/zeprune.lwo",
+        "kind": "object",
+        "source_sha256": "030dc2d94627fe0db4ef44bc66c5488b5e7235dadbe1f4a90deac1e9e214405d",
+        "references": [
+          {
+            "native_path": "C:PRUNE_Flower/Images/TaurusEnvmap3.tga",
+            "role": "unspecified",
+            "resolution": "unique-image-stem-suffix",
+            "status": "decoded",
+            "decoded_image": {
+              "width": 128,
+              "height": 128,
+              "channels": "RGBA8",
+              "png_uri": null,
+              "png_sha256": null
+            },
+            "decode_issue": "",
+            "source_candidates_same_stem": [
+              "Images/TaurusEnvmap3.JPG"
+            ],
+            "image_sha256": "b051d3ebacf5e2520711611c87b8e422eed6ed68c81a7499ea6a04f9a6b9bc7f"
+          }
+        ],
+        "textures": [
+          {
+            "material": "logo",
+            "channel": "COLR",
+            "type": "IMAP",
+            "image_reference": 0,
+            "projection": 2,
+            "has_envelopes": false,
+            "constant_envelopes_at_native_values": false,
+            "status": "approximated",
+            "issue": ""
+          }
+        ]
+      },
+      {
+        "source": "Scenes/Background-Cube.lws",
+        "kind": "scene",
+        "source_sha256": "f5e05f450c9d0bfb96363081429da61debfa8a9b27c1ddf37a12d6ee5250ac79",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Background-Metaboules.lws",
+        "kind": "scene",
+        "source_sha256": "36fbef04ec7d08bf66e7b519b31471b4f13f430dcb3e9bd9adc5cec63623b352",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Ball-Inside.lws",
+        "kind": "scene",
+        "source_sha256": "4da51472aa509979a1ee6e6f0b732b32459e237b2f65080027302920431a3303",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Credits.lws",
+        "kind": "scene",
+        "source_sha256": "17e4a3e0849e08c6ec8e6861e44b98a609d44fc79fe64fa2b3118d280fa62329",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Cube.lws",
+        "kind": "scene",
+        "source_sha256": "375207135ab2a60505709ebd58921e9c8be8029a369aae316fdd664398b28fd5",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Cube2.lws",
+        "kind": "scene",
+        "source_sha256": "55f0e9bd68f6c337b1ad156915334206974c07ff6159a1f9cb128f71aa552166",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/loading.lws",
+        "kind": "scene",
+        "source_sha256": "5765c8953677fd2596774c3edd233642f3710cd4a4265fedd433633b1d2b1ec7",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/PlaqueNintendo.lws",
+        "kind": "scene",
+        "source_sha256": "4e866411e9978550f1422aeb3eb954e6817784bbcbd2f4030e866cce69e26b73",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/Plug1.lws",
+        "kind": "scene",
+        "source_sha256": "f6277fa55ee1c30c9c8b865a9c1a20d5031678c665411f916ce44e2751344676",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/solfinal.lws",
+        "kind": "scene",
+        "source_sha256": "1182f8987b4537c01b3a5ba76ed8d1c2b01265acfc71621519d5a9b500279a03",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/TEXT1.lws",
+        "kind": "scene",
+        "source_sha256": "1a4433c3e4b22d361ec201d6627eb9d7c329ec4d43306c4cd1a0ab8f457339cb",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/TEXT2.lws",
+        "kind": "scene",
+        "source_sha256": "b95ec28b0990814810701ded840d513b718901df9e18a07152bc174145b90fcd",
+        "references": [],
+        "textures": []
+      },
+      {
+        "source": "Scenes/theend.lws",
+        "kind": "scene",
+        "source_sha256": "04bab41ac297a10bcceaabbce834d645f7514944bf0030cdfdebb185f38eb2d6",
+        "references": [],
+        "textures": []
+      }
+    ],
+    "gltfs": [
+      {
+        "path": "gltf/Objects/Ball-Inside.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/bee.lwo.gltf",
+        "images": 1,
+        "textured_materials": 2
+      },
+      {
+        "path": "gltf/Objects/bide.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/champi1.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/CHAMPI2.LWO.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/clebs.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Med.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Mikl.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Neurox.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_NoRecess.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Stil.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Zaac.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/CREDITS_Zone.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/Cube.lwo.gltf",
+        "images": 3,
+        "textured_materials": 6
+      },
+      {
+        "path": "gltf/Objects/CubeAdd.lwo.gltf",
+        "images": 3,
+        "textured_materials": 6
+      },
+      {
+        "path": "gltf/Objects/END_1.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/END_2.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/fleufleur.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/greetsfinal.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/loading.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/LW_Sky.lwo.gltf",
+        "images": 10,
+        "textured_materials": 5
+      },
+      {
+        "path": "gltf/Objects/Plaque.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/PlaqueNintendo.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/Plug1.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/sol.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/solfinal.lwo.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Objects/sollw5.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/SOLuvmap.LWO.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/tige.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/Toroid.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/tronc.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/tronc2.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/Tronc3.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/ventrechienbleu.lwo.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Objects/zeprune.lwo.gltf",
+        "images": 2,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Background-Cube.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Background-Metaboules.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Ball-Inside.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Credits.lws.gltf",
+        "images": 7,
+        "textured_materials": 7
+      },
+      {
+        "path": "gltf/Scenes/Cube.lws.gltf",
+        "images": 3,
+        "textured_materials": 6
+      },
+      {
+        "path": "gltf/Scenes/Cube2.lws.gltf",
+        "images": 3,
+        "textured_materials": 12
+      },
+      {
+        "path": "gltf/Scenes/loading.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/PlaqueNintendo.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/Plug1.lws.gltf",
+        "images": 0,
+        "textured_materials": 0
+      },
+      {
+        "path": "gltf/Scenes/solfinal.lws.gltf",
+        "images": 13,
+        "textured_materials": 9
+      },
+      {
+        "path": "gltf/Scenes/TEXT1.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/TEXT2.lws.gltf",
+        "images": 1,
+        "textured_materials": 1
+      },
+      {
+        "path": "gltf/Scenes/theend.lws.gltf",
+        "images": 3,
+        "textured_materials": 2
+      }
+    ]
+  },
+  "solfinal_native_envelopes": [
+    {
+      "index": 1,
+      "keys": [
+        {
+          "time": 0.0,
+          "value": 0.1020960807800293
+        },
+        {
+          "time": 1.0,
+          "value": 0.1020960807800293
+        }
+      ],
+      "spans": [
+        "LINE",
+        "LINE"
+      ],
+      "name": "Position.X",
+      "pre": 5,
+      "post": 5,
+      "equal_key_values": true
+    },
+    {
+      "index": 2,
+      "keys": [
+        {
+          "time": 0.0,
+          "value": -0.34352797269821167
+        },
+        {
+          "time": 1.0,
+          "value": -0.34352797269821167
+        }
+      ],
+      "spans": [
+        "LINE",
+        "LINE"
+      ],
+      "name": "Position.Y",
+      "pre": 5,
+      "post": 5,
+      "equal_key_values": true
+    },
+    {
+      "index": 3,
+      "keys": [
+        {
+          "time": 0.0,
+          "value": 0.09649276733398438
+        },
+        {
+          "time": 1.0,
+          "value": 0.09649276733398438
+        }
+      ],
+      "spans": [
+        "LINE",
+        "LINE"
+      ],
+      "name": "Position.Z",
+      "pre": 5,
+      "post": 5,
+      "equal_key_values": true
+    }
+  ],
+  "gltf_validation": {
+    "input": "S:\\works\\legacy-lightwave-projects\\output\\batch-20260915-225024\\packages\\demo-flower-by-prune",
+    "validator_versions": [
+      "2.0.0-dev.3.10"
+    ],
+    "validator_sha256": "4388a152ff90b68c6430ae03862e05e257a9d50a500ed7d0eb1cd420dc75ff96",
+    "files_checked": 48,
+    "resource_validation": true,
+    "counts": {
+      "numErrors": 0,
+      "numWarnings": 0,
+      "numInfos": 12,
+      "numHints": 0
+    },
+    "issue_codes": {
+      "IMAGE_NPOT_DIMENSIONS": 12
+    },
+    "diagnostics": [
+      {
+        "file": "gltf/Objects/Cube.lwo.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 258x258.",
+        "severity": 2,
+        "pointer": "/images/1"
+      },
+      {
+        "file": "gltf/Objects/CubeAdd.lwo.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 258x258.",
+        "severity": 2,
+        "pointer": "/images/1"
+      },
+      {
+        "file": "gltf/Objects/END_1.lwo.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 640x480.",
+        "severity": 2,
+        "pointer": "/images/0"
+      },
+      {
+        "file": "gltf/Objects/END_2.lwo.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 640x480.",
+        "severity": 2,
+        "pointer": "/images/0"
+      },
+      {
+        "file": "gltf/Objects/loading.lwo.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 200x64.",
+        "severity": 2,
+        "pointer": "/images/0"
+      },
+      {
+        "file": "gltf/Objects/PlaqueNintendo.lwo.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 800x600.",
+        "severity": 2,
+        "pointer": "/images/0"
+      },
+      {
+        "file": "gltf/Scenes/Cube.lws.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 258x258.",
+        "severity": 2,
+        "pointer": "/images/1"
+      },
+      {
+        "file": "gltf/Scenes/Cube2.lws.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 258x258.",
+        "severity": 2,
+        "pointer": "/images/1"
+      },
+      {
+        "file": "gltf/Scenes/loading.lws.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 200x64.",
+        "severity": 2,
+        "pointer": "/images/0"
+      },
+      {
+        "file": "gltf/Scenes/PlaqueNintendo.lws.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 800x600.",
+        "severity": 2,
+        "pointer": "/images/0"
+      },
+      {
+        "file": "gltf/Scenes/TEXT1.lws.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 640x480.",
+        "severity": 2,
+        "pointer": "/images/0"
+      },
+      {
+        "file": "gltf/Scenes/TEXT2.lws.gltf",
+        "code": "IMAGE_NPOT_DIMENSIONS",
+        "message": "Image has non-power-of-two dimensions: 640x480.",
+        "severity": 2,
+        "pointer": "/images/0"
+      }
+    ],
+    "passed": true,
+    "scope": "Official Khronos glTF structural and resource validation. This does not establish LightWave rendering fidelity."
+  },
+  "blender_import": {
+    "blender_version": "4.2.0",
+    "passed": true,
+    "imports": [
+      {
+        "format": "gltf",
+        "file": "Objects/solfinal.lwo",
+        "material_count": 1,
+        "loaded_texture_nodes": 1,
+        "clip_alpha_links_checked": 0,
+        "portable_import": true
+      },
+      {
+        "format": "obj",
+        "file": "Objects/solfinal.lwo",
+        "material_count": 1,
+        "loaded_texture_nodes": 1,
+        "clip_alpha_links_checked": 0,
+        "portable_import": true
+      }
+    ],
+    "scope": "Isolated format directories, loaded material texture nodes, UVs and polygon assignments; alpha links checked for derived clip maps and the sol.lwo fixture. Preview uses diagnostic lighting, not original LightWave shading."
+  }
+}
